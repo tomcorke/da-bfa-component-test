@@ -1,0 +1,17 @@
+.commentsBox {
+  margin-top: 0.5em;
+  display: inline-block;
+  width: 100%;
+  box-sizing: border-box;
+
+  textarea {
+    font-family: 'Hammersmith One', sans-serif;
+    font-size: 1.2rem;
+    padding: 5px 8px;
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 5em;
+    border: 1px solid #666;
+    border-radius: 5px;
+  }
+}

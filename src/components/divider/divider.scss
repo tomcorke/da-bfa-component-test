@@ -1,0 +1,41 @@
+.divider {
+  width: 100%;
+  height: 6px;
+  margin: 0 auto;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -50px;
+    left: 0;
+    right: 0;
+    background-position: center;
+    background-size: 1600px;
+    background-repeat: no-repeat;
+    height: 115px;
+    z-index: 1;
+
+    @media (min-width: 1600px) {
+      background-size: 100%;
+    }
+  }
+}
+
+.large {
+  &::before {
+    background-image: url('../../../images/Divider-ocho-thickUp.png');
+  }
+}
+
+.small {
+  &::before {
+    background-image: url('../../../images/Divider-ocho-thin.png');
+  }
+}
+
+.bottom {
+  &::before {
+    background-image: url('../../../images/Divider-ocho-thickDown.png');
+  }
+}

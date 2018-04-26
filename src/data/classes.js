@@ -1,64 +1,207 @@
 const classData = [
   {
     name: 'Death Knight',
-    specialisations: []
+    specialisations: [
+      {
+        name: 'Frost',
+        roles: []
+      },
+      {
+        name: 'Unholy',
+        roles: []
+      },
+      {
+        name: 'Blood',
+        roles: []
+      }
+    ]
   },
   {
     name: 'Demon Hunter',
-    specialisations: []
+    specialisations: [
+      {
+        name: 'Havoc',
+        roles: []
+      },
+      {
+        name: 'Vengeance',
+        roles: []
+      }
+    ]
   },
   {
     name: 'Druid',
-    specialisations: []
+    specialisations: [
+      {
+        name: 'Guardian',
+        roles: []
+      },
+      {
+        name: 'Feral',
+        roles: []
+      },
+      {
+        name: 'Balance',
+        roles: []
+      },
+      {
+        name: 'Restoration',
+        roles: []
+      }
+    ]
   },
   {
     name: 'Hunter',
-    specialisations: []
+    specialisations: [
+      {
+        name: 'Beast Mastery',
+        roles: []
+      },
+      {
+        name: 'Marksmanship',
+        roles: []
+      },
+      {
+        name: 'Survival',
+        roles: []
+      }
+    ]
   },
   {
     name: 'Mage',
-    specialisations: []
+    specialisations: [
+      {
+        name: 'Frost',
+        roles: []
+      },
+      {
+        name: 'Fire',
+        roles: []
+      },
+      {
+        name: 'Arcane',
+        roles: []
+      }
+    ]
   },
   {
     name: 'Monk',
-    specialisations: []
+    specialisations: [
+      {
+        name: 'Windwalker',
+        roles: []
+      },
+      {
+        name: 'Mistweaver',
+        roles: []
+      },
+      {
+        name: 'Brewmaster',
+        roles: []
+      }
+    ]
   },
   {
     name: 'Paladin',
-    specialisations: []
+    specialisations: [
+      {
+        name: 'Retribution',
+        roles: []
+      },
+      {
+        name: 'Holy',
+        roles: []
+      },
+      {
+        name: 'Protection',
+        roles: []
+      }
+    ]
   },
   {
     name: 'Priest',
-    specialisations: []
+    specialisations: [
+      {
+        name: 'Shadow',
+        roles: []
+      },
+      {
+        name: 'Holy',
+        roles: []
+      },
+      {
+        name: 'Discipline',
+        roles: []
+      }
+    ]
   },
   {
     name: 'Rogue',
-    specialisations: []
+    specialisations: [
+      {
+        name: 'Subtelty',
+        roles: []
+      },
+      {
+        name: 'Assassination',
+        roles: []
+      },
+      {
+        name: 'Combat',
+        roles: []
+      }
+    ]
   },
   {
     name: 'Shaman',
     specialisations: [
       {
         name: 'Enhancement',
-        roles: ['dps', 'melee'],
+        roles: ['dps', 'melee']
       },
       {
         name: 'Elemental',
-        roles: ['dps', 'ranged'],
+        roles: ['dps', 'ranged']
       },
       {
         name: 'Restoration',
-        roles: ['healer'],
+        roles: ['healer']
       }
     ]
   },
   {
     name: 'Warlock',
-    specialisations: []
+    specialisations: [
+      {
+        name: 'Demonology',
+        roles: []
+      },
+      {
+        name: 'Destruction',
+        roles: []
+      },
+      {
+        name: 'Affiliction',
+        roles: []
+      }
+    ]
   },
   {
     name: 'Warrior',
-    specialisations: []
+    specialisations: [
+      {
+        name: 'Arms',
+        roles: []
+      },
+      {
+        name: 'Fury',
+        roles: []
+      },
+      {
+        name: 'Protection',
+        roles: []
+      }
+    ]
   }
 ]
 
