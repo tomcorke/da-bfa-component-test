@@ -65,12 +65,20 @@ class BfaPlanner extends React.Component {
       <div className={STYLES.bfaPlanner}>
 
         <Section>
+          Pick your classes, fuckers
+        </Section>
+
+        <Divider />
+
+        <Section type={'main'}>
           { this.createClassElements('first') }
           { this.createClassElements('second') }
           { this.createClassElements('third') }
         </Section>
 
-        <Section>
+        <Divider type={'bottom'} />
+
+        <Section type={'fill'}>
         </Section>
 
       </div>

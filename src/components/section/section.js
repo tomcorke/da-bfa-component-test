@@ -2,8 +2,8 @@ import React from 'react'
 
 import STYLES from './section.scss'
 
-const Section = ({ children, id, key }) => (
-  <div className={`${STYLES.section} ${STYLES[`section__${id}`]}`}>
+const Section = ({ children, type, key }) => (
+  <div className={`${STYLES.section} ${STYLES[`section__${type}`]}`}>
     <div className={STYLES.container}>
       {children}
     </div>

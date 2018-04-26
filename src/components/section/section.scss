@@ -1,5 +1,4 @@
 .section {
-  flex: 1;
   width: 100%;
   background-color: black;
   color: white;
@@ -8,6 +7,20 @@
   background-repeat: no-repeat;
 
   background-image: url('../../../images/Box-leather-blue.jpg');
+
+  &__fill {
+    flex: 1;
+  }
+
+  &__main {
+    background-image: url('../../../images/F4X162UEPKCS1509567145654.jpg');
+    background-image: url('../../../images/YFRNQJ0XGPK51509567050492.jpg');
+    //background-image: url('../../../images/Q3ED2JLM9TX11509567050372.jpg');
+    background-image: url('../../../images/BJINAP4MVAFS1509568693842.jpg');
+    .container {
+      // background: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.5) 20%, rgba(0, 0, 0, 0.5) 80%, transparent 100%);
+    }
+  }
 
   .container {
     width: 95%;
