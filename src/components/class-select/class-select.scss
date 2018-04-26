@@ -1,0 +1,41 @@
+$classColours: (
+  deathknight: #c41f3b,
+  demonhunter: #a330c9,
+  druid: #ff7d0a,
+  hunter: #abd473,
+  mage: #69ccf0,
+  monk: #00ff96,
+  paladin: #f58cba,
+  priest: #ffffff,
+  rogue: #fff569,
+  shaman: #0070de,
+  warlock: #9482c9,
+  warrior: #c79c6e
+);
+
+@function classColour($class) {
+  @return map-get($classColours, $class);
+}
+
+.classSelect {
+  display: inline-block;
+  width: 100%;
+
+  select {
+    display: inline-block;
+    width: 100%;
+
+    padding: 5px;
+    border-radius: 3px;
+    border: 1px solid #666;
+    box-sizing: border-box;
+
+    box-shadow: 0 0 5px 0 classColour(mage);
+
+    @each $class, $colour in $classColours {
+      &[data-selected=#{$class}] {
+        box-shadow: 0 0 1px 5px $colour;
+      }
+    }
+  }
+}
