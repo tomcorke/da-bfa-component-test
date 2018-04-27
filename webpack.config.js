@@ -5,7 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
   entry: [
     'react-hot-loader/patch',
-    './src/index.js'
+    './src/client/index.js'
   ],
   module: {
     rules: [
@@ -45,7 +45,7 @@ module.exports = {
     extensions: ['*', '.js', '.jsx']
   },
   output: {
-    path: path.join(__dirname, 'dist'),
+    path: path.join(__dirname, 'dist/client'),
     filename: 'bundle_[hash].js'
   },
   plugins: [
@@ -56,7 +56,7 @@ module.exports = {
     })
   ],
   devServer: {
-    contentBase: '/dist',
+    contentBase: '/dist/client',
     hot: true
   }
 }

@@ -7,6 +7,7 @@ import ClassSelectWrapper from '../class-select-wrapper'
 import ClassSelect from '../class-select'
 import CommentsBox from '../comments-box'
 import Button from '../button'
+import Header from '../header'
 
 import STYLES from './bfa-planner.scss'
 
@@ -24,6 +25,51 @@ class BfaPlanner extends React.Component {
     this.state = {
       choices: {}
     }
+    this.login = this.login.bind(this)
+    this.receiveMessage = this.receiveMessage.bind(this)
+  }
+
+  getUserData() {
+    fetch('https://localhost:3443/getUserData',
+      {
+        credentials: 'include'
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data)
+        this.setState({
+          ...this.state,
+          user: data
+        })
+      })
+  }
+
+  login() {
+    const authUrl = 'https://localhost:3443/auth/bnet'
+    this.authWindow = window.open(authUrl, '_blank', 'height=500,width=300')
+  }
+
+  receiveMessage(event) {
+    if (event.source === this.authWindow) {
+      console.log('Message from auth window')
+      this.setState({
+        ...this.state,
+        user: event.data.userData
+      })
+      this.authWindow.close()
+    } else {
+      console.warn(`Unrecognised message source: "${event.source}"`)
+    }
+    console.log(event, this.state)
+  }
+
+  componentWillMount() {
+    this.getUserData();
+    window.addEventListener('message', this.receiveMessage, false)
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('message', this.receiveMessage, false)
   }
 
   onChoiceChanged(name, prop, value) {
@@ -66,7 +112,9 @@ class BfaPlanner extends React.Component {
       <div className={STYLES.bfaPlanner}>
 
         <Section>
-          Pick your classes, fuckers
+          <Header userData={this.state.user} onLoginClick={this.login}>
+            Pick your classes
+          </Header>
         </Section>
 
         <Divider />
@@ -75,7 +123,7 @@ class BfaPlanner extends React.Component {
           { this.createClassElements('first') }
           { this.createClassElements('second') }
           { this.createClassElements('third') }
-          <Button text="Save dat shit" />
+          <Button text="Save stuff" />
         </Section>
 
         <Divider type={'bottom'} />

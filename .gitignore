@@ -59,3 +59,5 @@ typings/
 
 
 /dist/
+/localhost.crt
+/localhost.key

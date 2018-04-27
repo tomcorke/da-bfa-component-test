@@ -18,7 +18,7 @@ const ClassSelect = ({ value = {}, onChange }) => {
   const classOptions = classes
     .map(c =>
       <option
-        selected={c.safeName === value.class}
+        key={c.safeName}
         value={c.safeName}>
         {c.name}
       </option>
@@ -30,7 +30,7 @@ const ClassSelect = ({ value = {}, onChange }) => {
     specOptions = selectedClass.specs
       .map(s =>
         <option
-          selected={s.safeName === value.spec}
+          key={s.safeName}
           value={s.safeName}>
           {s.name}
         </option>
@@ -59,7 +59,8 @@ const ClassSelect = ({ value = {}, onChange }) => {
       <select
         {...{'data-required': !selectedClass}}
         className={STYLES.classSelect}
-        onChange={(e) => onClassChange(e.target.value)}>
+        onChange={(e) => onClassChange(e.target.value)}
+        value={value.class}>
         <option>Select a class</option>
         {classOptions}
       </select>
@@ -67,7 +68,8 @@ const ClassSelect = ({ value = {}, onChange }) => {
         {...{'data-required': !selectedSpec}}
         disabled={!selectedClass}
         className={STYLES.specSelect}
-        onChange={(e) => onSpecChange(e.target.value)}>
+        onChange={(e) => onSpecChange(e.target.value)}
+        value={value.spec}>
         <option>Select a spec</option>
         {specOptions}
       </select>

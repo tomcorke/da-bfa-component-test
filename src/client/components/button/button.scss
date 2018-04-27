@@ -9,7 +9,7 @@
     .buttonInner {
       line-height: 20px;
       padding: 35px 0 45px;
-      background: url('../../../images/Button-ocho.png') no-repeat;
+      background: url('../../../../images/Button-ocho.png') no-repeat;
       background-size: auto 300px;
       background-position: center 0;
       position: relative;
@@ -18,7 +18,7 @@
 
       &::before, &::after {
         content: "";
-        background: url('../../../images/Button-ocho.png') no-repeat;
+        background: url('../../../../images/Button-ocho.png') no-repeat;
         background-size: auto 300px;
         width: 113px;
         height: 100px;
