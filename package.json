@@ -10,7 +10,8 @@
     "start": "node dist/app/index.js",
     "build:client": "webpack",
     "build:client:watch": "webpack -w",
-    "build:app": "babel src/app -d dist/app"
+    "build:app": "babel src/app -d dist/app",
+    "build": "npm run build:client && npm run build:app"
   },
   "keywords": [],
   "author": "",
