@@ -2,4 +2,4 @@
 
 set -e
 
-forever restart ../dist/app/index.js
+forever restart ./dist/app/index.js

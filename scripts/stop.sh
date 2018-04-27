@@ -2,4 +2,4 @@
 
 set -e
 
-forever stop ../dist/app/index.js
+forever stop ./dist/app/index.js

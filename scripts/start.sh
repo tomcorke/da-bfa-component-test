@@ -2,4 +2,4 @@
 
 set -e
 
-forever start ../dist/app/index.js
+forever start ./dist/app/index.js
