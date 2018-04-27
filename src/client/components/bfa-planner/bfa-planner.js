@@ -30,7 +30,8 @@ class BfaPlanner extends React.Component {
   }
 
   getUserData() {
-    fetch('https://localhost:3443/getUserData',
+    const { userDataEndpoint } = this.props.config;
+    fetch(userDataEndpoint,
       {
         credentials: 'include'
       })
@@ -45,7 +46,8 @@ class BfaPlanner extends React.Component {
   }
 
   login() {
-    const authUrl = 'https://localhost:3443/auth/bnet'
+    const { bnetAuthEndpoint } = this.props.config
+    const authUrl = bnetAuthEndpoint
     this.authWindow = window.open(authUrl, '_blank', 'height=500,width=300')
   }
 
