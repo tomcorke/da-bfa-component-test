@@ -6,12 +6,17 @@
 
   textarea {
     font-family: 'Hammersmith One', sans-serif;
-    font-size: 1.2rem;
+    font-size: 16px;
     padding: 5px 8px;
     box-sizing: border-box;
     width: 100%;
     min-height: 5em;
     border: 1px solid #666;
     border-radius: 5px;
+
+    &::placeholder {
+      font-style: italic;
+      color: #ccc;
+    }
   }
 }

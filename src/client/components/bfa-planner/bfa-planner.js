@@ -9,14 +9,15 @@ import CommentsBox from '../comments-box'
 import Button from '../button'
 import Header from '../header'
 import SubHeader from '../subheader'
+import LoginPrompt from '../login-prompt'
 
 import STYLES from './bfa-planner.scss'
 
 const getBlurb = (name) => {
   return ({
-    first: 'Test first choice',
-    second: 'Test second choice',
-    third: 'Test third choice'
+    first: 'Main choice:',
+    second: 'Alt choice:',
+    third: 'Backup choice:'
   })[name]
 }
 
@@ -140,10 +141,18 @@ class BfaPlanner extends React.Component {
         <Divider />
 
         <Section type={'main'}>
-          { this.createClassElements('first') }
-          { this.createClassElements('second') }
-          { this.createClassElements('third') }
-          <Button text="Save stuff" />
+          <p>
+            Welcome to class selection! We're releasing this a little early so you can get to grips with this page, and we can get an idea who is looking at what for the expansion! - Any problems and we'll contact you directly! Have fun!
+          </p>
+          {this.state.user ?
+            [
+              this.createClassElements('first'),
+              this.createClassElements('second'),
+              this.createClassElements('third'),
+              <Button text="Save stuff" />
+            ]
+          : <LoginPrompt />
+          }
         </Section>
 
         <Divider type={'bottom'} />

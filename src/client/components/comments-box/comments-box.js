@@ -5,7 +5,11 @@ import STYLES from './comments-box.scss'
 const CommentsBox = ({ onChange, value }) => {
   return (
     <div className={STYLES.commentsBox}>
-      <textarea onChange={e => onChange(e.target.value)}>{value}</textarea>
+      <textarea
+        onChange={e => onChange(e.target.value)}
+        placeholder={'Comments'}>
+        {value}
+      </textarea>
     </div>
   )
 }
