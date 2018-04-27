@@ -1,0 +1,39 @@
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login successful</title>
+    <link href="https://fonts.googleapis.com/css?family=Hammersmith+One" rel="stylesheet">
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        background-color: #56292a;
+        color: white;
+        font-family: Hammersmith One, sans-serif;
+        font-size: 24px;
+      }
+      #wrap {
+        flex: 0 1 60%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="wrap">Login failed</div>
+  </body>
+  <script>
+    document.body.onload = () =>
+      window.opener && window.opener.postMessage(
+        {
+          status: 'failure'
+        },
+        window.opener.location
+      )
+  </script>
+</html>

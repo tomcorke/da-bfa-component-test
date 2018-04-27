@@ -5,6 +5,7 @@ import passport from 'passport'
 import { Strategy as BnetStrategy } from 'passport-bnet'
 import cookieParser from 'cookie-parser'
 import session from 'express-session'
+import handlebars from 'express-handlebars'
 
 require('dotenv-safe').config()
 
@@ -47,6 +48,12 @@ app.use(compression())
 app.use(passport.initialize())
 app.use(passport.session())
 
+app.engine('.hbs', handlebars({
+  extname: '.hbs',
+}))
+app.set('views', path.join(__dirname, '../../src/app/views'))
+app.set('view engine', '.hbs')
+
 app.use((req, res, next) => {
   console.log(`${req.method} ${req.path}`)
   next()
@@ -55,21 +62,12 @@ app.use((req, res, next) => {
 app.get('/auth/bnet', passport.authenticate('bnet'))
 app.get(
   '/auth/bnet/callback',
-  passport.authenticate('bnet', { failureRedirect: '/' }),
-  (req, res) => res.send(
-    `<html>
-      <body>Login successful</body>
-      <script>document.body.onload = () =>
-        window.opener.postMessage(
-          {
-            status: 'success',
-            userData: ${JSON.stringify(req.user)}
-          },
-          window.opener.location
-        )
-      </script>
-    </html>`)
+  passport.authenticate(
+    'bnet',
+    { failureRedirect: '/auth/bnet/failure' }),
+  (req, res) => res.render('login-success', { userData: JSON.stringify(req.user) })
 )
+app.get('/auth/bnet/failure', (req, res) => res.render('login-failure'))
 
 app.get(
   '/getUserData',
@@ -89,3 +87,4 @@ app.get('/logout', (req, res) => {
 app.get('/*', express.static(path.join(__dirname, '../client')))
 
 app.listen(3000)
+

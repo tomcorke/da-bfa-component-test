@@ -19,6 +19,12 @@ const getBlurb = (name) => {
   })[name]
 }
 
+const popupWindow = (url, win, w, h) => {
+  var y = win.top.outerHeight / 2 + win.top.screenY - ( h / 2)
+  var x = win.top.outerWidth / 2 + win.top.screenX - ( w / 2)
+  return win.open(url, '_blank', 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+w+', height='+h+', top='+y+', left='+x);
+}
+
 class BfaPlanner extends React.Component {
   constructor(props) {
     super(props)
@@ -48,7 +54,7 @@ class BfaPlanner extends React.Component {
   login() {
     const { bnetAuthEndpoint } = this.props.config
     const authUrl = bnetAuthEndpoint
-    this.authWindow = window.open(authUrl, '_blank', 'height=500,width=300')
+    this.authWindow = popupWindow(authUrl, window, 450, 600)
   }
 
   receiveMessage(event) {
