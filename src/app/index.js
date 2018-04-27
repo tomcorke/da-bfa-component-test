@@ -21,6 +21,8 @@ const BNET_ID = process.env.BNET_KEY
 const BNET_SECRET = process.env.BNET_SECRET
 const BNET_CALLBACK_URL = process.env.BNET_CALLBACK_URL
 
+const APP_BASE_URL = process.env.APP_BASE_URL
+
 passport.use(
   new BnetStrategy(
     {
@@ -64,7 +66,7 @@ app.get(
   '/auth/bnet/callback',
   passport.authenticate(
     'bnet',
-    { failureRedirect: '/auth/bnet/failure' }),
+    { failureRedirect: `${APP_BASE_URL}/auth/bnet/failure` }),
   (req, res) => res.render('login-success', { userData: JSON.stringify(req.user) })
 )
 app.get('/auth/bnet/failure', (req, res) => res.render('login-failure'))
@@ -81,7 +83,7 @@ app.get(
 
 app.get('/logout', (req, res) => {
   req.logout()
-  res.redirect('/')
+  res.redirect(APP_BASE_URL)
 })
 
 app.get('/*', express.static(path.join(__dirname, '../client')))
