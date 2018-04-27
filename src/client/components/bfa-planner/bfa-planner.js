@@ -31,7 +31,7 @@ class BfaPlanner extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      choices: {}
+      data: {}
     }
     this.login = this.login.bind(this)
     this.receiveMessage = this.receiveMessage.bind(this)
@@ -64,7 +64,8 @@ class BfaPlanner extends React.Component {
         this.setState({
           ...this.state,
           user: user,
-          data: savedData || {}
+          data: savedData || {},
+          hasChanges: false
         })
       })
       .catch(err => console.error(err))
@@ -81,23 +82,30 @@ class BfaPlanner extends React.Component {
     const { saveDataEndpoint } = this.props.config
     xhr.open('POST', saveDataEndpoint, true)
     xhr.setRequestHeader('content-type', 'application/json')
+    xhr.onreadystatechange = () => {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        console.log('saved')
+        this.setState({
+          ...this.state,
+          hasChanges: false
+        })
+      }
+    }
     xhr.send(JSON.stringify(this.state.data))
   }
 
   receiveMessage (event) {
     if (event.source === this.authWindow) {
-      console.log('Message from auth window', event.data.userData)
+      console.log('Received message from auth window', event.data)
       const { user, data } = event.data.userData
       this.setState({
         ...this.state,
         user: user,
-        data: data || {}
+        data: data || {},
+        hasChanges: false
       })
       this.authWindow.close()
-    } else {
-      console.warn(`Unrecognised message source: "${event.source}"`)
     }
-    console.log(event, this.state)
   }
 
   componentWillMount () {
@@ -119,7 +127,8 @@ class BfaPlanner extends React.Component {
           ...choice,
           [prop]: value
         }
-      }
+      },
+      hasChanges: true
     })
   }
 
@@ -168,7 +177,12 @@ class BfaPlanner extends React.Component {
               this.createClassElements('first'),
               this.createClassElements('second'),
               this.createClassElements('third'),
-              <Button key='save' type='save' text='Save your selections' onClick={() => this.save()} />
+              <Button
+                key='save'
+                type='save'
+                text='Save your selections'
+                onClick={() => this.save()}
+                highlight={this.state.hasChanges} />
             ]
             : <LoginPrompt />
           }

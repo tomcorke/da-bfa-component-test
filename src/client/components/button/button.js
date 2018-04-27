@@ -11,10 +11,11 @@ const ButtonWrapper = ({ children, onClick, href, type }) => {
   }
 }
 
-const Button = ({ text, onClick, href, type }) => {
+const Button = ({ text, onClick, href, type, highlight }) => {
+  const buttonClasses = `${STYLES.button} ${highlight && STYLES.highlight}`
   return (
     <ButtonWrapper {...{ onClick, href, type }}>
-      <div className={STYLES.button}>
+      <div className={buttonClasses}>
         <div className={STYLES.buttonOuter}>
           <div className={STYLES.buttonInner}>
             <div className={STYLES.label}>
