@@ -1,0 +1,64 @@
+.button {
+  display: inline-block;
+  text-align: center;
+
+  .buttonOuter {
+    padding: 0 87px 0 89px;
+
+    .buttonInner {
+      line-height: 20px;
+      padding: 35px 0 45px;
+      background: url('../../../images/Button-ocho.png') no-repeat;
+      background-size: auto 300px;
+      background-position: center 0;
+      position: relative;
+      max-width: 367px;
+      white-space: nowrap;
+
+      &::before, &::after {
+        content: "";
+        background: url('../../../images/Button-ocho.png') no-repeat;
+        background-size: auto 300px;
+        width: 113px;
+        height: 100px;
+        position: absolute;
+        top: 0;
+      }
+
+      &::before {
+        right: 100%;
+        background-position: right 0;
+        margin-right: -36.25px;
+        transform: scaleX(-1);
+      }
+
+      &::after {
+        left: 100%;
+        background-position: right 0;
+        margin-left: -36px;
+      }
+
+      &:hover {
+        background-position-y: -100px;
+
+        &::before {
+          background-position-y: -100px;
+        }
+
+        &::after {
+          background-position-y: -100px;
+        }
+      }
+
+      .label {
+        position: relative;
+        padding: 0 20px;
+        z-index: 1;
+        min-width: 155px;
+        margin: 0 -30px;
+        text-transform: uppercase;
+        color: black;
+      }
+    }
+  }
+}

@@ -6,6 +6,7 @@ import Panel from '../panel'
 import ClassSelectWrapper from '../class-select-wrapper'
 import ClassSelect from '../class-select'
 import CommentsBox from '../comments-box'
+import Button from '../button'
 
 import STYLES from './bfa-planner.scss'
 
@@ -74,6 +75,7 @@ class BfaPlanner extends React.Component {
           { this.createClassElements('first') }
           { this.createClassElements('second') }
           { this.createClassElements('third') }
+          <Button text="Save dat shit" />
         </Section>
 
         <Divider type={'bottom'} />
