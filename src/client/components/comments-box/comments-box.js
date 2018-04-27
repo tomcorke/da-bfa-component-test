@@ -7,9 +7,8 @@ const CommentsBox = ({ onChange, value }) => {
     <div className={STYLES.commentsBox}>
       <textarea
         onChange={e => onChange(e.target.value)}
-        placeholder={'Comments'}>
-        {value}
-      </textarea>
+        placeholder={'Comments'}
+        value={value} />
     </div>
   )
 }

@@ -10,6 +10,7 @@ import Header from '../header'
 import SubHeader from '../subheader'
 import LoginPrompt from '../login-prompt'
 import Footer from '../footer'
+import FeedbackMessage from '../feedback-message'
 
 import STYLES from './bfa-planner.scss'
 
@@ -35,6 +36,7 @@ class BfaPlanner extends React.Component {
     }
     this.login = this.login.bind(this)
     this.receiveMessage = this.receiveMessage.bind(this)
+    this.hideFeedbackMessage = this.hideFeedbackMessage.bind(this)
   }
 
   getUserData () {
@@ -89,6 +91,7 @@ class BfaPlanner extends React.Component {
           ...this.state,
           hasChanges: false
         })
+        setImmediate(() => this.showFeedbackMessage('Saved!'))
       }
     }
     xhr.send(JSON.stringify(this.state.data))
@@ -153,6 +156,34 @@ class BfaPlanner extends React.Component {
     )
   }
 
+  hideFeedbackMessage () {
+    window.clearTimeout(this.fadeOutFeedbackMessageTimer)
+    window.clearTimeout(this.hideFeedbackMessageTimer)
+    this.setState({
+      ...this.state,
+      showFeedbackMessage: false
+    })
+  }
+
+  fadeOutFeedbackMessage () {
+    window.clearTimeout(this.fadeOutFeedbackMessageTimer)
+    this.setState({
+      ...this.state,
+      fadeOutFeedbackMessage: true
+    })
+    this.hideFeedbackMessageTimer = window.setTimeout(() => this.hideFeedbackMessage(), 1000)
+  }
+
+  showFeedbackMessage (message) {
+    this.setState({
+      ...this.state,
+      showFeedbackMessage: true,
+      fadeOutFeedbackMessage: false,
+      feedbackMessage: message
+    })
+    this.fadeOutFeedbackMessageTimer = window.setTimeout(() => this.fadeOutFeedbackMessage(), 1000)
+  }
+
   render () {
     return (
       <div className={STYLES.bfaPlanner}>
@@ -186,6 +217,12 @@ class BfaPlanner extends React.Component {
             ]
             : <LoginPrompt />
           }
+          {this.state.showFeedbackMessage
+            ? <FeedbackMessage
+              message={this.state.feedbackMessage}
+              fadeout={this.state.fadeOutFeedbackMessage}
+              onClick={this.hideFeedbackMessage} />
+            : null}
         </Section>
 
         <Divider type={'bottom'} />
