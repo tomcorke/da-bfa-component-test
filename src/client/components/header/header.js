@@ -5,11 +5,13 @@ import STYLES from './header.scss'
 const Header = ({ children, userData, onLoginClick }) => {
 
   const userDisplay = userData
-    ? <div>
-        <pre>{JSON.stringify(userData)}</pre>
-        <a href='logout'>Logout</a>
+    ? <div className={STYLES.loggedIn}>
+        <div className={STYLES.loggedInAs}>
+          Logged in as {userData.battletag}
+        </div>
+        <a className={`${STYLES.logoutButton}`} href='logout'>Logout</a>
       </div>
-    : <div onClick={onLoginClick}>&lt;Login&gt;</div>
+    : <div className={`${STYLES.loginButton}`} onClick={onLoginClick}>Login</div>
 
   return (
     <div className={STYLES.header}>

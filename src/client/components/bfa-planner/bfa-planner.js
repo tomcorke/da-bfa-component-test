@@ -8,6 +8,7 @@ import ClassSelect from '../class-select'
 import CommentsBox from '../comments-box'
 import Button from '../button'
 import Header from '../header'
+import SubHeader from '../subheader'
 
 import STYLES from './bfa-planner.scss'
 
@@ -36,7 +37,15 @@ class BfaPlanner extends React.Component {
   }
 
   getUserData() {
-    const { userDataEndpoint } = this.props.config;
+    const { userDataEndpoint, mockUserData } = this.props.config;
+
+    if (mockUserData) {
+      this.setState({
+        ...this.state,
+        user: mockUserData
+      })
+    }
+
     fetch(userDataEndpoint,
       {
         credentials: 'include'
@@ -119,9 +128,12 @@ class BfaPlanner extends React.Component {
     return (
       <div className={STYLES.bfaPlanner}>
 
-        <Section>
+        <Section type={'header'}>
           <Header userData={this.state.user} onLoginClick={this.login}>
-            Pick your classes
+            Distinctly Average Class Selection
+            <SubHeader>
+              For Kids Who Can't Raid Good And Want To Learn How To Do Other Good Stuff Too
+            </SubHeader>
           </Header>
         </Section>
 
