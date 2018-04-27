@@ -70,7 +70,7 @@ app.get(
   passport.authenticate(
     'bnet',
     { failureRedirect: `${APP_BASE_URL}/auth/bnet/failure` }),
-  (req, res) => res.redirect('/auth/bnet/success'))
+  (req, res) => res.redirect(`${APP_BASE_URL}/auth/bnet/success`))
 
 app.get('/auth/bnet/success', (req, res) => {
   if (!req.isAuthenticated()) {
