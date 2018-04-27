@@ -7,7 +7,7 @@ const Header = ({ children, userData, onLoginClick }) => {
   const userDisplay = userData
     ? <div>
         <pre>{JSON.stringify(userData)}</pre>
-        <a href='/logout'>Logout</a>
+        <a href='logout'>Logout</a>
       </div>
     : <div onClick={onLoginClick}>&lt;Login&gt;</div>
 
