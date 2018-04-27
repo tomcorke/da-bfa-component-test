@@ -1,8 +1,7 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 
 import Section from '../section'
 import Divider from '../divider'
-import Panel from '../panel'
 import ClassSelectWrapper from '../class-select-wrapper'
 import ClassSelect from '../class-select'
 import CommentsBox from '../comments-box'
@@ -23,13 +22,13 @@ const getBlurb = (name) => {
 }
 
 const popupWindow = (url, win, w, h) => {
-  var y = win.top.outerHeight / 2 + win.top.screenY - ( h / 2)
-  var x = win.top.outerWidth / 2 + win.top.screenX - ( w / 2)
-  return win.open(url, '_blank', 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+w+', height='+h+', top='+y+', left='+x);
+  var y = win.top.outerHeight / 2 + win.top.screenY - (h / 2)
+  var x = win.top.outerWidth / 2 + win.top.screenX - (w / 2)
+  return win.open(url, '_blank', 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=' + w + ', height=' + h + ', top=' + y + ', left=' + x)
 }
 
 class BfaPlanner extends React.Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {
       choices: {}
@@ -38,42 +37,61 @@ class BfaPlanner extends React.Component {
     this.receiveMessage = this.receiveMessage.bind(this)
   }
 
-  getUserData() {
-    const { userDataEndpoint, mockUserData } = this.props.config;
+  getUserData () {
+    const { userDataEndpoint, mockUserData, mockChoices = {} } = this.props.config
 
     if (mockUserData) {
       this.setState({
         ...this.state,
-        user: mockUserData
+        user: mockUserData,
+        data: mockChoices
       })
     }
 
-    fetch(userDataEndpoint,
+    window.fetch(userDataEndpoint,
       {
         credentials: 'include'
       })
-      .then(response => response.json())
+      .then(response => {
+        if (response.status !== 200) {
+          throw Error('Could not get user data')
+        }
+        return response.json()
+      })
       .then(data => {
-        console.log(data)
+        console.log('getUserData', data)
+        const { user, data: savedData } = data
         this.setState({
           ...this.state,
-          user: data
+          user: user,
+          data: savedData || {}
         })
       })
+      .catch(err => console.error(err))
   }
 
-  login() {
+  login () {
     const { bnetAuthEndpoint } = this.props.config
     const authUrl = bnetAuthEndpoint
     this.authWindow = popupWindow(authUrl, window, 450, 600)
   }
 
-  receiveMessage(event) {
+  save () {
+    const xhr = new window.XMLHttpRequest()
+    const { saveDataEndpoint } = this.props.config
+    xhr.open('POST', saveDataEndpoint, true)
+    xhr.setRequestHeader('content-type', 'application/json')
+    xhr.send(JSON.stringify(this.state.data))
+  }
+
+  receiveMessage (event) {
     if (event.source === this.authWindow) {
-      console.log('Message from auth window')
+      console.log('Message from auth window', event.data.userData)
+      const { user, data } = event.data.userData
       this.setState({
         ...this.state,
-        user: event.data.userData
+        user: user,
+        data: data || {}
       })
       this.authWindow.close()
     } else {
@@ -82,21 +100,21 @@ class BfaPlanner extends React.Component {
     console.log(event, this.state)
   }
 
-  componentWillMount() {
-    this.getUserData();
+  componentWillMount () {
+    this.getUserData()
     window.addEventListener('message', this.receiveMessage, false)
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     window.removeEventListener('message', this.receiveMessage, false)
   }
 
-  onChoiceChanged(name, prop, value) {
-    const choice = this.state.choices[name] || {}
+  onChoiceChanged (name, prop, value) {
+    const choice = this.state.data[name] || {}
     this.setState({
       ...this.state,
-      choices: {
-        ...this.state.choices,
+      data: {
+        ...this.state.data,
         [name]: {
           ...choice,
           [prop]: value
@@ -105,28 +123,28 @@ class BfaPlanner extends React.Component {
     })
   }
 
-  createClassSelect(name) {
+  createClassSelect (name) {
     const onChange = (value) => this.onChoiceChanged(name, 'selected', value)
-    const choice = this.state.choices[name] || {}
+    const choice = this.state.data[name] || {}
     return <ClassSelect onChange={onChange} value={choice.selected} />
   }
 
-  createCommentsBox(name) {
+  createCommentsBox (name) {
     const onChange = (value) => this.onChoiceChanged(name, 'comments', value)
-    const choice = this.state.choices[name] || {}
+    const choice = this.state.data[name] || {}
     return <CommentsBox onChange={onChange} value={choice.comments} />
   }
 
-  createClassElements(name) {
+  createClassElements (name) {
     return (
-      <ClassSelectWrapper description={getBlurb(name)}>
+      <ClassSelectWrapper key={name} description={getBlurb(name)}>
         { this.createClassSelect(name) }
         { this.createCommentsBox(name) }
       </ClassSelectWrapper>
     )
   }
 
-  render() {
+  render () {
     return (
       <div className={STYLES.bfaPlanner}>
 
@@ -145,14 +163,14 @@ class BfaPlanner extends React.Component {
           <p>
             Welcome to class selection! We're releasing this a little early so you can get to grips with this page, and we can get an idea who is looking at what for the expansion! - Any problems and we'll contact you directly! Have fun!
           </p>
-          {this.state.user ?
-            [
+          {this.state.user
+            ? [
               this.createClassElements('first'),
               this.createClassElements('second'),
               this.createClassElements('third'),
-              <Button text="Save stuff" />
+              <Button key='save' type='save' text='Save your selections' onClick={() => this.save()} />
             ]
-          : <LoginPrompt />
+            : <LoginPrompt />
           }
         </Section>
 

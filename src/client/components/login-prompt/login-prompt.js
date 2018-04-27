@@ -5,7 +5,7 @@ import STYLES from './login-prompt.scss'
 
 const LoginPrompt = () => {
   return (
-    <div class={STYLES.loginPrompt}>
+    <div className={STYLES.loginPrompt}>
       <Panel>
         <div>To use this site you must log in with Battle.net!</div>
         <div className={STYLES.spacer} />

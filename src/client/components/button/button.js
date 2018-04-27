@@ -2,17 +2,18 @@ import React from 'react'
 
 import STYLES from './button.scss'
 
-const ButtonWrapper = ({ children, onClick, href }) => {
+const ButtonWrapper = ({ children, onClick, href, type }) => {
+  const className = `${STYLES.wrapper} ${STYLES[`wrapper__${type}`]}`
   if (href) {
-    return <a href={href}>{children}</a>
+    return <a href={href} className={className}>{children}</a>
   } else {
-    return <div onClick={onClick}>{children}</div>
+    return <div onClick={onClick} className={className}>{children}</div>
   }
 }
 
-const Button = ({ text, onClick, href }) => {
+const Button = ({ text, onClick, href, type }) => {
   return (
-    <ButtonWrapper {...{ onClick, href }}>
+    <ButtonWrapper {...{ onClick, href, type }}>
       <div className={STYLES.button}>
         <div className={STYLES.buttonOuter}>
           <div className={STYLES.buttonInner}>

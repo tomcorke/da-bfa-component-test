@@ -1,0 +1,35 @@
+@import '../../mixins/classes.scss';
+
+.loginButton {
+  display: inline-block;
+  position: relative;
+  padding: 0 10px 0 30px;
+  line-height: 24px;
+  background: black;
+  border-radius: 3px;
+  border: 1px solid classColour(mage);
+  box-shadow: 0 0 0 2px black, 0 0 5px 3px classColour(mage);
+  cursor: pointer;
+  color: white;
+  text-decoration: none;
+
+  &__logout {
+    margin-top: 0.5em;
+    border: 1px solid #444;
+    box-shadow: 0 0 0 2px black, 0 0 5px 3px classColour(deathknight);
+  }
+
+  &:hover {
+    box-shadow: 0 0 0 2px black, 0 0 5px 4px classColour(mage);
+  }
+
+  &::after {
+    position: absolute;
+    left: 2px;
+    top: 4px;
+    content: "";
+    width: 16px;
+    height: 16px;
+    background: url('../../../../images/battle.net.png') no-repeat;
+  }
+}

@@ -1,17 +1,17 @@
 import React from 'react'
+import LoginButton from '../login-button'
 
 import STYLES from './header.scss'
 
 const Header = ({ children, userData, onLoginClick }) => {
-
   const userDisplay = userData
     ? <div className={STYLES.loggedIn}>
-        <div className={STYLES.loggedInAs}>
-          Logged in as {userData.battletag}
-        </div>
-        <a className={`${STYLES.logoutButton}`} href='logout'>Logout</a>
+      <div className={STYLES.loggedInAs}>
+        Logged in as {userData.battletag}
       </div>
-    : <div className={`${STYLES.loginButton}`} onClick={onLoginClick}>Login</div>
+      <LoginButton type='logout' href='logout' text='Logout' />
+    </div>
+    : <LoginButton onClick={onLoginClick} text='Login' />
 
   return (
     <div className={STYLES.header}>

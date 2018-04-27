@@ -1,3 +1,12 @@
+@import '../../mixins/classes.scss';
+
+.wrapper {
+  &__save {
+    margin-right: -30px;
+    text-align: right;
+  }
+}
+
 .button {
   display: inline-block;
   text-align: center;
@@ -60,6 +69,16 @@
         text-transform: uppercase;
         color: black;
       }
+    }
+  }
+
+  &__highlight {
+    .label {
+      text-shadow:
+        0 5px 40px classColour(mage),
+        0 -5px 40px classColour(mage),
+        5px 0 40px classColour(mage),
+        -5px 0 40px classColour(mage);
     }
   }
 }

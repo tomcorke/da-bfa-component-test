@@ -11,7 +11,7 @@ const credentials = { key: privateKey, cert: certificate }
 
 const app = express()
 
-app.get('*', proxy({ target: 'http://localhost:3000', changeOrigin: true, logLevel: 'debug' }))
+app.use('*', proxy({ target: 'http://localhost:3000', changeOrigin: true, logLevel: 'debug' }))
 
 const httpsServer = https.createServer(credentials, app)
 

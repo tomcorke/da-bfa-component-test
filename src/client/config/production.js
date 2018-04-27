@@ -1,6 +1,7 @@
 const config = {
   userDataEndpoint: 'getUserData',
-  bnetAuthEndpoint: 'auth/bnet'
+  bnetAuthEndpoint: 'auth/bnet',
+  saveDataEndpoint: 'save'
 }
 
 export default config
