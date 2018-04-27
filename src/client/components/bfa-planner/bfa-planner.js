@@ -10,6 +10,7 @@ import Button from '../button'
 import Header from '../header'
 import SubHeader from '../subheader'
 import LoginPrompt from '../login-prompt'
+import Footer from '../footer'
 
 import STYLES from './bfa-planner.scss'
 
@@ -158,6 +159,7 @@ class BfaPlanner extends React.Component {
         <Divider type={'bottom'} />
 
         <Section type={'fill'}>
+          <Footer />
         </Section>
 
       </div>
