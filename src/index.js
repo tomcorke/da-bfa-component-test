@@ -1,13 +1,14 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react'
+import ReactDOM from 'react-dom'
 
 import BfaPlanner from './components/bfa-planner'
 
-import './base.scss';
+import './reset.scss'
+import './base.scss'
 
 ReactDOM.render(
   <BfaPlanner />,
-  document.getElementById('app'),
-);
+  document.getElementById('app')
+)
 
 module.hot.accept()
