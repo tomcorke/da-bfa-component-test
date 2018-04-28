@@ -25,9 +25,10 @@ const CLASS_NAMES = {
 }
 
 const charFilter = (char) => {
-  return char.achievementPoints &&
+  return (
     char.realm &&
     char.level >= 10
+  )
 }
 
 const charTransform = (char) => {
