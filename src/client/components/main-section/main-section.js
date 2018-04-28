@@ -64,7 +64,7 @@ const MainSection = ({
   }
 
   let classDisplay = null
-  if (isLoggedIn && hasCharacters) {
+  if (isLoggedIn && hasCharactersInGuild) {
     classDisplay = <ClassDisplay characters={profile.characters} />
   } else if (isLoggedIn && !hasCharacters) {
     classDisplay = <p className={STYLES.warning}>Could not load your characters, please refresh the page to attempt to re-load them</p>
@@ -72,7 +72,7 @@ const MainSection = ({
 
   let nonGuildDisplay = null
   if (isLoggedIn && !hasCharactersInGuild) {
-    nonGuildDisplay = <p className={STYLES.warning}>This site is intended only for members of Distinctly Average. If you are joining the guild please contact an officer to have at least one character added to the guild before using this site.</p>
+    nonGuildDisplay = <p className={STYLES.warning}>This site is intended only for members of &lt;Distinctly Average&gt; on Silvermoon (EU). If you are joining the guild please contact an officer to have at least one character added to the guild before using this site.</p>
   }
 
   let mainDisplay = []
