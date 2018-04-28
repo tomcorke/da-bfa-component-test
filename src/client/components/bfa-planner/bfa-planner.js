@@ -104,7 +104,6 @@ class BfaPlanner extends React.Component {
     xhr.setRequestHeader('content-type', 'application/json')
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4 && xhr.status === 200) {
-        console.log('saved')
         this.setState({
           ...this.state,
           hasChanges: false
@@ -120,6 +119,13 @@ class BfaPlanner extends React.Component {
       console.log('Received message from auth window', event.data)
       this.handleUserData(event.data.userData)
       this.authWindow.close()
+
+      if (
+        this.state.isLoggedIn &&
+        !this.state.hasCharacters
+      ) {
+        this.getUserData()
+      }
     }
   }
 
