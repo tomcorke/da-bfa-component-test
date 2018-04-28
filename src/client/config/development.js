@@ -3,7 +3,7 @@ const config = {
   bnetAuthEndpoint: 'https://localhost:3443/auth/bnet',
   saveDataEndpoint: 'https://localhost:3443/save',
 
-  mockUserData: {
+  _mockUserData: {
     user: {
       battletag: 'Shot#2975',
       id: 999,

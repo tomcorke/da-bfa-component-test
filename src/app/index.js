@@ -67,17 +67,15 @@ app.use((req, res, next) => {
   next()
 })
 
-const getUserData = async (user) => {
+const getUserData = async (user, immediate = false) => {
   const { battletag } = user
   const data = db.get(battletag)
-  return api.getWoWProfile(user)
-    .then(profile => {
-      return {
-        user: { battletag: user.battletag },
-        data,
-        profile
-      }
-    })
+  const profile = await api.getWoWProfile(user, immediate)
+  return {
+    user: { battletag: user.battletag },
+    data,
+    profile
+  }
 }
 
 app.get(
@@ -99,7 +97,7 @@ app.get(
       return res.status(401).send()
     }
     return res.render('login-success', {
-      userData: JSON.stringify(await getUserData(req.user))
+      userData: JSON.stringify(await getUserData(req.user, true))
     })
   }
 )

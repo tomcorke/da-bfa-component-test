@@ -41,7 +41,7 @@ const charTransform = (char) => {
 }
 
 const api = {
-  getWoWProfile: async (user) => {
+  getWoWProfile: async (user, immediate = false) => {
     const url = createUrl('/wow/user/characters', user.token)
 
     let getProfile = requestCache[user.battletag]
@@ -74,6 +74,10 @@ const api = {
     if (cachedProfile) {
       console.log(`Returning cached wow profile data for "${user.battletag}"`)
       return cachedProfile
+    }
+
+    if (immediate) {
+      return null
     }
 
     return getProfile
