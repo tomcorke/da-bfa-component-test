@@ -65,19 +65,19 @@ const MainSection = ({
 
   let loadingDisplay = null
   if (isLoggedIn && gettingUserData) {
-    loadingDisplay = <p className={STYLES.info}>Getting characters...</p>
+    loadingDisplay = <p key='loading' className={STYLES.info}>Getting characters...</p>
   }
 
   let classDisplay = null
   if (isLoggedIn && hasCharactersInGuild) {
-    classDisplay = <ClassDisplay characters={profile.characters} />
+    classDisplay = <ClassDisplay key='class-display' characters={profile.characters} />
   } else if (isLoggedIn && !hasCharacters) {
-    classDisplay = <p className={STYLES.warning}>Could not load your characters, please refresh the page to attempt to re-load them</p>
+    classDisplay = <p key='load-fail' className={STYLES.warning}>Could not load your characters, please refresh the page to attempt to re-load them</p>
   }
 
   let nonGuildDisplay = null
   if (isLoggedIn && !hasCharactersInGuild) {
-    nonGuildDisplay = <p className={STYLES.warning}>This site is intended only for members of &lt;Distinctly Average&gt; on Silvermoon (EU). If you are joining the guild for Battle for Azeroth please contact an officer to have at least one character added to the guild before using this site.</p>
+    nonGuildDisplay = <p key='non-guild' className={STYLES.warning}>This site is intended only for members of &lt;Distinctly Average&gt; on Silvermoon (EU). If you are joining the guild for Battle for Azeroth please contact an officer to have at least one character added to the guild before using this site.</p>
   }
 
   let mainDisplay = []
@@ -95,7 +95,7 @@ const MainSection = ({
           highlight={hasChanges} />
       ]
   } else {
-    mainDisplay = <LoginPrompt onLoginClick={onLoginClick} disableLogin={gettingUserData} />
+    mainDisplay = <LoginPrompt key='login-prompt' onLoginClick={onLoginClick} disableLogin={gettingUserData} />
   }
 
   return (
