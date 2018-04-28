@@ -15,6 +15,10 @@ const popupWindow = (url, win, w, h) => {
   return win.open(url, '_blank', 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=' + w + ', height=' + h + ', top=' + y + ', left=' + x)
 }
 
+const guildFilter = c =>
+  c.guild === 'Distinctly Average' &&
+  c.realm === 'Silvermoon'
+
 class BfaPlanner extends React.Component {
   constructor (props) {
     super(props)
@@ -31,9 +35,10 @@ class BfaPlanner extends React.Component {
   handleUserData (userData) {
     const { user, data, profile } = userData
 
-    const loggedIn = !!user
+    const isLoggedIn = !!user
     const hasProfile = !!profile
     const hasCharacters = profile && profile.characters.length > 0
+    const hasCharactersInGuild = profile && profile.characters.filter(guildFilter).length > 0
 
     this.setState({
       ...this.state,
@@ -41,21 +46,21 @@ class BfaPlanner extends React.Component {
       data: data || {},
       profile,
       hasChanges: false,
-      loggedIn,
+      isLoggedIn,
       hasProfile,
-      hasCharacters
+      hasCharacters,
+      hasCharactersInGuild
     })
   }
 
   getUserData () {
-    const { userDataEndpoint, mockUserData, mockChoices = {} } = this.props.config
+    const {
+      userDataEndpoint,
+      mockUserData
+    } = this.props.config
 
     if (mockUserData) {
-      return this.setState({
-        ...this.state,
-        user: mockUserData,
-        data: mockChoices
-      })
+      return this.handleUserData(mockUserData)
     }
 
     this.setState({

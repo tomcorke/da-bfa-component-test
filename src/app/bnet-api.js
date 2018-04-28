@@ -8,12 +8,14 @@ const createUrl = (endpoint, token) => {
 const profileCache = {}
 const requestCache = {}
 
+/*
 const guildCharFilter = (char) => {
   return (
     char.guild === 'Distinctly Average' &&
     char.guildRealm === 'Silvermoon'
   )
 }
+*/
 
 const CLASS_NAMES = {
   1: 'warrior',
@@ -30,11 +32,19 @@ const CLASS_NAMES = {
   12: 'demonhunter'
 }
 
+const charFilter = (char) => {
+  return char.achievementPoints &&
+    char.realm &&
+    char.level >= 10
+}
+
 const charTransform = (char) => {
   return {
     name: char.name,
     level: char.level,
-    class: CLASS_NAMES[char.class]
+    class: CLASS_NAMES[char.class],
+    guild: char.guild,
+    realm: char.realm
   }
 }
 
@@ -50,7 +60,7 @@ const api = {
           if (data) {
             return {
               ...data,
-              characters: data.characters.filter(guildCharFilter).map(charTransform)
+              characters: data.characters.filter(charFilter).map(charTransform)
             }
           }
         })

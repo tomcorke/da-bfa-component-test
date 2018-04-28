@@ -4,10 +4,31 @@ const config = {
   saveDataEndpoint: 'https://localhost:3443/save',
 
   _mockUserData: {
-    battletag: 'Shot#2975',
-    id: 999,
-    provider: 'bnet',
-    token: 'abcd'
+    user: {
+      battletag: 'Shot#2975',
+      id: 999,
+      provider: 'bnet',
+      token: 'abcd'
+    },
+    data: {},
+    profile: {
+      characters: [
+        {
+          name: 'TestCharacter',
+          class: 'demonhunter',
+          level: 120,
+          guild: 'Distinctly Average',
+          realm: 'Silvermoon'
+        },
+        {
+          name: 'TestCharacter2',
+          class: 'warrior',
+          level: 120,
+          guild: 'Distinctly Average',
+          realm: 'Silvermoon'
+        }
+      ]
+    }
   }
 }
 

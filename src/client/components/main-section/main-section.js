@@ -7,6 +7,9 @@ import CommentsBox from '../comments-box'
 import Button from '../button'
 import LoginPrompt from '../login-prompt'
 import FeedbackMessage from '../feedback-message'
+import ClassDisplay from '../class-display'
+
+import STYLES from './main-section.scss'
 
 const getBlurb = (name) => {
   return ({
@@ -20,11 +23,20 @@ const MainSection = ({
   data,
   user,
   profile,
+
+  isLoggedIn,
+  hasProfile,
+  hasCharacters,
+  hasCharactersInGuild,
+
+  gettingUserData,
+
   onChoiceChanged,
   hasChanges,
+
   onLoginClick,
-  gettingUserData,
   onSaveClick,
+
   showFeedbackMessage,
   feedbackMessage,
   fadeOutFeedbackMessage,
@@ -51,31 +63,47 @@ const MainSection = ({
     )
   }
 
+  let classDisplay = null
+  if (isLoggedIn && hasCharacters) {
+    console.log(profile.characters)
+    classDisplay = <ClassDisplay characters={profile.characters} />
+  } else if (isLoggedIn && !hasCharacters) {
+    classDisplay = <p className={STYLES.warning}>Could not load your characters, please refresh the page to attempt to re-load them</p>
+  }
+
+  let nonGuildDisplay = null
+  if (isLoggedIn && !hasCharactersInGuild) {
+    nonGuildDisplay = <p className={STYLES.warning}>This site is intended only for members of Distinctly Average. If you are joining the guild please contact an officer to have at least one character added to the guild before using this site.</p>
+  }
+
+  let mainDisplay = []
+  if (isLoggedIn) {
+    mainDisplay = nonGuildDisplay ||
+      [
+        createClassElements('first'),
+        createClassElements('second'),
+        createClassElements('third'),
+        <Button
+          key='save'
+          type='save'
+          text='Save your selections'
+          onClick={() => onSaveClick()}
+          highlight={hasChanges} />
+      ]
+  } else {
+    mainDisplay = <LoginPrompt onLoginClick={onLoginClick} disableLogin={gettingUserData} />
+  }
+
   return (
     <Section type='main'>
       <p>
         Welcome to class selection! We're releasing this a little early so you can get to grips with this page, and we can get an idea who is looking at what for the expansion! - Any problems and we'll contact you directly! Have fun!
       </p>
-      {user
-        ? (profile
-          ? null // <p>Profile loaded</p>
-          : <p>Could not load your characters, refresh the page to attempt to re-load them</p>)
-        : null
-      }
-      {user
-        ? [
-          createClassElements('first'),
-          createClassElements('second'),
-          createClassElements('third'),
-          <Button
-            key='save'
-            type='save'
-            text='Save your selections'
-            onClick={() => onSaveClick()}
-            highlight={hasChanges} />
-        ]
-        : <LoginPrompt onLoginClick={onLoginClick} disableLogin={gettingUserData} />
-      }
+
+      {classDisplay}
+
+      {mainDisplay}
+
       {showFeedbackMessage
         ? <FeedbackMessage
           message={feedbackMessage}

@@ -1,0 +1,5 @@
+@import '../../mixins/classes.scss';
+
+.warning {
+  color: classColour(deathknight);
+}

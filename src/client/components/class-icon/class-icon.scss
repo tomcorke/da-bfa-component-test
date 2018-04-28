@@ -1,0 +1,15 @@
+@import '../../mixins/classes.scss';
+
+
+
+.classIcon {
+  display: inline-block;
+  width: 26px;
+  height: 26px;
+
+  @each $class, $colour in $classColours {
+    &[data-class=#{$class}] {
+      background-image: url('../../../../images/class-icons/#{$class}-2.png');
+    }
+  }
+}

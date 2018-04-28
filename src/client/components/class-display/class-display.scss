@@ -1,0 +1,10 @@
+.classDisplay {
+  margin-bottom: 2em;
+
+  .blurb {}
+
+  .characters {
+    display: flex;
+    flex-flow: row wrap;
+  }
+}
