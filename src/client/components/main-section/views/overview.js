@@ -14,7 +14,7 @@ const getClass = (name) => {
   return classes.find(c => c.safeName === name)
 }
 const getSpec = (wowClass, name) => {
-  return wowClass.specialisations.find(s => s.safeName === name)
+  return wowClass && wowClass.specialisations.find(s => s.safeName === name)
 }
 
 const Selection = ({ class: wowClass, spec, comments }) => {
@@ -54,7 +54,7 @@ const mapData = (data) => {
       choice: key,
       data: {
         class: getClass(value.selected.class),
-        spec: getSpec(getClass(value.selected.class), value.selected.spec),
+        spec: getSpec(getClass(value.selected.class), value.selected.spec) || {},
         comments: value.comments
       }
     }))

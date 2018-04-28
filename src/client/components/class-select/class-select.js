@@ -4,7 +4,6 @@ import classes from '../../data/classes'
 import STYLES from './class-select.scss'
 
 const ClassSelect = ({ value = {}, onChange }) => {
-
   const classOptions = classes
     .map(c =>
       <option
