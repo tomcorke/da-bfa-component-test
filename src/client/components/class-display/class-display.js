@@ -11,8 +11,15 @@ const guildFilter = (char) => {
   )
 }
 
+const byLevelAndName = (a, b) => {
+  if (b.level !== a.level) {
+    return b.level - a.level
+  }
+  return b.name < a.name ? 1 : -1
+}
+
 const ClassDisplay = ({ characters }) => {
-  const guildCharacters = characters.filter(guildFilter)
+  const guildCharacters = characters.filter(guildFilter).sort(byLevelAndName)
 
   return (
     <div className={STYLES.classDisplay}>

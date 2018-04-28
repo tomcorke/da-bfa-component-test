@@ -14,14 +14,14 @@ const config = {
     profile: {
       characters: [
         {
-          name: 'TestCharacter',
+          name: 'TestCharacter A',
           class: 'demonhunter',
-          level: 120,
+          level: 110,
           guild: 'Distinctly Average',
           realm: 'Silvermoon'
         },
         {
-          name: 'TestCharacter2',
+          name: 'TestCharacter B',
           class: 'warrior',
           level: 120,
           guild: 'Distinctly Average',

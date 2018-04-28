@@ -20,6 +20,8 @@
   .name {
     display: inline-block;
     margin-right: 10px;
+    white-space: pre;
+
     @each $class, $colour in $classColours {
       &[data-class=#{$class}] {
         color: $colour;
