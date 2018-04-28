@@ -21,8 +21,10 @@ class BfaPlanner extends React.Component {
     this.state = {
       data: {}
     }
-    this.onLogin = this.onLogin.bind(this)
     this.receiveMessage = this.receiveMessage.bind(this)
+    this.onLogin = this.onLogin.bind(this)
+    this.onSave = this.onSave.bind(this)
+    this.onChoiceChanged = this.onChoiceChanged.bind(this)
     this.onHideFeedbackMessage = this.onHideFeedbackMessage.bind(this)
   }
 
