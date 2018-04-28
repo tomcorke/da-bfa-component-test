@@ -72,7 +72,7 @@ const MainSection = ({
 
   let nonGuildDisplay = null
   if (isLoggedIn && !hasCharactersInGuild) {
-    nonGuildDisplay = <p className={STYLES.warning}>This site is intended only for members of &lt;Distinctly Average&gt; on Silvermoon (EU). If you are joining the guild please contact an officer to have at least one character added to the guild before using this site.</p>
+    nonGuildDisplay = <p className={STYLES.warning}>This site is intended only for members of &lt;Distinctly Average&gt; on Silvermoon (EU). If you are joining the guild for Battle for Azeroth please contact an officer to have at least one character added to the guild before using this site.</p>
   }
 
   let mainDisplay = []
