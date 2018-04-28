@@ -22,7 +22,7 @@ const MainSection = ({
   data,
   user,
   profile,
-  permissions,
+  permissions = [],
 
   isLoggedIn,
   hasProfile,
