@@ -58,7 +58,7 @@ const MainSection = ({
       </p>
       {user
         ? (profile
-          ? <p>Profile loaded</p>
+          ? null // <p>Profile loaded</p>
           : <p>Could not load your characters, refresh the page to attempt to re-load them</p>)
         : null
       }
