@@ -9,6 +9,7 @@ import handlebars from 'express-handlebars'
 
 import { DB } from './db'
 import api from './bnet-api'
+import { getPermissions } from './permissions'
 
 const db = new DB('data')
 
@@ -71,10 +72,12 @@ const getUserData = async (user, immediate = false) => {
   const { battletag } = user
   const data = db.get(battletag)
   const profile = await api.getWoWProfile(user, immediate)
+  const permissions = getPermissions(user)
   return {
     user: { battletag: user.battletag },
     data,
-    profile
+    profile,
+    permissions
   }
 }
 

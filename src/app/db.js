@@ -1,7 +1,11 @@
 import path from 'path'
 import fs from 'fs-extra'
 
-require('dotenv-safe').config()
+const clone = (obj) => {
+  try {
+    return JSON.parse(JSON.stringify(obj))
+  } catch (e) {}
+}
 
 export class DB {
   constructor (name) {
@@ -25,7 +29,7 @@ export class DB {
   }
 
   set (key, data) {
-    this.data[key] = data
+    this.data[key] = clone(data)
     try {
       if (this.filePath) {
         fs.writeFileSync(this.filePath, JSON.stringify(this.data, null, 2), 'utf8')
@@ -36,6 +40,6 @@ export class DB {
   }
 
   get (key) {
-    return this.data[key]
+    return clone(this.data[key])
   }
 }

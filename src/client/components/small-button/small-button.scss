@@ -1,0 +1,29 @@
+@import '../../mixins/classes.scss';
+
+.smallButton {
+  display: inline-block;
+  position: relative;
+  padding: 0 15px 0 15px;
+  line-height: 26px;
+  font-size: 18px;
+  background: black;
+  border-radius: 3px;
+  border: 1px solid #666;
+  box-shadow: 0 0 0 2px black, 0 0 3px 2px #333;
+  cursor: pointer;
+  color: white;
+  text-decoration: none;
+
+  transition: all 0.2s ease-out;
+
+  &:hover {
+    box-shadow: 0 0 0 2px black, 0 0 3px 3px classColour(mage);
+  }
+
+  &.disabled {
+    border: 1px solid #444;
+    box-shadow: 0 0 0 2px black, 0 0 5px 3px #333;
+    opacity: 0.3;
+    pointer-events: none;
+  }
+}

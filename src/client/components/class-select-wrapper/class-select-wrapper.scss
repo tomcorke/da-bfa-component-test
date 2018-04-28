@@ -1,7 +1,14 @@
+@import '../../mixins/classes.scss';
+
 .classSelectWrapper {
   margin-bottom: 2em;
 }
 
 .description {
   margin-bottom: 1em;
+}
+
+.selectionWarning {
+  font-style: italic;
+  color: classColour(deathknight)
 }

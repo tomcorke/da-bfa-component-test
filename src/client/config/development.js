@@ -3,7 +3,7 @@ const config = {
   bnetAuthEndpoint: 'https://localhost:3443/auth/bnet',
   saveDataEndpoint: 'https://localhost:3443/save',
 
-  _mockUserData: {
+  mockUserData: {
     user: {
       battletag: 'Shot#2975',
       id: 999,
@@ -35,7 +35,10 @@ const config = {
           realm: 'Silvermoon'
         }
       ]
-    }
+    },
+    permissions: [
+      'superadmin'
+    ]
   }
 }
 

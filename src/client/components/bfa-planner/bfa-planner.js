@@ -33,7 +33,7 @@ class BfaPlanner extends React.Component {
   }
 
   handleUserData (userData) {
-    const { user, data, profile } = userData
+    const { user, data, profile, permissions } = userData
 
     const isLoggedIn = !!user
     const hasProfile = !!profile
@@ -45,6 +45,7 @@ class BfaPlanner extends React.Component {
       user,
       data: data || {},
       profile,
+      permissions: permissions || [],
       hasChanges: false,
       isLoggedIn,
       hasProfile,

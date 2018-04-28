@@ -1,0 +1,11 @@
+.menuDisplay {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-end;
+  margin: -1em -1em 0 0;
+  margin-bottom: 2em;
+
+  .item {
+    margin: 1em 1em 0 0;
+  }
+}

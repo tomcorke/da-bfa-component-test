@@ -2,12 +2,11 @@ import React from 'react'
 
 import Section from '../section'
 import ClassSelectWrapper from '../class-select-wrapper'
-import ClassSelect from '../class-select'
-import CommentsBox from '../comments-box'
 import Button from '../button'
 import LoginPrompt from '../login-prompt'
 import FeedbackMessage from '../feedback-message'
 import ClassDisplay from '../class-display'
+import MenuDisplay from '../menu-display'
 
 import STYLES from './main-section.scss'
 
@@ -23,6 +22,7 @@ const MainSection = ({
   data,
   user,
   profile,
+  permissions,
 
   isLoggedIn,
   hasProfile,
@@ -42,25 +42,21 @@ const MainSection = ({
   fadeOutFeedbackMessage,
   onFeedbackMessageClick
 }) => {
-  const createClassSelect = (name) => {
-    const onChange = (value) => onChoiceChanged(name, 'selected', value)
-    const choice = data[name] || {}
-    return <ClassSelect onChange={onChange} value={choice.selected} />
-  }
-
-  const createCommentsBox = (name) => {
-    const onChange = (value) => onChoiceChanged(name, 'comments', value)
-    const choice = data[name] || {}
-    return <CommentsBox onChange={onChange} value={choice.comments} />
-  }
-
-  const createClassElements = (name) => {
+  const createClassSelectWrapper = (name) => {
     return (
-      <ClassSelectWrapper key={name} description={getBlurb(name)}>
-        { createClassSelect(name) }
-        { createCommentsBox(name) }
-      </ClassSelectWrapper>
+      <ClassSelectWrapper
+        key={name}
+        name={name}
+        data={data[name]}
+        profile={profile}
+        description={getBlurb(name)}
+        onChange={onChoiceChanged} />
     )
+  }
+
+  let menuDisplay = null
+  if (permissions.length > 0) {
+    menuDisplay = <MenuDisplay permissions={permissions} onClick={(e) => { console.log(e) }} />
   }
 
   let loadingDisplay = null
@@ -84,9 +80,9 @@ const MainSection = ({
   if (isLoggedIn) {
     mainDisplay = nonGuildDisplay ||
       [
-        createClassElements('first'),
-        createClassElements('second'),
-        createClassElements('third'),
+        createClassSelectWrapper('first'),
+        createClassSelectWrapper('second'),
+        createClassSelectWrapper('third'),
         <Button
           key='save'
           type='save'
@@ -100,6 +96,9 @@ const MainSection = ({
 
   return (
     <Section type='main'>
+
+      {menuDisplay}
+
       <p>
         Welcome to class selection! We're releasing this a little early so you can get to grips with this page, and we can get an idea who is looking at what for the expansion! - Any problems and we'll contact you directly! Have fun!
       </p>
