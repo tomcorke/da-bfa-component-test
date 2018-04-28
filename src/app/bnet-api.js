@@ -1,21 +1,13 @@
 import request from 'request-promise-native'
+import { DB } from './db'
 
 const createUrl = (endpoint, token) => {
   const BASE_URL = `https://eu.api.battle.net`
   return `${BASE_URL}${endpoint}?access_token=${encodeURIComponent(token)}`
 }
 
-const profileCache = {}
+const profileDb = new DB('profiles')
 const requestCache = {}
-
-/*
-const guildCharFilter = (char) => {
-  return (
-    char.guild === 'Distinctly Average' &&
-    char.guildRealm === 'Silvermoon'
-  )
-}
-*/
 
 const CLASS_NAMES = {
   1: 'warrior',
@@ -67,7 +59,9 @@ const api = {
         .catch(err => console.error(`Error getting wow profile data for "${user.battletag}": ${err.message}`))
 
       getProfile
-        .then(data => { data && (profileCache[user.battletag] = data) })
+        .then(data => {
+          if (data) profileDb.set(user.battletag, data)
+        })
 
       const removeFromRequestCache = () => { requestCache[user.battletag] = null }
       getProfile
@@ -76,9 +70,10 @@ const api = {
       requestCache[user.battletag] = getProfile
     }
 
-    if (profileCache[user.battletag]) {
+    const cachedProfile = profileDb.get(user.battletag)
+    if (cachedProfile) {
       console.log(`Returning cached wow profile data for "${user.battletag}"`)
-      return profileCache[user.battletag]
+      return cachedProfile
     }
 
     return getProfile

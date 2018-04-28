@@ -62,3 +62,4 @@ typings/
 /localhost.crt
 /localhost.key
 /data.json
+/db/

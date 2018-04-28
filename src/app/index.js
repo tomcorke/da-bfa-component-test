@@ -7,8 +7,10 @@ import cookieParser from 'cookie-parser'
 import session from 'express-session'
 import handlebars from 'express-handlebars'
 
-import db from './db'
+import { DB } from './db'
 import api from './bnet-api'
+
+const db = new DB('data')
 
 require('dotenv-safe').config()
 
@@ -71,7 +73,7 @@ const getUserData = async (user) => {
   return api.getWoWProfile(user)
     .then(profile => {
       return {
-        user,
+        user: { battletag: user.battletag },
         data,
         profile
       }

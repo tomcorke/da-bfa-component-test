@@ -1,34 +1,41 @@
-const path = require('path')
-const fs = require('fs')
+import path from 'path'
+import fs from 'fs-extra'
 
 require('dotenv-safe').config()
 
-const SAVE_DATA_FILE = process.env.SAVE_DATA_FILE
-const saveDataFilePath = path.join(__dirname, '../../', SAVE_DATA_FILE)
-
 export class DB {
-  constructor () {
+  constructor (name) {
+    this.filePath = path.join(__dirname, `../../db/${name}.json`)
+    this.init()
+  }
+
+  init () {
     try {
-      const rawData = fs.readFileSync(saveDataFilePath, 'utf8')
-      this.data = JSON.parse(rawData)
+      if (this.filePath) {
+        fs.ensureFileSync(this.filePath)
+        const rawData = fs.readFileSync(this.filePath, 'utf8')
+        this.data = JSON.parse(rawData)
+      } else {
+        this.data = {}
+      }
     } catch (e) {
       console.error(`Error loading data: ${e.message}`)
       this.data = {}
     }
   }
+
   set (key, data) {
     this.data[key] = data
     try {
-      fs.writeFileSync(saveDataFilePath, JSON.stringify(this.data, null, 2), 'utf8')
+      if (this.filePath) {
+        fs.writeFileSync(this.filePath, JSON.stringify(this.data, null, 2), 'utf8')
+      }
     } catch (e) {
       console.error(`Error writing data: ${e.message}`)
     }
   }
+
   get (key) {
     return this.data[key]
   }
 }
-
-const db = new DB()
-
-export default db

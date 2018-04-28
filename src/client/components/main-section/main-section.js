@@ -65,7 +65,6 @@ const MainSection = ({
 
   let classDisplay = null
   if (isLoggedIn && hasCharacters) {
-    console.log(profile.characters)
     classDisplay = <ClassDisplay characters={profile.characters} />
   } else if (isLoggedIn && !hasCharacters) {
     classDisplay = <p className={STYLES.warning}>Could not load your characters, please refresh the page to attempt to re-load them</p>
