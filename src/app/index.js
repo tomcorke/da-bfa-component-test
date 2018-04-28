@@ -8,6 +8,7 @@ import session from 'express-session'
 import handlebars from 'express-handlebars'
 
 import db from './db'
+import api from './bnet-api'
 
 require('dotenv-safe').config()
 
@@ -64,7 +65,24 @@ app.use((req, res, next) => {
   next()
 })
 
-app.get('/auth/bnet', passport.authenticate('bnet'))
+const getUserData = async (user) => {
+  const { battletag } = user
+  const data = db.get(battletag)
+  return api.getWoWProfile(user)
+    .then(profile => {
+      return {
+        user,
+        data,
+        profile
+      }
+    })
+}
+
+app.get(
+  '/auth/bnet',
+  passport.authenticate('bnet'),
+  (req, res) => res.send('<html><title>Redirecting for auth...</title></html>'))
+
 app.get(
   '/auth/bnet/callback',
   passport.authenticate(
@@ -72,32 +90,27 @@ app.get(
     { failureRedirect: `${APP_BASE_URL}/auth/bnet/failure` }),
   (req, res) => res.redirect(`${APP_BASE_URL}/auth/bnet/success`))
 
-app.get('/auth/bnet/success', (req, res) => {
-  if (!req.isAuthenticated()) {
-    return res.status(401).send()
-  }
-  const { battletag } = req.user
-  const data = db.get(battletag)
-  console.log(`(Auth) Loaded data for user "${battletag}"`, data)
-  return res.render('login-success', {
-    userData: JSON.stringify({
-      user: req.user,
-      data
+app.get(
+  '/auth/bnet/success',
+  async (req, res) => {
+    if (!req.isAuthenticated()) {
+      return res.status(401).send()
+    }
+    return res.render('login-success', {
+      userData: JSON.stringify(await getUserData(req.user))
     })
-  })
-})
+  }
+)
+
 app.get('/auth/bnet/failure', (req, res) => res.render('login-failure'))
 
 app.get(
   '/getUserData',
-  (req, res) => {
+  async (req, res) => {
     if (!req.isAuthenticated()) {
       return res.status(401).send()
     }
-    const { battletag } = req.user
-    const data = db.get(battletag)
-    console.log(`(getUserData) Loaded data for user "${battletag}"`, data)
-    res.json({ user: req.user, data })
+    res.json(await getUserData(req.user))
   }
 )
 
@@ -106,21 +119,11 @@ app.get('/logout', (req, res) => {
   res.redirect(APP_BASE_URL)
 })
 
-app.post('/load', (req, res) => {
-  if (!req.isAuthenticated()) {
-    return res.status(401).send()
-  }
-  const battletag = req.user.battletag
-  const data = db.get(battletag)
-  res.json(data)
-})
-
 app.post('/save', (req, res) => {
   if (!req.isAuthenticated()) {
     return res.status(401).send()
   }
   const battletag = req.user.battletag
-  console.log(req.body)
   console.log(`Saving data for user "${battletag}"`, req.body)
   db.set(battletag, req.body)
   res.json({ ok: true })

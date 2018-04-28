@@ -11,7 +11,7 @@ const Header = ({ children, userData, onLoginClick }) => {
       </div>
       <LoginButton type='logout' href='logout' text='Logout' />
     </div>
-    : <LoginButton onClick={onLoginClick} text='Login' />
+    : null // <LoginButton onClick={onLoginClick} text='Login' />
 
   return (
     <div className={STYLES.header}>

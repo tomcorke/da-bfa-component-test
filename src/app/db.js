@@ -19,7 +19,7 @@ export class DB {
   set (key, data) {
     this.data[key] = data
     try {
-      fs.writeFileSync(saveDataFilePath, JSON.stringify(this.data), 'utf8')
+      fs.writeFileSync(saveDataFilePath, JSON.stringify(this.data, null, 2), 'utf8')
     } catch (e) {
       console.error(`Error writing data: ${e.message}`)
     }

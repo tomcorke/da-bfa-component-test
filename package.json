@@ -24,7 +24,8 @@
     "express-handlebars": "^3.0.0",
     "express-session": "^1.15.6",
     "passport": "^0.4.0",
-    "passport-bnet": "^1.2.1"
+    "passport-bnet": "^1.2.1",
+    "request-promise-native": "^1.0.5"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

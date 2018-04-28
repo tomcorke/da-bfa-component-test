@@ -61,5 +61,6 @@ module.exports = {
   devServer: {
     contentBase: '/dist/client',
     hot: true
-  }
+  },
+  devtool: 'eval-source-map'
 }

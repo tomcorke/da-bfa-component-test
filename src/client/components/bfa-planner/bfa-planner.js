@@ -2,25 +2,12 @@ import React from 'react'
 
 import Section from '../section'
 import Divider from '../divider'
-import ClassSelectWrapper from '../class-select-wrapper'
-import ClassSelect from '../class-select'
-import CommentsBox from '../comments-box'
-import Button from '../button'
 import Header from '../header'
 import SubHeader from '../subheader'
-import LoginPrompt from '../login-prompt'
 import Footer from '../footer'
-import FeedbackMessage from '../feedback-message'
+import MainSection from '../main-section'
 
 import STYLES from './bfa-planner.scss'
-
-const getBlurb = (name) => {
-  return ({
-    first: 'Main choice:',
-    second: 'Alt choice:',
-    third: 'Backup choice:'
-  })[name]
-}
 
 const popupWindow = (url, win, w, h) => {
   var y = win.top.outerHeight / 2 + win.top.screenY - (h / 2)
@@ -34,21 +21,45 @@ class BfaPlanner extends React.Component {
     this.state = {
       data: {}
     }
-    this.login = this.login.bind(this)
+    this.onLogin = this.onLogin.bind(this)
     this.receiveMessage = this.receiveMessage.bind(this)
-    this.hideFeedbackMessage = this.hideFeedbackMessage.bind(this)
+    this.onHideFeedbackMessage = this.onHideFeedbackMessage.bind(this)
+  }
+
+  handleUserData (userData) {
+    const { user, data, profile } = userData
+
+    const loggedIn = !!user
+    const hasProfile = !!profile
+    const hasCharacters = profile && profile.characters.length > 0
+
+    this.setState({
+      ...this.state,
+      user,
+      data: data || {},
+      profile,
+      hasChanges: false,
+      loggedIn,
+      hasProfile,
+      hasCharacters
+    })
   }
 
   getUserData () {
     const { userDataEndpoint, mockUserData, mockChoices = {} } = this.props.config
 
     if (mockUserData) {
-      this.setState({
+      return this.setState({
         ...this.state,
         user: mockUserData,
         data: mockChoices
       })
     }
+
+    this.setState({
+      ...this.state,
+      gettingUserData: true
+    })
 
     window.fetch(userDataEndpoint,
       {
@@ -62,24 +73,24 @@ class BfaPlanner extends React.Component {
       })
       .then(data => {
         console.log('getUserData', data)
-        const { user, data: savedData } = data
-        this.setState({
-          ...this.state,
-          user: user,
-          data: savedData || {},
-          hasChanges: false
-        })
+        this.handleUserData(data)
       })
       .catch(err => console.error(err))
+      .then(() => {
+        this.setState({
+          ...this.state,
+          gettingUserData: false
+        })
+      })
   }
 
-  login () {
+  onLogin () {
     const { bnetAuthEndpoint } = this.props.config
     const authUrl = bnetAuthEndpoint
     this.authWindow = popupWindow(authUrl, window, 450, 600)
   }
 
-  save () {
+  onSave () {
     const xhr = new window.XMLHttpRequest()
     const { saveDataEndpoint } = this.props.config
     xhr.open('POST', saveDataEndpoint, true)
@@ -100,13 +111,7 @@ class BfaPlanner extends React.Component {
   receiveMessage (event) {
     if (event.source === this.authWindow) {
       console.log('Received message from auth window', event.data)
-      const { user, data } = event.data.userData
-      this.setState({
-        ...this.state,
-        user: user,
-        data: data || {},
-        hasChanges: false
-      })
+      this.handleUserData(event.data.userData)
       this.authWindow.close()
     }
   }
@@ -135,28 +140,7 @@ class BfaPlanner extends React.Component {
     })
   }
 
-  createClassSelect (name) {
-    const onChange = (value) => this.onChoiceChanged(name, 'selected', value)
-    const choice = this.state.data[name] || {}
-    return <ClassSelect onChange={onChange} value={choice.selected} />
-  }
-
-  createCommentsBox (name) {
-    const onChange = (value) => this.onChoiceChanged(name, 'comments', value)
-    const choice = this.state.data[name] || {}
-    return <CommentsBox onChange={onChange} value={choice.comments} />
-  }
-
-  createClassElements (name) {
-    return (
-      <ClassSelectWrapper key={name} description={getBlurb(name)}>
-        { this.createClassSelect(name) }
-        { this.createCommentsBox(name) }
-      </ClassSelectWrapper>
-    )
-  }
-
-  hideFeedbackMessage () {
+  onHideFeedbackMessage () {
     window.clearTimeout(this.fadeOutFeedbackMessageTimer)
     window.clearTimeout(this.hideFeedbackMessageTimer)
     this.setState({
@@ -171,7 +155,7 @@ class BfaPlanner extends React.Component {
       ...this.state,
       fadeOutFeedbackMessage: true
     })
-    this.hideFeedbackMessageTimer = window.setTimeout(() => this.hideFeedbackMessage(), 1000)
+    this.hideFeedbackMessageTimer = window.setTimeout(() => this.onHideFeedbackMessage(), 1000)
   }
 
   showFeedbackMessage (message) {
@@ -199,31 +183,12 @@ class BfaPlanner extends React.Component {
 
         <Divider />
 
-        <Section type={'main'}>
-          <p>
-            Welcome to class selection! We're releasing this a little early so you can get to grips with this page, and we can get an idea who is looking at what for the expansion! - Any problems and we'll contact you directly! Have fun!
-          </p>
-          {this.state.user
-            ? [
-              this.createClassElements('first'),
-              this.createClassElements('second'),
-              this.createClassElements('third'),
-              <Button
-                key='save'
-                type='save'
-                text='Save your selections'
-                onClick={() => this.save()}
-                highlight={this.state.hasChanges} />
-            ]
-            : <LoginPrompt />
-          }
-          {this.state.showFeedbackMessage
-            ? <FeedbackMessage
-              message={this.state.feedbackMessage}
-              fadeout={this.state.fadeOutFeedbackMessage}
-              onClick={this.hideFeedbackMessage} />
-            : null}
-        </Section>
+        <MainSection
+          {...this.state}
+          onChoiceChanged={this.onChoiceChanged}
+          onLoginClick={this.onLogin}
+          onSaveClick={this.onSave}
+          onFeedbackMessageClick={this.onHideFeedbackMessage} />
 
         <Divider type={'bottom'} />
 
