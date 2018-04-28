@@ -3,6 +3,8 @@ const config = {
   bnetAuthEndpoint: 'https://localhost:3443/auth/bnet',
   saveDataEndpoint: 'https://localhost:3443/save',
 
+  getOverviewViewDataEndpoint: 'https://localhost:3443/getOverviewViewData',
+
   _mockUserData: {
     user: {
       battletag: 'Shot#2975',
@@ -36,9 +38,7 @@ const config = {
         }
       ]
     },
-    permissions: [
-      'superadmin'
-    ]
+    isAdmin: true
   }
 }
 

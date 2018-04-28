@@ -42,4 +42,8 @@ export class DB {
   get (key) {
     return clone(this.data[key])
   }
+
+  getAll () {
+    return clone(this.data)
+  }
 }

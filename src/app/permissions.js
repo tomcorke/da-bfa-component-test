@@ -1,30 +1,11 @@
-import { DB } from './db'
+require('dotenv-safe').config()
 
-const superadmin = 'Shot#2975'
+const superadmin = process.env.SUPERADMIN
+const admins = process.env.ADMINS.split(',')
 
-const assignablePermissions = [
-  'viewData'
-]
-
-const permissionsDb = new DB('permissions', [])
-
-const getPermissions = (user) => {
-  const permissions = permissionsDb.get(user.battletag) || []
-  if (user.battletag === superadmin) {
-    permissions.push('superadmin')
-  }
-  return permissions
+const isAdmin = (user) => {
+  return superadmin === user.battletag ||
+    admins.includes(user.battletag)
 }
 
-const addPermission = (user, permission) => {
-  if (!assignablePermissions.includes(permission)) return
-  const perms = getPermissions(user)
-  if (!perms.includes(permission)) perms.push(permission)
-  permissionsDb.set(user.battletag, perms)
-}
-
-const hasPermission = (user, permission) => {
-  return user.battletag === superadmin || getPermissions(user).includes(permission)
-}
-
-export { getPermissions, addPermission, hasPermission }
+export { isAdmin }

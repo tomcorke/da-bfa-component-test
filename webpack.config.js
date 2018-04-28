@@ -1,10 +1,9 @@
 const webpack = require('webpack')
 const path = require('path')
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
   entry: [
-    'react-hot-loader/patch',
     './src/client/index.js'
   ],
   module: {
@@ -37,7 +36,7 @@ module.exports = {
       },
       {
         test: /\.(jpe?g|png|gif|svg)$/i,
-        loader: "file-loader?name=images/[name].[ext]"
+        loader: 'file-loader?name=images/[name].[ext]'
       }
     ]
   },
@@ -55,12 +54,12 @@ module.exports = {
       template: path.join(__dirname, 'public/index.html')
     }),
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
     })
   ],
   devServer: {
     contentBase: '/dist/client',
     hot: true
   },
-  devtool: 'eval-source-map'
+  devtool: 'eval'
 }

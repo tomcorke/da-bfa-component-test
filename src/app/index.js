@@ -9,7 +9,7 @@ import handlebars from 'express-handlebars'
 
 import { DB } from './db'
 import api from './bnet-api'
-import { getPermissions } from './permissions'
+import { isAdmin } from './permissions'
 
 const db = new DB('data')
 
@@ -72,12 +72,12 @@ const getUserData = async (user, immediate = false) => {
   const { battletag } = user
   const data = db.get(battletag)
   const profile = await api.getWoWProfile(user, immediate)
-  const permissions = getPermissions(user)
+  const isUserAdmin = isAdmin(user)
   return {
     user: { battletag: user.battletag },
     data,
     profile,
-    permissions
+    isAdmin: isUserAdmin
   }
 }
 
@@ -130,6 +130,19 @@ app.post('/save', (req, res) => {
   console.log(`Saving data for user "${battletag}"`, req.body)
   db.set(battletag, req.body)
   res.json({ ok: true })
+})
+
+app.get('/getOverviewViewData', (req, res) => {
+  if (!req.isAuthenticated()) {
+    console.warn('Unauthenticated user attempted to get overview data')
+    return res.status(401).send()
+  }
+  if (!isAdmin(req.user)) {
+    console.warn(`Unauthorised user ${req.user.battletag} attempted to get overview data`)
+    return res.status(401).send()
+  }
+  const data = db.getAll()
+  res.json(data)
 })
 
 app.get('/*', express.static(path.join(__dirname, '../client')))

@@ -1,4 +1,5 @@
 import React from 'react'
+import { hot } from 'react-hot-loader'
 
 import Section from '../section'
 import Divider from '../divider'
@@ -23,17 +24,18 @@ class BfaPlanner extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      data: {}
+      view: 'main'
     }
     this.receiveMessage = this.receiveMessage.bind(this)
     this.onLogin = this.onLogin.bind(this)
     this.onSave = this.onSave.bind(this)
     this.onChoiceChanged = this.onChoiceChanged.bind(this)
     this.onHideFeedbackMessage = this.onHideFeedbackMessage.bind(this)
+    this.onViewMenuClick = this.onViewMenuClick.bind(this)
   }
 
   handleUserData (userData) {
-    const { user, data, profile, permissions } = userData
+    const { user, data, profile, isAdmin } = userData
 
     const isLoggedIn = !!user
     const hasProfile = !!profile
@@ -45,7 +47,7 @@ class BfaPlanner extends React.Component {
       user,
       data: data || {},
       profile,
-      permissions: permissions || [],
+      isAdmin,
       hasChanges: false,
       isLoggedIn,
       hasProfile,
@@ -69,10 +71,7 @@ class BfaPlanner extends React.Component {
       gettingUserData: true
     })
 
-    window.fetch(userDataEndpoint,
-      {
-        credentials: 'include'
-      })
+    window.fetch(userDataEndpoint, { credentials: 'include' })
       .then(response => {
         if (response.status !== 200) {
           throw Error('Could not get user data')
@@ -182,6 +181,42 @@ class BfaPlanner extends React.Component {
     this.fadeOutFeedbackMessageTimer = window.setTimeout(() => this.fadeOutFeedbackMessage(), 1000)
   }
 
+  tryChangeView (option) {
+    if (option === 'main') {
+      return this.setState({
+        ...this.state,
+        view: 'main'
+      })
+    }
+
+    if (option === 'overview') {
+      const { getOverviewViewDataEndpoint } = this.props.config
+      console.log('Fetching overview data')
+      return window.fetch(getOverviewViewDataEndpoint, { credentials: 'include' })
+        .then(response => {
+          if (response.status !== 200) {
+            throw Error('Could not get overview view data')
+          }
+          return response.json()
+        })
+        .then(data => {
+          console.log('Received overview data', data)
+          this.setState({
+            ...this.state,
+            viewData: {
+              overview: data
+            },
+            view: 'overview'
+          })
+        })
+        .catch(err => console.error(`Error fetching overview view data: ${err.message}`))
+    }
+  }
+
+  onViewMenuClick (option) {
+    this.tryChangeView(option)
+  }
+
   render () {
     return (
       <div className={STYLES.bfaPlanner}>
@@ -202,7 +237,8 @@ class BfaPlanner extends React.Component {
           onChoiceChanged={this.onChoiceChanged}
           onLoginClick={this.onLogin}
           onSaveClick={this.onSave}
-          onFeedbackMessageClick={this.onHideFeedbackMessage} />
+          onFeedbackMessageClick={this.onHideFeedbackMessage}
+          onViewMenuClick={this.onViewMenuClick} />
 
         <Divider type={'bottom'} />
 
@@ -215,4 +251,4 @@ class BfaPlanner extends React.Component {
   }
 }
 
-export default BfaPlanner
+export default hot(module)(BfaPlanner)

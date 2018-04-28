@@ -20,6 +20,10 @@
     box-shadow: 0 0 0 2px black, 0 0 3px 3px classColour(mage);
   }
 
+  &.active {
+    border-color: classColour(mage);
+  }
+
   &.disabled {
     border: 1px solid #444;
     box-shadow: 0 0 0 2px black, 0 0 5px 3px #333;

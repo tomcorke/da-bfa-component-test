@@ -1,0 +1,27 @@
+.overview {
+
+  .userSelections {
+    margin: 0 auto;
+    display: flex;
+    flex-flow: row nowrap;
+    width: 400px;
+    max-width: 100%;
+
+    .battletag {
+      flex: 1;
+    }
+
+    .selections {
+      flex: 0;
+      display: flex;
+      flex-flow: row nowrap;
+
+      .selection {
+        margin-left: 10px;
+
+        .class {
+        }
+      }
+    }
+  }
+}
