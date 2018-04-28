@@ -1,19 +1,9 @@
 import React from 'react'
-import classData from '../../data/classes'
+import classes from '../../data/classes'
 
 import STYLES from './class-select.scss'
 
 const ClassSelect = ({ value = {}, onChange }) => {
-  const classes = classData
-    .map(c => ({
-      name: c.name,
-      safeName: c.name.toLowerCase().replace(/\s/g, ''),
-      specs: c.specialisations.map(s => ({
-        name: s.name,
-        safeName: s.name.toLowerCase().replace(/\s/g, ''),
-        roles: s.roles
-      }))
-    }))
 
   const classOptions = classes
     .map(c =>
@@ -27,7 +17,7 @@ const ClassSelect = ({ value = {}, onChange }) => {
   let specOptions = []
   const selectedClass = classes.find(c => c.safeName === value.class)
   if (selectedClass) {
-    specOptions = selectedClass.specs
+    specOptions = selectedClass.specialisations
       .map(s =>
         <option
           key={s.safeName}
@@ -37,7 +27,8 @@ const ClassSelect = ({ value = {}, onChange }) => {
       )
   }
 
-  const selectedSpec = selectedClass && selectedClass.specs.find(s => s.safeName === value.spec)
+  const selectedSpec = selectedClass &&
+    selectedClass.specialisations.find(s => s.safeName === value.spec)
 
   const onClassChange = (newClass) => {
     onChange({

@@ -5,7 +5,59 @@ const config = {
 
   getOverviewViewDataEndpoint: 'https://localhost:3443/getOverviewViewData',
 
-  _mockUserData: {
+  forceView: 'overview',
+  mockViewData: {
+    overview: {
+      'Shot#2975': {
+        first: {
+          selected: {
+            class: 'deathknight',
+            spec: 'blood'
+          },
+          comments: 'test comments'
+        },
+        second: {
+          selected: {
+            class: 'demonhunter',
+            spec: 'havoc'
+          },
+          comments: 'test comments'
+        },
+        third: {
+          selected: {
+            class: 'paladin',
+            spec: 'holy'
+          },
+          comments: 'test comments'
+        }
+      },
+      'NotShot#2975': {
+        first: {
+          selected: {
+            class: 'deathknight',
+            spec: 'blood'
+          },
+          comments: 'test comments'
+        },
+        second: {
+          selected: {
+            class: 'demonhunter',
+            spec: 'havoc'
+          },
+          comments: 'test comments'
+        },
+        third: {
+          selected: {
+            class: 'paladin',
+            spec: 'holy'
+          },
+          comments: 'test comments'
+        }
+      }
+    }
+  },
+
+  mockUserData: {
     user: {
       battletag: 'Shot#2975',
       id: 999,

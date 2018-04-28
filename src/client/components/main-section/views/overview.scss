@@ -1,25 +1,50 @@
 .overview {
+  background: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.5) 20%, rgba(0, 0, 0, 0.5) 80%, transparent 100%);
+  padding: 1em 0;
 
   .userSelections {
-    margin: 0 auto;
+    margin: 0.5em auto;
     display: flex;
     flex-flow: row nowrap;
     width: 400px;
     max-width: 100%;
+    position: relative;
+
+    &:not(:first-child) {
+      padding-top: 1em;
+
+      &::before {
+        content: '';
+        height: 1px;
+        width: 100%;
+        position: absolute;
+        left: 0;
+        top: 0;
+        background: linear-gradient(to right, transparent 0%, rgba(255,255,255,0.5) 50%, transparent 100%);
+      }
+    }
 
     .battletag {
-      flex: 1;
+      flex: 1 0 50%;
+      text-align: right;
+      padding-right: 10px;
     }
 
     .selections {
-      flex: 0;
+      flex: 0 0 50%;
       display: flex;
-      flex-flow: row nowrap;
+      flex-flow: column nowrap;
 
       .selection {
+        display: flex;
+        flex-flow: row nowrap;
         margin-left: 10px;
 
         .class {
+        }
+
+        .spec {
+          margin-left: 10px;
         }
       }
     }

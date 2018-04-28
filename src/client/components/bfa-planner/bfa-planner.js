@@ -32,6 +32,14 @@ class BfaPlanner extends React.Component {
     this.onChoiceChanged = this.onChoiceChanged.bind(this)
     this.onHideFeedbackMessage = this.onHideFeedbackMessage.bind(this)
     this.onViewMenuClick = this.onViewMenuClick.bind(this)
+
+    const { forceView, mockViewData } = props.config
+    if (forceView) {
+      this.state = {
+        view: forceView,
+        viewData: mockViewData
+      }
+    }
   }
 
   handleUserData (userData) {

@@ -205,4 +205,11 @@ const classData = [
   }
 ]
 
+classData.forEach(c => {
+  c.safeName = c.name.toLowerCase().replace(/\s/g, '')
+  c.specialisations.forEach(s => {
+    s.safeName = s.name.toLowerCase().replace(/\s/g, '')
+  })
+})
+
 module.exports = classData
