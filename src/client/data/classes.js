@@ -4,15 +4,15 @@ const classData = [
     specialisations: [
       {
         name: 'Frost',
-        roles: []
+        tags: ['dps', 'melee', 'str', 'plate']
       },
       {
         name: 'Unholy',
-        roles: []
+        tags: ['dps', 'melee', 'str', 'plate']
       },
       {
         name: 'Blood',
-        roles: []
+        tags: ['tank', 'str', 'plate']
       }
     ]
   },
@@ -21,11 +21,11 @@ const classData = [
     specialisations: [
       {
         name: 'Havoc',
-        roles: []
+        tags: ['dps', 'melee', 'agi', 'leather']
       },
       {
         name: 'Vengeance',
-        roles: []
+        tags: ['tank', 'agi', 'leather']
       }
     ]
   },
@@ -34,19 +34,19 @@ const classData = [
     specialisations: [
       {
         name: 'Guardian',
-        roles: []
+        tags: ['tank', 'agi', 'leather']
       },
       {
         name: 'Feral',
-        roles: []
+        tags: ['dps', 'melee', 'agi', 'leather']
       },
       {
         name: 'Balance',
-        roles: []
+        tags: ['dps', 'ranged', 'int', 'leather']
       },
       {
         name: 'Restoration',
-        roles: []
+        tags: ['healer', 'int', 'leather']
       }
     ]
   },
@@ -55,15 +55,15 @@ const classData = [
     specialisations: [
       {
         name: 'Beast Mastery',
-        roles: []
+        tags: ['dps', 'ranged', 'agi', 'mail']
       },
       {
         name: 'Marksmanship',
-        roles: []
+        tags: ['dps', 'ranged', 'agi', 'mail']
       },
       {
         name: 'Survival',
-        roles: []
+        tags: ['dps', 'melee', 'agi', 'mail']
       }
     ]
   },
@@ -72,15 +72,15 @@ const classData = [
     specialisations: [
       {
         name: 'Frost',
-        roles: []
+        tags: ['dps', 'ranged', 'int', 'cloth']
       },
       {
         name: 'Fire',
-        roles: []
+        tags: ['dps', 'ranged', 'int', 'cloth']
       },
       {
         name: 'Arcane',
-        roles: []
+        tags: ['dps', 'ranged', 'int', 'cloth']
       }
     ]
   },
@@ -89,15 +89,15 @@ const classData = [
     specialisations: [
       {
         name: 'Windwalker',
-        roles: []
+        tags: ['dps', 'melee', 'agi', 'leather']
       },
       {
         name: 'Mistweaver',
-        roles: []
+        tags: ['healer', 'int', 'leather']
       },
       {
         name: 'Brewmaster',
-        roles: []
+        tags: ['tank', 'agi', 'leather']
       }
     ]
   },
@@ -106,15 +106,15 @@ const classData = [
     specialisations: [
       {
         name: 'Retribution',
-        roles: []
+        tags: ['dps', 'melee', 'str', 'plate']
       },
       {
         name: 'Holy',
-        roles: []
+        tags: ['healer', 'int', 'plate']
       },
       {
         name: 'Protection',
-        roles: []
+        tags: ['tank', 'str', 'plate']
       }
     ]
   },
@@ -123,15 +123,15 @@ const classData = [
     specialisations: [
       {
         name: 'Shadow',
-        roles: []
+        tags: ['dps', 'ranged', 'int', 'cloth']
       },
       {
         name: 'Holy',
-        roles: []
+        tags: ['healer', 'int', 'cloth']
       },
       {
         name: 'Discipline',
-        roles: []
+        tags: ['healer', 'int', 'cloth']
       }
     ]
   },
@@ -140,15 +140,15 @@ const classData = [
     specialisations: [
       {
         name: 'Subtelty',
-        roles: []
+        tags: ['dps', 'melee', 'agi', 'leather']
       },
       {
         name: 'Assassination',
-        roles: []
+        tags: ['dps', 'melee', 'agi', 'leather']
       },
       {
         name: 'Combat',
-        roles: []
+        tags: ['dps', 'melee', 'agi', 'leather']
       }
     ]
   },
@@ -157,15 +157,15 @@ const classData = [
     specialisations: [
       {
         name: 'Enhancement',
-        roles: ['dps', 'melee']
+        tags: ['dps', 'melee', 'agi', 'mail']
       },
       {
         name: 'Elemental',
-        roles: ['dps', 'ranged']
+        tags: ['dps', 'ranged', 'int', 'mail']
       },
       {
         name: 'Restoration',
-        roles: ['healer']
+        tags: ['healer', 'int', 'mail']
       }
     ]
   },
@@ -174,15 +174,15 @@ const classData = [
     specialisations: [
       {
         name: 'Demonology',
-        roles: []
+        tags: ['dps', 'ranged', 'int', 'cloth']
       },
       {
         name: 'Destruction',
-        roles: []
+        tags: ['dps', 'ranged', 'int', 'cloth']
       },
       {
         name: 'Affiliction',
-        roles: []
+        tags: ['dps', 'ranged', 'int', 'cloth']
       }
     ]
   },
@@ -191,15 +191,15 @@ const classData = [
     specialisations: [
       {
         name: 'Arms',
-        roles: []
+        tags: ['dps', 'melee', 'str', 'plate']
       },
       {
         name: 'Fury',
-        roles: []
+        tags: ['dps', 'melee', 'str', 'plate']
       },
       {
         name: 'Protection',
-        roles: []
+        tags: ['tank', 'str', 'plate']
       }
     ]
   }

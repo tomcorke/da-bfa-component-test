@@ -39,12 +39,58 @@
         display: flex;
         flex-flow: row nowrap;
         margin-left: 10px;
+        align-items: center;
+        position: relative;
+        cursor: pointer;
+
+        &:hover {
+          background: linear-gradient(to right, transparent 0%, rgba(255,255,255,0.1) 20%, rgba(255,255,255,0.1) 80%, transparent 100%);
+        }
+
+        .choiceNumber {
+          width: 0.5em;
+          margin-right: 0.5em;
+        }
 
         .class {
+          height: 26px;
         }
 
         .spec {
           margin-left: 10px;
+          position: relative;
+        }
+
+        &[title] {
+
+          &::after {
+            content: '';
+            width: 12px;
+            height: 12px;
+            position: absolute;
+            right: 0;
+            background-image: url('../../../../../images/icons/comment.svg');
+            pointer-events: none;
+          }
+        }
+
+        &[title]:hover {
+          overflow: visible;
+
+          &::after {
+            content: attr(title);
+            background-image: none;
+            background: rgba(0, 0, 0, 0.9);
+            left: -100%;
+            bottom: 100%;
+            width: auto;
+            height: auto;
+            z-index: 1;
+            padding: 0.5em 1em;
+            box-sizing: border-box;
+            text-align: right;
+            // white-space: pre;
+          }
         }
       }
     }

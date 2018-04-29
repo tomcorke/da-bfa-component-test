@@ -1,6 +1,7 @@
 import React from 'react'
 
 import ClassIcon from '../../class-icon'
+import RoleIcon from '../../role-icon'
 
 import classes from '../../../data/classes'
 
@@ -16,12 +17,19 @@ const getClass = (name) => {
 const getSpec = (wowClass, name) => {
   return wowClass && wowClass.specialisations.find(s => s.safeName === name)
 }
+const getRoleTag = (spec) => {
+  return ['tank', 'healer', 'dps'].find(tag => spec && spec.tags && spec.tags.includes(tag))
+}
 
-const Selection = ({ class: wowClass, spec, comments }) => {
+const Selection = ({ num, class: wowClass, spec, comments }) => {
   return (
     <div className={STYLES.selection} title={comments}>
+      <div className={STYLES.choiceNumber}>
+        {num}
+      </div>
       <div className={STYLES.class}>
         <ClassIcon wowClass={wowClass.safeName} />
+        <RoleIcon role={getRoleTag(spec)} />
       </div>
       <div className={STYLES.spec}>
         {spec.name}
@@ -30,10 +38,16 @@ const Selection = ({ class: wowClass, spec, comments }) => {
   )
 }
 
+const choiceNumbers = {
+  first: 1,
+  second: 2,
+  third: 3
+}
+
 const Selections = ({ selections }) => (
   <div className={STYLES.selections}>
     {selections.map(choice => {
-      return <Selection key={choice.choice} {...choice.data} />
+      return <Selection key={choice.choice} num={choiceNumbers[choice.choice]} {...choice.data} />
     })}
   </div>
 )
