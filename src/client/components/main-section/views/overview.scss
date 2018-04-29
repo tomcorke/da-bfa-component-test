@@ -1,6 +1,24 @@
+@import '../../../mixins/classes.scss';
+
 .overview {
   background: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.5) 20%, rgba(0, 0, 0, 0.5) 80%, transparent 100%);
-  padding: 1em 0;
+  padding-bottom: 2em;
+
+  .selectionsContainer {
+    margin-top: 2em;
+
+    .selectionsHeader {
+      text-align: center;
+      font-size: 1.2em;
+    }
+
+    .selectionsBlurb {
+      text-align: center;
+      opacity: 0.7;
+      font-style: italic;
+      margin-bottom: 1em;
+    }
+  }
 
   .userSelections {
     margin: 0.5em auto;
@@ -25,9 +43,13 @@
     }
 
     .battletag {
-      flex: 1 1 160px;
+      flex: 1 0 160px;
       text-align: right;
       padding-right: 10px;
+
+      @media (max-width: 500px) {
+        text-align: left;
+      }
     }
 
     .selections {
@@ -47,6 +69,20 @@
           background: linear-gradient(to right, transparent 0%, rgba(255,255,255,0.1) 20%, rgba(255,255,255,0.1) 80%, transparent 100%);
         }
 
+        &[data-selected=true] {
+          &::before {
+            content: '';
+            position: absolute;
+            left: -0.5em;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            box-shadow: 0 0 3px 1px classColour(rogue);
+            background-color: rgba(classColour(rogue), 0.1);
+            padding: 0 0.5em;
+          }
+        }
+
         .choiceNumber {
           width: 0.5em;
           margin-right: 0.5em;
@@ -59,6 +95,10 @@
         .spec {
           margin-left: 10px;
           position: relative;
+        }
+
+        .role {
+          height: 26px;
         }
 
         &[data-comment] {
@@ -81,7 +121,7 @@
             content: attr(data-comment);
             background-image: none;
             background: rgba(0, 0, 0, 0.9);
-            left: -100%;
+            left: 0;
             bottom: 100%;
             width: auto;
             height: auto;
@@ -90,6 +130,62 @@
             box-sizing: border-box;
             text-align: right;
             // white-space: pre;
+          }
+        }
+      }
+    }
+  }
+
+  .summaryContainer {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+  }
+
+  .summary {
+    display: inline-block;
+    padding: 1em;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 5px;
+    max-width: 500px;
+    margin: 2em auto 0;
+    text-align: center;
+
+    .summaryRow {
+
+      .summaryRowTitle {
+        font-size: 1.2em;
+        opacity: 0.7;
+        margin-top: 0.5em;
+      }
+
+      .summaryRowTags {
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: center;
+
+        .summaryRowTag {
+          display: flex;
+          flex-flow: row nowrap;
+          margin-right: 1em;
+          align-items: center;
+          color: classColour(deathknight);
+
+          &[data-has-value=true] {
+            color: classColour(monk);
+          }
+
+          .summaryRowTagName {
+            text-transform: uppercase;
+            margin-right: 0.5em;
+
+            &:after {
+              content: ':';
+            }
+          }
+
+          .summaryRowTagValue {
+            font-size: 1.5em;
           }
         }
       }

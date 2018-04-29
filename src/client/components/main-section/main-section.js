@@ -23,10 +23,10 @@ const MainSection = (props) => {
   } = props
 
   const viewDisplay = {
-    main: MainView,
-    overview: OverviewView,
-    export: ExportView
-  }[view](props)
+    main: () => <MainView {...props} />,
+    overview: () => <OverviewView {...props} />,
+    export: () => <ExportView {...props} />
+  }[view]()
 
   return (
     <Section type='main'>
