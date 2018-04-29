@@ -29,6 +29,8 @@ const Selection = ({ num, class: wowClass, spec, comments }) => {
       </div>
       <div className={STYLES.class}>
         <ClassIcon wowClass={wowClass.safeName} />
+      </div>
+      <div className={STYLES.role}>
         <RoleIcon role={getRoleTag(spec)} />
       </div>
       <div className={STYLES.spec}>
