@@ -12,7 +12,8 @@ const ClassSelectWrapper = ({ name, data = {}, description, children, profile, o
   const onCommentsChange = (value) => onChange(name, 'comments', value)
 
   let selectionWarning = null
-  if (selected) {
+  if (selected && selected.class) {
+    console.log(selected)
     const selectedClass = selected.class
     const selectedClassMaxLevelCharacters = profile.characters
       .filter(c => c.class === selectedClass)

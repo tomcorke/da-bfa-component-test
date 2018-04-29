@@ -51,7 +51,7 @@ const ClassSelect = ({ value = {}, onChange }) => {
         className={STYLES.classSelect}
         onChange={(e) => onClassChange(e.target.value)}
         value={value.class}>
-        <option>Select a class</option>
+        <option value=''>Select a class</option>
         {classOptions}
       </select>
       <select
@@ -60,7 +60,7 @@ const ClassSelect = ({ value = {}, onChange }) => {
         className={STYLES.specSelect}
         onChange={(e) => onSpecChange(e.target.value)}
         value={value.spec}>
-        <option>Select a spec</option>
+        <option value=''>Select a spec</option>
         {specOptions}
       </select>
     </div>
