@@ -60,17 +60,19 @@ const MainView = ({
   let mainDisplay = []
   if (isLoggedIn) {
     mainDisplay = nonGuildDisplay ||
-      [
-        createClassSelectWrapper('first'),
-        createClassSelectWrapper('second'),
-        createClassSelectWrapper('third'),
-        <Button
-          key='save'
-          type='save'
-          text='Save your selections'
-          onClick={() => onSaveClick()}
-          highlight={hasChanges} />
-      ]
+      <div key='main-display' className={STYLES.mainDisplay}>
+        {[
+          createClassSelectWrapper('first'),
+          createClassSelectWrapper('second'),
+          createClassSelectWrapper('third'),
+          <Button
+            key='save'
+            type='save'
+            text='Save your selections'
+            onClick={() => onSaveClick()}
+            highlight={hasChanges} />
+        ]}
+      </div>
   } else {
     mainDisplay = <LoginPrompt key='login-prompt' onLoginClick={onLoginClick} disableLogin={gettingUserData} />
   }
