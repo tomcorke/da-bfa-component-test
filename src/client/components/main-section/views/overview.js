@@ -23,7 +23,7 @@ const getRoleTag = (spec) => {
 
 const Selection = ({ num, class: wowClass, spec, comments }) => {
   return (
-    <div className={STYLES.selection} title={comments}>
+    <div className={STYLES.selection} data-comment={comments}>
       <div className={STYLES.choiceNumber}>
         {num}
       </div>

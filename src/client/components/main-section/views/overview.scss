@@ -61,7 +61,7 @@
           position: relative;
         }
 
-        &[title] {
+        &[data-comment] {
 
           &::after {
             content: '';
@@ -74,11 +74,11 @@
           }
         }
 
-        &[title]:hover {
+        &[data-comment]:hover {
           overflow: visible;
 
           &::after {
-            content: attr(title);
+            content: attr(data-comment);
             background-image: none;
             background: rgba(0, 0, 0, 0.9);
             left: -100%;
