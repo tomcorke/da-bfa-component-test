@@ -26,15 +26,15 @@ const mockData = {
       'NotShot#2975': {
         first: {
           selected: {
-            class: 'deathknight',
-            spec: ''
+            class: 'shaman',
+            spec: 'enhancement'
           },
           comments: 'test comments'
         },
         second: {
           selected: {
-            class: 'demonhunter',
-            spec: 'havoc'
+            class: 'druid',
+            spec: 'restoration'
           }
         }
       },

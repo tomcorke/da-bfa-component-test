@@ -5,7 +5,7 @@
   .userSelections {
     margin: 0.5em auto;
     display: flex;
-    flex-flow: row nowrap;
+    flex-flow: row wrap;
     width: 400px;
     max-width: 100%;
     position: relative;
@@ -25,13 +25,13 @@
     }
 
     .battletag {
-      flex: 1 0 50%;
+      flex: 1 1 160px;
       text-align: right;
       padding-right: 10px;
     }
 
     .selections {
-      flex: 0 0 50%;
+      flex: 1 1 240px;
       display: flex;
       flex-flow: column nowrap;
 
