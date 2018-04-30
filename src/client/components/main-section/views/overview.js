@@ -216,7 +216,7 @@ const Summary = ({ title, classes, tags }) => {
         key='classes'
         title='Classes'
         values={mapToArray(classes)
-          .map(i => ({ name: i.key, count: i.value }))
+          .map(i => ({ name: classNames[i.key], count: i.value }))
           .sort((a, b) => a.name < b.name ? -1 : 1)} />
     </div>
   )
