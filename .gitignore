@@ -63,3 +63,4 @@ typings/
 /localhost.key
 /data.json
 /db/
+/src/client/config/profiles.json
