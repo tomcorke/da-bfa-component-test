@@ -152,24 +152,27 @@ const mapData = (data) => {
   }))
 }
 
-const sumTags = (data) => {
-  const flatTags = data.reduce((allTags, user) => {
-    user && user.forEach(tags => allTags.push(tags))
-    return allTags
-  }, [])
-  const uniqueTags = new Set()
-  data.forEach(user => user.forEach(tags => tags && tags.forEach(tag => uniqueTags.add(tag))))
-  return Array.from(uniqueTags).reduce((tagSums, tag) => {
-    tagSums[tag] = flatTags.filter(tags => tags && tags.includes(tag)).length
-    return tagSums
-  }, {})
-}
-
-const getTags = (data) => data.map(user => {
-  return user.selections.map(selection => {
-    return selection.data && selection.data.spec && selection.data.spec.tags
-  })
+const getTags = (selections) => selections.map(selection => {
+  return selection.data && selection.data.spec && selection.data.spec.tags
 })
+
+const flatten = (nestedItems) => nestedItems.reduce((flat, items) => flat.concat(items), [])
+
+const sumBySelector = (items, selector) => items
+  .reduce((sums, item) => ({ ...sums, [selector(item)]: (sums[selector(item)] || 0) + 1 }), {})
+
+const sumTags = (tags) => sumBySelector(tags, tag => tag)
+
+const sumSelectionTags = (selections) => sumTags(flatten(getTags(selections)))
+
+const getClasses = (selections) => selections
+  .map(selection => selection.data && selection.data.class)
+
+const sumClasses = (classes) => sumBySelector(classes, c => c.safeName)
+
+const sumSelectionClasses = (selections) => sumClasses(flatten(getClasses(selections)))
+
+const mapToArray = (map) => Object.entries(map).map(([key, value]) => ({ key, value }))
 
 const SUMMARY_TAG_GROUPS = {
   'Roles': ['tank', 'healer', 'dps'],
@@ -186,20 +189,20 @@ const SummaryRowTag = ({ name, value }) => {
   )
 }
 
-const SummaryRow = ({ title, tags }) => {
+const SummaryRow = ({ title, values }) => {
   return (
     <div className={STYLES.summaryRow}>
       <div className={STYLES.summaryRowTitle}>
         {title}
       </div>
       <div className={STYLES.summaryRowTags}>
-        {tags.map(t => <SummaryRowTag key={t.name} name={t.name} value={t.count} />)}
+        {values.map(t => <SummaryRowTag key={t.name} name={t.name} value={t.count} />)}
       </div>
     </div>
   )
 }
 
-const Summary = ({ title, tags }) => {
+const Summary = ({ title, classes, tags }) => {
   return (
     <div className={STYLES.summary}>
       <div className={STYLES.summaryTitle}>{title}</div>
@@ -207,8 +210,12 @@ const Summary = ({ title, tags }) => {
         return <SummaryRow
           key={title}
           title={title}
-          tags={groupTags.map(t => ({ name: t, count: tags[t] || 0 }))} />
+          values={groupTags.map(t => ({ name: t, count: tags[t] || 0 }))} />
       })}
+      <SummaryRow
+        key='classes'
+        title='Classes'
+        values={mapToArray(classes).map(i => ({ name: i.key, count: i.value }))} />
     </div>
   )
 }
@@ -219,7 +226,6 @@ class OverviewView extends React.Component {
     this.state = {
       overviewData: mapData(props.viewData.overview)
     }
-    console.log(this.state.overviewData)
     this.selectChoice = this.selectChoice.bind(this)
   }
 
@@ -246,27 +252,26 @@ class OverviewView extends React.Component {
   render () {
     const { overviewData } = this.state
 
-    const selections = overviewData.map(data => {
+    const selectionsDisplay = overviewData.map(data => {
       return <UserSelections
         key={data.battletag}
         {...{ data }}
         onChoiceSelect={(choice) => this.selectChoice(data.battletag, choice)} />
     })
 
-    const tagData = getTags(overviewData)
+    const allSelections = overviewData
+      .reduce((allSelections, user) => allSelections.concat(user.selections), [])
+    const selectedSelections = allSelections
+      .filter(s => s.selected)
 
-    const selectedChoices = overviewData.map(user => ({
-      battletag: user.battletag,
-      selections: user.selections.filter(selection => selection.selected)
-    }))
+    const summedTags = sumSelectionTags(allSelections)
+    const summedSelectedTags = sumSelectionTags(selectedSelections)
 
-    const selectedTagData = getTags(selectedChoices)
+    const summedClasses = sumSelectionClasses(allSelections)
+    const summedSelectedClasses = sumSelectionClasses(selectedSelections)
 
-    const summedTags = sumTags(tagData)
-    const summedSelectedTags = sumTags(selectedTagData)
-
-    const summary = <Summary title='Total summary' tags={summedTags} />
-    const selectedSummary = <Summary title='Selected summary' tags={summedSelectedTags} />
+    const summary = <Summary title='Total summary' classes={summedClasses} tags={summedTags} />
+    const selectedSummary = <Summary title='Selected summary' classes={summedSelectedClasses} tags={summedSelectedTags} />
 
     return <div className={STYLES.overview}>
 
@@ -276,9 +281,9 @@ class OverviewView extends React.Component {
       </div>
 
       <div className={STYLES.selectionsContainer}>
-        <div className={STYLES.selectionsHeader}>Selections</div>
-        <div className={STYLES.selectionsBlurb}>Click on a user's chosen class to select it and update the summary above</div>
-        {selections}
+        <div className={STYLES.selectionsHeader}>Player Selections ({overviewData.length})</div>
+        <div className={STYLES.selectionsBlurb}>Click on a player's chosen class to select it and update the summary above</div>
+        {selectionsDisplay}
       </div>
 
     </div>
