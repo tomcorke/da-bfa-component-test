@@ -11,7 +11,7 @@ $roles: 'tank', 'healer', 'dps';
 
   @each $role in $roles {
     &[data-role=#{$role}] {
-      background: url('../../../../images/icons/#{$role}.svg') center center no-repeat;
+      background: url('../../../../images/icons/#{$role}.svg?fill=%23fff') center center no-repeat;
     }
   }
 }

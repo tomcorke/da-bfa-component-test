@@ -8,7 +8,7 @@ import session from 'express-session'
 import handlebars from 'express-handlebars'
 
 import { DB } from './db'
-import api from './bnet-api'
+import bnetApi from './bnet-api'
 import { isAdmin } from './permissions'
 
 const db = new DB('data')
@@ -71,7 +71,7 @@ app.use((req, res, next) => {
 const getUserData = async (user, immediate = false) => {
   const { battletag } = user
   const data = db.get(battletag)
-  const profile = await api.getWoWProfile(user, immediate)
+  const profile = await bnetApi.getWoWProfile(user, immediate)
   const isUserAdmin = isAdmin(user)
   return {
     user: { battletag: user.battletag },
@@ -141,7 +141,9 @@ app.get('/getOverviewViewData', (req, res) => {
     console.warn(`Unauthorised user ${req.user.battletag} attempted to get overview data`)
     return res.status(401).send()
   }
-  const data = db.getAll()
+  const userSelectionData = db.getAll()
+  const userProfileData = bnetApi.getAll()
+  const data = { userSelectionData, userProfileData }
   res.json(data)
 })
 

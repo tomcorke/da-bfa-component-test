@@ -7,9 +7,18 @@ import classes from '../../../data/classes'
 
 import STYLES from './overview.scss'
 
-const BattleTag = ({ children }) => (
-  <div className={STYLES.battletag}>{children}</div>
-)
+const BattleTag = ({ children, characters }) => {
+  const filteredCharacters = characters
+    .filter(c => c.guild === 'Distinctly Average' && c.realm === 'Silvermoon')
+  const characterList = filteredCharacters.length > 0
+    ? filteredCharacters
+      .map(c => c.name)
+      .join('\n')
+    : 'No characters in guild'
+  return (
+    <div className={STYLES.battletag} title={characterList}>{children}</div>
+  )
+}
 
 const getClass = (name) => {
   return classes.find(c => c.safeName === name)
@@ -21,9 +30,22 @@ const getRoleTag = (spec) => {
   return ['tank', 'healer', 'dps'].find(tag => spec && spec.tags && spec.tags.includes(tag))
 }
 
-const Selection = ({ num, class: wowClass, spec, comments, selected, onClick }) => {
+const WarningIndicator = ({ severity, message }) => {
+  const elements = []
+  for (let i = 0; i < severity; i++) {
+    elements.push(<div className={STYLES.severityIndicator} key={i} />)
+  }
+  return <div className={STYLES.warningIndicator} data-severity={severity} data-message={message} title={message}>
+    {elements}
+  </div>
+}
+
+const Selection = ({ num, class: wowClass, spec, comments, selected, onClick, warningMessage, warningSeverity }) => {
+  const cleanComment = comments && comments.trim()
+  const hasComment = cleanComment && cleanComment.length > 0
+
   return (
-    <div className={STYLES.selection} data-comment={comments} data-selected={selected} onClick={onClick}>
+    <div className={STYLES.selection} title={cleanComment} data-selected={selected} onClick={onClick}>
       <div className={STYLES.choiceNumber}>
         {num}
       </div>
@@ -36,6 +58,10 @@ const Selection = ({ num, class: wowClass, spec, comments, selected, onClick }) 
       <div className={STYLES.spec}>
         {spec.name}
       </div>
+      <div className={STYLES.indicators}>
+        {hasComment && <div className={STYLES.commentIndicator} data-comment={cleanComment} />}
+        {warningMessage && <WarningIndicator severity={warningSeverity} message={warningMessage} />}
+      </div>
     </div>
   )
 }
@@ -46,10 +72,41 @@ const choiceNumbers = {
   third: 3
 }
 
-const Selections = ({ selections, onChoiceSelect }) => {
+const Selections = ({ characters, selections, onChoiceSelect }) => {
   return (
     <div className={STYLES.selections}>
       {selections.map(choice => {
+
+        const classCharacters = characters.filter(c => c.class === choice.data.class.safeName)
+        const maxLevelCharacters = classCharacters.filter(c => c.level === 110)
+        const realmCharacters = maxLevelCharacters.filter(c => c.realm === 'Silvermoon')
+        const guildCharacters = realmCharacters.filter(c => c.guild === 'Distinctly Average')
+
+        let warning = null
+        let severity = 0
+        if (classCharacters.length === 0) {
+          warning = 'Player has no characters of this class'
+          severity = 3
+        } else if (maxLevelCharacters.length === 0) {
+          warning = `Player has no characters of this class at max level
+
+Other class characters:
+  ${classCharacters.map(c => `${c.level} - ${c.name} (${c.realm})`).join('\n')}`
+          severity = 3
+        } else if (realmCharacters.length === 0) {
+          warning = `Player has no max level characters of this class on Silvermoon
+
+Other class characters:
+  ${classCharacters.map(c => `${c.level} - ${c.name} (${c.realm})`).join('\n')}`
+          severity = 2
+        } else if (guildCharacters.length === 0) {
+          warning = `Player has no max level characters of this class in the guild
+
+Other class characters:
+  ${classCharacters.map(c => `${c.level} - ${c.name} (${c.realm})`).join('\n')}`
+          severity = 1
+        }
+
         return <Selection
           key={choice.choice}
           num={choiceNumbers[choice.choice]}
@@ -61,7 +118,9 @@ const Selections = ({ selections, onChoiceSelect }) => {
             } else {
               onChoiceSelect(choice.choice)
             }
-          }} />
+          }}
+          warningMessage={warning}
+          warningSeverity={severity} />
       })}
     </div>
   )
@@ -70,15 +129,17 @@ const Selections = ({ selections, onChoiceSelect }) => {
 const UserSelections = ({ data, onChoiceSelect }) => {
   return (
     <div className={STYLES.userSelections}>
-      <BattleTag>{data.battletag}</BattleTag>
-      <Selections selections={data.selections} onChoiceSelect={onChoiceSelect} />
+      <BattleTag characters={data.characters}>{data.battletag}</BattleTag>
+      <Selections characters={data.characters} selections={data.selections} onChoiceSelect={onChoiceSelect} />
     </div>
   )
 }
 
 const mapData = (data) => {
-  return Object.entries(data).map(([key, value]) => ({
+  const { userSelectionData, userProfileData } = data
+  return Object.entries(userSelectionData).map(([key, value]) => ({
     battletag: key,
+    characters: (userProfileData[key] || {}).characters || [],
     selections: Object.entries(value).map(([key, value]) => ({
       choice: key,
       data: {
@@ -155,13 +216,14 @@ class OverviewView extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      data: mapData(props.viewData.overview)
+      overviewData: mapData(props.viewData.overview)
     }
+    console.log(this.state.overviewData)
     this.selectChoice = this.selectChoice.bind(this)
   }
 
   selectChoice (battletag, choice) {
-    const clonedData = JSON.parse(JSON.stringify(this.state.data))
+    const clonedData = JSON.parse(JSON.stringify(this.state.overviewData))
 
     clonedData.forEach(user => {
       if (user.battletag === battletag) {
@@ -176,23 +238,23 @@ class OverviewView extends React.Component {
     })
 
     this.setState({
-      data: clonedData
+      overviewData: clonedData
     })
   }
 
   render () {
-    const overview = this.state.data
+    const { overviewData } = this.state
 
-    const selections = overview.map(data => {
+    const selections = overviewData.map(data => {
       return <UserSelections
         key={data.battletag}
         {...{ data }}
         onChoiceSelect={(choice) => this.selectChoice(data.battletag, choice)} />
     })
 
-    const tagData = getTags(overview)
+    const tagData = getTags(overviewData)
 
-    const selectedChoices = overview.map(user => ({
+    const selectedChoices = overviewData.map(user => ({
       battletag: user.battletag,
       selections: user.selections.filter(selection => selection.selected)
     }))

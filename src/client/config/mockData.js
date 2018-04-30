@@ -1,59 +1,111 @@
+const mockProfileData = {
+  'TestUser#123': {
+    characters: [
+      {
+        'name': 'Wowowowo',
+        'level': 110,
+        'class': 'shaman',
+        'guild': 'Above Average',
+        'realm': 'Silvermoon'
+      },
+      {
+        'name': 'Zuun',
+        'level': 110,
+        'class': 'deathknight',
+        'guild': 'Metanoia',
+        'realm': 'Ravencrest'
+      },
+      {
+        'name': 'Fapfap',
+        'level': 110,
+        'class': 'druid',
+        'guild': 'Distinctly Average',
+        'realm': 'Silvermoon'
+      }
+    ]
+  },
+  'BattleTag#999': {
+    characters: [
+      {
+        name: 'Testtesttest',
+        level: 110,
+        class: 'mage',
+        realm: 'Emerald Dream'
+      }
+    ]
+  }
+}
+
+const getProfiles = () => {
+  try {
+    const profiles = require('./profiles.json')
+    return {
+      ...profiles,
+      ...mockProfileData
+    }
+  } catch (err) {}
+  return mockProfileData
+}
+
 const mockData = {
   forceView: 'overview',
   mockViewData: {
     overview: {
-      'Shot#2975': {
-        first: {
-          selected: {
-            class: 'deathknight',
-            spec: 'blood'
+      userSelectionData: {
+        'Shot#2975': {
+          first: {
+            selected: {
+              class: 'deathknight',
+              spec: 'blood'
+            }
+          },
+          second: {
+            selected: {
+              class: 'demonhunter',
+              spec: ''
+            },
+            comments: 'test comments longer and longer comments. Some people might write an essay in here, you never know.'
+          },
+          third: {
+            selected: {
+              class: 'priest',
+              spec: 'holy'
+            }
           }
         },
-        second: {
-          selected: {
-            class: 'demonhunter',
-            spec: ''
+        'TestUser#123': {
+          first: {
+            selected: {
+              class: 'shaman',
+              spec: 'enhancement'
+            },
+            comments: 'test comments'
           },
-          comments: 'test comments longer and longer comments. Some people might write an essay in here, you never know.'
+          second: {
+            selected: {
+              class: 'druid',
+              spec: 'restoration'
+            }
+          }
         },
-        third: {
-          selected: {
-            class: 'priest',
-            spec: 'holy'
+        'BattleTag#999': {
+          first: {
+            selected: {
+              class: 'deathknight',
+              spec: 'blood'
+            },
+            comments: 'test comments'
+          },
+          third: {
+            selected: {
+              class: 'mage',
+              spec: 'havoc'
+            },
+            comments: 'test comments'
           }
         }
       },
-      'NotShot#2975': {
-        first: {
-          selected: {
-            class: 'shaman',
-            spec: 'enhancement'
-          },
-          comments: 'test comments'
-        },
-        second: {
-          selected: {
-            class: 'druid',
-            spec: 'restoration'
-          }
-        }
-      },
-      'NotShot#297522': {
-        first: {
-          selected: {
-            class: 'deathknight',
-            spec: 'blood'
-          },
-          comments: 'test comments'
-        },
-        third: {
-          selected: {
-            class: 'mage',
-            spec: 'havoc'
-          },
-          comments: 'test comments'
-        }
-      }
+      userProfileData: getProfiles()
     }
   },
 

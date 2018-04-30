@@ -41,8 +41,8 @@ const charTransform = (char) => {
   }
 }
 
-const api = {
-  getWoWProfile: async (user, immediate = false) => {
+class API {
+  async getWoWProfile (user, immediate = false) {
     const url = createUrl('/wow/user/characters', user.token)
 
     let getProfile = requestCache[user.battletag]
@@ -83,6 +83,12 @@ const api = {
 
     return getProfile
   }
+
+  getAll () {
+    return profileDb.getAll()
+  }
 }
+
+const api = new API()
 
 export default api

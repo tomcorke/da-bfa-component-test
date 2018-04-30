@@ -16,3 +16,7 @@ $classColours: (
 @function classColour($class) {
   @return map-get($classColours, $class);
 }
+
+@function escapeClassColour($class) {
+  @return str-replace(classColour($class), '#', '%23');
+}
