@@ -3,17 +3,17 @@ import React from 'react'
 import ClassIcon from '../../class-icon'
 import RoleIcon from '../../role-icon'
 
-import classes from '../../../data/classes'
+import classes, { classNames } from '../../../data/classes'
 
 import STYLES from './overview.scss'
 
 const BattleTag = ({ children, characters }) => {
-  const filteredCharacters = characters
+  const guildCharacters = characters
+    .sort((a, b) => (a.level > b.level || (a.level === b.level && a.name < b.name)) ? -1 : 1)
     .filter(c => c.guild === 'Distinctly Average' && c.realm === 'Silvermoon')
-  const characterList = filteredCharacters.length > 0
-    ? filteredCharacters
-      .map(c => c.name)
-      .join('\n')
+  const characterList = guildCharacters.length > 0
+    ? `Guild characters:
+${guildCharacters.map(c => `  ${c.level} - ${c.name} - ${classNames[c.class]}`).join('\n')}`
     : 'No characters in guild'
   return (
     <div className={STYLES.battletag} title={characterList}>{children}</div>
@@ -77,6 +77,7 @@ const Selections = ({ characters, selections, onChoiceSelect }) => {
     <div className={STYLES.selections}>
       {selections.map(choice => {
         const realCharacters = characters.filter(c => c.realm)
+          .sort((a, b) => (a.level > b.level || (a.level === b.level && a.name < b.name)) ? -1 : 1)
         const classCharacters = realCharacters.filter(c => c.class === choice.data.class.safeName)
         const maxLevelCharacters = classCharacters.filter(c => c.level === 110)
         const realmCharacters = maxLevelCharacters.filter(c => c.realm === 'Silvermoon')
@@ -90,19 +91,19 @@ const Selections = ({ characters, selections, onChoiceSelect }) => {
         } else if (maxLevelCharacters.length === 0) {
           warning = `Player has no characters of this class at max level
 
-Other class characters:
+Other ${choice.data.class.name} characters:
 ${classCharacters.map(c => `  ${c.level} - ${c.name} (${c.realm})`).join('\n')}`
           severity = 3
         } else if (realmCharacters.length === 0) {
           warning = `Player has no max level characters of this class on Silvermoon
 
-Other class characters:
+Other ${choice.data.class.name} characters:
 ${classCharacters.map(c => `  ${c.level} - ${c.name} (${c.realm})`).join('\n')}`
           severity = 2
         } else if (guildCharacters.length === 0) {
           warning = `Player has no max level characters of this class in the guild
 
-Other class characters:
+Other ${choice.data.class.name} characters:
 ${classCharacters.map(c => `  ${c.level} - ${c.name} (${c.realm})`).join('\n')}`
           severity = 1
         }

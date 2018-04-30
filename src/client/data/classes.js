@@ -212,4 +212,21 @@ classData.forEach(c => {
   })
 })
 
-module.exports = classData
+export const classNames = classData
+  .reduce((classNames, c) => {
+    return {
+      ...classNames,
+      [c.safeName]: c.name
+    }
+  }, {})
+
+export const specNames = classData
+  .reduce((allSpecs, c) => allSpecs.concat(c.specialisations), [])
+  .reduce((specNames, s) => {
+    return {
+      ...specNames,
+      [s.safeName]: s.name
+    }
+  }, {})
+
+export default classData
