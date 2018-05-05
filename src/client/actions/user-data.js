@@ -20,10 +20,10 @@ export const getUserData = () => {
         return response.json()
       })
       .then(data => {
-        dispatch({
+        setImmediate(() => dispatch({
           type: GET_USER_DATA_SUCCESS,
           data
-        })
+        }))
       })
       .catch(err => {
         dispatch({
@@ -39,6 +39,7 @@ export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
 export const LOGIN_FAIL = 'LOGIN_FAIL'
 
 export const login = () => {
+  console.log('login?')
   return {
     type: 'LOGIN_START'
   }

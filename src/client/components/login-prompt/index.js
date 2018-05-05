@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import actions from '../../../actions'
+import actions from '../../actions'
 
 import LoginPrompt from './login-prompt'
 
@@ -8,7 +8,7 @@ const ConnectedLoginPrompt = connect(
     isLoggedIn: state.userData.isLoggedIn
   }),
   dispatch => ({
-    onLoginClick: actions.userData.login
+    onLoginClick: () => dispatch(actions.userData.login())
   })
 )(LoginPrompt)
 

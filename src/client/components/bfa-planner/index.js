@@ -1,3 +1,4 @@
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { hot } from 'react-hot-loader'
 
@@ -7,10 +8,10 @@ import BfaPlanner from './bfa-planner'
 
 const ConnectedBfaPlanner = connect(
   state => ({
-    userData: state.userData
+    isGettingUserData: state.userData.isGettingUserData
   }),
   dispatch => ({
-    getUserData: () => dispatch(actions.userData.getUserData())
+    getUserData: bindActionCreators(actions.userData.getUserData, dispatch)
   })
 )(BfaPlanner)
 

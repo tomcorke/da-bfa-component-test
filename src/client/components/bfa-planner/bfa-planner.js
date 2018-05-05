@@ -157,40 +157,46 @@ class BfaPlannerOld extends React.Component {
   }
 }
 
-const BfaPlanner = () => {
-  return (
-    <div className={STYLES.bfaPlanner}>
+class BfaPlanner extends React.Component {
+  componentDidMount (props) {
+    this.props && !this.props.isGettingUserData && this.props.getUserData()
+  }
 
-      <Section type={'header'}>
-        <Header>
-          Distinctly Average Class Selection
-          <SubHeader>
-            For Kids Who Can't Raid Good And Want To Learn How To Do Other Good Stuff Too
-          </SubHeader>
-        </Header>
-      </Section>
+  render () {
+    return (
+      <div className={STYLES.bfaPlanner}>
 
-      <Divider />
+        <Section type={'header'}>
+          <Header>
+            Distinctly Average Class Selection
+            <SubHeader>
+              For Kids Who Can't Raid Good And Want To Learn How To Do Other Good Stuff Too
+            </SubHeader>
+          </Header>
+        </Section>
 
-      <MainSection
-        /*
-        {...this.state}
-        onChoiceChanged={this.onChoiceChanged}
-        onLoginClick={this.onLogin}
-        onSaveClick={this.onSave}
-        onFeedbackMessageClick={this.onHideFeedbackMessage}
-        onViewMenuClick={this.onViewMenuClick}
-        */
-      />
+        <Divider />
 
-      <Divider type={'bottom'} />
+        {/*
+        <MainSection
+          {...this.state}
+          onChoiceChanged={this.onChoiceChanged}
+          onLoginClick={this.onLogin}
+          onSaveClick={this.onSave}
+          onFeedbackMessageClick={this.onHideFeedbackMessage}
+          onViewMenuClick={this.onViewMenuClick}
+        />
+        */}
 
-      <Section type={'fill'}>
-        <Footer />
-      </Section>
+        <Divider type={'bottom'} />
 
-    </div>
-  )
+        <Section type={'fill'}>
+          <Footer />
+        </Section>
+
+      </div>
+    )
+  }
 }
 
 export default BfaPlanner

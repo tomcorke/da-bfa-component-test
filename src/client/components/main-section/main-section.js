@@ -5,9 +5,10 @@ import FeedbackMessage from '../feedback-message'
 
 import ViewMenu from '../view-menu'
 
-import MainView from './views/main'
-import OverviewView from './views/overview'
-import ExportView from './views/export'
+import IntroView from '../views/intro'
+import MainView from '../views/main'
+import OverviewView from '../views/overview'
+import ExportView from '../views/export'
 
 const MainSection = (props) => {
   const {
