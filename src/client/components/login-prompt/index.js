@@ -1,3 +1,15 @@
+import { connect } from 'react-redux'
+import actions from '../../../actions'
+
 import LoginPrompt from './login-prompt'
 
-export default LoginPrompt
+const ConnectedLoginPrompt = connect(
+  state => ({
+    isLoggedIn: state.userData.isLoggedIn
+  }),
+  dispatch => ({
+    onLoginClick: actions.userData.login
+  })
+)(LoginPrompt)
+
+export default ConnectedLoginPrompt

@@ -48,7 +48,7 @@ const getProfiles = () => {
 }
 
 const mockData = {
-  forceView: 'overview',
+  // initialView: 'overview',
   mockViewData: {
     overview: {
       userSelectionData: {

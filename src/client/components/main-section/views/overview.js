@@ -127,10 +127,25 @@ ${classCharacters.map(c => `  ${c.level} - ${c.name} (${c.realm})`).join('\n')}`
   )
 }
 
+const SelectionLeft = ({ children }) => {
+  return <div className={STYLES.selectionLeft}>{children}</div>
+}
+
+const AdminLinks = () => {
+  return (
+    <div className={STYLES.adminLinks}>
+      <span className={STYLES.adminLinkDelete}>delete</span>
+    </div>
+  )
+}
+
 const UserSelections = ({ data, onChoiceSelect }) => {
   return (
     <div className={STYLES.userSelections}>
-      <BattleTag characters={data.characters}>{data.battletag}</BattleTag>
+      <SelectionLeft>
+        <BattleTag characters={data.characters}>{data.battletag}</BattleTag>
+        <AdminLinks />
+      </SelectionLeft>
       <Selections characters={data.characters} selections={data.selections} onChoiceSelect={onChoiceSelect} />
     </div>
   )

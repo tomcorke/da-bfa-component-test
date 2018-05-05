@@ -1,5 +1,4 @@
 import React from 'react'
-import { hot } from 'react-hot-loader'
 
 import Section from '../section'
 import Divider from '../divider'
@@ -16,87 +15,16 @@ const popupWindow = (url, win, w, h) => {
   return win.open(url, '_blank', 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=' + w + ', height=' + h + ', top=' + y + ', left=' + x)
 }
 
-const guildFilter = c =>
-  c.guild === 'Distinctly Average' &&
-  c.realm === 'Silvermoon'
-
-class BfaPlanner extends React.Component {
+class BfaPlannerOld extends React.Component {
   constructor (props) {
     super(props)
-    this.state = {
-      view: 'main'
-    }
+
     this.receiveMessage = this.receiveMessage.bind(this)
     this.onLogin = this.onLogin.bind(this)
     this.onSave = this.onSave.bind(this)
     this.onChoiceChanged = this.onChoiceChanged.bind(this)
     this.onHideFeedbackMessage = this.onHideFeedbackMessage.bind(this)
     this.onViewMenuClick = this.onViewMenuClick.bind(this)
-
-    const { forceView, mockViewData } = props.config
-    if (forceView) {
-      this.state = {
-        view: forceView,
-        viewData: mockViewData
-      }
-    }
-  }
-
-  handleUserData (userData) {
-    const { user, data, profile, isAdmin } = userData
-
-    const isLoggedIn = !!user
-    const hasProfile = !!profile
-    const hasCharacters = profile && profile.characters.length > 0
-    const hasCharactersInGuild = profile && profile.characters.filter(guildFilter).length > 0
-
-    this.setState({
-      ...this.state,
-      user,
-      data: data || {},
-      profile,
-      isAdmin,
-      hasChanges: false,
-      isLoggedIn,
-      hasProfile,
-      hasCharacters,
-      hasCharactersInGuild
-    })
-  }
-
-  getUserData () {
-    const {
-      userDataEndpoint,
-      mockUserData
-    } = this.props.config
-
-    if (mockUserData) {
-      return this.handleUserData(mockUserData)
-    }
-
-    this.setState({
-      ...this.state,
-      gettingUserData: true
-    })
-
-    window.fetch(userDataEndpoint, { credentials: 'include' })
-      .then(response => {
-        if (response.status !== 200) {
-          throw Error('Could not get user data')
-        }
-        return response.json()
-      })
-      .then(data => {
-        console.log('getUserData', data)
-        this.handleUserData(data)
-      })
-      .catch(err => console.error(err))
-      .then(() => {
-        this.setState({
-          ...this.state,
-          gettingUserData: false
-        })
-      })
   }
 
   onLogin () {
@@ -132,13 +60,13 @@ class BfaPlanner extends React.Component {
         this.state.isLoggedIn &&
         !this.state.hasCharacters
       ) {
-        this.getUserData()
+        this.props.getUserData()
       }
     }
   }
 
   componentWillMount () {
-    this.getUserData()
+    this.props.getUserData()
     window.addEventListener('message', this.receiveMessage, false)
   }
 
@@ -226,37 +154,43 @@ class BfaPlanner extends React.Component {
   }
 
   render () {
-    return (
-      <div className={STYLES.bfaPlanner}>
-
-        <Section type={'header'}>
-          <Header userData={this.state.user} onLoginClick={this.login}>
-            Distinctly Average Class Selection
-            <SubHeader>
-              For Kids Who Can't Raid Good And Want To Learn How To Do Other Good Stuff Too
-            </SubHeader>
-          </Header>
-        </Section>
-
-        <Divider />
-
-        <MainSection
-          {...this.state}
-          onChoiceChanged={this.onChoiceChanged}
-          onLoginClick={this.onLogin}
-          onSaveClick={this.onSave}
-          onFeedbackMessageClick={this.onHideFeedbackMessage}
-          onViewMenuClick={this.onViewMenuClick} />
-
-        <Divider type={'bottom'} />
-
-        <Section type={'fill'}>
-          <Footer />
-        </Section>
-
-      </div>
-    )
   }
 }
 
-export default hot(module)(BfaPlanner)
+const BfaPlanner = () => {
+  return (
+    <div className={STYLES.bfaPlanner}>
+
+      <Section type={'header'}>
+        <Header>
+          Distinctly Average Class Selection
+          <SubHeader>
+            For Kids Who Can't Raid Good And Want To Learn How To Do Other Good Stuff Too
+          </SubHeader>
+        </Header>
+      </Section>
+
+      <Divider />
+
+      <MainSection
+        /*
+        {...this.state}
+        onChoiceChanged={this.onChoiceChanged}
+        onLoginClick={this.onLogin}
+        onSaveClick={this.onSave}
+        onFeedbackMessageClick={this.onHideFeedbackMessage}
+        onViewMenuClick={this.onViewMenuClick}
+        */
+      />
+
+      <Divider type={'bottom'} />
+
+      <Section type={'fill'}>
+        <Footer />
+      </Section>
+
+    </div>
+  )
+}
+
+export default BfaPlanner

@@ -1,3 +1,11 @@
+import { connect } from 'react-redux'
+
 import Header from './header'
 
-export default Header
+const ConnectedHeader = connect(
+  state => ({
+    userData: state.userData
+  })
+)(Header)
+
+export default ConnectedHeader

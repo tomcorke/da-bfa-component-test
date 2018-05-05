@@ -1,4 +1,6 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import actions from '../../../actions'
 
 import ClassSelectWrapper from '../../class-select-wrapper'
 import Button from '../../button'
@@ -15,19 +17,17 @@ const getBlurb = (name) => {
   })[name]
 }
 
-const MainView = ({
-  user,
-  data,
-  profile,
-  gettingUserData,
-  isLoggedIn,
-  hasCharacters,
-  hasCharactersInGuild,
-  hasChanges,
-  onSaveClick,
-  onLoginClick,
-  onChoiceChanged
-}) => {
+const MainView = ({ userData }) => {
+  const {
+    data,
+    profile,
+    gettingUserData,
+    isLoggedIn,
+    hasCharacters,
+    hasCharactersInGuild,
+    hasChanges
+  } = userData
+
   const createClassSelectWrapper = (name) => {
     return (
       <ClassSelectWrapper
@@ -74,7 +74,7 @@ const MainView = ({
         ]}
       </div>
   } else {
-    mainDisplay = <LoginPrompt key='login-prompt' onLoginClick={onLoginClick} disableLogin={gettingUserData} />
+    mainDisplay = <LoginPrompt key='login-prompt' disableLogin={gettingUserData} />
   }
 
   return (
@@ -91,4 +91,10 @@ const MainView = ({
   )
 }
 
-export default MainView
+const ConnectedMainView = connect(
+  state => ({
+    userData: state.userData
+  })
+)(MainView)
+
+export default ConnectedMainView
