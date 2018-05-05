@@ -177,16 +177,7 @@ class BfaPlanner extends React.Component {
 
         <Divider />
 
-        {/*
-        <MainSection
-          {...this.state}
-          onChoiceChanged={this.onChoiceChanged}
-          onLoginClick={this.onLogin}
-          onSaveClick={this.onSave}
-          onFeedbackMessageClick={this.onHideFeedbackMessage}
-          onViewMenuClick={this.onViewMenuClick}
-        />
-        */}
+        <MainSection />
 
         <Divider type={'bottom'} />
 

@@ -39,7 +39,6 @@ export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
 export const LOGIN_FAIL = 'LOGIN_FAIL'
 
 export const login = () => {
-  console.log('login?')
   return {
     type: 'LOGIN_START'
   }

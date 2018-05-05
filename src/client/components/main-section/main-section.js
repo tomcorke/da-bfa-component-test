@@ -10,38 +10,25 @@ import MainView from '../views/main'
 import OverviewView from '../views/overview'
 import ExportView from '../views/export'
 
-const MainSection = (props) => {
-  const {
-    view,
-    isAdmin,
+const MainSection = ({ view }) => {
+  console.log(view)
 
-    onViewMenuClick,
-
-    feedbackMessage,
-    showFeedbackMessage,
-    fadeOutFeedbackMessage,
-    onFeedbackMessageClick
-  } = props
-
-  const viewDisplay = {
-    main: () => <MainView {...props} />,
-    overview: () => <OverviewView {...props} />,
-    export: () => <ExportView {...props} />
-  }[view]()
+  const View = {
+    intro: IntroView,
+    main: MainView,
+    overview: OverviewView,
+    export: ExportView
+  }[view]
 
   return (
     <Section type='main'>
 
-      <ViewMenu view={view} isAdmin={isAdmin} onClick={onViewMenuClick} />
+      <ViewMenu />
 
-      {viewDisplay}
+      <View />
 
-      {showFeedbackMessage
-        ? <FeedbackMessage
-          message={feedbackMessage}
-          fadeout={fadeOutFeedbackMessage}
-          onClick={onFeedbackMessageClick} />
-        : null}
+      <FeedbackMessage />
+
     </Section>
   )
 }

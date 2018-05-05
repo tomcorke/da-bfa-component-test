@@ -1,6 +1,6 @@
 import React from 'react'
-import Panel from '../panel'
-import LoginButton from '../login-button'
+import Panel from '../../../../panel'
+import LoginButton from '../../../../login-button'
 
 import STYLES from './login-prompt.scss'
 
