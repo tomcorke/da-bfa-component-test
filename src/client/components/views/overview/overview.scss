@@ -138,31 +138,7 @@
             background: url('../../../../../images/icons/comment.svg?fill=%23fff') center center no-repeat;
           }
 
-          .warningIndicator {
-            display: flex;
-            flex-flow: row nowrap;
-            margin-left: 0.5em;
 
-            .severityIndicator {
-              width: 6px;
-              height: 12px;
-              background: url('../../../../../images/icons/exclamation.svg?fill=%23ff8f00') center center no-repeat;
-            }
-
-            &[data-severity="1"] {
-
-              .severityIndicator {
-                background: url('../../../../../images/icons/exclamation.svg?fill=%23fff') center center no-repeat;
-              }
-            }
-
-            &[data-severity="3"] {
-
-              .severityIndicator {
-                background: url('../../../../../images/icons/exclamation.svg?fill=%23f00') center center no-repeat;
-              }
-            }
-          }
         }
       }
     }
@@ -197,31 +173,6 @@
         display: flex;
         flex-flow: row wrap;
         justify-content: center;
-
-        .summaryRowTag {
-          display: flex;
-          flex-flow: row nowrap;
-          margin-right: 1em;
-          align-items: center;
-          color: classColour(deathknight);
-
-          &[data-has-value=true] {
-            color: classColour(monk);
-          }
-
-          .summaryRowTagName {
-            text-transform: uppercase;
-            margin-right: 0.5em;
-
-            &:after {
-              content: ':';
-            }
-          }
-
-          .summaryRowTagValue {
-            font-size: 1.5em;
-          }
-        }
       }
     }
   }

@@ -2,6 +2,8 @@ import React from 'react'
 
 import ClassIcon from '../../class-icon'
 import RoleIcon from './components/role-icon'
+import WarningIndicator from './components/warning-indicator'
+import SummaryValue from './components/summary-value'
 
 import classes, { classNames } from '../../../data/classes'
 
@@ -28,16 +30,6 @@ const getSpec = (wowClass, name) => {
 }
 const getRoleTag = (spec) => {
   return ['tank', 'healer', 'dps'].find(tag => spec && spec.tags && spec.tags.includes(tag))
-}
-
-const WarningIndicator = ({ severity, message }) => {
-  const elements = []
-  for (let i = 0; i < severity; i++) {
-    elements.push(<div className={STYLES.severityIndicator} key={i} />)
-  }
-  return <div className={STYLES.warningIndicator} data-severity={severity} data-message={message} title={message}>
-    {elements}
-  </div>
 }
 
 const Selection = ({ num, class: wowClass, spec, comments, selected, onClick, warningMessage, warningSeverity }) => {
@@ -156,14 +148,16 @@ const mapData = (data) => {
   return Object.entries(userSelectionData).map(([key, value]) => ({
     battletag: key,
     characters: (userProfileData[key] || {}).characters || [],
-    selections: Object.entries(value).map(([key, value]) => ({
-      choice: key,
-      data: {
-        class: getClass(value.selected.class),
-        spec: getSpec(getClass(value.selected.class), value.selected.spec) || {},
-        comments: value.comments
-      }
-    }))
+    selections: Object.entries(value)
+      .filter(([key, value]) => value.selected)
+      .map(([key, value]) => ({
+        choice: key,
+        data: {
+          class: getClass(value.selected.class),
+          spec: getSpec(getClass(value.selected.class), value.selected.spec) || {},
+          comments: value.comments
+        }
+      }))
   }))
 }
 
@@ -195,15 +189,6 @@ const SUMMARY_TAG_GROUPS = {
   'Armour type': ['cloth', 'leather', 'mail', 'plate']
 }
 
-const SummaryRowTag = ({ name, value }) => {
-  return (
-    <div className={STYLES.summaryRowTag} data-has-value={value > 0}>
-      <div className={STYLES.summaryRowTagName}>{name}</div>
-      <div className={STYLES.summaryRowTagValue}>{value}</div>
-    </div>
-  )
-}
-
 const SummaryRow = ({ title, values }) => {
   return (
     <div className={STYLES.summaryRow}>
@@ -211,7 +196,7 @@ const SummaryRow = ({ title, values }) => {
         {title}
       </div>
       <div className={STYLES.summaryRowTags}>
-        {values.map(t => <SummaryRowTag key={t.name} name={t.name} value={t.count} />)}
+        {values.map(t => <SummaryValue key={t.name} name={t.name} value={t.count} />)}
       </div>
     </div>
   )
@@ -241,9 +226,9 @@ class OverviewView extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      overviewData: mapData(props.viewData.overview)
+      overviewData: mapData(props.overviewData)
     }
-    this.selectChoice = this.selectChoice.bind(this)
+    // this.selectChoice = this.selectChoice.bind(this)
   }
 
   selectChoice (battletag, choice) {
