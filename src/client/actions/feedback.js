@@ -5,9 +5,10 @@ export const FEEDBACK_MESSAGE_SHOW = 'FEEDBACK_MESSAGE_SHOW'
 export const FEEDBACK_MESSAGE_FADEOUT = 'FEEDBACK_MESSAGE_FADEOUT'
 export const FEEDBACK_MESSAGE_HIDE = 'FEEDBACK_MESSAGE_HIDE'
 
-const showFeedbackMessage = (message) => ({
+const showFeedbackMessage = (message, style = 'info') => ({
   type: FEEDBACK_MESSAGE_SHOW,
-  message
+  message,
+  style
 })
 
 const fadeOutFeedbackMessage = () => ({
@@ -22,11 +23,11 @@ const hideFeedbackMessage = () => {
   }
 }
 
-export const show = (message) => {
+export const show = (message, style) => {
   return dispatch => {
     clearTimeout(fadeTimeout)
     clearTimeout(hideTimeout)
-    dispatch(showFeedbackMessage(message))
+    dispatch(showFeedbackMessage(message, style))
     fadeTimeout = setTimeout(() => {
       dispatch(fadeOutFeedbackMessage())
     }, 1000)

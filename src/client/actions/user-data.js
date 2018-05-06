@@ -71,11 +71,18 @@ export const saveSelections = () => {
     xhr.open('POST', saveDataEndpoint, true)
     xhr.setRequestHeader('content-type', 'application/json')
     xhr.onreadystatechange = () => {
-      if (xhr.readyState === 4 && xhr.status === 200) {
-        dispatch({
-          type: SAVE_SUCCESS
-        })
-        dispatch(feedbackActions.show('Saved!'))
+      if (xhr.readyState === 4) {
+        if (xhr.status === 200) {
+          dispatch({
+            type: SAVE_SUCCESS
+          })
+          dispatch(feedbackActions.show('Saved!', 'success'))
+        } else {
+          dispatch({
+            type: SAVE_FAIL
+          })
+          dispatch(feedbackActions.show('Save failed!', 'warning'))
+        }
       }
     }
     xhr.send(JSON.stringify(selections))

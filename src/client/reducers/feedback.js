@@ -8,6 +8,7 @@ const FeedbackReducer = (state = initialState, action) => {
       return {
         ...state,
         message: action.message,
+        style: action.style,
         fade: false,
         hide: false
       }
