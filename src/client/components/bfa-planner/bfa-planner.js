@@ -11,45 +11,9 @@ import WindowMessageReceiver from '../window-message-receiver'
 
 import STYLES from './bfa-planner.scss'
 
-/*
-
-  tryChangeView (option) {
-    if (option === 'main') {
-      return this.setState({
-        ...this.state,
-        view: 'main'
-      })
-    }
-
-    if (option === 'overview') {
-      const { getOverviewViewDataEndpoint } = this.props.config
-      console.log('Fetching overview data')
-      return window.fetch(getOverviewViewDataEndpoint, { credentials: 'include' })
-        .then(response => {
-          if (response.status !== 200) {
-            throw Error('Could not get overview view data')
-          }
-          return response.json()
-        })
-        .then(data => {
-          console.log('Received overview data', data)
-          this.setState({
-            ...this.state,
-            viewData: {
-              overview: data
-            },
-            view: 'overview'
-          })
-        })
-        .catch(err => console.error(`Error fetching overview view data: ${err.message}`))
-    }
-  }
-}
-*/
-
 class BfaPlanner extends React.Component {
   componentDidMount (props) {
-    this.props && !this.props.isGettingUserData && this.props.getUserData()
+    this.props.init()
   }
 
   render () {

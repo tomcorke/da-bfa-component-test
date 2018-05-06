@@ -1,18 +1,25 @@
 import * as overviewActions from './overview'
 
-export const CHANGE_VIEW = 'CHANGE_VIEW'
+export const SET_VIEW = 'SET_VIEW'
+
+export const setView = (view) => {
+  return {
+    type: SET_VIEW,
+    view
+  }
+}
 
 export const changeView = (view) => {
   return async dispatch => {
     if (view === 'overview') {
       dispatch(overviewActions.getOverviewData())
         .then(() => dispatch({
-          type: CHANGE_VIEW,
+          type: SET_VIEW,
           view
         }))
     } else {
       dispatch({
-        type: CHANGE_VIEW,
+        type: SET_VIEW,
         view
       })
     }

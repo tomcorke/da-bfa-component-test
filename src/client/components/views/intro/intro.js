@@ -8,17 +8,9 @@ import STYLES from './intro.scss'
 
 const IntroView = ({
   isLoggedIn,
-  hasCharacters,
-  hasCharactersInGuild,
-  getUserData,
-  changeToMainView
+  hasCharactersInGuild
 }) => {
-  if (isLoggedIn && !hasCharacters) {
-    getUserData()
-  }
-
   if (isLoggedIn && hasCharactersInGuild) {
-    changeToMainView()
     return null
   }
 

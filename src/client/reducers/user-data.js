@@ -64,7 +64,7 @@ const UserDataReducer = (state = initialState, action) => {
     case actions.userData.GET_USER_DATA_FAIL:
       return setGettingData(state, false)
     case actions.userData.GET_USER_DATA_SUCCESS:
-      return handleUserData(state, action.data)
+      return setGettingData(state, false)
     case actions.userData.HANDLE_USER_DATA:
       return handleUserData(state, action.data)
     case actions.userData.CHANGE_SELECTION:

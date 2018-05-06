@@ -1,4 +1,5 @@
 import * as feedbackActions from './feedback'
+import * as viewActions from './views'
 
 export const GET_USER_DATA_START = 'GET_USER_DATA_START'
 export const GET_USER_DATA_SUCCESS = 'GET_USER_DATA_SUCCESS'
@@ -13,40 +14,48 @@ export const SAVE_SUCCESS = 'SAVE_SUCCESS'
 export const SAVE_FAIL = 'SAVE_FAIL'
 
 export const getUserData = () => {
-  return (dispatch, getState) => {
+  return async (dispatch, getState) => {
     dispatch({
       type: GET_USER_DATA_START
     })
 
     const { userDataEndpoint } = getState().config
 
-    window.fetch(userDataEndpoint, { credentials: 'include' })
-      .then(response => {
-        if (response.status !== 200) {
-          throw Error('Could not get user data')
-        }
-        return response.json()
+    const response = await window.fetch(userDataEndpoint, { credentials: 'include' })
+    if (response.status !== 200) {
+      dispatch({
+        type: GET_USER_DATA_FAIL
       })
-      .then(data => {
-        setImmediate(() => dispatch({
-          type: GET_USER_DATA_SUCCESS,
-          data
-        }))
-      })
-      .catch(err => {
-        dispatch({
-          type: GET_USER_DATA_FAIL,
-          error: err && err.message
-        })
-      })
+      throw Error('Could not get user data')
+    }
+
+    const data = await response.json()
+
+    dispatch({
+      type: GET_USER_DATA_SUCCESS
+    })
+    dispatch(handleUserData(data, { preventGetUserData: true }))
   }
 }
 
-export const handleUserData = (data) => {
-  return ({
-    type: HANDLE_USER_DATA,
-    data
-  })
+export const handleUserData = (data, opts = {}) => {
+  return (dispatch, getState) => {
+    dispatch({
+      type: HANDLE_USER_DATA,
+      data
+    })
+
+    const { isLoggedIn, hasCharacters, hasCharactersInGuild } = getState().userData
+    const { view } = getState()
+
+    if (isLoggedIn) {
+      if (!hasCharacters && !opts.preventGetUserData) {
+        dispatch(getUserData())
+      } else if (view === 'intro' && hasCharactersInGuild) {
+        dispatch(viewActions.changeView('main'))
+      }
+    }
+  }
 }
 
 export const changeSelection = (name, property, value) => {

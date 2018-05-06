@@ -4,7 +4,7 @@ const initialState = null
 
 const OverviewReducer = (state = initialState, action) => {
   switch (action.type) {
-    case overviewActions.GET_OVERVIEW_DATA_SUCCESS:
+    case overviewActions.HANDLE_OVERVIEW_DATA:
       return {
         ...action.data
       }

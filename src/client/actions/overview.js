@@ -1,6 +1,14 @@
 export const GET_OVERVIEW_DATA_START = 'GET_OVERVIEW_DATA_START'
 export const GET_OVERVIEW_DATA_SUCCESS = 'GET_OVERVIEW_DATA_SUCCESS'
 export const GET_OVERVIEW_DATA_FAIL = 'GET_OVERVIEW_DATA_FAIL'
+export const HANDLE_OVERVIEW_DATA = 'HANDLE_OVERVIEW_DATA'
+
+export const handleOverviewData = (data) => {
+  return {
+    type: HANDLE_OVERVIEW_DATA,
+    data
+  }
+}
 
 export const getOverviewData = () => {
   return async (dispatch, getState) => {
@@ -17,8 +25,8 @@ export const getOverviewData = () => {
     const data = await response.json()
 
     dispatch({
-      type: GET_OVERVIEW_DATA_SUCCESS,
-      data
+      type: GET_OVERVIEW_DATA_SUCCESS
     })
+    dispatch(handleOverviewData(data))
   }
 }
