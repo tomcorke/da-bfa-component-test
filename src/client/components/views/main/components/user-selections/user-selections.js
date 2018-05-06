@@ -3,6 +3,8 @@ import React from 'react'
 import ClassSelectWrapper from '../class-select-wrapper'
 import SaveButton from '../save-button'
 
+import STYLES from './user-selections.scss'
+
 const getBlurb = (name) => {
   return ({
     first: 'Main choice:',
@@ -21,12 +23,14 @@ const createClassSelectWrapper = (name) => {
 }
 
 const UserSelections = () => {
-  return [
-    createClassSelectWrapper('first'),
-    createClassSelectWrapper('second'),
-    createClassSelectWrapper('third'),
+  return <div className={STYLES.userSelections}>
+    {[
+      createClassSelectWrapper('first'),
+      createClassSelectWrapper('second'),
+      createClassSelectWrapper('third')
+    ]}
     <SaveButton key='save-button' />
-  ]
+  </div>
 }
 
 export default UserSelections
