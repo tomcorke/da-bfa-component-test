@@ -1,9 +1,9 @@
 import React from 'react'
-import classes from '../../data/classes'
+import classes from '../../../../../data/classes'
 
 import STYLES from './class-select.scss'
 
-const ClassSelect = ({ value = {}, onChange }) => {
+const ClassSelect = ({ selectedClass, selectedSpec, onChange }) => {
   const classOptions = classes
     .map(c =>
       <option
@@ -14,9 +14,9 @@ const ClassSelect = ({ value = {}, onChange }) => {
     )
 
   let specOptions = []
-  const selectedClass = classes.find(c => c.safeName === value.class)
-  if (selectedClass) {
-    specOptions = selectedClass.specialisations
+  const selectedClassData = classes.find(c => c.safeName === selectedClass)
+  if (selectedClassData) {
+    specOptions = selectedClassData.specialisations
       .map(s =>
         <option
           key={s.safeName}
@@ -26,18 +26,19 @@ const ClassSelect = ({ value = {}, onChange }) => {
       )
   }
 
-  const selectedSpec = selectedClass &&
-    selectedClass.specialisations.find(s => s.safeName === value.spec)
+  const selectedSpecData = selectedClassData &&
+    selectedClassData.specialisations.find(s => s.safeName === selectedSpec)
 
   const onClassChange = (newClass) => {
     onChange({
-      class: newClass
+      class: newClass,
+      spec: null
     })
   }
 
   const onSpecChange = (newSpec) => {
     onChange({
-      ...value,
+      class: selectedClass,
       spec: newSpec
     })
   }
@@ -45,21 +46,21 @@ const ClassSelect = ({ value = {}, onChange }) => {
   return (
     <div
       className={STYLES.classSpecSelect}
-      {...{'data-selected': value.class}}>
+      {...{'data-selected': selectedClass}}>
       <select
-        {...{'data-required': !selectedClass}}
+        {...{'data-required': !selectedClassData}}
         className={STYLES.classSelect}
         onChange={(e) => onClassChange(e.target.value)}
-        value={value.class}>
+        value={selectedClass || ''}>
         <option value=''>Select a class</option>
         {classOptions}
       </select>
       <select
-        {...{'data-required': !selectedSpec}}
-        disabled={!selectedClass}
+        {...{'data-required': !selectedSpecData}}
+        disabled={!selectedClassData}
         className={STYLES.specSelect}
         onChange={(e) => onSpecChange(e.target.value)}
-        value={value.spec}>
+        value={selectedSpec || ''}>
         <option value=''>Select a spec</option>
         {specOptions}
       </select>

@@ -12,17 +12,24 @@ const setGettingData = (state, isGettingData) => {
 }
 
 const handleUserData = (state, userData) => {
-  const { user, data, profile, isAdmin } = userData
+  const {
+    user,
+    selections = {},
+    profile = {
+      characters: []
+    },
+    isAdmin
+  } = userData
 
   const isLoggedIn = !!user
   const hasProfile = !!profile
-  const hasCharacters = profile && profile.characters.length > 0
-  const hasCharactersInGuild = profile && profile.characters.filter(guildFilter).length > 0
+  const hasCharacters = profile.characters.length > 0
+  const hasCharactersInGuild = profile.characters.filter(guildFilter).length > 0
 
   return {
     ...setGettingData(state, false),
     user,
-    userSelectionData: data || {},
+    selections,
     profile,
     isAdmin,
     hasChanges: false,
@@ -30,6 +37,19 @@ const handleUserData = (state, userData) => {
     hasProfile,
     hasCharacters,
     hasCharactersInGuild
+  }
+}
+
+const handleChangeSelection = (state, name, property, value) => {
+  return {
+    ...state,
+    selections: {
+      ...state.selections,
+      [name]: {
+        ...state.selections[name],
+        [property]: value
+      }
+    }
   }
 }
 
@@ -45,6 +65,10 @@ const UserDataReducer = (state = initialState, action) => {
       return setGettingData(state, false)
     case actions.userData.GET_USER_DATA_SUCCESS:
       return handleUserData(state, action.data)
+    case actions.userData.HANDLE_USER_DATA:
+      return handleUserData(state, action.data)
+    case actions.userData.CHANGE_SELECTION:
+      return handleChangeSelection(state, action.name, action.property, action.value)
     default:
       return state
   }

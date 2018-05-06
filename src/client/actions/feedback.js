@@ -23,7 +23,6 @@ const hideFeedbackMessage = () => {
 }
 
 export const show = (message) => {
-  console.log('show', message)
   return dispatch => {
     clearTimeout(fadeTimeout)
     clearTimeout(hideTimeout)

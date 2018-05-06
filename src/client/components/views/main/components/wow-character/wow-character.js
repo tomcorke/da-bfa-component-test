@@ -1,6 +1,6 @@
 import React from 'react'
 
-import ClassIcon from '../class-icon'
+import ClassIcon from '../../../../class-icon'
 
 import STYLES from './wow-character.scss'
 

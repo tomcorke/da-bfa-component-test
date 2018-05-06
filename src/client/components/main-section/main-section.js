@@ -11,8 +11,6 @@ import OverviewView from '../views/overview'
 import ExportView from '../views/export'
 
 const MainSection = ({ view }) => {
-  console.log(view)
-
   const View = {
     intro: IntroView,
     main: MainView,

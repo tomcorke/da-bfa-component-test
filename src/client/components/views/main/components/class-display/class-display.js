@@ -4,23 +4,7 @@ import WowCharacter from '../wow-character'
 
 import STYLES from './class-display.scss'
 
-const guildFilter = (char) => {
-  return (
-    char.guild === 'Distinctly Average' &&
-    char.realm === 'Silvermoon'
-  )
-}
-
-const byLevelAndName = (a, b) => {
-  if (b.level !== a.level) {
-    return b.level - a.level
-  }
-  return b.name < a.name ? 1 : -1
-}
-
-const ClassDisplay = ({ characters }) => {
-  const guildCharacters = characters.filter(guildFilter).sort(byLevelAndName)
-
+const ClassDisplay = ({ guildCharacters }) => {
   return (
     <div className={STYLES.classDisplay}>
       <div className={STYLES.blurb}>Your guild characters:</div>

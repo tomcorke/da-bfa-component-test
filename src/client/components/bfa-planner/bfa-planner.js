@@ -7,8 +7,11 @@ import SubHeader from '../subheader'
 import Footer from '../footer'
 import MainSection from '../main-section'
 
+import WindowMessageReceiver from '../window-message-receiver'
+
 import STYLES from './bfa-planner.scss'
 
+/*
 const popupWindow = (url, win, w, h) => {
   var y = win.top.outerHeight / 2 + win.top.screenY - (h / 2)
   var x = win.top.outerWidth / 2 + win.top.screenX - (w / 2)
@@ -156,6 +159,7 @@ class BfaPlannerOld extends React.Component {
   render () {
   }
 }
+*/
 
 class BfaPlanner extends React.Component {
   componentDidMount (props) {
@@ -184,6 +188,8 @@ class BfaPlanner extends React.Component {
         <Section type={'fill'}>
           <Footer />
         </Section>
+
+        <WindowMessageReceiver />
 
       </div>
     )

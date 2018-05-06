@@ -4,7 +4,8 @@ import Header from './header'
 
 const ConnectedHeader = connect(
   state => ({
-    userData: state.userData
+    isLoggedIn: state.userData.isLoggedIn,
+    battletag: state.userData.user && state.userData.user.battletag
   })
 )(Header)
 

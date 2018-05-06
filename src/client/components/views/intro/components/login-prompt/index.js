@@ -9,7 +9,7 @@ const ConnectedLoginPrompt = connect(
   }),
   dispatch => ({
     onLoginClick: () => {
-      dispatch(actions.userData.login())
+      dispatch(actions.login.login(window))
       dispatch(actions.feedback.show('Logging in...'))
     }
   })

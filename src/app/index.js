@@ -11,7 +11,7 @@ import { DB } from './db'
 import bnetApi from './bnet-api'
 import { isAdmin } from './permissions'
 
-const db = new DB('data')
+const userSelectionsDb = new DB('data')
 
 require('dotenv-safe').config()
 
@@ -70,12 +70,12 @@ app.use((req, res, next) => {
 
 const getUserData = async (user, immediate = false) => {
   const { battletag } = user
-  const data = db.get(battletag)
+  const selections = userSelectionsDb.get(battletag)
   const profile = await bnetApi.getWoWProfile(user, immediate)
   const isUserAdmin = isAdmin(user)
   return {
     user: { battletag: user.battletag },
-    data,
+    selections,
     profile,
     isAdmin: isUserAdmin
   }
@@ -128,7 +128,7 @@ app.post('/save', (req, res) => {
   }
   const battletag = req.user.battletag
   console.log(`Saving data for user "${battletag}"`, req.body)
-  db.set(battletag, req.body)
+  userSelectionsDb.set(battletag, req.body)
   res.json({ ok: true })
 })
 
@@ -141,7 +141,7 @@ app.get('/getOverviewViewData', (req, res) => {
     console.warn(`Unauthorised user ${req.user.battletag} attempted to get overview data`)
     return res.status(401).send()
   }
-  const userSelectionData = db.getAll()
+  const userSelectionData = userSelectionsDb.getAll()
   const userProfileData = bnetApi.getAll()
   const data = { userSelectionData, userProfileData }
   res.json(data)

@@ -3,11 +3,11 @@ import LoginButton from '../login-button'
 
 import STYLES from './header.scss'
 
-const Header = ({ children, userData }) => {
-  const userDisplay = userData.isLoggedIn
+const Header = ({ children, isLoggedIn, battletag }) => {
+  const userDisplay = isLoggedIn
     ? <div className={STYLES.loggedIn}>
       <div className={STYLES.loggedInAs}>
-        Logged in as {userData.battletag}
+        Logged in as {battletag}
       </div>
       <LoginButton type='logout' href='logout' text='Logout' />
     </div>
