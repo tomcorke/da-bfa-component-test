@@ -1,7 +1,7 @@
 import React from 'react'
 
 import ClassIcon from '../../class-icon'
-import RoleIcon from '../../role-icon'
+import RoleIcon from './components/role-icon'
 
 import classes, { classNames } from '../../../data/classes'
 
