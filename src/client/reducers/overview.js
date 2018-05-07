@@ -39,7 +39,12 @@ const selectChoice = (state, battletag, choice) => {
   const clonedState = JSON.parse(JSON.stringify(state))
   const playerData = clonedState.find(player => player.battletag === battletag)
   playerData.selections.forEach(selection => {
-    selection.selected = selection.choice === choice
+    if (selection.choice === choice) {
+      // toggle clicked selection
+      selection.selected = !selection.selected
+    } else {
+      selection.selected = false
+    }
   })
   return clonedState
 }
