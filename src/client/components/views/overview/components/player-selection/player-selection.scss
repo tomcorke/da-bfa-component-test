@@ -1,2 +1,63 @@
+@import '../../../../../mixins/classes';
+
 .playerSelection {
+  display: flex;
+  flex-flow: row nowrap;
+  margin-left: 10px;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+
+  &:hover {
+    background: linear-gradient(to right, transparent 0%, rgba(255,255,255,0.1) 20%, rgba(255,255,255,0.1) 80%, transparent 100%);
+  }
+
+  &[data-selected=true] {
+    &::before {
+      content: '';
+      position: absolute;
+      left: -0.5em;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      box-shadow: 0 0 3px 1px classColour(rogue);
+      background-color: rgba(classColour(rogue), 0.1);
+      padding: 0 0.5em;
+    }
+  }
+
+  .choiceNumber {
+    width: 0.5em;
+    margin-right: 0.5em;
+  }
+
+  .class {
+    height: 26px;
+  }
+
+  .spec {
+    margin-left: 10px;
+    position: relative;
+  }
+
+  .role {
+    height: 26px;
+  }
+
+  .indicators {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    align-items: center;
+    display: flex;
+    flex-flow: row nowrap;
+
+    .commentIndicator {
+      width: 12px;
+      height: 12px;
+      background: url('../../../../../../../images/icons/comment.svg?fill=%23fff') center center no-repeat;
+    }
+
+  }
 }

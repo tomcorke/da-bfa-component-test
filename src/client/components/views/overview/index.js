@@ -4,7 +4,7 @@ import OverviewView from './overview'
 
 const ConnectedOverviewView = connect(
   state => ({
-    overviewData: state.overview
+    battletags: state.overview.map(i => i.battletag)
   })
 )(OverviewView)
 

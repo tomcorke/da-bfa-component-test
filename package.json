@@ -11,7 +11,9 @@
     "build:client": "webpack",
     "build:client:watch": "webpack -w",
     "build:app": "babel src/app -d dist/app",
-    "build": "npm run build:client && npm run build:app"
+    "build": "npm run build:client && npm run build:app",
+    "standard": "standard \"src/**/*.js\"",
+    "standard:fix": "standard --fix \"src/**/*.js\""
   },
   "keywords": [],
   "author": "",

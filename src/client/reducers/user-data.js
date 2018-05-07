@@ -1,8 +1,10 @@
+import config from '../config'
+
 import actions from '../actions'
 
-const guildFilter = c =>
-  c.guild === 'Distinctly Average' &&
-  c.realm === 'Silvermoon'
+const filterByGuild = (guild, realm) => char =>
+  char.guild === guild &&
+  char.realm === realm
 
 const setGettingData = (state, isGettingData) => {
   return {
@@ -24,7 +26,9 @@ const handleUserData = (state, userData) => {
   const isLoggedIn = !!user
   const hasProfile = !!profile
   const hasCharacters = profile.characters.length > 0
-  const hasCharactersInGuild = profile.characters.filter(guildFilter).length > 0
+  const hasCharactersInGuild = profile.characters
+    .filter(filterByGuild(config.guild, config.realm))
+    .length > 0
 
   return {
     ...setGettingData(state, false),

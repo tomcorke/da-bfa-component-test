@@ -1,10 +1,10 @@
 import { connect } from 'react-redux'
 import ClassDisplay from './class-display'
 
-const guildFilter = (char) => {
+const guildFilter = (guild, realm) => (char) => {
   return (
-    char.guild === 'Distinctly Average' &&
-    char.realm === 'Silvermoon'
+    char.guild === guild &&
+    char.realm === realm
   )
 }
 
@@ -17,7 +17,9 @@ const byLevelAndName = (a, b) => {
 
 const ConnectedClassDisplay = connect(
   state => ({
-    guildCharacters: state.userData.profile.characters.filter(guildFilter).sort(byLevelAndName)
+    guildCharacters: state.userData.profile.characters
+      .filter(guildFilter(state.config.guild, state.config.realm))
+      .sort(byLevelAndName)
   })
 )(ClassDisplay)
 

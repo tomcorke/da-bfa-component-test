@@ -1,2 +1,11 @@
 .summaryBox {
+  display: inline-block;
+  padding: 1em;
+  border: 2px solid rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 5px 0 rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
+  max-width: 400px;
+  background: rgba(0, 0, 0, 0.2);
+  margin: 2em auto 0;
+  text-align: center;
 }
