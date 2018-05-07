@@ -16,19 +16,25 @@ export const getOverviewData = () => {
     const { getOverviewViewDataEndpoint } = getState().config
 
     dispatch({ type: GET_OVERVIEW_DATA_START })
-    const response = await window.fetch(getOverviewViewDataEndpoint, { credentials: 'include' })
+    try {
+      const response = await window.fetch(getOverviewViewDataEndpoint, { credentials: 'include' })
 
-    if (response.status !== 200) {
-      dispatch({ type: GET_OVERVIEW_DATA_FAIL })
-      throw Error('Could not get overview view data')
+      if (response.status !== 200) {
+        throw Error('Could not get overview view data')
+      }
+
+      const data = await response.json()
+
+      dispatch({
+        type: GET_OVERVIEW_DATA_SUCCESS
+      })
+      dispatch(handleOverviewData(data))
+    } catch (err) {
+      dispatch({
+        type: GET_OVERVIEW_DATA_FAIL,
+        error: err
+      })
     }
-
-    const data = await response.json()
-
-    dispatch({
-      type: GET_OVERVIEW_DATA_SUCCESS
-    })
-    dispatch(handleOverviewData(data))
   }
 }
 

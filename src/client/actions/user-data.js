@@ -36,7 +36,8 @@ export const getUserData = () => {
       dispatch(handleUserData(data, { preventGetUserData: true }))
     } catch (err) {
       dispatch({
-        type: GET_USER_DATA_FAIL
+        type: GET_USER_DATA_FAIL,
+        error: err
       })
     }
   }
