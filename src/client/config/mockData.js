@@ -48,7 +48,7 @@ const getProfiles = () => {
 }
 
 const mockData = {
-  forceView: 'overview',
+  initialView: 'overview',
   mockOverviewData: {
     userSelectionData: {
       'Shot#2975': {
@@ -109,12 +109,9 @@ const mockData = {
 
   mockUserData: {
     user: {
-      battletag: 'Shot#2975',
-      id: 999,
-      provider: 'bnet',
-      token: 'abcd'
+      battletag: 'Shot#2975'
     },
-    data: {},
+    selections: {},
     profile: {
       characters: [
         {

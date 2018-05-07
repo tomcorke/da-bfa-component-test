@@ -1,6 +1,6 @@
 const commonConfig = {
   guild: 'Distinctly Average',
-  server: 'Silvermoon',
+  realm: 'Silvermoon',
   region: 'EU'
 }
 

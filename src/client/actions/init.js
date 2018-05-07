@@ -8,7 +8,7 @@ export const init = () => {
 
     // Load mock data and/or trigger getUserData
 
-    const { mockUserData, mockOverviewData, forceView } = getState().config
+    const { mockUserData, mockOverviewData, initialView } = getState().config
 
     if (mockUserData) {
       dispatch(actions.userData.handleUserData(mockUserData))
@@ -20,8 +20,8 @@ export const init = () => {
       dispatch(actions.overview.handleOverviewData(mockOverviewData))
     }
 
-    if (forceView) {
-      dispatch(actions.views.setView(forceView))
+    if (initialView) {
+      dispatch(actions.views.setView(initialView))
     }
   }
 }

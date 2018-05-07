@@ -21,20 +21,24 @@ export const getUserData = () => {
 
     const { userDataEndpoint } = getState().config
 
-    const response = await window.fetch(userDataEndpoint, { credentials: 'include' })
-    if (response.status !== 200) {
+    try {
+      const response = await window.fetch(userDataEndpoint, { credentials: 'include' })
+
+      if (response.status !== 200) {
+        throw Error('Could not get user data')
+      }
+
+      const data = await response.json()
+
+      dispatch({
+        type: GET_USER_DATA_SUCCESS
+      })
+      dispatch(handleUserData(data, { preventGetUserData: true }))
+    } catch (err) {
       dispatch({
         type: GET_USER_DATA_FAIL
       })
-      throw Error('Could not get user data')
     }
-
-    const data = await response.json()
-
-    dispatch({
-      type: GET_USER_DATA_SUCCESS
-    })
-    dispatch(handleUserData(data, { preventGetUserData: true }))
   }
 }
 
