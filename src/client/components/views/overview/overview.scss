@@ -1,0 +1,28 @@
+@import '../../../mixins/classes.scss';
+
+.overview {
+  background: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.5) 20%, rgba(0, 0, 0, 0.5) 80%, transparent 100%);
+  padding-bottom: 2em;
+
+  .selectionsContainer {
+    margin-top: 2em;
+
+    .selectionsHeader {
+      text-align: center;
+      font-size: 1.2em;
+    }
+
+    .selectionsBlurb {
+      text-align: center;
+      opacity: 0.7;
+      font-style: italic;
+      margin-bottom: 1em;
+    }
+  }
+
+  .summaryContainer {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+  }
+}

@@ -1,3 +1,15 @@
+import { connect } from 'react-redux'
+import actions from '../../actions'
+
 import FeedbackMessage from './feedback-message'
 
-export default FeedbackMessage
+const ConnectedFeedbackMessage = connect(
+  state => ({
+    ...state.feedback
+  }),
+  dispatch => ({
+    onClick: () => dispatch(actions.feedback.hide())
+  })
+)(FeedbackMessage)
+
+export default ConnectedFeedbackMessage

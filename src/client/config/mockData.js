@@ -48,75 +48,70 @@ const getProfiles = () => {
 }
 
 const mockData = {
-  forceView: 'overview',
-  mockViewData: {
-    overview: {
-      userSelectionData: {
-        'Shot#2975': {
-          first: {
-            selected: {
-              class: 'deathknight',
-              spec: 'blood'
-            }
-          },
-          second: {
-            selected: {
-              class: 'demonhunter',
-              spec: ''
-            },
-            comments: 'test comments longer and longer comments. Some people might write an essay in here, you never know.'
-          },
-          third: {
-            selected: {
-              class: 'priest',
-              spec: 'holy'
-            }
+  initialView: 'overview',
+  mockOverviewData: {
+    userSelectionData: {
+      'Shot#2975': {
+        first: {
+          selected: {
+            class: 'deathknight',
+            spec: 'blood'
           }
         },
-        'TestUser#123': {
-          first: {
-            selected: {
-              class: 'shaman',
-              spec: 'enhancement'
-            },
-            comments: 'test comments'
+        second: {
+          selected: {
+            class: 'demonhunter',
+            spec: ''
           },
-          second: {
-            selected: {
-              class: 'druid',
-              spec: 'restoration'
-            }
-          }
+          comments: 'test comments longer and longer comments. Some people might write an essay in here, you never know.'
         },
-        'BattleTag#999': {
-          first: {
-            selected: {
-              class: 'deathknight',
-              spec: 'blood'
-            },
-            comments: 'test comments'
-          },
-          third: {
-            selected: {
-              class: 'mage',
-              spec: 'havoc'
-            },
-            comments: 'test comments'
+        third: {
+          selected: {
+            class: 'priest',
+            spec: 'holy'
           }
         }
       },
-      userProfileData: getProfiles()
-    }
+      'TestUser#123': {
+        first: {
+          selected: {
+            class: 'shaman',
+            spec: 'enhancement'
+          },
+          comments: 'test comments'
+        },
+        second: {
+          selected: {
+            class: 'druid',
+            spec: 'restoration'
+          }
+        }
+      },
+      'BattleTag#999': {
+        first: {
+          selected: {
+            class: 'deathknight',
+            spec: 'blood'
+          },
+          comments: 'test comments'
+        },
+        third: {
+          selected: {
+            class: 'mage',
+            spec: 'havoc'
+          },
+          comments: 'test comments'
+        }
+      }
+    },
+    userProfileData: getProfiles()
   },
 
   mockUserData: {
     user: {
-      battletag: 'Shot#2975',
-      id: 999,
-      provider: 'bnet',
-      token: 'abcd'
+      battletag: 'Shot#2975'
     },
-    data: {},
+    selections: {},
     profile: {
       characters: [
         {

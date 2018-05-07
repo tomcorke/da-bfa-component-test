@@ -10,12 +10,12 @@ const menuItems = [
   { name: 'export', text: 'Export', admin: true }
 ]
 
-const ViewMenu = ({ view, isAdmin = false, onClick }) => {
+const ViewMenu = ({ view, isAdmin = false, changeView }) => {
   const menuItemsToDisplay = menuItems
     .filter(item => !item.admin || isAdmin)
     .map(item => (
       <div key={item.name} className={STYLES.item}>
-        <SmallButton onClick={() => onClick(item.name)} active={item.name === view}>{item.text}</SmallButton>
+        <SmallButton onClick={() => changeView(item.name)} active={item.name === view}>{item.text}</SmallButton>
       </div>
     ))
 

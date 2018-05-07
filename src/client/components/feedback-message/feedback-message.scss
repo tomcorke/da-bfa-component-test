@@ -1,3 +1,5 @@
+@import '../../mixins/classes';
+
 .feedbackMessage {
   position: absolute;
   top: 0;
@@ -13,6 +15,14 @@
   z-index: 2;
   opacity: 1;
   transition: opacity 1s ease-in;
+
+  &__success {
+    color: classColour(monk);
+  }
+
+  &__warning {
+    color: classColour(deathknight);
+  }
 }
 
 .fadeout {

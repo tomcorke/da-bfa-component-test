@@ -1,15 +1,20 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
+import { Provider } from 'react-redux'
+import configureStore from './store/configure'
+
 import BfaPlanner from './components/bfa-planner'
 
 import './reset.scss'
 import './base.scss'
 
-const config = require(`./config/${process.env.NODE_ENV}`).default
+const store = configureStore()
 
 ReactDOM.render(
-  <BfaPlanner config={config} />,
+  <Provider store={store}>
+    <BfaPlanner />
+  </Provider>,
   document.getElementById('app')
 )
 

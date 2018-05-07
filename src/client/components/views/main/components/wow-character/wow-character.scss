@@ -1,0 +1,31 @@
+@import '../../../../../mixins/classes.scss';
+
+.wowCharacter {
+  flex: 0 1 25%;
+
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+
+  .classIcon {
+    display: inline-block;
+    height: 26px;
+    margin-right: 5px;
+  }
+
+  .level {
+    margin-right: 5px;
+  }
+
+  .name {
+    display: inline-block;
+    margin-right: 10px;
+    white-space: pre;
+
+    @each $class, $colour in $classColours {
+      &[data-class=#{$class}] {
+        color: $colour;
+      }
+    }
+  }
+}

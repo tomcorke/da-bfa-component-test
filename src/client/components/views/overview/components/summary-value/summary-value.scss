@@ -1,0 +1,26 @@
+@import '../../../../../mixins/classes';
+
+.summaryValue {
+  display: flex;
+  flex-flow: row nowrap;
+  margin-right: 1em;
+  align-items: center;
+  color: classColour(deathknight);
+
+  &[data-has-value=true] {
+    color: classColour(monk);
+  }
+
+  .name {
+    text-transform: uppercase;
+    margin-right: 0.5em;
+
+    &:after {
+      content: ':';
+    }
+  }
+
+  .value {
+    font-size: 1.5em;
+  }
+}

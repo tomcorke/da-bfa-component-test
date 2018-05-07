@@ -1,0 +1,5 @@
+@import '../../../../../mixins/classes.scss';
+
+.nonGuild {
+  color: classColour(deathknight);
+}

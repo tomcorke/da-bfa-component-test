@@ -1,0 +1,35 @@
+.playerDisplay {
+  margin: 0.5em auto;
+  display: flex;
+  flex-flow: row wrap;
+  width: 400px;
+  max-width: 100%;
+  position: relative;
+
+  &:not(:first-child) {
+    padding-top: 1em;
+
+    &::before {
+      content: '';
+      height: 1px;
+      width: 100%;
+      position: absolute;
+      left: 0;
+      top: 0;
+      background: linear-gradient(to right, transparent 0%, rgba(255,255,255,0.5) 50%, transparent 100%);
+    }
+  }
+
+  .left {
+    flex: 1 0 160px;
+    padding-right: 10px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .right {
+    flex: 1 1 240px;
+    display: flex;
+    flex-flow: column nowrap;
+  }
+}
