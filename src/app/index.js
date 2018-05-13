@@ -164,6 +164,7 @@ app.delete('/deletePlayerData', (req, res) => {
     return res.status(403).send()
   }
   userSelectionsDb.delete(battletag)
+  bnetApi.delete(battletag)
   res.status(200).send()
 })
 

@@ -87,6 +87,10 @@ class API {
   getAll () {
     return profileDb.getAll()
   }
+
+  delete (battletag) {
+    profileDb.delete(battletag)
+  }
 }
 
 const api = new API()

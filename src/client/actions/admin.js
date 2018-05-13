@@ -7,7 +7,6 @@ export const ADMIN_DELETE_PLAYER_DATA_FAIL = 'ADMIN_DELETE_PLAYER_DATA_FAIL'
 
 export const deletePlayerData = (battletag) => {
   return async (dispatch, getState) => {
-
     if (!window.confirm(`Are you sure you wish to delete data for ${battletag}? This action cannot be undone!`)) return
 
     const { adminDeletePlayerDataEndpoint } = getState().config
