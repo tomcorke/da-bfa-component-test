@@ -137,7 +137,8 @@ const mockData = {
         }
       ]
     },
-    isAdmin: true
+    isAdmin: true,
+    isSuperAdmin: true
   }
 }
 

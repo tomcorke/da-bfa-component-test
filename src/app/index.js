@@ -9,7 +9,7 @@ import handlebars from 'express-handlebars'
 
 import { DB } from './db'
 import bnetApi from './bnet-api'
-import { isAdmin } from './permissions'
+import { isAdmin, isSuperAdmin } from './permissions'
 
 const userSelectionsDb = new DB('data')
 
@@ -73,11 +73,13 @@ const getUserData = async (user, immediate = false) => {
   const selections = userSelectionsDb.get(battletag)
   const profile = await bnetApi.getWoWProfile(user, immediate)
   const isUserAdmin = isAdmin(user)
+  const isUserSuperAdmin = isSuperAdmin(user)
   return {
     user: { battletag: user.battletag },
     selections,
     profile,
-    isAdmin: isUserAdmin
+    isAdmin: isUserAdmin,
+    isSuperAdmin: isUserSuperAdmin
   }
 }
 
@@ -139,7 +141,7 @@ app.get('/getOverviewViewData', (req, res) => {
   }
   if (!isAdmin(req.user)) {
     console.warn(`Unauthorised user ${req.user.battletag} attempted to get overview data`)
-    return res.status(401).send()
+    return res.status(403).send()
   }
   const userSelectionData = userSelectionsDb.getAll()
   const userProfileData = bnetApi.getAll()
@@ -147,6 +149,33 @@ app.get('/getOverviewViewData', (req, res) => {
   res.json(data)
 })
 
+app.delete('/deletePlayerData', (req, res) => {
+  if (!req.isAuthenticated()) {
+    console.warn('Unauthenticated user attempting to delete player data')
+    return res.status(401).send()
+  }
+  const body = req.body || {}
+  const { battletag } = body
+  if (!battletag) {
+    return res.status(400).send()
+  }
+  if (!isSuperAdmin(req.user)) {
+    console.warn(`Unauthorised user ${req.user.battletag} attempted to delete player data for ${battletag}`)
+    return res.status(403).send()
+  }
+  userSelectionsDb.delete(battletag)
+  res.status(200).send()
+})
+
 app.get('/*', express.static(path.join(__dirname, '../client')))
+
+app.use((err, req, res, next) => {
+  console.error(`ERROR: ${req.url}`)
+  console.error(err.stack)
+  if (res.headersSent) {
+    return next(err)
+  }
+  res.status(500).send()
+})
 
 app.listen(3000)

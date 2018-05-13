@@ -46,4 +46,8 @@ export class DB {
   getAll () {
     return clone(this.data)
   }
+
+  delete (key) {
+    this.data[key] = undefined
+  }
 }

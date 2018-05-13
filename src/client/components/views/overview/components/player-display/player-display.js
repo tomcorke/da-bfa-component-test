@@ -11,7 +11,7 @@ const PlayerDisplay = ({ battletag }) => {
     <div className={STYLES.playerDisplay}>
       <div className={STYLES.left}>
         <PlayerIdentifier battletag={battletag} />
-        <PlayerAdminLinks />
+        <PlayerAdminLinks battletag={battletag} />
       </div>
       <div className={STYLES.right}>
         <PlayerSelections battletag={battletag} />

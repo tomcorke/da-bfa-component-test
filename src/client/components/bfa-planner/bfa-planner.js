@@ -6,6 +6,7 @@ import Header from '../header'
 import SubHeader from '../subheader'
 import Footer from '../footer'
 import MainSection from '../main-section'
+import FeedbackMessage from '../feedback-message'
 
 import WindowMessageReceiver from '../window-message-receiver'
 
@@ -38,6 +39,8 @@ class BfaPlanner extends React.Component {
         <Section type={'fill'}>
           <Footer />
         </Section>
+
+        <FeedbackMessage />
 
         <WindowMessageReceiver />
 

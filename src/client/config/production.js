@@ -7,7 +7,9 @@ const config = {
   bnetAuthEndpoint: 'auth/bnet',
   saveDataEndpoint: 'save',
 
-  getOverviewViewDataEndpoint: 'getOverviewViewData'
+  getOverviewViewDataEndpoint: 'getOverviewViewData',
+
+  adminDeletePlayerDataEndpoint: 'deletePlayerData'
 }
 
 export default config

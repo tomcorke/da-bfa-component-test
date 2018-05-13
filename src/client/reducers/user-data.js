@@ -17,11 +17,13 @@ const handleUserData = (state, userData) => {
   const {
     user,
     selections = {},
-    profile = {
-      characters: []
-    },
-    isAdmin
+    isAdmin,
+    isSuperAdmin
   } = userData
+
+  let { profile } = userData
+  profile = profile || {}
+  profile.characters = profile.characters || []
 
   const isLoggedIn = !!user
   const hasProfile = !!profile
@@ -36,6 +38,7 @@ const handleUserData = (state, userData) => {
     selections,
     profile,
     isAdmin,
+    isSuperAdmin,
     hasChanges: false,
     isLoggedIn,
     hasProfile,

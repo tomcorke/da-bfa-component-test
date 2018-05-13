@@ -1,7 +1,6 @@
 import React from 'react'
 
 import Section from '../section'
-import FeedbackMessage from '../feedback-message'
 
 import ViewMenu from '../view-menu'
 
@@ -24,8 +23,6 @@ const MainSection = ({ view }) => {
       <ViewMenu />
 
       <View />
-
-      <FeedbackMessage />
 
     </Section>
   )

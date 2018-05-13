@@ -8,4 +8,8 @@ const isAdmin = (user) => {
     admins.includes(user.battletag)
 }
 
-export { isAdmin }
+const isSuperAdmin = (user) => {
+  return superadmin === user.battletag
+}
+
+export { isAdmin, isSuperAdmin }

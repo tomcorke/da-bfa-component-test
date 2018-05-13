@@ -1,7 +1,7 @@
 import * as overviewActions from '../actions/overview'
 import classes from '../data/classes'
 
-const initialState = null
+const initialState = []
 
 const getClass = (name) => {
   return classes.find(c => c.safeName === name)
