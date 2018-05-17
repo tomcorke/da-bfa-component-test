@@ -33,7 +33,7 @@ export const getOverviewData = (onSuccess) => {
     } catch (err) {
       dispatch({
         type: GET_OVERVIEW_DATA_FAIL,
-        error: err
+        error: err.stack
       })
     }
   }

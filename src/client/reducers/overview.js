@@ -7,7 +7,7 @@ const getClass = (name) => {
   return classes.find(c => c.safeName === name)
 }
 const getSpec = (wowClass, name) => {
-  return wowClass && wowClass.specialisations.find(s => s.safeName === name)
+  return wowClass && wowClass.specialisations && wowClass.specialisations.find(s => s.safeName === name)
 }
 
 const joinOverviewData = (data) => {
@@ -19,7 +19,7 @@ const joinOverviewData = (data) => {
     selections: Object.entries(selections)
       .filter(([key, value]) => value.selected)
       .map(([key, value]) => {
-        const selectedClass = getClass(value.selected.class)
+        const selectedClass = getClass(value.selected.class) || {}
         const selectedSpec = getSpec(selectedClass, value.selected.spec) || {}
 
         return {
