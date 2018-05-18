@@ -17,10 +17,8 @@ const choiceNumbers = {
   third: 3
 }
 
-const PlayerSelection = ({ selection, characters, onSelect }) => {
-  if (!selection) return null
-
-  const { choice, classSafeName, spec, comments, tags, selected } = selection
+const PlayerSelection = ({ selection = {}, choice, characters, onSelect }) => {
+  const { classSafeName, spec, comments, tags, selected } = selection
 
   const choiceNumber = choiceNumbers[choice]
 
@@ -36,7 +34,10 @@ const PlayerSelection = ({ selection, characters, onSelect }) => {
 
   let warningMessage = null
   let warningSeverity = 0
-  if (classCharacters.length === 0) {
+  if (!classSafeName) {
+    warningMessage = 'Player has not selected a class'
+    warningSeverity = 4
+  } else if (classCharacters.length === 0) {
     warningMessage = 'Player has no characters of this class'
     warningSeverity = 3
   } else if (maxLevelCharacters.length === 0) {
@@ -59,11 +60,14 @@ ${classCharacters.map(char => `  ${char.level} - ${char.name} (${char.realm})`).
     warningSeverity = 1
   }
 
+  const specText = (classSafeName && spec) || '-'
+
   return (
     <div
       className={STYLES.playerSelection}
       title={cleanComment}
       data-selected={selected}
+      data-selected-num={1}
       onClick={onSelect}
     >
       <div className={STYLES.choiceNumber}>
@@ -76,7 +80,7 @@ ${classCharacters.map(char => `  ${char.level} - ${char.name} (${char.realm})`).
         <RoleIcon role={getRoleTag(tags)} />
       </div>
       <div className={STYLES.spec}>
-        {spec}
+        {specText}
       </div>
       <div className={STYLES.indicators}>
         {hasComment && <div className={STYLES.commentIndicator} data-comment={cleanComment} />}

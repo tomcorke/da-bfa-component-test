@@ -22,4 +22,26 @@
       background: url('../../../../../../../images/icons/exclamation.svg?fill=%23f00') center center no-repeat;
     }
   }
+
+  &[data-severity="4"] {
+
+    .severityIndicator {
+      width: 14px;
+      height: 14px;
+      background: url('../../../../../../../images/icons/exclamation-circle.svg?fill=%23f00') center center no-repeat;
+      animation: flash 4s ease-in-out infinite;
+    }
+  }
+}
+
+@keyframes flash {
+  from {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  to {
+    opacity: 1;
+  }
 }

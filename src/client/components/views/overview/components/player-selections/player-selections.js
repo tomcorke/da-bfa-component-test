@@ -12,7 +12,7 @@ const CHOICES = [
 
 const PlayerSelections = ({ battletag }) => {
   return (
-    <div className={STYLES.selections}>
+    <div className={STYLES.playerSelections}>
       {CHOICES.map(choice =>
         <PlayerSelection
           key={choice}

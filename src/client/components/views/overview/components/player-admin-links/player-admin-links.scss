@@ -1,7 +1,10 @@
 .playerAdminLinks {
+  flex: 1 1 100%;
+
   text-align: right;
   display: flex;
-  flex-direction: column;
+  flex-flow: row wrap;
+  justify-content: flex-end;
   align-items: flex-end;
   opacity: 0.3;
   transition: opacity 5s ease-in;
@@ -9,6 +12,18 @@
   &:hover {
     opacity: 1;
     transition: opacity 0.1s ease-out;
+  }
+
+  span {
+    flex: 1 0 100%;
+  }
+
+  @media (max-width: 500px) {
+    flex-basis: 0;
+    span {
+      flex-shrink: 1;
+      flex-basis: 0;
+    }
   }
 
   .adminLinkDelete {

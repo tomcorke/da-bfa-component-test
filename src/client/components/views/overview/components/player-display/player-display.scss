@@ -2,9 +2,11 @@
   margin: 0.5em auto;
   display: flex;
   flex-flow: row wrap;
-  width: 400px;
+  width: 600px;
   max-width: 100%;
   position: relative;
+  justify-content: center;
+  align-items: flex-start;
 
   &:not(:first-child) {
     padding-top: 1em;
@@ -24,7 +26,8 @@
     flex: 1 0 160px;
     padding-right: 10px;
     display: flex;
-    flex-direction: column;
+    flex-flow: row wrap;
+    align-items: flex-start;
   }
 
   .right {

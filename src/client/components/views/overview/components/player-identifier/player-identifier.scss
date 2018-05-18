@@ -1,7 +1,11 @@
 .playerIdentifier {
+  flex: 1 0 100%;
   text-align: right;
 
   @media (max-width: 500px) {
     text-align: left;
+    flex-shrink: 1;
+    flex-basis: 0;
+    padding-right: 10px;
   }
 }

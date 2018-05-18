@@ -12,7 +12,11 @@ module.exports = {
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        use: ['babel-loader']
+        loader: require.resolve('babel-loader'),
+        options: {
+          cacheDirectory: true,
+          plugins: ['react-hot-loader/babel']
+        }
       },
       {
         test: /\.scss$/,
@@ -56,7 +60,6 @@ module.exports = {
     filename: 'bundle_[hash].js'
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: path.join(__dirname, 'public/index.html')

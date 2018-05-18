@@ -1,4 +1,5 @@
 import React from 'react'
+import { hot } from 'react-hot-loader'
 
 import Section from '../section'
 import Divider from '../divider'
@@ -49,4 +50,4 @@ class BfaPlanner extends React.Component {
   }
 }
 
-export default BfaPlanner
+export default hot(module)(BfaPlanner)
