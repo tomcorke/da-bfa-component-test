@@ -40,9 +40,34 @@ export const getOverviewData = (onSuccess) => {
 }
 
 export const selectChoice = (battletag, choice) => {
-  return {
-    type: SELECT_OVERVIEW_CHOICE,
-    battletag,
-    choice
+  return dispatch => {
+    dispatch({
+      type: SELECT_OVERVIEW_CHOICE,
+      battletag,
+      choice
+    })
+    dispatch(saveSelectedChoices())
+  }
+}
+
+export const saveSelectedChoices = () => {
+  return async (dispatch, getState) => {
+    const { overview } = getState()
+
+    const playerSelections = overview
+      .map(player => {
+        const selectedSelection = player.selections.find(selection => selection.selected) || {}
+        return {
+          battletag: player.battletag,
+          class: selectedSelection.classSafeName,
+          spec: selectedSelection.specSafeName
+        }
+      })
+      .filter(selections => selections.class)
+
+    dispatch({
+      type: 'SAVE_SELECTED_CHOICES',
+      playerSelections
+    })
   }
 }
