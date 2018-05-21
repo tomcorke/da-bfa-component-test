@@ -1,205 +1,208 @@
 const classData = [
   {
     name: 'Death Knight',
+    tags: ['str', 'plate'],
     specialisations: [
       {
         name: 'Frost',
-        tags: ['dps', 'melee', 'str', 'plate']
+        tags: ['dps', 'melee']
       },
       {
         name: 'Unholy',
-        tags: ['dps', 'melee', 'str', 'plate']
+        tags: ['dps', 'melee']
       },
       {
         name: 'Blood',
-        tags: ['tank', 'str', 'plate']
+        tags: ['tank']
       }
     ]
   },
   {
     name: 'Demon Hunter',
+    tags: ['agi', 'leather'],
     specialisations: [
       {
         name: 'Havoc',
-        tags: ['dps', 'melee', 'agi', 'leather']
+        tags: ['dps', 'melee']
       },
       {
         name: 'Vengeance',
-        tags: ['tank', 'agi', 'leather']
+        tags: ['tank']
       }
     ]
   },
   {
     name: 'Druid',
+    tags: ['leather'],
     specialisations: [
       {
         name: 'Guardian',
-        tags: ['tank', 'agi', 'leather']
+        tags: ['tank', 'agi']
       },
       {
         name: 'Feral',
-        tags: ['dps', 'melee', 'agi', 'leather']
+        tags: ['dps', 'melee', 'agi']
       },
       {
         name: 'Balance',
-        tags: ['dps', 'ranged', 'int', 'leather']
+        tags: ['dps', 'ranged', 'int']
       },
       {
         name: 'Restoration',
-        tags: ['healer', 'int', 'leather']
+        tags: ['healer', 'int']
       }
     ]
   },
   {
     name: 'Hunter',
+    tags: ['dps', 'agi', 'mail'],
     specialisations: [
       {
         name: 'Beast Mastery',
-        tags: ['dps', 'ranged', 'agi', 'mail']
+        tags: ['ranged']
       },
       {
         name: 'Marksmanship',
-        tags: ['dps', 'ranged', 'agi', 'mail']
+        tags: ['ranged']
       },
       {
         name: 'Survival',
-        tags: ['dps', 'melee', 'agi', 'mail']
+        tags: ['melee']
       }
     ]
   },
   {
     name: 'Mage',
+    tags: ['dps', 'ranged', 'int', 'cloth'],
     specialisations: [
       {
         name: 'Frost',
-        tags: ['dps', 'ranged', 'int', 'cloth']
       },
       {
         name: 'Fire',
-        tags: ['dps', 'ranged', 'int', 'cloth']
       },
       {
         name: 'Arcane',
-        tags: ['dps', 'ranged', 'int', 'cloth']
       }
     ]
   },
   {
     name: 'Monk',
+    tags: ['leather'],
     specialisations: [
       {
         name: 'Windwalker',
-        tags: ['dps', 'melee', 'agi', 'leather']
+        tags: ['dps', 'melee', 'agi']
       },
       {
         name: 'Mistweaver',
-        tags: ['healer', 'int', 'leather']
+        tags: ['healer', 'int']
       },
       {
         name: 'Brewmaster',
-        tags: ['tank', 'agi', 'leather']
+        tags: ['tank', 'agi']
       }
     ]
   },
   {
     name: 'Paladin',
+    tags: ['plate'],
     specialisations: [
       {
         name: 'Retribution',
-        tags: ['dps', 'melee', 'str', 'plate']
+        tags: ['dps', 'melee', 'str']
       },
       {
         name: 'Holy',
-        tags: ['healer', 'int', 'plate']
+        tags: ['healer', 'int']
       },
       {
         name: 'Protection',
-        tags: ['tank', 'str', 'plate']
+        tags: ['tank', 'str']
       }
     ]
   },
   {
     name: 'Priest',
+    tags: ['int', 'cloth'],
     specialisations: [
       {
         name: 'Shadow',
-        tags: ['dps', 'ranged', 'int', 'cloth']
+        tags: ['dps', 'ranged']
       },
       {
         name: 'Holy',
-        tags: ['healer', 'int', 'cloth']
+        tags: ['healer']
       },
       {
         name: 'Discipline',
-        tags: ['healer', 'int', 'cloth']
+        tags: ['healer']
       }
     ]
   },
   {
     name: 'Rogue',
+    tags: ['dps', 'melee', 'agi', 'leather'],
     specialisations: [
       {
         name: 'Subtelty',
-        tags: ['dps', 'melee', 'agi', 'leather']
       },
       {
         name: 'Assassination',
-        tags: ['dps', 'melee', 'agi', 'leather']
       },
       {
         name: 'Combat',
-        tags: ['dps', 'melee', 'agi', 'leather']
       }
     ]
   },
   {
     name: 'Shaman',
+    tags: ['mail'],
     specialisations: [
       {
         name: 'Enhancement',
-        tags: ['dps', 'melee', 'agi', 'mail']
+        tags: ['dps', 'melee', 'agi']
       },
       {
         name: 'Elemental',
-        tags: ['dps', 'ranged', 'int', 'mail']
+        tags: ['dps', 'ranged', 'int']
       },
       {
         name: 'Restoration',
-        tags: ['healer', 'int', 'mail']
+        tags: ['healer', 'int']
       }
     ]
   },
   {
     name: 'Warlock',
+    tags: ['dps', 'ranged', 'int', 'cloth'],
     specialisations: [
       {
         name: 'Demonology',
-        tags: ['dps', 'ranged', 'int', 'cloth']
       },
       {
         name: 'Destruction',
-        tags: ['dps', 'ranged', 'int', 'cloth']
       },
       {
         name: 'Affiliction',
-        tags: ['dps', 'ranged', 'int', 'cloth']
       }
     ]
   },
   {
     name: 'Warrior',
+    tags: ['str', 'plate'],
     specialisations: [
       {
         name: 'Arms',
-        tags: ['dps', 'melee', 'str', 'plate']
+        tags: ['dps', 'melee']
       },
       {
         name: 'Fury',
-        tags: ['dps', 'melee', 'str', 'plate']
+        tags: ['dps', 'melee']
       },
       {
         name: 'Protection',
-        tags: ['tank', 'str', 'plate']
+        tags: ['tank']
       }
     ]
   }

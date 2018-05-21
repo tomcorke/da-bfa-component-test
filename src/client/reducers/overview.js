@@ -22,13 +22,18 @@ const joinOverviewData = (data) => {
         const selectedClass = getClass(value.selected.class) || {}
         const selectedSpec = getSpec(selectedClass, value.selected.spec) || {}
 
+        const classAndSpecTags = Array.from(new Set(
+          (selectedClass.tags || [])
+            .concat(selectedSpec.tags || [])
+        ))
+
         return {
           choice: key,
           class: selectedClass.name,
           classSafeName: selectedClass.safeName,
           spec: selectedSpec.name,
           specSafeName: selectedSpec.safeName,
-          tags: selectedSpec.tags,
+          tags: classAndSpecTags,
           comments: value.comments
         }
       })
