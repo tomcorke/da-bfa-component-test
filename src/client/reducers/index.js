@@ -7,6 +7,7 @@ import FeedbackReducer from './feedback'
 import LoginReducer from './login'
 import OverviewReducer from './overview'
 import OverviewSelectionsReducer from './overview-selections'
+import OverviewSettingsReducer from './overview-settings'
 
 const rootReducer = combineReducers({
   config: ConfigReducer,
@@ -15,7 +16,8 @@ const rootReducer = combineReducers({
   feedback: FeedbackReducer,
   login: LoginReducer,
   overview: OverviewReducer,
-  overviewSelections: OverviewSelectionsReducer
+  overviewSelections: OverviewSelectionsReducer,
+  overviewSettings: OverviewSettingsReducer
 })
 
 export default rootReducer

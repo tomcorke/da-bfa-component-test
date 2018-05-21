@@ -26,6 +26,7 @@
 
 
     &::after {
+      display: none;
       content: '';
       position: absolute;
       left: 100%;

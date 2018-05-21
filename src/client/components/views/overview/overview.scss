@@ -1,8 +1,27 @@
 @import '../../../mixins/classes.scss';
 
 .overview {
+
   background: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.5) 20%, rgba(0, 0, 0, 0.5) 80%, transparent 100%);
   padding-bottom: 2em;
+
+  .options {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+
+    label {
+      display: flex;
+      flex-flow: row wrap;
+      align-items: center;
+
+      input[type=checkbox] {
+        margin-right: 1em;
+        width: 1.5em;
+        height: 1.5em;
+      }
+    }
+  }
 
   .selectionsContainer {
     margin-top: 2em;

@@ -2,13 +2,12 @@ export const GET_OVERVIEW_DATA_START = 'GET_OVERVIEW_DATA_START'
 export const GET_OVERVIEW_DATA_SUCCESS = 'GET_OVERVIEW_DATA_SUCCESS'
 export const GET_OVERVIEW_DATA_FAIL = 'GET_OVERVIEW_DATA_FAIL'
 export const HANDLE_OVERVIEW_DATA = 'HANDLE_OVERVIEW_DATA'
+export const SHOW_BACKUP_SUMMARY = 'SHOW_BACKUP_SUMMARY'
 
-export const handleOverviewData = (data) => {
-  return {
-    type: HANDLE_OVERVIEW_DATA,
-    data
-  }
-}
+export const handleOverviewData = (data) => ({
+  type: HANDLE_OVERVIEW_DATA,
+  data
+})
 
 export const getOverviewData = (onSuccess) => {
   return async (dispatch, getState) => {
@@ -35,5 +34,16 @@ export const getOverviewData = (onSuccess) => {
         error: err.stack
       })
     }
+  }
+}
+
+export const toggleShowBackupSummary = () => {
+  return (dispatch, getState) => {
+    const currentValue = getState().overviewSettings.showBackupSummary
+    const newValue = !currentValue
+    dispatch({
+      type: SHOW_BACKUP_SUMMARY,
+      value: newValue
+    })
   }
 }

@@ -5,7 +5,7 @@ import PlayerDisplay from './components/player-display'
 
 import STYLES from './overview.scss'
 
-const OverviewView = ({ battletags }) => {
+const OverviewView = ({ battletags, showBackupSummary, toggleShowBackupSummary }) => {
   const selectionsDisplay = battletags.map(battletag => {
     return <PlayerDisplay
       key={battletag}
@@ -18,7 +18,14 @@ const OverviewView = ({ battletags }) => {
     <div className={STYLES.summaryContainer}>
       <SummaryBox title='Total summary' />
       <SummaryBox title='Main selected summary' selectionFilter={selection => selection.overviewSelection === 'first'} />
-      <SummaryBox title='Backup selected summary' selectionFilter={selection => selection.overviewSelection === 'second'} />
+      {showBackupSummary && <SummaryBox title='Backup selected summary' selectionFilter={selection => selection.overviewSelection === 'second'} />}
+    </div>
+
+    <div className={STYLES.options}>
+      <label>
+        <input type='checkbox' checked={showBackupSummary} onChange={toggleShowBackupSummary} />
+        Show backup selection summary
+      </label>
     </div>
 
     <div className={STYLES.selectionsContainer}>
