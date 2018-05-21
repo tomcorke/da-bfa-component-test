@@ -16,11 +16,17 @@ const byLevelAndName = (a, b) => {
 }
 
 const ConnectedClassDisplay = connect(
-  state => ({
-    guildCharacters: state.userData.profile.characters
-      .filter(guildFilter(state.config.guild, state.config.realm))
-      .sort(byLevelAndName)
-  })
+  state => {
+    const characters = (
+      state.userData.profile && state.userData.profile.characters
+    ) || []
+
+    return {
+      guildCharacters: characters
+        .filter(guildFilter(state.config.guild, state.config.realm))
+        .sort(byLevelAndName)
+    }
+  }
 )(ClassDisplay)
 
 export default ConnectedClassDisplay

@@ -35,26 +35,10 @@ const joinOverviewData = (data) => {
   }))
 }
 
-const selectChoice = (state, battletag, choice) => {
-  const clonedState = JSON.parse(JSON.stringify(state))
-  const playerData = clonedState.find(player => player.battletag === battletag)
-  playerData.selections.forEach(selection => {
-    if (selection.choice === choice) {
-      // toggle clicked selection
-      selection.selected = !selection.selected
-    } else {
-      selection.selected = false
-    }
-  })
-  return clonedState
-}
-
 const OverviewReducer = (state = initialState, action) => {
   switch (action.type) {
     case overviewActions.HANDLE_OVERVIEW_DATA:
       return joinOverviewData(action.data)
-    case overviewActions.SELECT_OVERVIEW_CHOICE:
-      return selectChoice(state, action.battletag, action.choice)
     default:
       return state
   }

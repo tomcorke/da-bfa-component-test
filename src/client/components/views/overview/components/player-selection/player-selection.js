@@ -17,8 +17,8 @@ const choiceNumbers = {
   third: 3
 }
 
-const PlayerSelection = ({ selection = {}, choice, characters, onSelect }) => {
-  const { classSafeName, spec, comments, tags, selected } = selection
+const PlayerSelection = ({ selection = {}, choice, characters, onSelect, overviewSelection }) => {
+  const { classSafeName, spec, comments, tags } = selection
 
   const choiceNumber = choiceNumbers[choice]
 
@@ -66,8 +66,8 @@ ${classCharacters.map(char => `  ${char.level} - ${char.name} (${char.realm})`).
     <div
       className={STYLES.playerSelection}
       title={cleanComment}
-      data-selected={selected}
-      data-selected-num={1}
+      data-selected={!!overviewSelection}
+      data-overview-selection={overviewSelection}
       onClick={onSelect}
     >
       <div className={STYLES.choiceNumber}>

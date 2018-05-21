@@ -24,6 +24,7 @@
     background-image: url('../../../../images/BJINAP4MVAFS1509568693842.jpg');
     .container {
       // background: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.5) 20%, rgba(0, 0, 0, 0.5) 80%, transparent 100%);
+      max-width: 100% !important;
     }
   }
 
@@ -33,6 +34,9 @@
     margin: 0 auto;
     padding: 40px 20px 40px;
     line-height: 30px;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
 
     h1, h2, h3, h4 {
       margin: 0 auto;

@@ -17,7 +17,8 @@ const OverviewView = ({ battletags }) => {
 
     <div className={STYLES.summaryContainer}>
       <SummaryBox title='Total summary' />
-      <SummaryBox title='Selected summary' selectionFilter={selection => selection.selected} />
+      <SummaryBox title='Main selected summary' selectionFilter={selection => selection.overviewSelection === 'first'} />
+      <SummaryBox title='Backup selected summary' selectionFilter={selection => selection.overviewSelection === 'second'} />
     </div>
 
     <div className={STYLES.selectionsContainer}>

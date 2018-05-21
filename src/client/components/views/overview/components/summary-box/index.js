@@ -2,6 +2,21 @@ import { connect } from 'react-redux'
 
 import SummaryBox from './summary-box'
 
+const joinWithOverviewSelections = (playerOverviewSelections = {}) => (selection) => {
+  const overviewSelection = Object.keys(playerOverviewSelections)
+    .find(key => {
+      const os = playerOverviewSelections[key]
+      return os &&
+        selection &&
+        os.class === selection.classSafeName &&
+        os.spec === selection.specSafeName
+    })
+  return {
+    ...selection,
+    overviewSelection
+  }
+}
+
 const ConnectedSummaryBox = connect(
   (state, props) => {
     const noUndefinedFilter = selection => !!selection.class
@@ -10,6 +25,7 @@ const ConnectedSummaryBox = connect(
       allSelections: state.overview
         .reduce((allSelections, player) =>
           allSelections.concat(player.selections
+            .map(joinWithOverviewSelections(state.overviewSelections[player.battletag]))
             .filter(noUndefinedFilter)
             .filter(selectionFilter)
             .map(selection => ({
