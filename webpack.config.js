@@ -3,6 +3,9 @@ const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
+  resolve: {
+    extensions: ['*', '.ts', '.tsx', '.js', '.jsx']
+  },
   entry: [
     'babel-polyfill',
     './src/client/index.js'
@@ -17,6 +20,10 @@ module.exports = {
           cacheDirectory: true,
           plugins: ['react-hot-loader/babel']
         }
+      },
+      {
+        test: /\.tsx?$/,
+        loader: 'awesome-typescript-loader'
       },
       {
         test: /\.scss$/,
@@ -51,9 +58,6 @@ module.exports = {
         loader: 'file-loader?name=images/[name].[ext]'
       }
     ]
-  },
-  resolve: {
-    extensions: ['*', '.js', '.jsx']
   },
   output: {
     path: path.join(__dirname, 'dist/client'),

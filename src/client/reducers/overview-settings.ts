@@ -1,10 +1,16 @@
 import * as overviewActions from '../actions/overview'
 
-const initialState = {
+export type OverviewSettingsState = {
+  showBackupSummary: boolean
+}
+
+const initialState: OverviewSettingsState = {
   showBackupSummary: false
 }
 
-const OverviewSettingsReducer = (state = initialState, action) => {
+const OverviewSettingsReducer = (
+  state: OverviewSettingsState = initialState,
+  action: overviewActions.OverviewAction): OverviewSettingsState => {
   switch (action.type) {
     case overviewActions.SHOW_BACKUP_SUMMARY:
       return {

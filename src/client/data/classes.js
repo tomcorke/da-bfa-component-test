@@ -76,13 +76,13 @@ const classData = [
     tags: ['dps', 'ranged', 'int', 'cloth'],
     specialisations: [
       {
-        name: 'Frost',
+        name: 'Frost'
       },
       {
-        name: 'Fire',
+        name: 'Fire'
       },
       {
-        name: 'Arcane',
+        name: 'Arcane'
       }
     ]
   },
@@ -145,13 +145,13 @@ const classData = [
     tags: ['dps', 'melee', 'agi', 'leather'],
     specialisations: [
       {
-        name: 'Subtelty',
+        name: 'Subtelty'
       },
       {
-        name: 'Assassination',
+        name: 'Assassination'
       },
       {
-        name: 'Combat',
+        name: 'Combat'
       }
     ]
   },
@@ -178,13 +178,13 @@ const classData = [
     tags: ['dps', 'ranged', 'int', 'cloth'],
     specialisations: [
       {
-        name: 'Demonology',
+        name: 'Demonology'
       },
       {
-        name: 'Destruction',
+        name: 'Destruction'
       },
       {
-        name: 'Affiliction',
+        name: 'Affiliction'
       }
     ]
   },

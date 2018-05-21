@@ -1,7 +1,15 @@
+import { Reducer } from 'redux'
+
 import * as overviewActions from '../actions/overview'
 import classes from '../data/classes'
 
-const initialState = []
+export type OverviewState = {
+  battletag: string,
+  characters: any[],
+  selections: string[]
+}[]
+
+const initialState: OverviewState = []
 
 const getClass = (name) => {
   return classes.find(c => c.safeName === name)
@@ -40,7 +48,7 @@ const joinOverviewData = (data) => {
   }))
 }
 
-const OverviewReducer = (state = initialState, action) => {
+const OverviewReducer: Reducer<OverviewState> = (state: OverviewState = initialState, action): OverviewState => {
   switch (action.type) {
     case overviewActions.HANDLE_OVERVIEW_DATA:
       return joinOverviewData(action.data)
