@@ -1,15 +1,20 @@
-import React from 'react'
+import * as React from 'react'
 
 import MainPretext from '../../main-pretext'
 import NonGuild from './components/non-guild'
 import LoginPrompt from './components/login-prompt'
 
-import STYLES from './intro.scss'
+import * as STYLES from './intro.scss'
+
+type IntroViewProps = {
+  isLoggedIn: boolean
+  hasCharactersInGuild: boolean
+}
 
 const IntroView = ({
   isLoggedIn,
   hasCharactersInGuild
-}) => {
+}: IntroViewProps) => {
   if (isLoggedIn && hasCharactersInGuild) {
     return null
   }

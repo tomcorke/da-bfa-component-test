@@ -41,23 +41,13 @@ interface UndefinedWowSpec {
   tags: undefined
 }
 
-function entries<T> (obj: { [key: string]: T }): [string, T][] {
-  const ownProps = Object.keys(obj)
-  let i = ownProps.length
-  const resArray = new Array(i)
-  while (i--) {
-    resArray[i] = [ownProps[i], obj[ownProps[i]]]
-  }
-  return resArray
-}
-
 function joinOverviewData (data: APIOverviewData): OverviewState {
   const { userSelectionData, userProfileData } = data
 
-  return entries(userSelectionData).map(([battletag, selections]) => ({
+  return Object.entries(userSelectionData).map(([battletag, selections]) => ({
     battletag,
     characters: (userProfileData[battletag] || {}).characters || [],
-    selections: entries(selections)
+    selections: Object.entries(selections)
       .filter(([key, value]) => value.selected)
       .map(([key, value]) => {
         const selectedClass = getClass(value.selected.class) || ({} as UndefinedWowClass)

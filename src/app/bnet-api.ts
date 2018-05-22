@@ -1,17 +1,18 @@
 import * as request from 'request-promise-native'
 import { DB } from './db'
 
-import { APIUserProfile } from '../types/api'
+import { APIUserProfile, APIUserCharacter } from '../types/api'
+import { BNetUser, BNetCharacter, BattleTag } from './types'
 
-const createUrl = (endpoint, token) => {
+const createUrl = (endpoint: string, token: string) => {
   const BASE_URL = `https://eu.api.battle.net`
   return `${BASE_URL}${endpoint}?access_token=${encodeURIComponent(token)}`
 }
 
 const profileDb = new DB<APIUserProfile>('profiles')
-const requestCache = {}
+const requestCache: { [key: string]: Promise<any> | undefined } = {}
 
-const CLASS_NAMES = {
+const CLASS_NAMES: { [key: number]: string } = {
   1: 'warrior',
   2: 'paladin',
   3: 'hunter',
@@ -26,14 +27,14 @@ const CLASS_NAMES = {
   12: 'demonhunter'
 }
 
-const charFilter = (char) => {
+const charFilter = (char: APIUserCharacter) => {
   return (
     char.realm &&
     char.level >= 10
   )
 }
 
-const charTransform = (char) => {
+const charTransform = (char: BNetCharacter): APIUserCharacter => {
   return {
     name: char.name,
     level: char.level,
@@ -44,7 +45,7 @@ const charTransform = (char) => {
 }
 
 class API {
-  async getWoWProfile (user, immediate = false) {
+  async getWoWProfile (user: BNetUser, immediate = false) {
     const url = createUrl('/wow/user/characters', user.token)
 
     let getProfile = requestCache[user.battletag]
@@ -66,7 +67,7 @@ class API {
           if (data) profileDb.set(user.battletag, data)
         })
 
-      const removeFromRequestCache = () => { requestCache[user.battletag] = null }
+      const removeFromRequestCache = () => { requestCache[user.battletag] = undefined }
       getProfile
         .then(removeFromRequestCache, removeFromRequestCache)
 
@@ -90,7 +91,7 @@ class API {
     return profileDb.getAll()
   }
 
-  delete (battletag) {
+  delete (battletag: BattleTag) {
     profileDb.delete(battletag)
   }
 }

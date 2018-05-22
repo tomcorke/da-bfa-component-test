@@ -1,9 +1,9 @@
-import React from 'react'
+import * as React from 'react'
 
 import SummaryBox from './components/summary-box'
 import PlayerDisplay from './components/player-display'
 
-import STYLES from './overview.scss'
+import * as STYLES from './overview.scss'
 
 const OverviewView = ({ battletags, showBackupSummary, toggleShowBackupSummary }) => {
   const selectionsDisplay = battletags.map(battletag => {

@@ -5,6 +5,7 @@ import { ApplicationState } from '../reducers'
 
 export const SELECT_OVERVIEW_CHOICE = 'SELECT_OVERVIEW_CHOICE'
 export const DESELECT_OVERVIEW_CHOICE = 'DESELECT_OVERVIEW_CHOICE'
+export const SAVE_SELECTED_CHOICES = 'SAVE_SELECTED_CHOICES'
 
 const SELECTION_CHOICES = ['first', 'second']
 
@@ -12,15 +13,23 @@ type UndefinedPlayerSelections = {
   selections?: OverviewUserSelection[]
 }
 
-function entries<T> (obj: { [key: string]: T }): [string, T][] {
-  const ownProps = Object.keys(obj)
-  let i = ownProps.length
-  const resArray = new Array(i)
-  while (i--) {
-    resArray[i] = [ownProps[i], obj[ownProps[i]]]
+const _selectOverviewChoice = (battletag: string, className: string, specName: string, selectionChoice: string) => action(
+  SELECT_OVERVIEW_CHOICE,
+  {
+    battletag,
+    className,
+    specName,
+    selectionChoice
   }
-  return resArray
-}
+)
+
+const _deselectOverviewChoice = (battletag: string, selectionChoice: string) => action(
+  DESELECT_OVERVIEW_CHOICE,
+  {
+    battletag,
+    selectionChoice
+  }
+)
 
 export const selectChoice = (battletag, choice) => {
   return (dispatch, getState: () => ApplicationState) => {
@@ -33,7 +42,7 @@ export const selectChoice = (battletag, choice) => {
     const playerOverviewSelections = overviewSelections[battletag] || {}
     const selectionChoice = SELECTION_CHOICES.find(c => !playerOverviewSelections[c])
 
-    const alreadySelectedChoice = entries(playerOverviewSelections)
+    const alreadySelectedChoice = Object.entries(playerOverviewSelections)
       .find(([selectionChoice, value]) => {
         return playerChoice &&
           value &&
@@ -42,24 +51,19 @@ export const selectChoice = (battletag, choice) => {
       })
 
     if (selectionChoice && !alreadySelectedChoice) {
-      dispatch({
-        type: SELECT_OVERVIEW_CHOICE,
-        battletag,
-        class: playerChoice.classSafeName,
-        spec: playerChoice.specSafeName,
-        selectionChoice
-      })
+      dispatch(_selectOverviewChoice(battletag, playerChoice.classSafeName, playerChoice.specSafeName, selectionChoice))
       dispatch(saveSelectedChoices())
     } else if (alreadySelectedChoice) {
-      dispatch({
-        type: DESELECT_OVERVIEW_CHOICE,
-        battletag,
-        selectionChoice: alreadySelectedChoice[0]
-      })
+      dispatch(_deselectOverviewChoice(battletag, alreadySelectedChoice[0]))
       dispatch(saveSelectedChoices())
     }
   }
 }
+
+const _saveSelectedChoices = (selections: { battletag: string, class: string, spec: string }) => action(
+  SAVE_SELECTED_CHOICES,
+  selections
+)
 
 export const saveSelectedChoices = () => {
   return async (dispatch, getState) => {
@@ -76,9 +80,12 @@ export const saveSelectedChoices = () => {
       })
       .filter(selections => selections.class)
 
-    dispatch({
-      type: 'SAVE_SELECTED_CHOICES',
-      playerSelections
-    })
+    dispatch(_saveSelectedChoices(playerSelections))
   }
 }
+
+export type OverviewSelectionsActions = ReturnType<
+  | typeof _selectOverviewChoice
+  | typeof _deselectOverviewChoice
+  | typeof _saveSelectedChoices
+>

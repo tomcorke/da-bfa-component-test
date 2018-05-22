@@ -1,6 +1,7 @@
 import { createAction, action } from 'typesafe-actions'
-
+import { ThunkAction } from 'redux-thunk'
 import { APIOverviewData } from '../../types/api'
+import { ApplicationState } from '../reducers'
 
 export const GET_OVERVIEW_DATA_START = 'GET_OVERVIEW_DATA_START'
 export const GET_OVERVIEW_DATA_SUCCESS = 'GET_OVERVIEW_DATA_SUCCESS'
@@ -74,14 +75,13 @@ const _toggleShowBackupSummary = (value: boolean) => action(
   value
 )
 
-export const toggleShowBackupSummary = () => {
-  return (dispatch, getState) => {
+export const toggleShowBackupSummary: ThunkAction<void, ApplicationState, {}> =
+  (dispatch, getState) => {
     const currentValue = getState().overviewSettings.showBackupSummary
     const newValue = !currentValue
     dispatch(_toggleShowBackupSummary(newValue))
     dispatch(saveOverviewSettings())
   }
-}
 
 export type OverviewAction = ReturnType<
   | typeof handleOverviewData

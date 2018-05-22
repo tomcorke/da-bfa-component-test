@@ -10,7 +10,7 @@
     "start": "node dist/app/index.js",
     "build:client": "webpack",
     "build:client:watch": "webpack -w",
-    "build:app": "tsc",
+    "build:app": "tsc -p src/app",
     "build": "npm run tslint && npm run standard && npm run build:client && npm run build:app",
     "tslint": "tslint \"src/**/*.ts\"",
     "tslint:fix": "tslint --fix \"src/**/*.ts\"",

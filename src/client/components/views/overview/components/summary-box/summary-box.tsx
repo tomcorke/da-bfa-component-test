@@ -1,8 +1,8 @@
-import React from 'react'
+import * as React from 'react'
 
 import SummaryRow from '../summary-row'
 
-import STYLES from './summary-box.scss'
+import * as STYLES from './summary-box.scss'
 
 const mapToArray = (map) => Object.entries(map).map(([key, value]) => ({ key, value }))
 
@@ -30,7 +30,12 @@ const sumClasses = (classes) => sumBySelector(classes, c => c)
 
 const sumSelectionClasses = (selections) => sumClasses(flatten(getClasses(selections)))
 
-const SummaryBox = ({ title, allSelections }) => {
+interface SummaryBoxProps {
+  title: string,
+  allSelections: Selection[]
+}
+
+const SummaryBox = ({ title, allSelections }: SummaryBoxProps) => {
   const tags = sumSelectionTags(allSelections)
   const classes = sumSelectionClasses(allSelections)
 

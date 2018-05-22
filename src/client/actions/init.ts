@@ -1,10 +1,14 @@
+import { createAction } from 'typesafe-actions'
+
 import actions from '.'
 
 export const INIT_START = 'INIT_START'
 
+const _initStart = createAction(INIT_START)
+
 export const init = () => {
   return (dispatch, getState) => {
-    dispatch({ type: INIT_START })
+    dispatch(_initStart())
 
     // Load mock data and/or trigger getUserData
 
@@ -25,3 +29,7 @@ export const init = () => {
     }
   }
 }
+
+export type InitAction = ReturnType<
+  | typeof _initStart
+>

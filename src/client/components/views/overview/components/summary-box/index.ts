@@ -1,6 +1,7 @@
 import { connect } from 'react-redux'
 
 import SummaryBox from './summary-box'
+import { ApplicationState } from '../../../../../reducers'
 
 const joinWithOverviewSelections = (playerOverviewSelections = {}) => (selection) => {
   const overviewSelection = Object.keys(playerOverviewSelections)
@@ -18,7 +19,7 @@ const joinWithOverviewSelections = (playerOverviewSelections = {}) => (selection
 }
 
 const ConnectedSummaryBox = connect(
-  (state, props) => {
+  (state: ApplicationState, props: { selectionFilter?: (selection: any) => boolean }) => {
     const noUndefinedFilter = selection => !!selection.class
     const selectionFilter = props.selectionFilter || (() => true)
     return {

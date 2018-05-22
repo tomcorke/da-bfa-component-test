@@ -14,12 +14,7 @@ import {
   APIOverviewData
 } from '../types/api'
 
-type BNetUser = {
-  battletag: string,
-  provider: 'bnet',
-  token: string
-}
-
+import { BNetUser } from './types'
 import { DB } from './db'
 import bnetApi from './bnet-api'
 import { isAdmin, isSuperAdmin } from './permissions'
@@ -28,19 +23,19 @@ const userSelectionsDb = new DB<APIUserSelections>('data')
 
 require('dotenv-safe').config()
 
-passport.serializeUser((user, done) => {
+passport.serializeUser((user: any, done: (a: any, b: any) => void) => {
   done(null, user)
 })
 
-passport.deserializeUser((obj, done) => {
+passport.deserializeUser((obj: any, done: (a: any, b: any) => void) => {
   done(null, obj)
 })
 
-const BNET_ID = process.env.BNET_KEY
-const BNET_SECRET = process.env.BNET_SECRET
-const BNET_CALLBACK_URL = process.env.BNET_CALLBACK_URL
+const BNET_ID = process.env.BNET_KEY || ''
+const BNET_SECRET = process.env.BNET_SECRET || ''
+const BNET_CALLBACK_URL = process.env.BNET_CALLBACK_URL || ''
 
-const APP_BASE_URL = process.env.APP_BASE_URL
+const APP_BASE_URL = process.env.APP_BASE_URL || ''
 
 passport.use(
   new BnetStrategy(
@@ -50,7 +45,7 @@ passport.use(
       scope: 'wow.profile',
       callbackURL: BNET_CALLBACK_URL
     },
-    (accessToken, refreshToken, profile, done) => {
+    (accessToken: string, refreshToken: string, profile: object, done: (a: any, b: any) => void) => {
       setImmediate(() => done(null, profile))
     }
   )
@@ -81,7 +76,7 @@ app.use((req, res, next) => {
   next()
 })
 
-const getUserData = async (user: APIUser, immediate = false): Promise<APIUserData> => {
+const getUserData = async (user: BNetUser, immediate = false): Promise<APIUserData> => {
   const { battletag } = user
   const selections = userSelectionsDb.get(battletag)
   const profile = await bnetApi.getWoWProfile(user, immediate)
@@ -138,7 +133,7 @@ app.get('/logout', (req, res) => {
 })
 
 app.post('/save', (req, res) => {
-  if (!req.isAuthenticated()) {
+  if (!req.isAuthenticated() || !req.user) {
     return res.status(401).send()
   }
   const battletag = req.user.battletag
@@ -148,11 +143,11 @@ app.post('/save', (req, res) => {
 })
 
 app.get('/getOverviewViewData', (req, res) => {
-  if (!req.isAuthenticated()) {
+  if (!req.isAuthenticated() || !req.user) {
     console.warn('Unauthenticated user attempted to get overview data')
     return res.status(401).send()
   }
-  if (!isAdmin(req.user)) {
+  if (!isAdmin(req.user as BNetUser)) {
     console.warn(`Unauthorised user ${req.user.battletag} attempted to get overview data`)
     return res.status(403).send()
   }
@@ -163,7 +158,7 @@ app.get('/getOverviewViewData', (req, res) => {
 })
 
 app.delete('/deletePlayerData', (req, res) => {
-  if (!req.isAuthenticated()) {
+  if (!req.isAuthenticated() || !req.user) {
     console.warn('Unauthenticated user attempting to delete player data')
     return res.status(401).send()
   }
@@ -172,7 +167,7 @@ app.delete('/deletePlayerData', (req, res) => {
   if (!battletag) {
     return res.status(400).send()
   }
-  if (!isSuperAdmin(req.user)) {
+  if (!isSuperAdmin(req.user as BNetUser)) {
     console.warn(`Unauthorised user ${req.user.battletag} attempted to delete player data for ${battletag}`)
     return res.status(403).send()
   }
@@ -183,7 +178,7 @@ app.delete('/deletePlayerData', (req, res) => {
 
 app.get('/*', express.static(path.join(__dirname, '../client')))
 
-app.use((err, req, res, next) => {
+app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
   console.error(`ERROR: ${req.url}`)
   console.error(err.stack)
   if (res.headersSent) {

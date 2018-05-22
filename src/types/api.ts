@@ -16,6 +16,10 @@ export type APIUserSelections = {
 
 export type APIUserCharacter = {
   name: string
+  class: string
+  realm: string
+  guild: string
+  level: number
 }
 
 export type APIUserProfile = {
@@ -24,7 +28,7 @@ export type APIUserProfile = {
 
 export type APIUserData = {
   user: APIUser
-  selections: APIUserSelections
+  selections?: APIUserSelections
   isAdmin: boolean
   isSuperAdmin: boolean
   profile?: APIUserProfile
