@@ -1,8 +1,7 @@
 import { action } from 'typesafe-actions'
-import { OverviewState } from '../reducers/overview'
+import { OverviewState, OverviewUserSelection } from '../reducers/overview'
 import { OverviewSelectionsState } from '../reducers/overview-selections'
 import { ApplicationState } from '../reducers'
-import { APIUserSelections } from '../../types/api'
 
 export const SELECT_OVERVIEW_CHOICE = 'SELECT_OVERVIEW_CHOICE'
 export const DESELECT_OVERVIEW_CHOICE = 'DESELECT_OVERVIEW_CHOICE'
@@ -10,13 +9,23 @@ export const DESELECT_OVERVIEW_CHOICE = 'DESELECT_OVERVIEW_CHOICE'
 const SELECTION_CHOICES = ['first', 'second']
 
 type UndefinedPlayerSelections = {
-  selections: APIUserSelections
+  selections?: OverviewUserSelection[]
+}
+
+function entries<T> (obj: { [key: string]: T }): [string, T][] {
+  const ownProps = Object.keys(obj)
+  let i = ownProps.length
+  const resArray = new Array(i)
+  while (i--) {
+    resArray[i] = [ownProps[i], obj[ownProps[i]]]
+  }
+  return resArray
 }
 
 export const selectChoice = (battletag, choice) => {
   return (dispatch, getState: () => ApplicationState) => {
     const { overview, overviewSelections } = getState()
-    const { selections: playerSelections } = (overview.find(o => o.battletag === battletag) || ({} as UndefinedPlayerSelections))
+    const { selections: playerSelections = [] } = (overview.find(o => o.battletag === battletag) || ({} as UndefinedPlayerSelections))
     const playerChoice = playerSelections.find(s => s.choice === choice)
 
     if (!playerChoice) return
@@ -24,7 +33,7 @@ export const selectChoice = (battletag, choice) => {
     const playerOverviewSelections = overviewSelections[battletag] || {}
     const selectionChoice = SELECTION_CHOICES.find(c => !playerOverviewSelections[c])
 
-    const alreadySelectedChoice = Object.entries(playerOverviewSelections)
+    const alreadySelectedChoice = entries(playerOverviewSelections)
       .find(([selectionChoice, value]) => {
         return playerChoice &&
           value &&

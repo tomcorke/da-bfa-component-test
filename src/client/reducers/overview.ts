@@ -5,7 +5,7 @@ import classes, { SafeWowClass, SafeWoWSpecialisation } from '../data/classes'
 import { APIOverviewData, APIUserCharacter, APIUserSelections } from '../../types/api'
 
 export type OverviewUserSelection = {
-  choice: 'first' | 'second' | 'third'
+  choice: string
   class?: string
   classSafeName?: string
   spec?: string
@@ -41,13 +41,23 @@ interface UndefinedWowSpec {
   tags: undefined
 }
 
+function entries<T> (obj: { [key: string]: T }): [string, T][] {
+  const ownProps = Object.keys(obj)
+  let i = ownProps.length
+  const resArray = new Array(i)
+  while (i--) {
+    resArray[i] = [ownProps[i], obj[ownProps[i]]]
+  }
+  return resArray
+}
+
 function joinOverviewData (data: APIOverviewData): OverviewState {
   const { userSelectionData, userProfileData } = data
 
-  return Object.entries(userSelectionData).map(([battletag, selections]) => ({
+  return entries(userSelectionData).map(([battletag, selections]) => ({
     battletag,
     characters: (userProfileData[battletag] || {}).characters || [],
-    selections: Object.entries(selections)
+    selections: entries(selections)
       .filter(([key, value]) => value.selected)
       .map(([key, value]) => {
         const selectedClass = getClass(value.selected.class) || ({} as UndefinedWowClass)
