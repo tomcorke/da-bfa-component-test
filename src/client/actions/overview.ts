@@ -1,4 +1,6 @@
-import { createAction } from './helpers'
+import { createAction, action } from 'typesafe-actions'
+
+import { APIOverviewData } from '../../types/api'
 
 export const GET_OVERVIEW_DATA_START = 'GET_OVERVIEW_DATA_START'
 export const GET_OVERVIEW_DATA_SUCCESS = 'GET_OVERVIEW_DATA_SUCCESS'
@@ -8,19 +10,19 @@ export const SHOW_BACKUP_SUMMARY = 'SHOW_BACKUP_SUMMARY'
 export const LOAD_OVERVIEW_SETTINGS = 'LOAD_OVERVIEW_SETTINGS'
 export const SAVE_OVERVIEW_SETTINGS = 'SAVE_OVERVIEW_SETTINGS'
 
-export const handleOverviewData = (data: object) => ({
-  type: HANDLE_OVERVIEW_DATA as typeof HANDLE_OVERVIEW_DATA,
+export const handleOverviewData = (data: APIOverviewData) => action(
+  HANDLE_OVERVIEW_DATA,
   data
-})
+)
 
-const _getOverviewDataStart = () => createAction(GET_OVERVIEW_DATA_START)
-const _getOverviewDataSuccess = () => createAction(GET_OVERVIEW_DATA_SUCCESS)
-const _getOverviewDataFail = (error) => ({
-  ...createAction(GET_OVERVIEW_DATA_FAIL),
-  ...{ error: error.stack }
-})
+const _getOverviewDataStart = createAction(GET_OVERVIEW_DATA_START)
+const _getOverviewDataSuccess = createAction(GET_OVERVIEW_DATA_SUCCESS)
+const _getOverviewDataFail = (error: Error) => action(
+  GET_OVERVIEW_DATA_FAIL,
+  error.stack
+)
 
-export const getOverviewData = (onSuccess) => {
+export const getOverviewData = (onSuccess?: () => void) => {
   return async (dispatch, getState) => {
     const { getOverviewViewDataEndpoint } = getState().config
 
@@ -32,7 +34,7 @@ export const getOverviewData = (onSuccess) => {
         throw Error('Could not get overview view data')
       }
 
-      const data = await response.json()
+      const data = await response.json() as APIOverviewData
 
       dispatch(_getOverviewDataSuccess())
       dispatch(handleOverviewData(data))
@@ -43,10 +45,10 @@ export const getOverviewData = (onSuccess) => {
   }
 }
 
-const _loadOverviewSettings = (settings: object) => ({
-  ...createAction(LOAD_OVERVIEW_SETTINGS),
-  ...{ settings }
-})
+const _loadOverviewSettings = (settings: object) => action(
+  LOAD_OVERVIEW_SETTINGS,
+  settings
+)
 
 export const loadOverviewSettings = () => {
   return async (dispatch, getState) => {
@@ -55,10 +57,10 @@ export const loadOverviewSettings = () => {
   }
 }
 
-const _saveOverviewSettings = (settings: object) => ({
-  ...createAction(SAVE_OVERVIEW_SETTINGS),
-  ...{ settings }
-})
+const _saveOverviewSettings = (settings: object) => action(
+  SAVE_OVERVIEW_SETTINGS,
+  settings
+)
 
 export const saveOverviewSettings = () => {
   return async (dispatch, getState) => {
@@ -67,10 +69,10 @@ export const saveOverviewSettings = () => {
   }
 }
 
-const _toggleShowBackupSummary = (value: boolean) => ({
-  type: SHOW_BACKUP_SUMMARY as typeof SHOW_BACKUP_SUMMARY,
+const _toggleShowBackupSummary = (value: boolean) => action(
+  SHOW_BACKUP_SUMMARY,
   value
-})
+)
 
 export const toggleShowBackupSummary = () => {
   return (dispatch, getState) => {

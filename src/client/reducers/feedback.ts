@@ -1,14 +1,26 @@
+import { Reducer } from 'redux'
+
 import * as feedbackActions from '../actions/feedback'
 
-const initialState = {}
+export type FeedbackState = {
+  message?: string,
+  style?: string,
+  fade: boolean,
+  hide: boolean
+}
 
-const FeedbackReducer = (state = initialState, action) => {
+const initialState: FeedbackState = {
+  fade: false,
+  hide: false
+}
+
+const FeedbackReducer: Reducer<FeedbackState, feedbackActions.FeedbackAction> = (state = initialState, action) => {
   switch (action.type) {
     case feedbackActions.FEEDBACK_MESSAGE_SHOW:
       return {
         ...state,
-        message: action.message,
-        style: action.style,
+        message: action.payload.message,
+        style: action.payload.style,
         fade: false,
         hide: false
       }

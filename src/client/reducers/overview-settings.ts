@@ -15,7 +15,7 @@ const OverviewSettingsReducer = (
     case overviewActions.SHOW_BACKUP_SUMMARY:
       return {
         ...state,
-        showBackupSummary: action.value
+        showBackupSummary: action.payload
       }
     default:
       return state

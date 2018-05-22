@@ -1,24 +1,47 @@
 import { Reducer } from 'redux'
 
 import * as overviewActions from '../actions/overview'
-import classes from '../data/classes'
+import classes, { SafeWowClass, SafeWoWSpecialisation } from '../data/classes'
+import { APIOverviewData, APIUserCharacter, APIUserSelections } from '../../types/api'
+
+export type OverviewUserSelection = {
+  choice: 'first' | 'second' | 'third'
+  class?: string
+  classSafeName?: string
+  spec?: string
+  specSafeName?: string
+  tags: string[]
+  comments?: string
+}
 
 export type OverviewState = {
-  battletag: string,
-  characters: any[],
-  selections: string[]
+  battletag: string
+  characters: APIUserCharacter[]
+  selections: OverviewUserSelection[]
 }[]
 
 const initialState: OverviewState = []
 
-const getClass = (name) => {
+function getClass (name): SafeWowClass {
   return classes.find(c => c.safeName === name)
 }
-const getSpec = (wowClass, name) => {
+function getSpec (wowClass, name): SafeWoWSpecialisation {
   return wowClass && wowClass.specialisations && wowClass.specialisations.find(s => s.safeName === name)
 }
 
-const joinOverviewData = (data) => {
+interface UndefinedWowClass {
+  name: undefined
+  safeName: undefined
+  tags: undefined
+}
+
+interface UndefinedWowSpec {
+  name: undefined
+  safeName: undefined
+  tags: undefined
+}
+
+function joinOverviewData (data: APIOverviewData): OverviewState {
   const { userSelectionData, userProfileData } = data
 
   return Object.entries(userSelectionData).map(([battletag, selections]) => ({
@@ -27,8 +50,8 @@ const joinOverviewData = (data) => {
     selections: Object.entries(selections)
       .filter(([key, value]) => value.selected)
       .map(([key, value]) => {
-        const selectedClass = getClass(value.selected.class) || {}
-        const selectedSpec = getSpec(selectedClass, value.selected.spec) || {}
+        const selectedClass = getClass(value.selected.class) || ({} as UndefinedWowClass)
+        const selectedSpec = getSpec(selectedClass, value.selected.spec) || ({} as UndefinedWowSpec)
 
         const classAndSpecTags = Array.from(new Set(
           (selectedClass.tags || [])
@@ -48,10 +71,10 @@ const joinOverviewData = (data) => {
   }))
 }
 
-const OverviewReducer: Reducer<OverviewState> = (state: OverviewState = initialState, action): OverviewState => {
+const OverviewReducer: Reducer<OverviewState, overviewActions.OverviewAction> = (state = initialState, action) => {
   switch (action.type) {
     case overviewActions.HANDLE_OVERVIEW_DATA:
-      return joinOverviewData(action.data)
+      return joinOverviewData(action.payload)
     default:
       return state
   }

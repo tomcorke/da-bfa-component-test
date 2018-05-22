@@ -1,4 +1,15 @@
-const classData = [
+export interface WowSpecialisation {
+  name: string,
+  tags?: string[]
+}
+
+export interface WowClass {
+  name: string,
+  tags?: string[],
+  specialisations: WowSpecialisation[]
+}
+
+const classData: WowClass[] = [
   {
     name: 'Death Knight',
     tags: ['str', 'plate'],
@@ -208,14 +219,29 @@ const classData = [
   }
 ]
 
-classData.forEach(c => {
-  c.safeName = c.name.toLowerCase().replace(/\s/g, '')
-  c.specialisations.forEach(s => {
-    s.safeName = s.name.toLowerCase().replace(/\s/g, '')
-  })
-})
+export interface SafeWowClass extends WowClass {
+  safeName: string
+  specialisations: SafeWoWSpecialisation[]
+}
 
-export const classNames = classData
+export interface SafeWoWSpecialisation extends WowSpecialisation {
+  safeName: string
+}
+
+const safeClassData: SafeWowClass[] = classData.map(c => ({
+  ...c,
+  safeName: c.name.toLowerCase().replace(/\s/g, ''),
+  specialisations: c.specialisations.map(s => ({
+    ...s,
+    safeName: s.name.toLowerCase().replace(/\s/g, '')
+  }))
+}))
+
+export type ClassNameMap = {
+  [safeClassName: string]: string
+}
+
+export const classNames: ClassNameMap = safeClassData
   .reduce((classNames, c) => {
     return {
       ...classNames,
@@ -223,7 +249,11 @@ export const classNames = classData
     }
   }, {})
 
-export const specNames = classData
+export type SpecNameMap = {
+  [safeSpecName: string]: string
+}
+
+export const specNames: SpecNameMap = safeClassData
   .reduce((allSpecs, c) => allSpecs.concat(c.specialisations), [])
   .reduce((specNames, s) => {
     return {
@@ -232,4 +262,4 @@ export const specNames = classData
     }
   }, {})
 
-export default classData
+export default safeClassData

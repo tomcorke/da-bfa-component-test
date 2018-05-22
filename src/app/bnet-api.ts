@@ -1,12 +1,14 @@
-import request from 'request-promise-native'
+import * as request from 'request-promise-native'
 import { DB } from './db'
+
+import { APIUserProfile } from '../types/api'
 
 const createUrl = (endpoint, token) => {
   const BASE_URL = `https://eu.api.battle.net`
   return `${BASE_URL}${endpoint}?access_token=${encodeURIComponent(token)}`
 }
 
-const profileDb = new DB('profiles')
+const profileDb = new DB<APIUserProfile>('profiles')
 const requestCache = {}
 
 const CLASS_NAMES = {

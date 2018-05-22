@@ -1,13 +1,20 @@
-import path from 'path'
-import fs from 'fs-extra'
+import * as path from 'path'
+import * as fs from 'fs-extra'
 
-const clone = (obj) => {
+function clone<T> (obj: T) {
   try {
-    return JSON.parse(JSON.stringify(obj))
-  } catch (e) {}
+    return JSON.parse(JSON.stringify(obj)) as T
+  } catch (e) {
+    // This is fine
+  }
 }
 
-export class DB {
+export class DB<T> {
+  filePath: string
+  data: {
+    [key: string]: T
+  }
+
   constructor (name) {
     this.filePath = path.join(__dirname, `../../db/${name}.json`)
     this.init()
@@ -28,7 +35,7 @@ export class DB {
     }
   }
 
-  set (key, data) {
+  set (key: string, data: T) {
     this.data[key] = clone(data)
     try {
       if (this.filePath) {
@@ -39,7 +46,7 @@ export class DB {
     }
   }
 
-  get (key) {
+  get (key: string) {
     return clone(this.data[key])
   }
 
@@ -47,7 +54,7 @@ export class DB {
     return clone(this.data)
   }
 
-  delete (key) {
+  delete (key: string) {
     this.data[key] = undefined
   }
 }

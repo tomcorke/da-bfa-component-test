@@ -1,3 +1,7 @@
+import { action, createAction } from 'typesafe-actions'
+import { APIUserData } from '../../types/api'
+import { ApplicationState } from '../reducers'
+
 import * as feedbackActions from './feedback'
 import * as viewActions from './views'
 
@@ -9,16 +13,19 @@ export const HANDLE_USER_DATA = 'HANDLE_USER_DATA'
 
 export const CHANGE_SELECTION = 'CHANGE_SELECTION'
 
-export const SAVE_START = 'SAVE_START'
-export const SAVE_SUCCESS = 'SAVE_SUCCESS'
-export const SAVE_FAIL = 'SAVE_FAIL'
+export const SAVE_SELECTIONS_START = 'SAVE_START'
+export const SAVE_SELECTIONS_SUCCESS = 'SAVE_SUCCESS'
+export const SAVE_SELECTIONS_FAIL = 'SAVE_FAIL'
 
-export const handleUserData = (data, opts = {}) => {
-  return (dispatch, getState) => {
-    dispatch({
-      type: HANDLE_USER_DATA,
-      data
-    })
+interface HandleUserDataOptions {
+  noRetry?: boolean
+}
+
+const _handleUserData = (data: APIUserData) => action(HANDLE_USER_DATA, data)
+
+export const handleUserData = (data: APIUserData, opts: HandleUserDataOptions = {}) => {
+  return (dispatch, getState: () => ApplicationState) => {
+    dispatch(_handleUserData(data))
 
     const { isLoggedIn, hasCharactersInGuild } = getState().userData
     const { view } = getState()
@@ -34,11 +41,13 @@ export const handleUserData = (data, opts = {}) => {
   }
 }
 
-export const getUserData = (onSuccess, opts = {}) => {
+const _getUserDataStart = createAction(GET_USER_DATA_START)
+const _getUserDataSuccess = createAction(GET_USER_DATA_SUCCESS)
+const _getUserDataFail = (error: Error) => action(GET_USER_DATA_FAIL, error.stack)
+
+export const getUserData = (onSuccess?: () => void, opts = {}) => {
   return async (dispatch, getState) => {
-    dispatch({
-      type: GET_USER_DATA_START
-    })
+    dispatch(_getUserDataStart())
 
     const { userDataEndpoint } = getState().config
 
@@ -51,34 +60,31 @@ export const getUserData = (onSuccess, opts = {}) => {
 
       const data = await response.json()
 
-      dispatch({
-        type: GET_USER_DATA_SUCCESS
-      })
+      dispatch(_getUserDataSuccess())
       dispatch(handleUserData(data, opts))
       onSuccess && onSuccess()
     } catch (err) {
-      dispatch({
-        type: GET_USER_DATA_FAIL,
-        error: err
-      })
+      dispatch(_getUserDataFail(err))
     }
   }
 }
 
-export const changeSelection = (name, property, value) => {
-  return ({
-    type: CHANGE_SELECTION,
+export const changeSelection = (name: string, property: string, value: string) => action(
+  CHANGE_SELECTION,
+  {
     name,
     property,
     value
-  })
-}
+  }
+)
+
+const _saveSelectionsStart = createAction(SAVE_SELECTIONS_START)
+const _saveSelectionsSuccess = createAction(SAVE_SELECTIONS_SUCCESS)
+const _saveSelectionsFail = (error: Error) => action(SAVE_SELECTIONS_FAIL, error.stack)
 
 export const saveSelections = () => {
   return async (dispatch, getState) => {
-    dispatch({
-      type: SAVE_START
-    })
+    dispatch(_saveSelectionsStart())
 
     const { saveDataEndpoint } = getState().config
     const { selections } = getState().userData
@@ -100,16 +106,22 @@ export const saveSelections = () => {
         throw Error('Could not save selections')
       }
 
-      dispatch({
-        type: SAVE_SUCCESS
-      })
+      dispatch(_saveSelectionsSuccess())
       dispatch(feedbackActions.show('Saved!', 'success'))
     } catch (err) {
-      dispatch({
-        type: SAVE_FAIL,
-        error: err
-      })
+      dispatch(_saveSelectionsFail(err))
       dispatch(feedbackActions.show('Save failed!', 'warning'))
     }
   }
 }
+
+export type UserDataActions = ReturnType<
+  | typeof _handleUserData
+  | typeof _getUserDataStart
+  | typeof _getUserDataSuccess
+  | typeof _getUserDataFail
+  | typeof changeSelection
+  | typeof _saveSelectionsStart
+  | typeof _saveSelectionsSuccess
+  | typeof _saveSelectionsFail
+>

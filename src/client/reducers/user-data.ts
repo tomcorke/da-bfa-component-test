@@ -1,19 +1,58 @@
-import config from '../config'
+import { Reducer } from 'redux'
 
+import { APIUserData } from '../../types/api'
+import config from '../config'
 import actions from '../actions'
+import { UserDataActions } from '../actions/user-data'
+
+export type UserData = {
+  battletag: string
+}
+
+export type UserSelection = {
+  class?: string
+  spec?: string
+  comments?: string
+}
+
+export type UserSelections = {
+  [choice: string]: UserSelection
+}
+
+export type UserCharacter = {
+  name: string
+}
+
+export type UserProfile = {
+  characters?: UserCharacter[]
+}
+
+export type UserDataState = {
+  isGettingUserData?: boolean
+  user?: UserData
+  selections?: UserSelections
+  profile?: UserProfile
+  isAdmin: boolean
+  isSuperAdmin: boolean
+  hasChanges: boolean
+  isLoggedIn: boolean
+  hasProfile: boolean
+  hasCharacters: boolean
+  hasCharactersInGuild: boolean
+}
 
 const filterByGuild = (guild, realm) => char =>
   char.guild === guild &&
   char.realm === realm
 
-const setGettingData = (state, isGettingData) => {
+const setGettingData = (state: UserDataState, isGettingData: boolean): UserDataState => {
   return {
     ...state,
     isGettingUserData: isGettingData
   }
 }
 
-const handleUserData = (state, userData) => {
+const handleUserData = (state: UserDataState, userData: APIUserData): UserDataState => {
   const {
     user,
     selections = {},
@@ -47,7 +86,7 @@ const handleUserData = (state, userData) => {
   }
 }
 
-const handleChangeSelection = (state, name, property, value) => {
+const handleChangeSelection = (state: UserDataState, { name, property, value }): UserDataState => {
   return {
     ...state,
     selections: {
@@ -61,10 +100,16 @@ const handleChangeSelection = (state, name, property, value) => {
 }
 
 const initialState = {
-  isLoggedIn: false
+  isAdmin: false,
+  isSuperAdmin: false,
+  hasChanges: false,
+  isLoggedIn: false,
+  hasProfile: false,
+  hasCharacters: false,
+  hasCharactersInGuild: false
 }
 
-const UserDataReducer = (state = initialState, action) => {
+const UserDataReducer: Reducer<UserDataState, UserDataActions> = (state = initialState, action) => {
   switch (action.type) {
     case actions.userData.GET_USER_DATA_START:
       return setGettingData(state, true)
@@ -73,9 +118,9 @@ const UserDataReducer = (state = initialState, action) => {
     case actions.userData.GET_USER_DATA_SUCCESS:
       return setGettingData(state, false)
     case actions.userData.HANDLE_USER_DATA:
-      return handleUserData(state, action.data)
+      return handleUserData(state, action.payload)
     case actions.userData.CHANGE_SELECTION:
-      return handleChangeSelection(state, action.name, action.property, action.value)
+      return handleChangeSelection(state, action.payload)
     default:
       return state
   }

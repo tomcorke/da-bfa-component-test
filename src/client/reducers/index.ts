@@ -1,34 +1,34 @@
 import { combineReducers, Reducer } from 'redux'
 
-import ConfigReducer from './config'
-import ViewReducer from './views'
-import UserDataReducer from './user-data'
-import FeedbackReducer from './feedback'
-import LoginReducer from './login'
+import ConfigReducer, { ConfigState } from './config'
+import FeedbackReducer, { FeedbackState } from './feedback'
+import LoginReducer, { LoginState } from './login'
 import OverviewReducer, { OverviewState } from './overview'
-import OverviewSelectionsReducer from './overview-selections'
+import OverviewSelectionsReducer, { OverviewSelectionsState } from './overview-selections'
 import OverviewSettingsReducer, { OverviewSettingsState } from './overview-settings'
+import UserDataReducer, { UserDataState } from './user-data'
+import ViewReducer, { ViewState } from './views'
 
 export type ApplicationState = {
-  config: any,
-  view: any,
-  userData: any,
-  feedback: any,
-  login: any,
-  overview: OverviewState,
-  overviewSelections: any,
-  overviewSettings: any
+  config: ConfigState
+  feedback: FeedbackState
+  login: LoginState
+  overview: OverviewState
+  overviewSelections: OverviewSelectionsState
+  overviewSettings: OverviewSettingsState
+  userData: UserDataState
+  view: ViewState
 }
 
 const rootReducer: Reducer<ApplicationState> = combineReducers<ApplicationState>({
   config: ConfigReducer,
-  view: ViewReducer,
-  userData: UserDataReducer,
   feedback: FeedbackReducer,
   login: LoginReducer,
   overview: OverviewReducer,
   overviewSelections: OverviewSelectionsReducer,
-  overviewSettings: OverviewSettingsReducer
+  overviewSettings: OverviewSettingsReducer,
+  userData: UserDataReducer,
+  view: ViewReducer
 })
 
 export default rootReducer

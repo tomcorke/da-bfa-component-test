@@ -1,12 +1,22 @@
+import { action } from 'typesafe-actions'
+import { OverviewState } from '../reducers/overview'
+import { OverviewSelectionsState } from '../reducers/overview-selections'
+import { ApplicationState } from '../reducers'
+import { APIUserSelections } from '../../types/api'
+
 export const SELECT_OVERVIEW_CHOICE = 'SELECT_OVERVIEW_CHOICE'
 export const DESELECT_OVERVIEW_CHOICE = 'DESELECT_OVERVIEW_CHOICE'
 
 const SELECTION_CHOICES = ['first', 'second']
 
+type UndefinedPlayerSelections = {
+  selections: APIUserSelections
+}
+
 export const selectChoice = (battletag, choice) => {
-  return (dispatch, getState) => {
+  return (dispatch, getState: () => ApplicationState) => {
     const { overview, overviewSelections } = getState()
-    const { selections: playerSelections } = overview.find(o => o.battletag === battletag) || {}
+    const { selections: playerSelections } = (overview.find(o => o.battletag === battletag) || ({} as UndefinedPlayerSelections))
     const playerChoice = playerSelections.find(s => s.choice === choice)
 
     if (!playerChoice) return

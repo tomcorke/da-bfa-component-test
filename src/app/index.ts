@@ -1,17 +1,30 @@
-import path from 'path'
-import express from 'express'
-import compression from 'compression'
-import passport from 'passport'
+import * as path from 'path'
+import * as express from 'express'
+import * as compression from 'compression'
+import * as passport from 'passport'
 import { Strategy as BnetStrategy } from 'passport-bnet'
-import cookieParser from 'cookie-parser'
-import session from 'express-session'
-import handlebars from 'express-handlebars'
+import * as cookieParser from 'cookie-parser'
+import * as session from 'express-session'
+import * as handlebars from 'express-handlebars'
+
+import {
+  APIUser,
+  APIUserData,
+  APIUserSelections,
+  APIOverviewData
+} from '../types/api'
+
+type BNetUser = {
+  battletag: string,
+  provider: 'bnet',
+  token: string
+}
 
 import { DB } from './db'
 import bnetApi from './bnet-api'
 import { isAdmin, isSuperAdmin } from './permissions'
 
-const userSelectionsDb = new DB('data')
+const userSelectionsDb = new DB<APIUserSelections>('data')
 
 require('dotenv-safe').config()
 
@@ -68,7 +81,7 @@ app.use((req, res, next) => {
   next()
 })
 
-const getUserData = async (user, immediate = false) => {
+const getUserData = async (user: APIUser, immediate = false): Promise<APIUserData> => {
   const { battletag } = user
   const selections = userSelectionsDb.get(battletag)
   const profile = await bnetApi.getWoWProfile(user, immediate)
@@ -102,7 +115,7 @@ app.get(
       return res.status(401).send()
     }
     return res.render('login-success', {
-      userData: JSON.stringify(await getUserData(req.user, true))
+      userData: JSON.stringify(await getUserData(req.user as BNetUser, true))
     })
   }
 )
@@ -115,7 +128,7 @@ app.get(
     if (!req.isAuthenticated()) {
       return res.status(401).send()
     }
-    res.json(await getUserData(req.user))
+    res.json(await getUserData(req.user as BNetUser))
   }
 )
 
@@ -145,7 +158,7 @@ app.get('/getOverviewViewData', (req, res) => {
   }
   const userSelectionData = userSelectionsDb.getAll()
   const userProfileData = bnetApi.getAll()
-  const data = { userSelectionData, userProfileData }
+  const data = { userSelectionData, userProfileData } as APIOverviewData
   res.json(data)
 })
 
@@ -179,4 +192,7 @@ app.use((err, req, res, next) => {
   res.status(500).send()
 })
 
-app.listen(3000)
+const PORT = 3000
+app.listen(PORT, () => {
+  console.log(`Server listening on :${PORT}`)
+})
