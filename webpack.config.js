@@ -13,9 +13,9 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/,
+        test: /\.jsx?$/,
         exclude: /node_modules/,
-        loader: require.resolve('babel-loader'),
+        loader: 'babel-loader',
         options: {
           cacheDirectory: true,
           plugins: ['react-hot-loader/babel']
@@ -23,7 +23,24 @@ module.exports = {
       },
       {
         test: /\.tsx?$/,
-        loader: 'awesome-typescript-loader'
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              cacheDirectory: true,
+              plugins: ['react-hot-loader/babel']
+            }
+          },
+          {
+            loader: 'awesome-typescript-loader',
+            options: {
+              reportFiles: [
+                'src/client/**/*'
+              ]
+            }
+          }
+        ]
       },
       {
         test: /\.scss$/,
