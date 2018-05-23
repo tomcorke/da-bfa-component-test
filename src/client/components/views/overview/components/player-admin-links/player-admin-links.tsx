@@ -1,8 +1,14 @@
-import React from 'react'
+import * as React from 'react'
 
-import STYLES from './player-admin-links.scss'
+import * as STYLES from './player-admin-links.scss'
 
-const PlayerAdminLinks = ({ isAdmin, isSuperAdmin, onDeleteClick }) => {
+export interface PlayerAdminLinksProps {
+  isAdmin: boolean
+  isSuperAdmin: boolean
+  onDeleteClick: () => void
+}
+
+const PlayerAdminLinks = ({ isAdmin, isSuperAdmin, onDeleteClick }: PlayerAdminLinksProps) => {
   const adminLinks = [
     // () => <span key='lockin' className={STYLES.adminLinkLockIn}>lock in</span>
   ]

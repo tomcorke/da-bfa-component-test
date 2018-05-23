@@ -1,12 +1,16 @@
-import React from 'react'
+import * as React from 'react'
 
 import PlayerIdentifier from '../player-identifier'
 import PlayerAdminLinks from '../player-admin-links'
 import PlayerSelections from '../player-selections'
 
-import STYLES from './player-display.scss'
+import * as STYLES from './player-display.scss'
 
-const PlayerDisplay = ({ battletag }) => {
+interface PlayerDisplayProps {
+  battletag: string
+}
+
+const PlayerDisplay = ({ battletag }: PlayerDisplayProps) => {
   return (
     <div className={STYLES.playerDisplay}>
       <div className={STYLES.left}>

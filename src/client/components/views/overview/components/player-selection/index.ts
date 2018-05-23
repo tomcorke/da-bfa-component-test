@@ -2,10 +2,18 @@ import { connect } from 'react-redux'
 
 import actions from '../../../../../actions'
 
-import PlayerSelection from './player-selection'
+import PlayerSelection, { PlayerSelectionProps } from './player-selection'
+import { ApplicationState } from '../../../../../reducers'
+import { OverviewSelection } from '../../../../../reducers/overview-selections'
+import { APIUserCharacter } from '../../../../../../types/api'
+
+interface OwnProps {
+  battletag: string
+  choice: string
+}
 
 const ConnectedPlayerSelection = connect(
-  (state, props) => {
+  (state: ApplicationState, props: OwnProps) => {
     const playerData = state.overview
       .find(i => i.battletag === props.battletag)
     const selection = playerData.selections

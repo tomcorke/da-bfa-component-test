@@ -1,10 +1,16 @@
-import React from 'react'
+import * as React from 'react'
 
 import { classNames } from '../../../../../data/classes'
+import { APIUserCharacter } from '../../../../../../types/api'
 
-import STYLES from './player-identifier.scss'
+import * as STYLES from './player-identifier.scss'
 
-const PlayerIdentifier = ({ battletag, guildCharacters }) => {
+interface PlayerIdentifierProps {
+  battletag: string,
+  guildCharacters: APIUserCharacter[]
+}
+
+const PlayerIdentifier = ({ battletag, guildCharacters }: PlayerIdentifierProps) => {
   const characterList = guildCharacters.length > 0
     ? `Guild characters:
 ${guildCharacters.map(c => `  ${c.level} - ${c.name} - ${classNames[c.class]}`).join('\n')}`

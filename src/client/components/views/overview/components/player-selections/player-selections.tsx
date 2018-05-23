@@ -1,8 +1,8 @@
-import React from 'react'
+import * as React from 'react'
 
 import PlayerSelection from '../player-selection'
 
-import STYLES from './player-selections.scss'
+import * as STYLES from './player-selections.scss'
 
 const CHOICES = [
   'first',
