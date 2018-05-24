@@ -4,7 +4,7 @@ import SummaryRow from '../summary-row'
 
 import * as STYLES from './summary-box.scss'
 
-const mapToArray = (map) => Object.entries(map).map(([key, value]) => ({ key, value }))
+function mapToArray<T> (map: { [key: string]: T }) { return Object.entries(map).map(([key, value]) => ({ key, value })) }
 
 const SUMMARY_TAG_GROUPS = {
   'Roles': ['tank', 'healer', 'dps'],
@@ -12,27 +12,37 @@ const SUMMARY_TAG_GROUPS = {
   'Armour type': ['cloth', 'leather', 'mail', 'plate']
 }
 
-const getTags = (selections) => selections.map(selection => selection.tags)
+const getTags = (selections: SummarySelection[]) => selections.map(selection => selection.tags)
 
-const flatten = (nestedItems) => nestedItems.reduce((flat, items) => flat.concat(items), [])
+function flatten<T> (nestedItems: T[][]) { return nestedItems.reduce((flat, items) => flat.concat(items), []) }
 
-const sumBySelector = (items, selector) => items
-  .reduce((sums, item) => ({ ...sums, [selector(item)]: (sums[selector(item)] || 0) + 1 }), {})
+function sumBySelector<T> (items: T[], selector: (item: T) => any): { [key: string]: number } {
+  return items
+    .reduce((sums, item) => ({
+      ...sums,
+      [selector(item)]: (sums[selector(item)] || 0) + 1
+    }), {})
+}
 
-const sumTags = (tags) => sumBySelector(tags, tag => tag)
+const sumTags = (tags: string[]) => sumBySelector(tags, tag => tag)
 
-const sumSelectionTags = (selections) => sumTags(flatten(getTags(selections)))
+const sumSelectionTags = (selections: SummarySelection[]) => sumTags(flatten(getTags(selections)))
 
-const getClasses = (selections) => selections
+const getClasses = (selections: SummarySelection[]) => selections
   .map(selection => selection.class)
 
-const sumClasses = (classes) => sumBySelector(classes, c => c)
+const sumClasses = (classes: string[]) => sumBySelector(classes, c => c)
 
-const sumSelectionClasses = (selections) => sumClasses(flatten(getClasses(selections)))
+const sumSelectionClasses = (selections: SummarySelection[]) => sumClasses(getClasses(selections))
+
+export interface SummarySelection {
+  tags: string[]
+  class: string
+}
 
 interface SummaryBoxProps {
   title: string,
-  allSelections: Selection[]
+  allSelections: SummarySelection[]
 }
 
 const SummaryBox = ({ title, allSelections }: SummaryBoxProps) => {

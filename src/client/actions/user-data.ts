@@ -35,7 +35,7 @@ export const handleUserData = (data: APIUserData, opts: HandleUserDataOptions = 
         dispatch(viewActions.setView('main'))
       } else if (!opts.noRetry) {
         dispatch(feedbackActions.show('Getting characters...'))
-        dispatch(getUserData(null, { noRetry: true }))
+        dispatch(getUserData(undefined, { noRetry: true }))
       }
     }
   }

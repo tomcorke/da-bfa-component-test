@@ -10,7 +10,7 @@ import { OverviewUserSelection } from '../../../../../reducers/overview'
 import * as STYLES from './player-selection.scss'
 
 const getRoleTag = (tags) => {
-  return ['tank', 'healer', 'dps'].find(tag => tags && tags.includes(tag))
+  return ['tank', 'healer', 'dps'].find(tag => tags && tags.includes(tag)) || ''
 }
 
 const choiceNumbers = {
@@ -20,7 +20,7 @@ const choiceNumbers = {
 }
 
 export interface PlayerSelectionProps {
-  selection: OverviewUserSelection
+  selection?: OverviewUserSelection
   choice: string
   characters: APIUserCharacter[]
   onSelect: () => void
@@ -49,7 +49,7 @@ const PlayerSelection = (
   const realmCharacters = maxLevelCharacters.filter(char => char.realm === config.realm)
   const guildCharacters = realmCharacters.filter(char => char.guild === config.guild)
 
-  let warningMessage = null
+  let warningMessage: string | undefined
   let warningSeverity = 0
   if (!classSafeName) {
     warningMessage = 'Player has not selected a class'
@@ -91,7 +91,7 @@ ${classCharacters.map(char => `  ${char.level} - ${char.name} (${char.realm})`).
         {choiceNumber}
       </div>
       <div className={STYLES.class}>
-        <ClassIcon wowClass={classSafeName} />
+        {classSafeName && <ClassIcon wowClass={classSafeName} />}
       </div>
       <div className={STYLES.role}>
         <RoleIcon role={getRoleTag(tags)} />

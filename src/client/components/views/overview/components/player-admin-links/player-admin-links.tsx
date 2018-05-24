@@ -9,10 +9,10 @@ export interface PlayerAdminLinksProps {
 }
 
 const PlayerAdminLinks = ({ isAdmin, isSuperAdmin, onDeleteClick }: PlayerAdminLinksProps) => {
-  const adminLinks = [
+  const adminLinks: (() => JSX.Element)[] = [
     // () => <span key='lockin' className={STYLES.adminLinkLockIn}>lock in</span>
   ]
-  const superAdminLinks = [
+  const superAdminLinks: (() => JSX.Element)[] = [
     () => <span key='delete' onClick={onDeleteClick} className={STYLES.adminLinkDelete}>delete</span>
   ]
 

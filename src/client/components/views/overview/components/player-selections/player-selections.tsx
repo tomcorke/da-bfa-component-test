@@ -10,7 +10,11 @@ const CHOICES = [
   'third'
 ]
 
-const PlayerSelections = ({ battletag }) => {
+interface PlayerSelectionsProps {
+  battletag: string
+}
+
+const PlayerSelections = ({ battletag }: PlayerSelectionsProps) => {
   return (
     <div className={STYLES.playerSelections}>
       {CHOICES.map(choice =>

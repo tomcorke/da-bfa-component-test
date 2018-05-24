@@ -3,7 +3,7 @@ export type APIUser = {
 }
 
 export type APIUserSelection = {
-  selected?: {
+  selected: {
     class?: string
     spec?: string
   }

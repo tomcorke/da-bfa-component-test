@@ -1,37 +1,15 @@
 import { Reducer } from 'redux'
 
-import { APIUserData } from '../../types/api'
+import { APIUserData, APIUserSelections, APIUserProfile, APIUser } from '../../types/api'
 import config from '../config'
 import actions from '../actions'
 import { UserDataActions } from '../actions/user-data'
 
-export type UserData = {
-  battletag: string
-}
-
-export type UserSelection = {
-  class?: string
-  spec?: string
-  comments?: string
-}
-
-export type UserSelections = {
-  [choice: string]: UserSelection
-}
-
-export type UserCharacter = {
-  name: string
-}
-
-export type UserProfile = {
-  characters?: UserCharacter[]
-}
-
 export type UserDataState = {
   isGettingUserData?: boolean
-  user?: UserData
-  selections?: UserSelections
-  profile?: UserProfile
+  user?: APIUser
+  selections: APIUserSelections
+  profile?: APIUserProfile
   isAdmin: boolean
   isSuperAdmin: boolean
   hasChanges: boolean
@@ -100,6 +78,7 @@ const handleChangeSelection = (state: UserDataState, { name, property, value }):
 }
 
 const initialState = {
+  selections: {},
   isAdmin: false,
   isSuperAdmin: false,
   hasChanges: false,

@@ -7,7 +7,7 @@ export const SET_VIEW = 'SET_VIEW'
 
 export const setView = (view: string) => action(SET_VIEW, view)
 
-export const changeView = (view) => {
+export const changeView = (view: string) => {
   return async dispatch => {
     const setViewAction = () => dispatch(setView(view))
     if (view === 'main') {
