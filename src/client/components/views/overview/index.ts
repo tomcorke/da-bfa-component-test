@@ -7,7 +7,8 @@ import OverviewView from './overview'
 
 const ConnectedOverviewView = connect(
   (state: ApplicationState) => ({
-    battletags: state.overview.map(i => i.battletag)
+    battletags: state.overview.map(i => i.battletag),
+    showBackupSummary: state.overviewSettings.showBackupSummary
   }),
   dispatch => ({
     toggleShowBackupSummary: () => dispatch(overviewActions.toggleShowBackupSummary)

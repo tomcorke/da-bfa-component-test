@@ -5,7 +5,13 @@ import PlayerDisplay from './components/player-display'
 
 import * as STYLES from './overview.scss'
 
-const OverviewView = ({ battletags, showBackupSummary, toggleShowBackupSummary }) => {
+interface OverviewViewProps {
+  battletags: string[]
+  showBackupSummary: boolean
+  toggleShowBackupSummary: () => any
+}
+
+const OverviewView = ({ battletags, showBackupSummary, toggleShowBackupSummary }: OverviewViewProps) => {
   const selectionsDisplay = battletags.map(battletag => {
     return <PlayerDisplay
       key={battletag}
