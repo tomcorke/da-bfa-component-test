@@ -5,7 +5,8 @@ import actions from '../../../../../actions'
 import PlayerSelection, { PlayerSelectionProps } from './player-selection'
 import { ApplicationState } from '../../../../../reducers'
 import { OverviewSelection } from '../../../../../reducers/overview-selections'
-import { APIUserCharacter } from '../../../../../../types/api'
+import { APIPlayerCharacter } from '../../../../../../types/api'
+import { OverviewPlayerData } from '../../../../../reducers/overview'
 
 interface OwnProps {
   battletag: string
@@ -15,17 +16,20 @@ interface OwnProps {
 const ConnectedPlayerSelection = connect(
   (state: ApplicationState, props: OwnProps) => {
     const playerData = state.overview
-      .find(i => i.battletag === props.battletag)
+      .find(i => i.battletag === props.battletag) || ({} as OverviewPlayerData)
     const selection = playerData.selections
       .find(s => s.choice === props.choice)
 
     const overviewSelections = state.overviewSelections[props.battletag] || {}
     const overviewSelection = Object.keys(overviewSelections)
       .find(s => {
-        return overviewSelections[s] &&
+        const overviewSelection = overviewSelections[s]
+        return (
+          overviewSelection &&
           selection &&
-          overviewSelections[s].class === selection.classSafeName &&
-          overviewSelections[s].spec === selection.specSafeName
+          overviewSelection.class === selection.classSafeName &&
+          overviewSelection.spec === selection.specSafeName
+        ) || false
       })
 
     const characters = playerData.characters

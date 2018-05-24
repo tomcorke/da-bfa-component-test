@@ -4,8 +4,8 @@ import config from '../../../../../config'
 import ClassIcon from '../../../../class-icon'
 import RoleIcon from '../role-icon'
 import WarningIndicator from '../warning-indicator'
-import { APIUserCharacter, APIUserSelection } from '../../../../../../types/api'
-import { OverviewUserSelection } from '../../../../../reducers/overview'
+import { APIPlayerCharacter } from '../../../../../../types/api'
+import { OverviewPlayerSelection } from '../../../../../reducers/overview'
 
 import * as STYLES from './player-selection.scss'
 
@@ -20,16 +20,16 @@ const choiceNumbers = {
 }
 
 export interface PlayerSelectionProps {
-  selection?: OverviewUserSelection
+  selection?: OverviewPlayerSelection
   choice: string
-  characters: APIUserCharacter[]
+  characters: APIPlayerCharacter[]
   onSelect: () => void
   overviewSelection: string
 }
 
 const PlayerSelection = (
   {
-    selection = {} as OverviewUserSelection,
+    selection = {} as OverviewPlayerSelection,
     choice,
     characters,
     onSelect,

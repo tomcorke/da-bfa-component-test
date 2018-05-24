@@ -1,5 +1,5 @@
 import { action } from 'typesafe-actions'
-import { OverviewState, OverviewUserSelection } from '../reducers/overview'
+import { OverviewState, OverviewPlayerSelection } from '../reducers/overview'
 import { OverviewSelectionsState } from '../reducers/overview-selections'
 import { ApplicationState } from '../reducers'
 
@@ -10,10 +10,10 @@ export const SAVE_SELECTED_CHOICES = 'SAVE_SELECTED_CHOICES'
 const SELECTION_CHOICES = ['first', 'second']
 
 type UndefinedPlayerSelections = {
-  selections?: OverviewUserSelection[]
+  selections?: OverviewPlayerSelection[]
 }
 
-const _selectOverviewChoice = (battletag: string, className: string, specName: string, selectionChoice: string) => action(
+const _selectOverviewChoice = (battletag: string, selectionChoice: string, className?: string, specName?: string) => action(
   SELECT_OVERVIEW_CHOICE,
   {
     battletag,
@@ -44,14 +44,17 @@ export const selectChoice = (battletag, choice) => {
 
     const alreadySelectedChoice = Object.entries(playerOverviewSelections)
       .find(([selectionChoice, value]) => {
-        return playerChoice &&
+        return (
+          playerChoice &&
           value &&
           value.class === playerChoice.classSafeName &&
           value.spec === playerChoice.specSafeName
+        ) ||
+          false
       })
 
     if (selectionChoice && !alreadySelectedChoice) {
-      dispatch(_selectOverviewChoice(battletag, playerChoice.classSafeName, playerChoice.specSafeName, selectionChoice))
+      dispatch(_selectOverviewChoice(battletag, selectionChoice, playerChoice.classSafeName, playerChoice.specSafeName))
       dispatch(saveSelectedChoices())
     } else if (alreadySelectedChoice) {
       dispatch(_deselectOverviewChoice(battletag, alreadySelectedChoice[0]))

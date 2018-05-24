@@ -1,7 +1,7 @@
 import * as request from 'request-promise-native'
 import { DB } from './db'
 
-import { APIUserProfile, APIUserCharacter } from '../types/api'
+import { APIPlayerProfile, APIPlayerCharacter } from '../types/api'
 import { BNetUser, BNetCharacter, BattleTag } from './types'
 
 const createUrl = (endpoint: string, token: string) => {
@@ -9,7 +9,7 @@ const createUrl = (endpoint: string, token: string) => {
   return `${BASE_URL}${endpoint}?access_token=${encodeURIComponent(token)}`
 }
 
-const profileDb = new DB<APIUserProfile>('profiles')
+const profileDb = new DB<APIPlayerProfile>('profiles')
 const requestCache: { [key: string]: Promise<any> | undefined } = {}
 
 const CLASS_NAMES: { [key: number]: string } = {
@@ -27,14 +27,14 @@ const CLASS_NAMES: { [key: number]: string } = {
   12: 'demonhunter'
 }
 
-const charFilter = (char: APIUserCharacter) => {
+const charFilter = (char: APIPlayerCharacter) => {
   return (
     char.realm &&
     char.level >= 10
   )
 }
 
-const charTransform = (char: BNetCharacter): APIUserCharacter => {
+const charTransform = (char: BNetCharacter): APIPlayerCharacter => {
   return {
     name: char.name,
     level: char.level,

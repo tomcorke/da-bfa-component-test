@@ -1,5 +1,5 @@
 import { action, createAction } from 'typesafe-actions'
-import { APIUserData } from '../../types/api'
+import { APIPlayerData } from '../../types/api'
 import { ApplicationState } from '../reducers'
 
 import * as feedbackActions from './feedback'
@@ -21,9 +21,9 @@ interface HandleUserDataOptions {
   noRetry?: boolean
 }
 
-const _handleUserData = (data: APIUserData) => action(HANDLE_USER_DATA, data)
+const _handleUserData = (data: APIPlayerData) => action(HANDLE_USER_DATA, data)
 
-export const handleUserData = (data: APIUserData, opts: HandleUserDataOptions = {}) => {
+export const handleUserData = (data: APIPlayerData, opts: HandleUserDataOptions = {}) => {
   return (dispatch, getState: () => ApplicationState) => {
     dispatch(_handleUserData(data))
 

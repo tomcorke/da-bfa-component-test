@@ -1,15 +1,25 @@
 import { Reducer } from 'redux'
 
-import { APIUserData, APIUserSelections, APIUserProfile, APIUser } from '../../types/api'
+import { APIPlayerData, APIPlayerSelections, APIPlayerProfile, APIPlayer, APIPlayerSelection, APIFlatPlayerSelection } from '../../types/api'
 import config from '../config'
 import actions from '../actions'
 import { UserDataActions } from '../actions/user-data'
 
+export type UserSelection = {
+  class?: string
+  spec?: string
+  comments?: string
+}
+
+export type UserSelections = {
+  [choice: string]: UserSelection | undefined
+}
+
 export type UserDataState = {
   isGettingUserData?: boolean
-  user?: APIUser
-  selections: APIUserSelections
-  profile?: APIUserProfile
+  user?: APIPlayer
+  selections: UserSelections
+  profile?: APIPlayerProfile
   isAdmin: boolean
   isSuperAdmin: boolean
   hasChanges: boolean
@@ -30,13 +40,32 @@ const setGettingData = (state: UserDataState, isGettingData: boolean): UserDataS
   }
 }
 
-const handleUserData = (state: UserDataState, userData: APIUserData): UserDataState => {
+const flattenPlayerSelection = (apiPlayerSelection: APIPlayerSelection): UserSelection => ({
+  class: apiPlayerSelection.class || (apiPlayerSelection.selected && apiPlayerSelection.selected.class) || undefined,
+  spec: apiPlayerSelection.spec || (apiPlayerSelection.selected && apiPlayerSelection.selected.spec) || undefined,
+  comments: apiPlayerSelection.comments
+})
+
+function clone<T> (object: T) { return JSON.parse(JSON.stringify(object)) as T }
+
+export function flattenUserSelections (apiPlayerSelections?: APIPlayerSelections): UserSelections {
+  const flattendedSelections = {} as UserSelections
+  if (apiPlayerSelections) {
+    Object.keys(apiPlayerSelections).forEach(key => {
+      flattendedSelections[key] = flattenPlayerSelection(apiPlayerSelections[key])
+    })
+  }
+  return flattendedSelections
+}
+
+const handleUserData = (state: UserDataState, userData: APIPlayerData): UserDataState => {
   const {
     user,
-    selections = {},
     isAdmin,
     isSuperAdmin
   } = userData
+
+  const selections = flattenUserSelections(userData.selections)
 
   let { profile } = userData
   profile = profile || {}
@@ -64,7 +93,9 @@ const handleUserData = (state: UserDataState, userData: APIUserData): UserDataSt
   }
 }
 
-const handleChangeSelection = (state: UserDataState, { name, property, value }): UserDataState => {
+function handleChangeSelection (
+  state: UserDataState,
+  { name, property, value }: { name: string, property: string, value: string }): UserDataState {
   return {
     ...state,
     selections: {

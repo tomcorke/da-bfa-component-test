@@ -1,12 +1,11 @@
 import * as React from 'react'
-
+import { APIPlayerCharacter } from '../../../../../../types/api'
 import ClassIcon from '../../../../class-icon'
 
 import * as STYLES from './wow-character.scss'
-import { UserCharacter } from '../../../../../reducers/user-data'
 
 interface WowCharacterProps {
-  character: UserCharacter
+  character: APIPlayerCharacter
 }
 
 const WowCharacter = ({ character }: WowCharacterProps) => {

@@ -221,10 +221,10 @@ const classData: WowClass[] = [
 
 export interface SafeWowClass extends WowClass {
   safeName: string
-  specialisations: SafeWoWSpecialisation[]
+  specialisations: SafeWowSpecialisation[]
 }
 
-export interface SafeWoWSpecialisation extends WowSpecialisation {
+export interface SafeWowSpecialisation extends WowSpecialisation {
   safeName: string
 }
 
@@ -254,7 +254,7 @@ export type SpecNameMap = {
 }
 
 export const specNames: SpecNameMap = safeClassData
-  .reduce((allSpecs, c) => allSpecs.concat(c.specialisations), [])
+  .reduce((allSpecs: SafeWowSpecialisation[], c) => allSpecs.concat(c.specialisations), [])
   .reduce((specNames, s) => {
     return {
       ...specNames,

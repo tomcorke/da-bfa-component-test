@@ -1,12 +1,11 @@
 import * as React from 'react'
-
-import { UserCharacter } from '../../../../../reducers/user-data'
+import { APIPlayerCharacter } from '../../../../../../types/api'
 import WowCharacter from '../wow-character'
 
 import * as STYLES from './class-display.scss'
 
 interface ClassDisplayProps {
-  guildCharacters: UserCharacter[]
+  guildCharacters: APIPlayerCharacter[]
 }
 
 const ClassDisplay = ({ guildCharacters }: ClassDisplayProps) => {

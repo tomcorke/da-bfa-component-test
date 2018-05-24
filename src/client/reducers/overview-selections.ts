@@ -8,7 +8,7 @@ export type OverviewSelection = {
 }
 
 export type OverviewSelections = {
-  [selectionChoice: string]: OverviewSelection
+  [selectionChoice: string]: OverviewSelection | undefined
 }
 
 export type OverviewSelectionsState = {
@@ -28,8 +28,8 @@ const selectChoice = (
     selectionChoice
   }: {
     battletag: string
-    className: string
-    specName: string
+    className?: string
+    specName?: string
     selectionChoice: string
   }): OverviewSelectionsState => {
   const clonedState = clone(state)

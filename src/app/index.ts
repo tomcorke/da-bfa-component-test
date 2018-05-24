@@ -8,9 +8,9 @@ import * as session from 'express-session'
 import * as handlebars from 'express-handlebars'
 
 import {
-  APIUser,
-  APIUserData,
-  APIUserSelections,
+  APIPlayer,
+  APIPlayerData,
+  APIPlayerSelections,
   APIOverviewData
 } from '../types/api'
 
@@ -19,7 +19,7 @@ import { DB } from './db'
 import bnetApi from './bnet-api'
 import { isAdmin, isSuperAdmin } from './permissions'
 
-const userSelectionsDb = new DB<APIUserSelections>('data')
+const userSelectionsDb = new DB<APIPlayerSelections>('data')
 
 require('dotenv-safe').config()
 
@@ -76,7 +76,7 @@ app.use((req, res, next) => {
   next()
 })
 
-const getUserData = async (user: BNetUser, immediate = false): Promise<APIUserData> => {
+const getUserData = async (user: BNetUser, immediate = false): Promise<APIPlayerData> => {
   const { battletag } = user
   const selections = userSelectionsDb.get(battletag)
   const profile = await bnetApi.getWoWProfile(user, immediate)

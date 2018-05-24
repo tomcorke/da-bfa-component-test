@@ -1,10 +1,11 @@
 import { Reducer } from 'redux'
 
 import * as overviewActions from '../actions/overview'
-import classes, { SafeWowClass, SafeWoWSpecialisation } from '../data/classes'
-import { APIOverviewData, APIUserCharacter, APIUserSelections } from '../../types/api'
+import classes, { SafeWowClass, SafeWowSpecialisation } from '../data/classes'
+import { APIOverviewData, APIPlayerCharacter, APIPlayerSelections } from '../../types/api'
+import { flattenUserSelections, UserSelection } from './user-data'
 
-export type OverviewUserSelection = {
+export type OverviewPlayerSelection = {
   choice: string
   class?: string
   classSafeName?: string
@@ -14,18 +15,20 @@ export type OverviewUserSelection = {
   comments?: string
 }
 
-export type OverviewState = {
+export type OverviewPlayerData = {
   battletag: string
-  characters: APIUserCharacter[]
-  selections: OverviewUserSelection[]
-}[]
+  characters: APIPlayerCharacter[]
+  selections: OverviewPlayerSelection[]
+}
+
+export type OverviewState = OverviewPlayerData[]
 
 const initialState: OverviewState = []
 
-function getClass (name): SafeWowClass {
+function getClass (name): SafeWowClass | undefined {
   return classes.find(c => c.safeName === name)
 }
-function getSpec (wowClass, name): SafeWoWSpecialisation {
+function getSpec (wowClass, name): SafeWowSpecialisation | undefined {
   return wowClass && wowClass.specialisations && wowClass.specialisations.find(s => s.safeName === name)
 }
 
@@ -44,31 +47,38 @@ interface UndefinedWowSpec {
 function joinOverviewData (data: APIOverviewData): OverviewState {
   const { userSelectionData, userProfileData } = data
 
-  return Object.entries(userSelectionData).map(([battletag, selections]) => ({
-    battletag,
-    characters: (userProfileData[battletag] || {}).characters || [],
-    selections: Object.entries(selections)
-      .filter(([key, value]) => value.selected)
-      .map(([key, value]) => {
-        const selectedClass = getClass(value.selected.class) || ({} as UndefinedWowClass)
-        const selectedSpec = getSpec(selectedClass, value.selected.spec) || ({} as UndefinedWowSpec)
+  return Object.entries(userSelectionData).map(([battletag, selections]) => {
+    const flattenedSelections = flattenUserSelections(selections)
 
-        const classAndSpecTags = Array.from(new Set(
-          (selectedClass.tags || [])
-            .concat(selectedSpec.tags || [])
-        ))
+    return {
+      battletag,
+      characters: (userProfileData[battletag] || {}).characters || [],
+      selections: Object.entries(flattenedSelections)
+        .filter(([key, value]) => value && value.class)
+        .map(([key, value]) => {
+          // Workaround for typescript not recognising filter above validated that value is defined
+          value = value || ({} as UserSelection)
 
-        return {
-          choice: key,
-          class: selectedClass.name,
-          classSafeName: selectedClass.safeName,
-          spec: selectedSpec.name,
-          specSafeName: selectedSpec.safeName,
-          tags: classAndSpecTags,
-          comments: value.comments
-        }
-      })
-  }))
+          const selectedClass = getClass(value.class) || ({} as UndefinedWowClass)
+          const selectedSpec = getSpec(selectedClass, value.spec) || ({} as UndefinedWowSpec)
+
+          const classAndSpecTags = Array.from(new Set(
+            (selectedClass.tags || [])
+              .concat(selectedSpec.tags || [])
+          ))
+
+          return {
+            choice: key,
+            class: selectedClass.name,
+            classSafeName: selectedClass.safeName,
+            spec: selectedSpec.name,
+            specSafeName: selectedSpec.safeName,
+            tags: classAndSpecTags,
+            comments: value.comments
+          }
+        })
+    }
+  })
 }
 
 const OverviewReducer: Reducer<OverviewState, overviewActions.OverviewAction> = (state = initialState, action) => {

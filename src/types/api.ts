@@ -1,8 +1,8 @@
-export type APIUser = {
+export type APIPlayer = {
   battletag: string
 }
 
-export type APIUserSelection = {
+export type APINestedPlayerSelection = {
   selected: {
     class?: string
     spec?: string
@@ -10,11 +10,19 @@ export type APIUserSelection = {
   comments?: string
 }
 
-export type APIUserSelections = {
-  [choice: string]: APIUserSelection
+export type APIFlatPlayerSelection = {
+  class?: string
+  spec?: string
+  comments?: string
 }
 
-export type APIUserCharacter = {
+export type APIPlayerSelection = APINestedPlayerSelection & APIFlatPlayerSelection
+
+export type APIPlayerSelections = {
+  [choice: string]: APIPlayerSelection
+}
+
+export type APIPlayerCharacter = {
   name: string
   class: string
   realm: string
@@ -22,23 +30,23 @@ export type APIUserCharacter = {
   level: number
 }
 
-export type APIUserProfile = {
-  characters?: APIUserCharacter[]
+export type APIPlayerProfile = {
+  characters?: APIPlayerCharacter[]
 }
 
-export type APIUserData = {
-  user: APIUser
-  selections?: APIUserSelections
+export type APIPlayerData = {
+  user: APIPlayer
+  selections?: APIPlayerSelections
   isAdmin: boolean
   isSuperAdmin: boolean
-  profile?: APIUserProfile
+  profile?: APIPlayerProfile
 }
 
 export type APIOverviewData = {
   userSelectionData: {
-    [battletag: string]: APIUserSelections
+    [battletag: string]: APIPlayerSelections
   },
   userProfileData: {
-    [battletag: string]: APIUserProfile
+    [battletag: string]: APIPlayerProfile
   }
 }

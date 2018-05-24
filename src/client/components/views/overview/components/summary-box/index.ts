@@ -1,17 +1,21 @@
 import { connect } from 'react-redux'
+import { UserSelections, UserSelection } from '../../../../../reducers/user-data'
+import { OverviewPlayerSelection } from '../../../../../reducers/overview'
+import { ApplicationState } from '../../../../../reducers'
 
 import SummaryBox from './summary-box'
-import { ApplicationState } from '../../../../../reducers'
-import { APIUserSelection, APIUserSelections } from '../../../../../../types/api'
 
-const joinWithOverviewSelections = (playerOverviewSelections: APIUserSelections = {}) => (selection) => {
+const joinWithOverviewSelections = (playerOverviewSelections: UserSelections = ({} as UserSelections)) => (selection: OverviewPlayerSelection) => {
   const overviewSelection = Object.keys(playerOverviewSelections)
-    .find(key => {
+    .find((key: string) => {
       const os = playerOverviewSelections[key]
-      return os &&
+      return (
+        os &&
         selection &&
         os.class === selection.classSafeName &&
         os.spec === selection.specSafeName
+      ) ||
+        false
     })
   return {
     ...selection,
@@ -21,12 +25,12 @@ const joinWithOverviewSelections = (playerOverviewSelections: APIUserSelections 
 
 interface SelectionsSummaryData {
   tags: string[],
-  class: string
+  class?: string
 }
 
 const ConnectedSummaryBox = connect(
   (state: ApplicationState, props: { selectionFilter?: (selection: any) => boolean }) => {
-    const noUndefinedFilter = (selection: APIUserSelection) => !!selection.class
+    const noUndefinedFilter = (selection: UserSelection) => !!selection.class
     const selectionFilter = props.selectionFilter || (() => true)
     return {
       allSelections: state.overview

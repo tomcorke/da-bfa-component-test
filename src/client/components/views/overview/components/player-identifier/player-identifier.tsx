@@ -1,13 +1,13 @@
 import * as React from 'react'
 
 import { classNames } from '../../../../../data/classes'
-import { APIUserCharacter } from '../../../../../../types/api'
+import { APIPlayerCharacter } from '../../../../../../types/api'
 
 import * as STYLES from './player-identifier.scss'
 
 interface PlayerIdentifierProps {
   battletag: string,
-  guildCharacters: APIUserCharacter[]
+  guildCharacters: APIPlayerCharacter[]
 }
 
 const PlayerIdentifier = ({ battletag, guildCharacters }: PlayerIdentifierProps) => {

@@ -1,7 +1,7 @@
 import { action } from 'typesafe-actions'
 
-let fadeTimeout = null
-let hideTimeout = null
+let fadeTimeout: number
+let hideTimeout: number
 
 export const FEEDBACK_MESSAGE_SHOW = 'FEEDBACK_MESSAGE_SHOW'
 export const FEEDBACK_MESSAGE_FADEOUT = 'FEEDBACK_MESSAGE_FADEOUT'
@@ -28,10 +28,10 @@ export const show = (message: string, style?: string) => {
     clearTimeout(fadeTimeout)
     clearTimeout(hideTimeout)
     dispatch(_showFeedbackMessage(message, style))
-    fadeTimeout = setTimeout(() => {
+    fadeTimeout = window.setTimeout(() => {
       dispatch(_fadeOutFeedbackMessage())
     }, 1000)
-    hideTimeout = setTimeout(() => {
+    hideTimeout = window.setTimeout(() => {
       dispatch(_hideFeedbackMessage())
     }, 2000)
   }

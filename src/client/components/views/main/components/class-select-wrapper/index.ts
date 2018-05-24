@@ -16,7 +16,7 @@ interface UndefinedSelected {
 const ConnectedClassSelectWrapper = connect(
   (state: ApplicationState, props: OwnProps) => {
     const selection = state.userData.selections && state.userData.selections[props.name]
-    const selected = (selection && selection.selected) || ({} as UndefinedSelected)
+    const selected = selection || ({} as UndefinedSelected)
     const { class: selectedClass, spec: selectedSpec } = selected
 
     let showSelectedClassWarning = false
@@ -36,7 +36,7 @@ const ConnectedClassSelectWrapper = connect(
     }
   },
   (dispatch, props) => ({
-    onChange: (property, newValue) => dispatch(actions.userData.changeSelection(props.name, property, newValue))
+    onChange: (property, newValue: string) => dispatch(actions.userData.changeSelection(props.name, property, newValue))
   })
 )(ClassSelectWrapper)
 

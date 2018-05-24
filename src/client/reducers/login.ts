@@ -3,7 +3,7 @@ import { Reducer } from 'redux'
 import * as loginActions from '../actions/login'
 
 export type LoginState = {
-  authWindow?: Window
+  authWindow?: Window | null
 }
 
 const initialState = {}

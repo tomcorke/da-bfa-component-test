@@ -22,7 +22,10 @@ const ClassSelectWrapper = ({
   showSelectedClassWarning,
   onChange
 }: ClassSelectWrapperProps) => {
-  const onClassChange = (value: { class?: string, spec?: string }) => onChange('selected', value)
+  const onClassChange = (value: { class?: string, spec?: string }) => {
+    onChange('spec', value.spec)
+    onChange('class', value.class)
+  }
   const onCommentsChange = (value: string) => onChange('comments', value)
 
   let selectionWarning: JSX.Element | null = null
