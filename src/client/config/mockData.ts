@@ -11,7 +11,9 @@ const getSelections = () => {
       ...selections,
       ...mockSelectionData
     }
-  } catch (err) {}
+  } catch (err) {
+    // this is fine
+  }
   return mockSelectionData
 }
 
@@ -22,7 +24,9 @@ const getProfiles = () => {
       ...profiles,
       ...mockProfileData
     }
-  } catch (err) {}
+  } catch (err) {
+    // This is fine
+  }
   return mockProfileData
 }
 

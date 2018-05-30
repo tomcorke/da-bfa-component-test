@@ -1,7 +1,7 @@
 declare module 'passport-bnet' {
   import { Strategy as PassportStrategy } from 'passport'
-  export class Strategy extends PassportStrategy{
-    constructor(
+  export class Strategy extends PassportStrategy {
+    constructor (
       strategyOptions: {
         clientID: string
         clientSecret: string
