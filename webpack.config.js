@@ -37,7 +37,8 @@ module.exports = {
             options: {
               reportFiles: [
                 'src/client/**/*'
-              ]
+              ],
+              configFileName: './src/client/tsconfig.json'
             }
           }
         ]

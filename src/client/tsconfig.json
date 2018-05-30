@@ -6,6 +6,12 @@
     "lib": ["es7", "es2017.object", "dom"],
     "jsx": "react",
     "allowJs": true,
-    "strictNullChecks": true
-  }
+    "strictNullChecks": true,
+    "noEmit": true
+  },
+  "compileOnSave": true,
+  "include": ["."],
+  "exclude": [
+    "../../node_modules"
+  ]
 }
