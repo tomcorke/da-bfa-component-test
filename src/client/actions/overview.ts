@@ -75,7 +75,7 @@ const _toggleShowBackupSummary = (value: boolean) => action(
   value
 )
 
-export const toggleShowBackupSummary: ThunkAction<void, ApplicationState, {}> =
+export const toggleShowBackupSummary =
   (dispatch, getState) => {
     const currentValue = getState().overviewSettings.showBackupSummary
     const newValue = !currentValue

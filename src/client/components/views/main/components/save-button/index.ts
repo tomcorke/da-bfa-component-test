@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import actions from '../../../../../actions'
-import { ApplicationState } from '../../../../../reducers'
+import { ApplicationState, Dispatch } from '../../../../../reducers'
 
 import SaveButton from './save-button'
 
@@ -8,7 +8,7 @@ const ConnectedSaveButton = connect(
   (state: ApplicationState) => ({
     highlight: state.userData.hasChanges
   }),
-  dispatch => ({
+  (dispatch: Dispatch) => ({
     onClick: () => {
       dispatch(actions.feedback.show('Saving...'))
       dispatch(actions.userData.saveSelections())

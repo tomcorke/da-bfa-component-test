@@ -16,7 +16,7 @@ export class DB<T> {
   }
 
   constructor (name: string) {
-    this.filePath = path.join(__dirname, `../../db/${name}.json`)
+    this.filePath = path.join(__dirname, `../../../db/${name}.json`)
     this.data = {}
     this.init()
   }
@@ -27,9 +27,10 @@ export class DB<T> {
         fs.ensureFileSync(this.filePath)
         const rawData = fs.readFileSync(this.filePath, 'utf8')
         this.data = JSON.parse(rawData)
+        console.log(`Loaded data from "${this.filePath}"`)
       }
     } catch (e) {
-      console.error(`Error loading data: ${e.message}`)
+      console.error(`Error loading data from "${this.filePath}": ${e.message}`)
     }
   }
 
@@ -40,7 +41,7 @@ export class DB<T> {
         fs.writeFileSync(this.filePath, JSON.stringify(this.data, null, 2), 'utf8')
       }
     } catch (e) {
-      console.error(`Error writing data: ${e.message}`)
+      console.error(`Error writing data to "${this.filePath}": ${e.message}`)
     }
   }
 

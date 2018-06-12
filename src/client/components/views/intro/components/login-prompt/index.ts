@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import actions from '../../../../../actions'
-import { ApplicationState } from '../../../../../reducers'
+import { ApplicationState, Dispatch } from '../../../../../reducers'
 
 import LoginPrompt from './login-prompt'
 
@@ -8,7 +8,7 @@ const ConnectedLoginPrompt = connect(
   (state: ApplicationState) => ({
     disableLogin: state.userData.isGettingUserData
   }),
-  dispatch => ({
+  (dispatch: Dispatch) => ({
     onLoginClick: () => {
       dispatch(actions.login.login(window))
       dispatch(actions.feedback.show('Logging in...'))

@@ -1,8 +1,8 @@
 import * as request from 'request-promise-native'
 import { DB } from './db'
 
-import { APIPlayerProfile, APIPlayerCharacter } from '../types/api'
-import { BNetUser, BNetCharacter, BattleTag } from './types'
+import { APIPlayerProfile, APIPlayerCharacter } from '../../types/api'
+import { BNetUser, BNetCharacter, BattleTag } from '../types'
 
 const createUrl = (endpoint: string, token: string) => {
   const BASE_URL = `https://eu.api.battle.net`
@@ -96,6 +96,4 @@ class API {
   }
 }
 
-const api = new API()
-
-export default api
+export const bnetApi = new API()

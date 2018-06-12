@@ -2,10 +2,8 @@ import { connect } from 'react-redux'
 
 import actions from '../../../../../actions'
 
-import PlayerSelection, { PlayerSelectionProps } from './player-selection'
-import { ApplicationState } from '../../../../../reducers'
-import { OverviewSelection } from '../../../../../reducers/overview-selections'
-import { APIPlayerCharacter } from '../../../../../../types/api'
+import PlayerSelection from './player-selection'
+import { ApplicationState, Dispatch } from '../../../../../reducers'
 import { OverviewPlayerData } from '../../../../../reducers/overview'
 
 interface OwnProps {
@@ -40,7 +38,7 @@ const ConnectedPlayerSelection = connect(
       characters
     }
   },
-  (dispatch, props) => ({
+  (dispatch: Dispatch, props) => ({
     onSelect: () => dispatch(actions.overviewSelections.selectChoice(props.battletag, props.choice))
   })
 )(PlayerSelection)

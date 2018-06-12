@@ -1,19 +1,28 @@
-import * as userDataActions from './user-data'
-import * as viewActions from './views'
+import * as adminActions from './admin'
 import * as feedbackActions from './feedback'
 import * as loginActions from './login'
-import * as overviewActions from './overview'
 import * as overviewSelectionActions from './overview-selections'
-import * as adminActions from './admin'
+import * as overviewActions from './overview'
+import * as userDataActions from './user-data'
+import * as viewActions from './views'
 
 const actions = {
-  userData: userDataActions,
-  views: viewActions,
+  admin: adminActions,
   feedback: feedbackActions,
   login: loginActions,
-  overview: overviewActions,
   overviewSelections: overviewSelectionActions,
-  admin: adminActions
+  overview: overviewActions,
+  userData: userDataActions,
+  views: viewActions
 }
+
+export type ApplicationAction =
+  | adminActions.AdminAction
+  | feedbackActions.FeedbackAction
+  | loginActions.LoginActions
+  | overviewSelectionActions.OverviewSelectionsActions
+  | overviewActions.OverviewAction
+  | userDataActions.UserDataActions
+  | viewActions.ViewActions
 
 export default actions

@@ -1,5 +1,8 @@
 import { combineReducers, Reducer } from 'redux'
 
+import { ThunkDispatch } from 'redux-thunk'
+import { ApplicationAction } from '../actions'
+
 import ConfigReducer, { ConfigState } from './config'
 import FeedbackReducer, { FeedbackState } from './feedback'
 import LoginReducer, { LoginState } from './login'
@@ -30,5 +33,7 @@ const rootReducer: Reducer<ApplicationState> = combineReducers<ApplicationState>
   userData: UserDataReducer,
   view: ViewReducer
 })
+
+export type Dispatch = ThunkDispatch<ApplicationState, null, ApplicationAction>
 
 export default rootReducer

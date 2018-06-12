@@ -1,4 +1,4 @@
-import { BNetUser } from './types'
+import { BNetUser } from '../types'
 
 require('dotenv-safe').config()
 
