@@ -2,10 +2,12 @@ import * as overviewActions from '../actions/overview'
 
 export type OverviewSettingsState = {
   showBackupSummary: boolean
+  showSelectionLockIn: boolean
 }
 
 const initialState: OverviewSettingsState = {
-  showBackupSummary: false
+  showBackupSummary: false,
+  showSelectionLockIn: false
 }
 
 const OverviewSettingsReducer = (
@@ -16,6 +18,11 @@ const OverviewSettingsReducer = (
       return {
         ...state,
         showBackupSummary: action.payload
+      }
+    case overviewActions.SHOW_SELECTION_LOCK_IN:
+      return {
+        ...state,
+        showSelectionLockIn: action.payload
       }
     default:
       return state

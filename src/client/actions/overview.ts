@@ -8,6 +8,7 @@ export const GET_OVERVIEW_DATA_SUCCESS = 'GET_OVERVIEW_DATA_SUCCESS'
 export const GET_OVERVIEW_DATA_FAIL = 'GET_OVERVIEW_DATA_FAIL'
 export const HANDLE_OVERVIEW_DATA = 'HANDLE_OVERVIEW_DATA'
 export const SHOW_BACKUP_SUMMARY = 'SHOW_BACKUP_SUMMARY'
+export const SHOW_SELECTION_LOCK_IN = 'SHOW_SELECTION_LOCK_IN'
 export const LOAD_OVERVIEW_SETTINGS = 'LOAD_OVERVIEW_SETTINGS'
 export const SAVE_OVERVIEW_SETTINGS = 'SAVE_OVERVIEW_SETTINGS'
 
@@ -83,6 +84,19 @@ export const toggleShowBackupSummary =
     dispatch(saveOverviewSettings())
   }
 
+const _toggleShowSelectionLockIn = (value: boolean) => action(
+  SHOW_SELECTION_LOCK_IN,
+  value
+)
+
+export const toggleShowSelectionLockIn =
+  (dispatch, getState) => {
+    const currentValue = getState().overviewSettings.showSelectionLockIn
+    const newValue = !currentValue
+    dispatch(_toggleShowSelectionLockIn(newValue))
+    dispatch(saveOverviewSettings())
+  }
+
 export type OverviewAction = ReturnType<
   | typeof handleOverviewData
   | typeof _getOverviewDataStart
@@ -90,4 +104,5 @@ export type OverviewAction = ReturnType<
   | typeof _getOverviewDataFail
   | typeof _loadOverviewSettings
   | typeof _saveOverviewSettings
-  | typeof _toggleShowBackupSummary>
+  | typeof _toggleShowBackupSummary
+  | typeof _toggleShowSelectionLockIn>

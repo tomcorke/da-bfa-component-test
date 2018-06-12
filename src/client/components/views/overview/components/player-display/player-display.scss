@@ -1,12 +1,14 @@
+@import '../../../../../mixins/classes';
+
 .playerDisplay {
   margin: 0.5em auto;
   display: flex;
   flex-flow: row wrap;
-  width: 600px;
+  width: 800px;
   max-width: 100%;
   position: relative;
   justify-content: center;
-  align-items: flex-start;
+  align-items: stretch;
 
   &:not(:first-child) {
     padding-top: 1em;
@@ -22,17 +24,94 @@
     }
   }
 
-  .left {
-    flex: 1 0 160px;
+  .info {
+    flex: 0 0 160px;
     padding-right: 10px;
     display: flex;
     flex-flow: row wrap;
     align-items: flex-start;
+    align-content: flex-start;
   }
 
-  .right {
-    flex: 1 1 240px;
+  .selections {
+    flex: 0 1 240px;
     display: flex;
     flex-flow: column nowrap;
+  }
+
+  .lockIn {
+    flex: 0 1 200px;
+    padding-left: 40px;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: flex-start;
+    justify-content: center;
+
+    .action {
+      display: flex;
+      align-items: center;
+
+      &:before {
+        content: '';
+        width: 1.5em;
+        height: 1.5em;
+        display: inline-block;
+        margin-right: 1em;
+      }
+
+      &__notLocked {
+        &:before {
+          background: url('../../../../../../../images/icons/lock-open.svg?fill=grey') center center no-repeat;
+        }
+      }
+      &__lockedIn {
+        &:before {
+          background: url('../../../../../../../images/icons/lock.svg?fill=' + escapeClassColour(rogue)) left center no-repeat;
+        }
+      }
+      &__notConfirmed {
+        &:before {
+          background: url('../../../../../../../images/icons/check-square.svg?fill=grey') left center no-repeat;
+        }
+      }
+      &__confirmed {
+        &:before {
+          background: url('../../../../../../../images/icons/check-square.svg?fill=' + escapeClassColour(monk)) left center no-repeat;
+        }
+      }
+      &__send {
+        cursor: pointer;
+        color: classColour(rogue);
+        &:before {
+          background: url('../../../../../../../images/icons/share-square.svg?fill=' + escapeClassColour(rogue)) left center no-repeat;
+        }
+      }
+    }
+
+    .checkAction {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      user-select: none;
+
+      input[type=checkbox] {
+        position: absolute;
+        opacity: 0;
+
+        & ~ .checkDisplay {
+          content: '';
+          width: 1.5em;
+          height: 1.5em;
+          display: inline-block;
+          margin-right: 1em;
+          background: url('../../../../../../../images/icons/check-square.svg?fill=' + escapeClassColour(deathknight)) left center no-repeat;
+        }
+
+        &:checked ~ .checkDisplay{
+          background: url('../../../../../../../images/icons/check-square.svg?fill=' + escapeClassColour(monk)) left center no-repeat;
+        }
+      }
+    }
+
   }
 }

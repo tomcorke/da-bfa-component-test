@@ -9,9 +9,17 @@ interface OverviewViewProps {
   battletags: string[]
   showBackupSummary: boolean
   toggleShowBackupSummary: () => any
+  showSelectionLockIn: boolean
+  toggleShowSelectionLockIn: () => any
 }
 
-const OverviewView = ({ battletags, showBackupSummary, toggleShowBackupSummary }: OverviewViewProps) => {
+const OverviewView = ({
+  battletags,
+  showBackupSummary,
+  toggleShowBackupSummary,
+  showSelectionLockIn,
+  toggleShowSelectionLockIn
+}: OverviewViewProps) => {
   const selectionsDisplay = battletags.map(battletag => {
     return <PlayerDisplay
       key={battletag}
@@ -31,6 +39,10 @@ const OverviewView = ({ battletags, showBackupSummary, toggleShowBackupSummary }
       <label>
         <input type='checkbox' checked={showBackupSummary} onChange={toggleShowBackupSummary} />
         Show backup selection summary
+      </label>
+      <label>
+        <input type='checkbox' checked={showSelectionLockIn} onChange={toggleShowSelectionLockIn} />
+        Show selection lock-in
       </label>
     </div>
 

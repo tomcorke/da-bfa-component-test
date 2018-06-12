@@ -1,3 +1,12 @@
+import { connect } from 'react-redux'
+import { ApplicationState } from '../../../../../reducers'
+
 import PlayerDisplay from './player-display'
 
-export default PlayerDisplay
+const ConnectedPlayerDisplay = connect(
+  (state: ApplicationState) => ({
+    showLockIn: state.overviewSettings.showSelectionLockIn
+  })
+)(PlayerDisplay)
+
+export default ConnectedPlayerDisplay
