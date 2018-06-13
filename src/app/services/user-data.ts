@@ -13,7 +13,7 @@ export const userSelectionsDb = new DB<APIPlayerSelections>('data')
 export const getUserData = async (user: BNetUser, immediate = false): Promise<APIPlayerData> => {
   const { battletag } = user
   const selections = userSelectionsDb.get(battletag)
-  const profile = await bnetApi.getWoWProfile(user, immediate)
+  const profile = await bnetApi.getWoWProfile(user, { immediate })
   const isUserAdmin = isAdmin(user)
   const isUserSuperAdmin = isSuperAdmin(user)
   return {

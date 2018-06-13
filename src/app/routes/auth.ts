@@ -3,6 +3,7 @@ import * as passport from 'passport'
 
 import { getUserData } from '../services/user-data'
 import { BNetUser } from '../types'
+import { bnetApi } from '../services/bnet-api'
 
 require('dotenv-safe').config()
 
@@ -25,9 +26,13 @@ authRouter.get(
 authRouter.get(
   '/bnet/success',
   async (req, res) => {
+
     if (!req.isAuthenticated()) {
       return res.status(401).send()
     }
+
+    bnetApi.registerUserForProfileRefresh(req.user as BNetUser)
+
     return res.render('login-success', {
       userData: JSON.stringify(await getUserData(req.user as BNetUser, true))
     })

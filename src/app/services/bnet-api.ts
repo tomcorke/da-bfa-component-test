@@ -10,7 +10,7 @@ const createUrl = (endpoint: string, token: string) => {
 }
 
 const profileDb = new DB<APIPlayerProfile>('profiles')
-const requestCache: { [key: string]: Promise<any> | undefined } = {}
+const tokenDb = new DB<string>('tokens')
 
 const CLASS_NAMES: { [key: number]: string } = {
   1: 'warrior',
@@ -44,11 +44,29 @@ const charTransform = (char: BNetCharacter): APIPlayerCharacter => {
   }
 }
 
+interface UserRefresher {
+  flags: {
+    cancel: boolean
+  }
+  refreshPromise: Promise<void>
+}
+
+interface GetWowProfileOptions {
+  immediate?: boolean
+  noCache?: boolean
+  throwOnFail?: boolean
+}
+
+const NO_OP = () => { /* Do nothing */ }
+
 class API {
-  async getWoWProfile (user: BNetUser, immediate = false) {
+  private userRefreshers: { [key: string]: UserRefresher } = {}
+  private requestCache: { [key: string]: Promise<any> | undefined } = {}
+
+  async getWoWProfile (user: BNetUser, opts: GetWowProfileOptions = {}) {
     const url = createUrl('/wow/user/characters', user.token)
 
-    let getProfile = requestCache[user.battletag]
+    let getProfile = this.requestCache[user.battletag]
 
     if (!getProfile) {
       getProfile = request(url, { json: true })
@@ -60,27 +78,34 @@ class API {
             }
           }
         })
-        .catch(err => console.error(`Error getting wow profile data for "${user.battletag}": ${err.message}`))
+        .catch(err => {
+          console.error(`Error getting wow profile data for "${user.battletag}": ${err.message}`)
+          if (!err.message.startsWith('504 - ') && opts.throwOnFail) {
+            throw err
+          }
+        })
 
       getProfile
         .then(data => {
           if (data) profileDb.set(user.battletag, data)
         })
+        .catch(NO_OP)
 
-      const removeFromRequestCache = () => { requestCache[user.battletag] = undefined }
+      const removeFromRequestCache = () => { this.requestCache[user.battletag] = undefined }
       getProfile
-        .then(removeFromRequestCache, removeFromRequestCache)
+        .then(removeFromRequestCache)
+        .catch(removeFromRequestCache)
 
-      requestCache[user.battletag] = getProfile
+      this.requestCache[user.battletag] = getProfile.catch(NO_OP)
     }
 
     const cachedProfile = profileDb.get(user.battletag)
-    if (cachedProfile) {
+    if (cachedProfile && !opts.noCache) {
       console.log(`Returning cached wow profile data for "${user.battletag}"`)
       return cachedProfile
     }
 
-    if (immediate) {
+    if (opts.immediate) {
       return null
     }
 
@@ -94,6 +119,67 @@ class API {
   delete (battletag: BattleTag) {
     profileDb.delete(battletag)
   }
+
+  registerUserForProfileRefresh (user: BNetUser) {
+    console.log(`Starting scheduled refresh of profile for "${user.battletag}"`)
+    tokenDb.set(user.battletag, user.token)
+    this.scheduleUserRefresh(user)
+  }
+
+  loadTokens () {
+    const tokens = tokenDb.getAll()
+    if (tokens) {
+      Object.entries(tokens).forEach(([ battletag, token ]) => {
+        if (token) {
+          this.registerUserForProfileRefresh({ battletag, token } as BNetUser)
+        }
+      })
+    }
+  }
+
+  private scheduleUserRefresh (user: BNetUser, time: number = 30 * 60 * 1000) {
+    const existingRefresh = this.userRefreshers[user.battletag]
+    if (existingRefresh) {
+      existingRefresh.flags.cancel = true
+    }
+
+    const flags = {
+      cancel: false
+    }
+    const refreshPromise = new Promise((resolve) => {
+      setTimeout(resolve, time)
+    })
+    .then(() => {
+      if (!flags.cancel) {
+        console.log(`calling scheduled user refresh for "${user.battletag}"`)
+        return this.getWoWProfile(user, {
+          noCache: true,
+          throwOnFail: true
+        })
+          .then(() => console.log(`Successful scheduled refresh for "${user.battletag}"`))
+          .then(() => this.scheduleUserRefresh(user))
+          .catch((err) => {
+            tokenDb.delete(user.battletag)
+            console.log(`Error on scheduled user refresh for "${user.battletag}": ${err.message}`)
+          })
+      } else {
+        tokenDb.delete(user.battletag)
+      }
+    })
+    .catch((err) => {
+      tokenDb.delete(user.battletag)
+      console.error(err)
+    })
+
+    this.userRefreshers[user.battletag] = {
+      flags,
+      refreshPromise
+    }
+  }
 }
 
-export const bnetApi = new API()
+const bnetApi = new API()
+
+bnetApi.loadTokens()
+
+export { bnetApi }
