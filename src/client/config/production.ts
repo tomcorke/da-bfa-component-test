@@ -3,13 +3,13 @@ import commonConfig from './common'
 const config = {
   ...commonConfig,
 
-  userDataEndpoint: 'getUserData',
+  userDataEndpoint: 'user/get',
   bnetAuthEndpoint: 'auth/bnet',
-  saveDataEndpoint: 'save',
+  saveDataEndpoint: 'user/save',
 
-  getOverviewViewDataEndpoint: 'getOverviewViewData',
+  getOverviewViewDataEndpoint: 'overview/get',
 
-  adminDeletePlayerDataEndpoint: 'deletePlayerData'
+  adminDeletePlayerDataEndpoint: 'user/delete'
 }
 
 export default config
