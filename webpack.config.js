@@ -1,6 +1,9 @@
 const webpack = require('webpack')
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const GitRevisionPlugin = require('git-revision-webpack-plugin')
+
+var gitRevisionPlugin = new GitRevisionPlugin()
 
 module.exports = {
   resolve: {
@@ -87,7 +90,10 @@ module.exports = {
       template: path.join(__dirname, 'public/index.html')
     }),
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
+      'process.env.GIT_VERSION': JSON.stringify(gitRevisionPlugin.version()),
+      'process.env.GIT_COMMITHASH': JSON.stringify(gitRevisionPlugin.commithash()),
+      'PROCESS.env.GIT_BRANCH': JSON.stringify(gitRevisionPlugin.branch())
     })
   ],
   devServer: {

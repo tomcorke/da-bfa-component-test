@@ -3,7 +3,7 @@ import commonConfig from './common'
 const config = {
   ...commonConfig,
 
-  ...require('./mockData').default,
+  // ...require('./mockData').default,
 
   userDataEndpoint: 'https://localhost:3443/user/get',
   bnetAuthEndpoint: 'https://localhost:3443/auth/bnet',

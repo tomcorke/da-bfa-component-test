@@ -4,15 +4,10 @@ import * as compression from 'compression'
 import * as cookieParser from 'cookie-parser'
 import * as session from 'express-session'
 import * as handlebars from 'express-handlebars'
+import * as helmet from 'helmet'
+import * as git from 'git-rev'
 
-import {
-  APIOverviewData
-} from '../types/api'
 import { passportInit } from './services/passport'
-import { BNetUser } from './types'
-import { bnetApi } from './services/bnet-api'
-import { isSuperAdmin } from './services/permissions'
-import { userSelectionsDb, getUserData } from './services/user-data'
 
 import userRouter from './routes/user'
 import overviewRouter from './routes/overview'
@@ -21,6 +16,7 @@ require('dotenv-safe').config()
 
 const app = express()
 
+app.use(helmet())
 app.use(express.json())
 app.use(cookieParser())
 app.use(session({
@@ -38,8 +34,17 @@ app.engine('.hbs', handlebars({
 app.set('views', path.join(__dirname, '../../src/app/views'))
 app.set('view engine', '.hbs')
 
-app.use((req, res, next) => {
+const getGitRev = new Promise<string>((resolve) => {
+  git.short(short => {
+    console.log(`Revision: ${short}`)
+    resolve(short)
+  })
+})
+
+app.use(async (req, res, next) => {
   console.log(`${req.method} ${req.path}`)
+  const gitRev = await getGitRev
+  res.header('x-rev', gitRev)
   next()
 })
 
