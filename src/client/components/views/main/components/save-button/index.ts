@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
-import actions from '../../../../../actions'
-import { ApplicationState, Dispatch } from '../../../../../reducers'
+import actions from '../../../../../redux/actions'
+import { ApplicationState, Dispatch } from '../../../../../redux/reducers'
 
 import SaveButton from './save-button'
 

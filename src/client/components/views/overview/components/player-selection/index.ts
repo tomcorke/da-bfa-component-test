@@ -1,10 +1,10 @@
 import { connect } from 'react-redux'
 
-import actions from '../../../../../actions'
+import actions from '../../../../../redux/actions'
 
 import PlayerSelection from './player-selection'
-import { ApplicationState, Dispatch } from '../../../../../reducers'
-import { OverviewPlayerData } from '../../../../../reducers/overview'
+import { ApplicationState, Dispatch } from '../../../../../redux/reducers'
+import { OverviewPlayerData } from '../../../../../redux/reducers/overview'
 
 interface OwnProps {
   battletag: string

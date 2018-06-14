@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
-import { UserSelections, UserSelection } from '../../../../../reducers/user-data'
-import { OverviewPlayerSelection } from '../../../../../reducers/overview'
-import { ApplicationState } from '../../../../../reducers'
+import { UserSelections, UserSelection } from '../../../../../redux/reducers/user-data'
+import { OverviewPlayerSelection } from '../../../../../redux/reducers/overview'
+import { ApplicationState } from '../../../../../redux/reducers'
 
 import SummaryBox from './summary-box'
 

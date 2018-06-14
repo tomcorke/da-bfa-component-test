@@ -1,6 +1,6 @@
 import { Reducer } from 'redux'
 
-const config = require(`../config/${process.env.NODE_ENV}`).default
+const config = require(`../../config/${process.env.NODE_ENV}`).default
 
 export type ConfigState = {
   guild: string,

@@ -1,8 +1,8 @@
 import { Reducer } from 'redux'
 
-import { APIPlayerData, APIPlayerSelections, APIPlayerProfile, APIPlayer, APIPlayerSelection, APIFlatPlayerSelection } from '../../types/api'
-import config from '../config'
-import actions from '../actions'
+import { APIPlayerData, APIPlayerSelections, APIPlayerProfile, APIPlayer, APIPlayerSelection, APIFlatPlayerSelection } from '../../../types/api'
+import config from '../../config'
+import actions from '../actions/index'
 import { UserDataActions } from '../actions/user-data'
 
 export type UserSelection = {
@@ -45,8 +45,6 @@ const flattenPlayerSelection = (apiPlayerSelection: APIPlayerSelection): UserSel
   spec: apiPlayerSelection.spec || (apiPlayerSelection.selected && apiPlayerSelection.selected.spec) || undefined,
   comments: apiPlayerSelection.comments
 })
-
-function clone<T> (object: T) { return JSON.parse(JSON.stringify(object)) as T }
 
 export function flattenUserSelections (apiPlayerSelections?: APIPlayerSelections): UserSelections {
   const flattendedSelections = {} as UserSelections

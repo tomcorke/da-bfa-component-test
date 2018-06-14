@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
-import actions from '../../../../../actions'
-import { ApplicationState } from '../../../../../reducers'
+import actions from '../../../../../redux/actions'
+import { ApplicationState } from '../../../../../redux/reducers'
 
 import ClassSelectWrapper from './class-select-wrapper'
 

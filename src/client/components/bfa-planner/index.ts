@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import { hot } from 'react-hot-loader'
 
-import { init } from '../../actions/init'
+import { init } from '../../redux/actions/init'
 
 import BfaPlanner from './bfa-planner'
 

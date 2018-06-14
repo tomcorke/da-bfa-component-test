@@ -1,8 +1,8 @@
 import { Reducer } from 'redux'
 
 import * as overviewActions from '../actions/overview'
-import classes, { SafeWowClass, SafeWowSpecialisation } from '../data/classes'
-import { APIOverviewData, APIPlayerCharacter, APIPlayerSelections } from '../../types/api'
+import classes, { SafeWowClass, SafeWowSpecialisation } from '../../data/classes'
+import { APIOverviewData, APIPlayerCharacter, APIPlayerSelections } from '../../../types/api'
 import { flattenUserSelections, UserSelection } from './user-data'
 
 export type OverviewPlayerSelection = {

@@ -1,5 +1,5 @@
 import { action, createAction } from 'typesafe-actions'
-import { APIPlayerData } from '../../types/api'
+import { APIPlayerData } from '../../../types/api'
 import { ApplicationState } from '../reducers'
 
 import * as feedbackActions from './feedback'
@@ -19,6 +19,7 @@ export const SAVE_SELECTIONS_FAIL = 'SAVE_FAIL'
 
 interface HandleUserDataOptions {
   noRetry?: boolean
+  noSetViewMain?: boolean
 }
 
 const _handleUserData = (data: APIPlayerData) => action(HANDLE_USER_DATA, data)
@@ -31,7 +32,7 @@ export const handleUserData = (data: APIPlayerData, opts: HandleUserDataOptions 
     const { view } = getState()
 
     if (isLoggedIn && view === 'intro') {
-      if (hasCharactersInGuild) {
+      if (hasCharactersInGuild && !opts.noSetViewMain) {
         dispatch(viewActions.setView('main'))
       } else if (!opts.noRetry) {
         dispatch(feedbackActions.show('Getting characters...'))
@@ -45,7 +46,7 @@ const _getUserDataStart = createAction(GET_USER_DATA_START)
 const _getUserDataSuccess = createAction(GET_USER_DATA_SUCCESS)
 const _getUserDataFail = (error: Error) => action(GET_USER_DATA_FAIL, error.stack)
 
-export const getUserData = (onSuccess?: () => void, opts = {}) => {
+export const getUserData = (onSuccess?: () => void, opts: HandleUserDataOptions = {}) => {
   return async (dispatch, getState) => {
     dispatch(_getUserDataStart())
 

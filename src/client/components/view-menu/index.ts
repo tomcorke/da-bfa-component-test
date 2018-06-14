@@ -1,7 +1,8 @@
 import { connect } from 'react-redux'
-import actions from '../../actions'
+import actions from '../../redux/actions'
 
-import { ApplicationState, Dispatch } from '../../reducers'
+import { ApplicationState, Dispatch } from '../../redux/reducers'
+import { View } from '../../redux/reducers/views'
 
 import ViewMenu from './view-menu'
 
@@ -11,7 +12,7 @@ const ConnectedViewMenu = connect(
     isAdmin: state.userData.isAdmin
   }),
   (dispatch: Dispatch) => ({
-    changeView: (newView: string) => dispatch(actions.views.changeView(newView))
+    changeView: (newView: View) => dispatch(actions.views.changeView(newView))
   })
 )(ViewMenu)
 

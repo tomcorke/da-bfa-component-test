@@ -1,7 +1,7 @@
-import * as overviewActions from '../../../actions/overview'
+import * as overviewActions from '../../../redux/actions/overview'
 
 import { connect } from 'react-redux'
-import { ApplicationState, Dispatch } from '../../../reducers'
+import { ApplicationState, Dispatch } from '../../../redux/reducers'
 
 import OverviewView from './overview'
 

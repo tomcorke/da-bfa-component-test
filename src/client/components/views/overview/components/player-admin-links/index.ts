@@ -1,8 +1,8 @@
 import { connect } from 'react-redux'
-import actions from '../../../../../actions'
+import actions from '../../../../../redux/actions'
 
 import PlayerAdminLinks, { PlayerAdminLinksProps } from './player-admin-links'
-import { ApplicationState, Dispatch } from '../../../../../reducers'
+import { ApplicationState, Dispatch } from '../../../../../redux/reducers'
 
 interface OwnProps {
   battletag: string

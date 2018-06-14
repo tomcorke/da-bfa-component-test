@@ -5,7 +5,7 @@ import ClassIcon from '../../../../class-icon'
 import RoleIcon from '../role-icon'
 import WarningIndicator from '../warning-indicator'
 import { APIPlayerCharacter } from '../../../../../../types/api'
-import { OverviewPlayerSelection } from '../../../../../reducers/overview'
+import { OverviewPlayerSelection } from '../../../../../redux/reducers/overview'
 
 import * as STYLES from './player-selection.scss'
 

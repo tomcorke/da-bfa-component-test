@@ -1,7 +1,6 @@
 import { createAction, action } from 'typesafe-actions'
-import { ThunkAction } from 'redux-thunk'
-import { APIOverviewData } from '../../types/api'
-import { ApplicationState } from '../reducers'
+import { APIOverviewData } from '../../../types/api'
+import * as feedbackActions from '../actions/feedback'
 
 export const GET_OVERVIEW_DATA_START = 'GET_OVERVIEW_DATA_START'
 export const GET_OVERVIEW_DATA_SUCCESS = 'GET_OVERVIEW_DATA_SUCCESS'
@@ -29,6 +28,7 @@ export const getOverviewData = (onSuccess?: () => void) => {
     const { getOverviewViewDataEndpoint } = getState().config
 
     dispatch(_getOverviewDataStart())
+    dispatch(feedbackActions.show('Getting overview data...'))
     try {
       const response = await window.fetch(getOverviewViewDataEndpoint, { credentials: 'same-origin' })
 
@@ -39,10 +39,12 @@ export const getOverviewData = (onSuccess?: () => void) => {
       const data = await response.json() as APIOverviewData
 
       dispatch(_getOverviewDataSuccess())
+      dispatch(feedbackActions.hide())
       dispatch(handleOverviewData(data))
       onSuccess && onSuccess()
     } catch (err) {
       dispatch(_getOverviewDataFail(err))
+      dispatch(feedbackActions.show('Error getting overview data.', 'warning'))
     }
   }
 }

@@ -3,17 +3,24 @@ import * as React from 'react'
 import SmallButton from '../small-button'
 
 import * as STYLES from './view-menu.scss'
+import { View } from '../../redux/reducers/views'
 
-const menuItems = [
+interface MenuItemProps {
+  name: View
+  text: string
+  admin?: boolean
+}
+
+const menuItems: MenuItemProps[] = [
   { name: 'main', text: 'Main' },
   { name: 'overview', text: 'Overview', admin: true },
   { name: 'export', text: 'Export', admin: true }
 ]
 
 interface ViewMenuProps {
-  view: string
+  view: View
   isAdmin: boolean
-  changeView: (view: string) => any
+  changeView: (view: View) => any
 }
 
 const ViewMenu = ({ view, isAdmin = false, changeView }: ViewMenuProps) => {

@@ -3,6 +3,7 @@ import * as React from 'react'
 import PlayerIdentifier from '../player-identifier'
 import PlayerAdminLinks from '../player-admin-links'
 import PlayerSelections from '../player-selections'
+import SelectionLock from '../selection-lock'
 
 import * as STYLES from './player-display.scss'
 
@@ -30,16 +31,7 @@ const PlayerDisplay = ({ battletag, showLockIn }: PlayerDisplayProps) => {
 
   let lockInDisplay: JSX.Element | null = null
   if (showLockIn) {
-    lockInDisplay = (
-      <div className={STYLES.lockIn}>
-        <Action type='notLocked'>Not locked in</Action>
-        <Action type='lockedIn'>Locked in</Action>
-        <Action type='notConfirmed'>Not confirmed</Action>
-        <Action type='confirmed'>Confirmed</Action>
-        <Action type='send'>Lock in</Action>
-        <CheckAction>Locked in</CheckAction>
-      </div>
-    )
+    lockInDisplay = <SelectionLock battletag={battletag} />
   }
 
   return (

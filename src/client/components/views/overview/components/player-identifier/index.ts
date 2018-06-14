@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 
 import PlayerIdentifier from './player-identifier'
-import { ApplicationState } from '../../../../../reducers'
+import { ApplicationState } from '../../../../../redux/reducers'
 import { APIPlayerCharacter } from '../../../../../../types/api'
 
 interface OwnProps {
