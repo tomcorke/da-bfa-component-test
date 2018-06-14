@@ -5,7 +5,7 @@ import classes, { SafeWowClass, SafeWowSpecialisation } from '../../data/classes
 import { APIOverviewData, APIPlayerCharacter, APIPlayerSelections } from '../../../types/api'
 import { flattenUserSelections, UserSelection } from './user-data'
 
-export type OverviewPlayerSelection = {
+export interface OverviewPlayerSelection {
   choice: string
   class?: string
   classSafeName?: string
@@ -15,7 +15,7 @@ export type OverviewPlayerSelection = {
   comments?: string
 }
 
-export type OverviewPlayerData = {
+export interface OverviewPlayerData {
   battletag: string
   characters: APIPlayerCharacter[]
   selections: OverviewPlayerSelection[]

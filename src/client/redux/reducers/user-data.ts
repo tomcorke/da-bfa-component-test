@@ -5,17 +5,17 @@ import config from '../../config'
 import actions from '../actions/index'
 import { UserDataActions } from '../actions/user-data'
 
-export type UserSelection = {
+export interface UserSelection {
   class?: string
   spec?: string
   comments?: string
 }
 
-export type UserSelections = {
+export interface UserSelections {
   [choice: string]: UserSelection | undefined
 }
 
-export type UserDataState = {
+export interface UserDataState {
   isGettingUserData?: boolean
   user?: APIPlayer
   selections: UserSelections

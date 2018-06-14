@@ -2,7 +2,7 @@ import { Reducer } from 'redux'
 
 import * as loginActions from '../actions/login'
 
-export type LoginState = {
+export interface LoginState {
   authWindow?: Window | null
 }
 

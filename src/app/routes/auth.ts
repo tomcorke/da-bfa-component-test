@@ -1,6 +1,7 @@
 import * as express from 'express'
 import * as passport from 'passport'
 
+import { requireAuthentication } from '../middleware/auth'
 import { getUserData } from '../services/user-data'
 import { BNetUser } from '../types'
 import { bnetApi } from '../services/bnet-api'
@@ -25,14 +26,9 @@ authRouter.get(
 
 authRouter.get(
   '/bnet/success',
+  requireAuthentication,
   async (req, res) => {
-
-    if (!req.isAuthenticated()) {
-      return res.status(401).send()
-    }
-
     bnetApi.registerUserForProfileRefresh(req.user as BNetUser)
-
     return res.render('login-success', {
       userData: JSON.stringify(await getUserData(req.user as BNetUser, true))
     })

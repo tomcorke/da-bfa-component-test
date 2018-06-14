@@ -1,16 +1,18 @@
 import { Reducer } from 'redux'
 
-const config = require(`../../config/${process.env.NODE_ENV}`).default
+const config = require('../../config').default
 
-export type ConfigState = {
-  guild: string,
-  realm: string,
-  region: string,
-  userDataEndpoint: string,
-  bnetAuthEndpoint: string,
-  saveDataEndpoint: string,
-  getOverviewViewDataEndpoint: string,
+export interface ConfigState {
+  guild: string
+  realm: string
+  region: string
+  userDataEndpoint: string
+  bnetAuthEndpoint: string
+  saveDataEndpoint: string
+  getOverviewViewDataEndpoint: string
   adminDeletePlayerDataEndpoint: string
+  adminLockSelectionsEndpoint: string
+  adminUnlockSelectionsEndpoint: string
 }
 
 const initialState: ConfigState = config

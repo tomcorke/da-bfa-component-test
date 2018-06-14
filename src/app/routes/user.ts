@@ -1,9 +1,11 @@
 import * as express from 'express'
 
+import { requireAuthentication } from '../middleware/auth'
 import { BNetUser } from '../types'
 import { userSelectionsDb, getUserData } from '../services/user-data'
 import { isSuperAdmin } from '../services/permissions'
 import { bnetApi } from '../services/bnet-api'
+import { APIPlayerSelections, APIPlayerSelection, APIFlatPlayerSelection } from '../../types/api'
 
 const userRouter = express.Router()
 
@@ -14,21 +16,40 @@ userRouter.get('/get', async (req, res) => {
   res.json(await getUserData(req.user as BNetUser))
 })
 
-userRouter.post('/save', (req, res) => {
-  if (!req.isAuthenticated() || !req.user) {
-    return res.status(401).send()
+const formatPlayerSelections = (body: any): APIPlayerSelections => {
+  if (!body || typeof body !== 'object') {
+    return {}
   }
+  try {
+    return Object.entries(body).reduce((mapped: APIPlayerSelections, [key, entry]: [string, APIFlatPlayerSelection]) => {
+      return {
+        ...mapped,
+        [key]: {
+          class: entry.class ? String(entry.class) : undefined,
+          spec: entry.spec ? String(entry.spec) : undefined,
+          comments: entry.comments ? String(entry.comments) : undefined
+        }
+      }
+    }, {})
+  } catch (e) {
+    console.error(`Error when attempting to parse user data body into APIPlayerSelections: ${e.message}`)
+    return {}
+  }
+}
+
+userRouter.post('/save', requireAuthentication, (req, res) => {
+  if (!req.user) { return }
+
   const battletag = req.user.battletag
   console.log(`Saving data for user "${battletag}"`, req.body)
-  userSelectionsDb.set(battletag, req.body)
+  const filteredBody = formatPlayerSelections(req.body)
+  userSelectionsDb.set(battletag, filteredBody)
   res.json({ ok: true })
 })
 
-userRouter.delete('/delete', (req, res) => {
-  if (!req.isAuthenticated() || !req.user) {
-    console.warn('Unauthenticated user attempting to delete player data')
-    return res.status(401).send()
-  }
+userRouter.delete('/delete', requireAuthentication, (req, res) => {
+  if (!req.user) return
+
   const body = req.body || {}
   const { battletag } = body
   if (!battletag) {

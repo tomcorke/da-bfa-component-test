@@ -23,12 +23,17 @@ const _getOverviewDataFail = (error: Error) => action(
   error.stack
 )
 
-export const getOverviewData = (onSuccess?: () => void) => {
+interface GetOverviewDataOptions {
+  onSuccess?: () => any
+  noFeedback?: boolean
+}
+
+export const getOverviewData = (opts: GetOverviewDataOptions = {}) => {
   return async (dispatch, getState) => {
     const { getOverviewViewDataEndpoint } = getState().config
 
     dispatch(_getOverviewDataStart())
-    dispatch(feedbackActions.show('Getting overview data...'))
+    !opts.noFeedback && dispatch(feedbackActions.show('Getting overview data...'))
     try {
       const response = await window.fetch(getOverviewViewDataEndpoint, { credentials: 'same-origin' })
 
@@ -39,12 +44,12 @@ export const getOverviewData = (onSuccess?: () => void) => {
       const data = await response.json() as APIOverviewData
 
       dispatch(_getOverviewDataSuccess())
-      dispatch(feedbackActions.hide())
+      !opts.noFeedback && dispatch(feedbackActions.hide())
       dispatch(handleOverviewData(data))
-      onSuccess && onSuccess()
+      opts.onSuccess && opts.onSuccess()
     } catch (err) {
       dispatch(_getOverviewDataFail(err))
-      dispatch(feedbackActions.show('Error getting overview data.', 'warning'))
+      !opts.noFeedback && dispatch(feedbackActions.show('Error getting overview data.', 'warning'))
     }
   }
 }

@@ -1,8 +1,8 @@
-export type APIPlayer = {
+export interface APIPlayer {
   battletag: string
 }
 
-export type APINestedPlayerSelection = {
+export interface APINestedPlayerSelection {
   selected: {
     class?: string
     spec?: string
@@ -10,7 +10,7 @@ export type APINestedPlayerSelection = {
   comments?: string
 }
 
-export type APIFlatPlayerSelection = {
+export interface APIFlatPlayerSelection {
   class?: string
   spec?: string
   comments?: string
@@ -18,11 +18,11 @@ export type APIFlatPlayerSelection = {
 
 export type APIPlayerSelection = APINestedPlayerSelection & APIFlatPlayerSelection
 
-export type APIPlayerSelections = {
+export interface APIPlayerSelections {
   [choice: string]: APIPlayerSelection
 }
 
-export type APIPlayerCharacter = {
+export interface APIPlayerCharacter {
   name: string
   class: string
   realm: string
@@ -30,11 +30,11 @@ export type APIPlayerCharacter = {
   level: number
 }
 
-export type APIPlayerProfile = {
+export interface APIPlayerProfile {
   characters?: APIPlayerCharacter[]
 }
 
-export type APIPlayerData = {
+export interface APIPlayerData {
   user: APIPlayer
   selections?: APIPlayerSelections
   isAdmin: boolean
@@ -42,11 +42,34 @@ export type APIPlayerData = {
   profile?: APIPlayerProfile
 }
 
-export type APIOverviewData = {
+export interface APIOverviewData {
   userSelectionData: {
     [battletag: string]: APIPlayerSelections
   },
   userProfileData: {
     [battletag: string]: APIPlayerProfile
   }
+}
+
+export type PlayerSelectionChoice = 'first' | 'second' | 'third'
+
+export interface APIPlayerOverviewSelections {
+  first?: PlayerSelectionChoice
+  second?: PlayerSelectionChoice
+}
+
+export interface APIPlayerOverviewSelectionsMetaData {
+  locked: boolean
+  confirmed: boolean
+}
+
+export type APIPlayerOverviewSelectionsData = APIPlayerOverviewSelections & APIPlayerOverviewSelectionsMetaData
+
+export interface APIOverviewSelections {
+  [battletag: string]: APIPlayerOverviewSelectionsData
+}
+
+export interface APILockSelectionsPayload {
+  battletag: string
+  playerOverviewSelections: APIPlayerOverviewSelections
 }

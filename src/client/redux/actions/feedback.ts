@@ -25,17 +25,23 @@ const _hideFeedbackMessage = () => {
   return action(FEEDBACK_MESSAGE_HIDE)
 }
 
-export const show = (message: string, style?: FeedbackMessageStyle) => {
+const FADE_DELAY = 1000
+const HIDE_DELAY = 1000
+
+export const show = (
+  message: string,
+  style?: FeedbackMessageStyle) => {
+
   return dispatch => {
     clearTimeout(fadeTimeout)
     clearTimeout(hideTimeout)
     dispatch(_showFeedbackMessage(message, style))
     fadeTimeout = window.setTimeout(() => {
       dispatch(_fadeOutFeedbackMessage())
-    }, 1000)
+    }, FADE_DELAY)
     hideTimeout = window.setTimeout(() => {
       dispatch(_hideFeedbackMessage())
-    }, 2000)
+    }, FADE_DELAY + HIDE_DELAY)
   }
 }
 

@@ -25,8 +25,7 @@ const ConnectedPlayerSelection = connect(
         return (
           overviewSelection &&
           selection &&
-          overviewSelection.class === selection.classSafeName &&
-          overviewSelection.spec === selection.specSafeName
+          overviewSelection === selection.choice
         ) || false
       })
 

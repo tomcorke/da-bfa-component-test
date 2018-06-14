@@ -2,7 +2,7 @@ import { Reducer } from 'redux'
 
 import * as feedbackActions from '../actions/feedback'
 
-export type FeedbackState = {
+export interface FeedbackState {
   message?: string,
   style?: string,
   fade: boolean,

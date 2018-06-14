@@ -13,9 +13,9 @@ export const changeView = (view: View) => {
   return async dispatch => {
     const setViewAction = () => dispatch(setView(view))
     if (view === 'main') {
-      dispatch(userDataActions.getUserData(setViewAction))
+      dispatch(userDataActions.getUserData({ onSuccess: setViewAction }))
     } else if (view === 'overview') {
-      dispatch(overviewActions.getOverviewData(setViewAction))
+      dispatch(overviewActions.getOverviewData({ onSuccess: setViewAction }))
     } else {
       setViewAction()
     }

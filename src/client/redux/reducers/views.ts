@@ -3,7 +3,7 @@ import { Reducer } from 'redux'
 import actions from '../actions/index'
 import { ViewActions } from '../actions/views'
 
-const config = require(`../../config/${process.env.NODE_ENV}`).default
+const config = require('../../config').default
 
 export type View = 'intro' | 'main' | 'overview' | 'export'
 export const VIEWS = ['intro', 'main', 'overview', 'export']

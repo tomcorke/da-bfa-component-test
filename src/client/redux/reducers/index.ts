@@ -12,7 +12,7 @@ import OverviewSettingsReducer, { OverviewSettingsState } from './overview-setti
 import UserDataReducer, { UserDataState } from './user-data'
 import ViewReducer, { ViewState } from './views'
 
-export type ApplicationState = {
+export interface ApplicationState {
   config: ConfigState
   feedback: FeedbackState
   login: LoginState

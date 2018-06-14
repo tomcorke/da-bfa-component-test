@@ -1,4 +1,4 @@
-import { action, createAction } from 'typesafe-actions'
+import { action } from 'typesafe-actions'
 
 import * as feedbackActions from './feedback'
 import * as overviewActions from './overview'

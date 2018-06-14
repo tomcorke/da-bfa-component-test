@@ -1,22 +1,24 @@
 import { connect } from 'react-redux'
-import { UserSelections, UserSelection } from '../../../../../redux/reducers/user-data'
+import { UserSelection } from '../../../../../redux/reducers/user-data'
+import { OverviewSelections } from '../../../../../redux/reducers/overview-selections'
 import { OverviewPlayerSelection } from '../../../../../redux/reducers/overview'
 import { ApplicationState } from '../../../../../redux/reducers'
 
 import SummaryBox from './summary-box'
 
-const joinWithOverviewSelections = (playerOverviewSelections: UserSelections = ({} as UserSelections)) => (selection: OverviewPlayerSelection) => {
+const joinWithOverviewSelections = (playerOverviewSelections: OverviewSelections = ({} as OverviewSelections)) => (selection: OverviewPlayerSelection) => {
+
   const overviewSelection = Object.keys(playerOverviewSelections)
     .find((key: string) => {
       const os = playerOverviewSelections[key]
       return (
         os &&
         selection &&
-        os.class === selection.classSafeName &&
-        os.spec === selection.specSafeName
+        selection.choice === os
       ) ||
         false
     })
+
   return {
     ...selection,
     overviewSelection

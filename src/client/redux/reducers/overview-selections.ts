@@ -1,18 +1,25 @@
 import { Reducer } from 'redux'
+import { PlayerSelectionChoice } from '../../../types/api'
 
 import * as overviewSelectionsActions from '../actions/overview-selections'
 
-export type OverviewSelection = {
-  class?: string,
-  spec?: string
+export const OVERVIEW_SELECTION_CHOICES: OverviewSelectionChoice[] = ['first', 'second']
+export type OverviewSelectionChoice = 'first' | 'second'
+
+export interface OverviewSelections {
+  [key: string]: PlayerSelectionChoice | undefined
+  first?: PlayerSelectionChoice
+  second?: PlayerSelectionChoice
 }
 
-export type OverviewSelections = {
-  [selectionChoice: string]: OverviewSelection | undefined
-}
-
-export type OverviewSelectionsState = {
+export interface OverviewSelectionsState {
   [battletag: string]: OverviewSelections
+}
+
+export interface SelectedChoice {
+  battletag: string
+  playerChoice: PlayerSelectionChoice
+  selectionChoice: OverviewSelectionChoice
 }
 
 const initialState = {}
@@ -21,20 +28,11 @@ function clone<T> (data: T) { return JSON.parse(JSON.stringify(data)) as T }
 
 const selectChoice = (
   state: OverviewSelectionsState,
-  {
-    battletag,
-    className,
-    specName,
-    selectionChoice
-  }: {
-    battletag: string
-    className?: string
-    specName?: string
-    selectionChoice: string
-  }): OverviewSelectionsState => {
+  { battletag, playerChoice, selectionChoice }: SelectedChoice): OverviewSelectionsState => {
+
   const clonedState = clone(state)
   const player = clonedState[battletag] = clonedState[battletag] || {}
-  player[selectionChoice] = { class: className, spec: specName }
+  player[selectionChoice] = playerChoice
   return clonedState
 }
 
@@ -45,8 +43,9 @@ const deselectChoice = (
     selectionChoice
   }: {
     battletag: string
-    selectionChoice: string
+    selectionChoice: OverviewSelectionChoice
   }): OverviewSelectionsState => {
+
   const clonedState = clone(state)
   if (clonedState[battletag]) {
     clonedState[battletag][selectionChoice] = undefined

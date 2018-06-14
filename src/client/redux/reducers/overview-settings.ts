@@ -1,13 +1,13 @@
 import * as overviewActions from '../actions/overview'
 
-export type OverviewSettingsState = {
+export interface OverviewSettingsState {
   showBackupSummary: boolean
   showSelectionLockIn: boolean
 }
 
 const initialState: OverviewSettingsState = {
-  showBackupSummary: false,
-  showSelectionLockIn: false
+  showBackupSummary: true,
+  showSelectionLockIn: true
 }
 
 const OverviewSettingsReducer = (

@@ -10,28 +10,15 @@ import * as STYLES from './player-display.scss'
 interface PlayerDisplayProps {
   battletag: string
   showLockIn: boolean
+  lockedIn: boolean
+  toggleLock: () => any
 }
 
-const Action = ({ type, children }) => {
-  const classNames = `${STYLES.action} ${STYLES[`action__${type}`]}`
-  return <div className={classNames}>{children}</div>
-}
-
-const CheckAction = ({ children }) => {
-  return (
-    <label className={STYLES.checkAction}>
-      <input type='checkbox' />
-      <div className={STYLES.checkDisplay} />
-      Locked in
-    </label>
-  )
-}
-
-const PlayerDisplay = ({ battletag, showLockIn }: PlayerDisplayProps) => {
+const PlayerDisplay = ({ battletag, showLockIn, lockedIn, toggleLock }: PlayerDisplayProps) => {
 
   let lockInDisplay: JSX.Element | null = null
   if (showLockIn) {
-    lockInDisplay = <SelectionLock battletag={battletag} />
+    lockInDisplay = <SelectionLock locked={lockedIn} onClick={toggleLock} />
   }
 
   return (

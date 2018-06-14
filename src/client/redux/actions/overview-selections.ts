@@ -1,29 +1,31 @@
 import { action } from 'typesafe-actions'
-import { OverviewState, OverviewPlayerSelection } from '../reducers/overview'
-import { OverviewSelectionsState } from '../reducers/overview-selections'
+
+import { OverviewPlayerSelection } from '../reducers/overview'
+import { OVERVIEW_SELECTION_CHOICES, SelectedChoice, OverviewSelectionChoice } from '../reducers/overview-selections'
 import { ApplicationState } from '../reducers'
+import * as feedbackActions from '../actions/feedback'
+import * as overviewActions from '../actions/overview'
+import { APIPlayerOverviewSelections, APILockSelectionsPayload } from '../../../types/api'
 
 export const SELECT_OVERVIEW_CHOICE = 'SELECT_OVERVIEW_CHOICE'
 export const DESELECT_OVERVIEW_CHOICE = 'DESELECT_OVERVIEW_CHOICE'
-export const SAVE_SELECTED_CHOICES = 'SAVE_SELECTED_CHOICES'
+export const LOCK_SELECTED_CHOICES_START = 'LOCK_SELECTED_CHOICES_START'
+export const LOCK_SELECTED_CHOICES_SUCCESS = 'LOCK_SELECTED_CHOICES_SUCCESS'
+export const LOCK_SELECTED_CHOICES_FAIL = 'LOCK_SELECTED_CHOICES_FAIL'
+export const UNLOCK_SELECTED_CHOICES_START = 'UNLOCK_SELECTED_CHOICES_START'
+export const UNLOCK_SELECTED_CHOICES_SUCCESS = 'UNLOCK_SELECTED_CHOICES_SUCCESS'
+export const UNLOCK_SELECTED_CHOICES_FAIL = 'UNLOCK_SELECTED_CHOICES_FAIL'
 
-const SELECTION_CHOICES = ['first', 'second']
-
-type UndefinedPlayerSelections = {
+interface UndefinedPlayerSelections {
   selections?: OverviewPlayerSelection[]
 }
 
-const _selectOverviewChoice = (battletag: string, selectionChoice: string, className?: string, specName?: string) => action(
+const _selectOverviewChoice = (selectedChoice: SelectedChoice) => action(
   SELECT_OVERVIEW_CHOICE,
-  {
-    battletag,
-    className,
-    specName,
-    selectionChoice
-  }
+  selectedChoice
 )
 
-const _deselectOverviewChoice = (battletag: string, selectionChoice: string) => action(
+const _deselectOverviewChoice = (battletag: string, selectionChoice: OverviewSelectionChoice) => action(
   DESELECT_OVERVIEW_CHOICE,
   {
     battletag,
@@ -40,55 +42,103 @@ export const selectChoice = (battletag, choice) => {
     if (!playerChoice) return
 
     const playerOverviewSelections = overviewSelections[battletag] || {}
-    const selectionChoice = SELECTION_CHOICES.find(c => !playerOverviewSelections[c])
+    const availableSelectionChoice = OVERVIEW_SELECTION_CHOICES.find(c => !playerOverviewSelections[c])
+    const alreadySelectedChoice = OVERVIEW_SELECTION_CHOICES.find(c => playerOverviewSelections[c] === choice)
 
-    const alreadySelectedChoice = Object.entries(playerOverviewSelections)
-      .find(([selectionChoice, value]) => {
-        return (
-          playerChoice &&
-          value &&
-          value.class === playerChoice.classSafeName &&
-          value.spec === playerChoice.specSafeName
-        ) ||
-          false
-      })
-
-    if (selectionChoice && !alreadySelectedChoice) {
-      dispatch(_selectOverviewChoice(battletag, selectionChoice, playerChoice.classSafeName, playerChoice.specSafeName))
-      dispatch(saveSelectedChoices())
+    if (availableSelectionChoice && !alreadySelectedChoice) {
+      dispatch(_selectOverviewChoice({
+        battletag,
+        playerChoice: choice,
+        selectionChoice: availableSelectionChoice
+      }))
     } else if (alreadySelectedChoice) {
-      dispatch(_deselectOverviewChoice(battletag, alreadySelectedChoice[0]))
-      dispatch(saveSelectedChoices())
+      dispatch(_deselectOverviewChoice(battletag, alreadySelectedChoice))
     }
   }
 }
 
-const _saveSelectedChoices = (selections: { battletag: string, class: string, spec: string }) => action(
-  SAVE_SELECTED_CHOICES,
-  selections
+const _lockSelectedChoicesStart = (battletag: string) => action(
+  LOCK_SELECTED_CHOICES_START,
+  battletag
+)
+const _lockSelectedChoicesSuccess = (battletag: string) => action(
+  LOCK_SELECTED_CHOICES_SUCCESS,
+  battletag
+)
+const _lockSelectedChoicesFail = (battletag: string, error: Error) => action(
+  LOCK_SELECTED_CHOICES_FAIL,
+  { battletag, error }
 )
 
-export const saveSelectedChoices = () => {
-  return async (dispatch, getState) => {
-    const { overview } = getState()
+const lockSelectedChoices = (battletag: string) => {
+  return async (dispatch, getState: () => ApplicationState) => {
+    const { overviewSelections, config } = getState()
+    const playerOverviewSelections: APIPlayerOverviewSelections = overviewSelections[battletag]
 
-    const playerSelections = overview
-      .map(player => {
-        const selectedSelection = player.selections.find(selection => selection.selected) || {}
-        return {
-          battletag: player.battletag,
-          class: selectedSelection.classSafeName,
-          spec: selectedSelection.specSafeName
+    const { adminLockSelectionsEndpoint } = config
+    dispatch(_lockSelectedChoicesStart(battletag))
+
+    const payload: APILockSelectionsPayload = { battletag, playerOverviewSelections }
+
+    try {
+      const response = await window.fetch(
+        adminLockSelectionsEndpoint,
+        {
+          body: JSON.stringify(payload),
+          method: 'POST',
+          credentials: 'same-origin',
+          headers: {
+            'content-type': 'application/json'
+          }
         }
-      })
-      .filter(selections => selections.class)
+      )
 
-    dispatch(_saveSelectedChoices(playerSelections))
+      if (response.status !== 200) {
+        throw Error('Could not lock player selection data')
+      }
+
+      dispatch(_lockSelectedChoicesSuccess(battletag))
+      dispatch(feedbackActions.show(`Selections for player "${battletag}" locked!`, 'success'))
+      dispatch(overviewActions.getOverviewData({ noFeedback: true }))
+    } catch (err) {
+      dispatch(_lockSelectedChoicesFail(battletag, err))
+      dispatch(feedbackActions.show(`Could not lock selections for player "${battletag}"!`, 'warning'))
+    }
+  }
+}
+
+const _unlockSelectedChoicesStart = (battletag: string) => action(
+  UNLOCK_SELECTED_CHOICES_START,
+  battletag
+)
+const _unlockSelectedChoicesSuccess = (battletag: string) => action(
+  UNLOCK_SELECTED_CHOICES_SUCCESS,
+  battletag
+)
+const _unlockSelectedChoicesFail = (battletag: string) => action(
+  UNLOCK_SELECTED_CHOICES_FAIL,
+  battletag
+)
+
+const unlockSelectedChoices = (battletag: string) => {
+  return (dispatch, getState: () => ApplicationState) => {
+    dispatch(_unlockSelectedChoicesStart(battletag))
+  }
+}
+
+export const toggleLockSelectedChoices = (battletag: string) => {
+  return (dispatch, getState: () => ApplicationState) => {
+    dispatch(lockSelectedChoices(battletag))
   }
 }
 
 export type OverviewSelectionsActions = ReturnType<
   | typeof _selectOverviewChoice
   | typeof _deselectOverviewChoice
-  | typeof _saveSelectedChoices
+  | typeof _lockSelectedChoicesStart
+  | typeof _lockSelectedChoicesSuccess
+  | typeof _lockSelectedChoicesFail
+  | typeof _unlockSelectedChoicesStart
+  | typeof _unlockSelectedChoicesSuccess
+  | typeof _unlockSelectedChoicesFail
 >

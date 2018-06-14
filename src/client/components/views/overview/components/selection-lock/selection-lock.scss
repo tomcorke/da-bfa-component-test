@@ -1,3 +1,5 @@
+@import '../../../../../mixins/classes';
+
 .selectionLock {
   flex: 0 1 200px;
   padding-left: 40px;
@@ -54,8 +56,7 @@
     user-select: none;
 
     input[type=checkbox] {
-      position: absolute;
-      opacity: 0;
+      display: none;
 
       & ~ .checkDisplay {
         content: '';
@@ -63,11 +64,11 @@
         height: 1.5em;
         display: inline-block;
         margin-right: 1em;
-        background: url('../../../../../../../images/icons/check-square.svg?fill=' + escapeClassColour(deathknight)) left center no-repeat;
+        background: url('../../../../../../../images/icons/lock-open.svg?fill=' + escapeClassColour(deathknight)) left center no-repeat;
       }
 
       &:checked ~ .checkDisplay{
-        background: url('../../../../../../../images/icons/check-square.svg?fill=' + escapeClassColour(monk)) left center no-repeat;
+        background: url('../../../../../../../images/icons/lock.svg?fill=' + escapeClassColour(monk)) left center no-repeat;
       }
     }
   }

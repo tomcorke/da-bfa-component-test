@@ -1,15 +1,8 @@
-import commonConfig from './common'
+import { commonConfig, getEndpoints } from './common'
 
 const config = {
   ...commonConfig,
-
-  userDataEndpoint: 'user/get',
-  bnetAuthEndpoint: 'auth/bnet',
-  saveDataEndpoint: 'user/save',
-
-  getOverviewViewDataEndpoint: 'overview/get',
-
-  adminDeletePlayerDataEndpoint: 'user/delete'
+  ...getEndpoints('')
 }
 
 export default config

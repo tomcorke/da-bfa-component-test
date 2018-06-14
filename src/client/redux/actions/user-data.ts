@@ -18,6 +18,7 @@ export const SAVE_SELECTIONS_SUCCESS = 'SAVE_SUCCESS'
 export const SAVE_SELECTIONS_FAIL = 'SAVE_FAIL'
 
 interface HandleUserDataOptions {
+  onSuccess?: () => any
   noRetry?: boolean
   noSetViewMain?: boolean
 }
@@ -36,7 +37,7 @@ export const handleUserData = (data: APIPlayerData, opts: HandleUserDataOptions 
         dispatch(viewActions.setView('main'))
       } else if (!opts.noRetry) {
         dispatch(feedbackActions.show('Getting characters...'))
-        dispatch(getUserData(undefined, { noRetry: true }))
+        dispatch(getUserData({ noRetry: true }))
       }
     }
   }
@@ -46,7 +47,7 @@ const _getUserDataStart = createAction(GET_USER_DATA_START)
 const _getUserDataSuccess = createAction(GET_USER_DATA_SUCCESS)
 const _getUserDataFail = (error: Error) => action(GET_USER_DATA_FAIL, error.stack)
 
-export const getUserData = (onSuccess?: () => void, opts: HandleUserDataOptions = {}) => {
+export const getUserData = (opts: HandleUserDataOptions = {}) => {
   return async (dispatch, getState) => {
     dispatch(_getUserDataStart())
 
@@ -63,7 +64,7 @@ export const getUserData = (onSuccess?: () => void, opts: HandleUserDataOptions 
 
       dispatch(_getUserDataSuccess())
       dispatch(handleUserData(data, opts))
-      onSuccess && onSuccess()
+      opts.onSuccess && opts.onSuccess()
     } catch (err) {
       dispatch(_getUserDataFail(err))
     }
