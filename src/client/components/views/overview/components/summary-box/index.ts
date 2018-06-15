@@ -5,35 +5,49 @@ import { OverviewPlayerSelection } from '../../../../../redux/reducers/overview'
 import { ApplicationState } from '../../../../../redux/reducers'
 
 import SummaryBox from './summary-box'
+import { LockSelectionChoice, LOCK_SELECTION_CHOICES } from '../../../../../../types/api'
 
-const joinWithOverviewSelections = (playerOverviewSelections: OverviewSelections = ({} as OverviewSelections)) => (selection: OverviewPlayerSelection) => {
-
-  const overviewSelection = Object.keys(playerOverviewSelections)
-    .find((key: string) => {
-      const os = playerOverviewSelections[key]
-      return (
-        os &&
-        selection &&
-        selection.choice === os
-      ) ||
-        false
-    })
-
-  return {
-    ...selection,
-    overviewSelection
-  }
+interface OverviewSelectionData {
+  overviewSelection?: LockSelectionChoice
 }
+
+type OverviewPlayerSelectionWithOverviewSelection = OverviewPlayerSelection & OverviewSelectionData
+
+const joinWithOverviewSelections =
+  (playerOverviewSelections: OverviewSelections = ({} as OverviewSelections)) =>
+  (selection: OverviewPlayerSelection): OverviewPlayerSelectionWithOverviewSelection => {
+
+    const overviewSelection = LOCK_SELECTION_CHOICES
+      .find((key: string) => {
+        const os = playerOverviewSelections[key]
+        return (
+          os &&
+          selection &&
+          selection.choice === os
+        ) ||
+          false
+      })
+
+    return {
+      ...selection,
+      overviewSelection
+    }
+  }
 
 interface SelectionsSummaryData {
   tags: string[],
   class?: string
 }
 
+type SelectionFilter = (selection: OverviewPlayerSelectionWithOverviewSelection) => boolean
+interface OwnProps {
+  selectionFilter?: SelectionFilter
+}
+
 const ConnectedSummaryBox = connect(
-  (state: ApplicationState, props: { selectionFilter?: (selection: any) => boolean }) => {
-    const noUndefinedFilter = (selection: UserSelection) => !!selection.class
-    const selectionFilter = props.selectionFilter || (() => true)
+  (state: ApplicationState, props: OwnProps) => {
+    const noUndefinedFilter: SelectionFilter = (selection) => !!selection.class
+    const selectionFilter: SelectionFilter = props.selectionFilter || (() => true)
     return {
       allSelections: state.overview
         .reduce((allSelections: SelectionsSummaryData[], player) =>

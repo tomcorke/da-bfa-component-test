@@ -4,51 +4,59 @@
   display: flex;
   flex-flow: row nowrap;
   margin-left: 10px;
+  margin-bottom: 2px;
   align-items: center;
   position: relative;
   cursor: pointer;
-  flex: 0 1 240px;
+  padding: 0 0.5em;
+  border: 2px solid transparent;
+
+  &__locked {
+    border: 2px solid white;
+    border-radius: 5px;
+
+    &__main {
+      border-color: classColour(monk);
+    }
+
+    &__alt {
+      border-color: classColour(rogue);
+    }
+
+    &__none {
+      border-color: grey;
+    }
+  }
 
   &:hover {
     background: linear-gradient(to right, transparent 0%, rgba(255,255,255,0.1) 20%, rgba(255,255,255,0.1) 80%, transparent 100%);
   }
 
-  &[data-selected=true] {
+  &__selected {
     &::before {
       content: '';
       position: absolute;
-      left: -0.5em;
+      left: 0;
       top: 0;
       width: 100%;
       height: 100%;
-      padding: 0 0.5em;
+      border-radius: 5px;
     }
 
-
-    &::after {
-      display: none;
-      content: '';
-      position: absolute;
-      left: 100%;
-      margin-left: 18px;
-      width: 18px;
-      height: 18px;
-    }
-
-    &[data-overview-selection=first] {
+    &__main {
       &::before {
         box-shadow: 0 0 2px 0 classColour(monk) inset;
-        background-color: rgba(classColour(monk), 0.1);
+        background-color: rgba(classColour(monk), 0.3);
       }
       &::after {
         background: url('../../../../../../../images/icons/check-circle.svg?fill=' + escapeClassColour(monk)) center center no-repeat;
       }
     }
 
-    &[data-overview-selection=second] {
+    &__alt {
       &::before {
         box-shadow: 0 0 2px 0 classColour(rogue) inset;
-        background-color: rgba(classColour(rogue), 0.1);
+        background-color: rgba(classColour(rogue), 0.3);
       }
       &::after {
         background: url('../../../../../../../images/icons/check-circle.svg?fill=' + escapeClassColour(rogue)) center center no-repeat;
@@ -76,7 +84,7 @@
 
   .indicators {
     position: absolute;
-    right: 0;
+    right: 0.5em;
     top: 0;
     height: 100%;
     align-items: center;
@@ -84,10 +92,44 @@
     flex-flow: row nowrap;
 
     .commentIndicator {
+      margin-left: 0.5em;
       width: 12px;
       height: 12px;
       background: url('../../../../../../../images/icons/comment.svg?fill=%23fff') center center no-repeat;
     }
 
+    .lockIndicator {
+      margin-left: 0.5em;
+      width: 12px;
+      height: 12px;
+      background: url('../../../../../../../images/icons/lock.svg?fill=%23fff') center center no-repeat;
+    }
+
+  }
+
+  &__locked {
+    &__main {
+      .indicators {
+        .lockIndicator {
+          background: url('../../../../../../../images/icons/lock.svg?fill=' + escapeClassColour(monk)) center center no-repeat;
+        }
+      }
+    }
+
+    &__alt {
+      .indicators {
+        .lockIndicator {
+          background: url('../../../../../../../images/icons/lock.svg?fill=' + escapeClassColour(rogue)) center center no-repeat;
+        }
+      }
+    }
+
+    &__none {
+      .indicators {
+        .lockIndicator {
+          background: url('../../../../../../../images/icons/lock.svg?fill=grey') center center no-repeat;
+        }
+      }
+    }
   }
 }

@@ -4,7 +4,7 @@ import config from '../../../../../config'
 import ClassIcon from '../../../../class-icon'
 import RoleIcon from '../role-icon'
 import WarningIndicator from '../warning-indicator'
-import { APIPlayerCharacter } from '../../../../../../types/api'
+import { APIPlayerCharacter, LockSelectionChoice, PlayerSelectionChoice } from '../../../../../../types/api'
 import { OverviewPlayerSelection } from '../../../../../redux/reducers/overview'
 
 import * as STYLES from './player-selection.scss'
@@ -21,10 +21,10 @@ const choiceNumbers = {
 
 export interface PlayerSelectionProps {
   selection?: OverviewPlayerSelection
-  choice: string
+  choice: PlayerSelectionChoice
   characters: APIPlayerCharacter[]
-  onSelect: () => void
-  overviewSelection: string
+  onSelect: () => any
+  overviewSelection?: LockSelectionChoice
 }
 
 const PlayerSelection = (
@@ -79,12 +79,24 @@ ${classCharacters.map(char => `  ${char.level} - ${char.name} (${char.realm})`).
 
   const specText = (classSafeName && spec) || '-'
 
+  const selectionClasses = [STYLES.playerSelection]
+  let lockIndicator: JSX.Element | null = null
+
+  if (selection.locked) {
+    selectionClasses.push(STYLES.playerSelection__locked)
+    selectionClasses.push(STYLES[`playerSelection__locked__${selection.lockedChoice || 'none'}`])
+    lockIndicator = <div className={STYLES.lockIndicator} />
+  }
+
+  if (overviewSelection) {
+    selectionClasses.push(STYLES.playerSelection__selected)
+    selectionClasses.push(STYLES[`playerSelection__selected__${overviewSelection}`])
+  }
+
   return (
     <div
-      className={STYLES.playerSelection}
+      className={selectionClasses.join(' ')}
       title={cleanComment}
-      data-selected={!!overviewSelection}
-      data-overview-selection={overviewSelection}
       onClick={onSelect}
     >
       <div className={STYLES.choiceNumber}>
@@ -102,6 +114,7 @@ ${classCharacters.map(char => `  ${char.level} - ${char.name} (${char.realm})`).
       <div className={STYLES.indicators}>
         {hasComment && <div className={STYLES.commentIndicator} data-comment={cleanComment} />}
         {warningMessage && <WarningIndicator severity={warningSeverity} message={warningMessage} />}
+        {lockIndicator}
       </div>
     </div>
   )

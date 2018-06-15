@@ -2,7 +2,7 @@ import { DB } from './db'
 import { APIPlayerOverviewSelectionsData, APIPlayerOverviewSelections } from '../../types/api'
 import { BattleTag } from '../types'
 
-export const selectionsDb = new DB<APIPlayerOverviewSelectionsData>('selections')
+export const selectionLockDb = new DB<APIPlayerOverviewSelectionsData>('selection-lock')
 
 function clone<T> (data: T): T { return JSON.parse(JSON.stringify(data)) as T }
 
@@ -14,28 +14,31 @@ export const lockOverviewSelections = (battletag: BattleTag, selections: APIPlay
     locked: true,
     confirmed: false
   }
-  selectionsDb.set(battletag, data)
+  selectionLockDb.set(battletag, data)
   return true
 }
 
 export const confirmOverviewSelections = (battletag: BattleTag) => {
-  const data = selectionsDb.get(battletag)
+  const data = selectionLockDb.get(battletag)
   if (data) {
     const cloned = clone(data)
     cloned.confirmed = true
-    selectionsDb.set(battletag, cloned)
+    selectionLockDb.set(battletag, cloned)
     return true
   }
   return false
 }
 
 export const unlockOverviewSelections = (battletag: BattleTag) => {
-  const data = selectionsDb.get(battletag)
+  const data = selectionLockDb.get(battletag)
   if (data) {
+
+    if (data.confirmed) return false
+
     const cloned = clone(data)
     cloned.locked = false
     cloned.confirmed = false
-    selectionsDb.set(battletag, cloned)
+    selectionLockDb.set(battletag, cloned)
     return true
   }
   return false

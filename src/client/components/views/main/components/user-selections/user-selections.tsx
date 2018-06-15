@@ -4,6 +4,7 @@ import ClassSelectWrapper from '../class-select-wrapper'
 import SaveButton from '../save-button'
 
 import * as STYLES from './user-selections.scss'
+import { PLAYER_SELECTION_CHOICES } from '../../../../../../types/api'
 
 const getBlurb = (name: string) => {
   return ({
@@ -22,14 +23,15 @@ const createClassSelectWrapper = (name: string) => {
   )
 }
 
-const UserSelections = () => {
+interface UserSelectionsProps {
+  locked: boolean
+  confirmed: boolean
+}
+
+const UserSelections = ({ locked, confirmed }: UserSelectionsProps) => {
   return <div className={STYLES.userSelections}>
-    {[
-      createClassSelectWrapper('first'),
-      createClassSelectWrapper('second'),
-      createClassSelectWrapper('third')
-    ]}
-    <SaveButton key='save-button' />
+    {PLAYER_SELECTION_CHOICES.map(createClassSelectWrapper)}
+    {locked ? null : <SaveButton key='save-button' />}
   </div>
 }
 

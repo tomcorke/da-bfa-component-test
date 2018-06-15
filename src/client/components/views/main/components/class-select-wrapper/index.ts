@@ -2,7 +2,20 @@ import { connect } from 'react-redux'
 import actions from '../../../../../redux/actions'
 import { ApplicationState } from '../../../../../redux/reducers'
 
-import ClassSelectWrapper from './class-select-wrapper'
+import ClassSelectWrapper, { NoneableLockSelectionChoice } from './class-select-wrapper'
+
+interface StateProps {
+  selectedClass?: string
+  selectedSpec?: string
+  comments?: string
+  showSelectedClassWarning: boolean
+  isLocked: boolean
+  lockedChoice: NoneableLockSelectionChoice
+}
+
+interface DispatchProps {
+  onChange: (property: string, newValue: string) => any
+}
 
 interface OwnProps {
   description: string
@@ -14,7 +27,7 @@ interface UndefinedSelected {
   spec: undefined
 }
 
-const ConnectedClassSelectWrapper = connect(
+const ConnectedClassSelectWrapper = connect<StateProps, DispatchProps, OwnProps, ApplicationState>(
   (state: ApplicationState, props: OwnProps) => {
     const selection = state.userData.selections && state.userData.selections[props.name]
     const selected = selection || ({} as UndefinedSelected)
@@ -31,12 +44,11 @@ const ConnectedClassSelectWrapper = connect(
     }
 
     return {
-      ...props,
       selectedClass: selectedClass,
       selectedSpec: selectedSpec,
       comments: selection && selection.comments,
       showSelectedClassWarning,
-      isLocked: selection && selection.locked,
+      isLocked: selection && selection.locked || false,
       lockedChoice: selection && selection.lockedChoice || 'none'
     }
   },

@@ -2,23 +2,27 @@ import { Reducer } from 'redux'
 
 import * as overviewActions from '../actions/overview'
 import classes, { SafeWowClass, SafeWowSpecialisation } from '../../data/classes'
-import { APIOverviewData, APIPlayerCharacter, APIPlayerSelections } from '../../../types/api'
-import { flattenUserSelections, UserSelection } from './user-data'
+import { APIOverviewData, APIPlayerCharacter, APIPlayerSelections, LockSelectionChoice, PlayerSelectionChoice, PLAYER_SELECTION_CHOICES } from '../../../types/api'
+import { UserSelection } from './user-data'
 
 export interface OverviewPlayerSelection {
-  choice: string
+  choice: PlayerSelectionChoice
   class?: string
   classSafeName?: string
   spec?: string
   specSafeName?: string
   tags: string[]
   comments?: string
+  locked: boolean
+  lockedChoice?: LockSelectionChoice
 }
 
 export interface OverviewPlayerData {
   battletag: string
   characters: APIPlayerCharacter[]
   selections: OverviewPlayerSelection[]
+  locked: boolean
+  confirmed: boolean
 }
 
 export type OverviewState = OverviewPlayerData[]
@@ -45,22 +49,25 @@ interface UndefinedWowSpec {
 }
 
 function joinOverviewData (data: APIOverviewData): OverviewState {
-  const { userSelectionData, userProfileData } = data
+  const { userSelectionData, lockedSelectionData, userProfileData } = data
 
   return Object.entries(userSelectionData).map(([battletag, selections]) => {
-    const flattenedSelections = flattenUserSelections(selections)
+
+    const characters = (userProfileData[battletag] || {}).characters || []
+    const lockData = lockedSelectionData[battletag] || {}
 
     return {
       battletag,
-      characters: (userProfileData[battletag] || {}).characters || [],
-      selections: Object.entries(flattenedSelections)
-        .filter(([key, value]) => value && value.class)
-        .map(([key, value]) => {
+      characters,
+      selections: PLAYER_SELECTION_CHOICES
+        .filter((choice) => selections[choice] && selections[choice].class)
+        .map((choice) => {
           // Workaround for typescript not recognising filter above validated that value is defined
-          value = value || ({} as UserSelection)
+          let selection = selections[choice]
+          selection = selection || ({} as UserSelection)
 
-          const selectedClass = getClass(value.class) || ({} as UndefinedWowClass)
-          const selectedSpec = getSpec(selectedClass, value.spec) || ({} as UndefinedWowSpec)
+          const selectedClass = getClass(selection.class) || ({} as UndefinedWowClass)
+          const selectedSpec = getSpec(selectedClass, selection.spec) || ({} as UndefinedWowSpec)
 
           const classAndSpecTags = Array.from(new Set(
             (selectedClass.tags || [])
@@ -68,15 +75,18 @@ function joinOverviewData (data: APIOverviewData): OverviewState {
           ))
 
           return {
-            choice: key,
+            choice,
             class: selectedClass.name,
             classSafeName: selectedClass.safeName,
             spec: selectedSpec.name,
             specSafeName: selectedSpec.safeName,
             tags: classAndSpecTags,
-            comments: value.comments
+            comments: selection.comments,
+            locked: selection.locked,
+            lockedChoice: selection.lockedChoice
           }
-        })
+        }),
+      ...lockData
     }
   })
 }

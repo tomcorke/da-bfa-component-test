@@ -5,10 +5,11 @@ import actions from '../../../../../redux/actions'
 import PlayerSelection from './player-selection'
 import { ApplicationState, Dispatch } from '../../../../../redux/reducers'
 import { OverviewPlayerData } from '../../../../../redux/reducers/overview'
+import { LOCK_SELECTION_CHOICES, PlayerSelectionChoice } from '../../../../../../types/api'
 
 interface OwnProps {
   battletag: string
-  choice: string
+  choice: PlayerSelectionChoice
 }
 
 const ConnectedPlayerSelection = connect(
@@ -19,7 +20,7 @@ const ConnectedPlayerSelection = connect(
       .find(s => s.choice === props.choice)
 
     const overviewSelections = state.overviewSelections[props.battletag] || {}
-    const overviewSelection = Object.keys(overviewSelections)
+    const overviewSelection = LOCK_SELECTION_CHOICES
       .find(s => {
         const overviewSelection = overviewSelections[s]
         return (

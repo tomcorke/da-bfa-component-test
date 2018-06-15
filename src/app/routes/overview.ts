@@ -1,11 +1,12 @@
 import * as express from 'express'
 
 import { BNetUser } from '../types'
-import { APIOverviewData } from '../../types/api'
+import { APIOverviewData, APILockedSelectionData, APIPlayerOverviewSelectionsMetaData, APIPlayerOverviewSelectionsData, APIPlayerSelectionsWithLock, APIPlayerSelections } from '../../types/api'
 
 import { isAdmin } from '../services/permissions'
-import { userSelectionsDb } from '../services/user-data'
+import { userSelectionsDb, mergeSelectionsWithLocks } from '../services/user-data'
 import { bnetApi } from '../services/bnet-api'
+import { selectionLockDb } from '../services/selections'
 
 const overviewRouter = express.Router()
 
@@ -18,9 +19,34 @@ overviewRouter.get('/get', (req, res) => {
     console.warn(`Unauthorised user ${req.user.battletag} attempted to get overview data`)
     return res.status(403).send()
   }
-  const userSelectionData = userSelectionsDb.getAll()
-  const userProfileData = bnetApi.getAll()
-  const data = { userSelectionData, userProfileData } as APIOverviewData
+  const userSelectionData = userSelectionsDb.getAll() || {}
+
+  const onlyLockedMetaData: (data: APIPlayerOverviewSelectionsData) => APIPlayerOverviewSelectionsMetaData =
+    (fullSelectionData) => {
+      return {
+        locked: fullSelectionData.locked,
+        confirmed: fullSelectionData.confirmed
+      }
+    }
+
+  const locksData = selectionLockDb.getAll() || {}
+
+  const lockedSelectionData: {
+    [battletag: string]: APIPlayerOverviewSelectionsMetaData
+  } = Object.entries(locksData).reduce((all, [battletag, entry]) => ({
+    ...all,
+    [battletag]: entry && onlyLockedMetaData(entry) || undefined
+  }), {})
+
+  const userSelectionDataWithLock = Object.entries(userSelectionData).reduce((allUserSelections, [battletag, selections]) => {
+    return {
+      ...allUserSelections,
+      [battletag]: mergeSelectionsWithLocks(selections, locksData[battletag])
+    }
+  }, {})
+
+  const userProfileData = bnetApi.getAll() || {}
+  const data: APIOverviewData = { userSelectionData: userSelectionDataWithLock, lockedSelectionData, userProfileData }
   res.json(data)
 })
 

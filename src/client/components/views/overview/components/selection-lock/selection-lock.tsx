@@ -2,32 +2,47 @@ import * as React from 'react'
 
 import * as STYLES from './selection-lock.scss'
 
-interface CheckActionProps {
-  checked: boolean
-  uncheckedText: string
-  checkedText: string
+interface LockedStatusProps {
+  locked: boolean
   onClick: () => any
 }
 
-const CheckAction = ({ checked, uncheckedText, checkedText, onClick }: CheckActionProps) => {
+const LockedStatus = ({ locked, onClick }: LockedStatusProps) => {
   return (
-    <label className={STYLES.checkAction}>
-      <input type='checkbox' checked={checked} onClick={onClick} />
-      <div className={STYLES.checkDisplay} />
-      {checked ? checkedText : uncheckedText}
+    <label className={STYLES.lockedStatus}>
+      <input type='checkbox' checked={locked} onClick={onClick} />
+      <div className={STYLES.lockedStatusIcon} />
+      {locked ? 'Locked' : 'Not locked'}
     </label>
+  )
+}
+
+interface ConfirmedStatusProps {
+  confirmed: boolean
+}
+
+const ConfirmedStatus = ({ confirmed }: ConfirmedStatusProps) => {
+  const confirmedClasses = [STYLES.confirmedStatus]
+  if (confirmed) confirmedClasses.push(STYLES.confirmedStatus__confirmed)
+  return (
+    <div className={confirmedClasses.join(' ')}>
+      <div className={STYLES.confirmedStatusIcon} />
+      {confirmed ? 'Confirmed' : 'Not confirmed'}
+    </div>
   )
 }
 
 interface SelectionLockProps {
   locked: boolean
-  onClick: () => any
+  toggleLock: () => any
+  confirmed: boolean
 }
 
-const SelectionLock = ({ locked, onClick }: SelectionLockProps) => {
+const SelectionLock = ({ locked, toggleLock, confirmed }: SelectionLockProps) => {
   return (
     <div className={STYLES.selectionLock}>
-      <CheckAction checked={locked} uncheckedText='Not locked' checkedText='Locked' onClick={onClick} />
+      <LockedStatus locked={locked} onClick={toggleLock} />
+      {locked ? <ConfirmedStatus confirmed={confirmed} /> : null }
     </div>
   )
 }

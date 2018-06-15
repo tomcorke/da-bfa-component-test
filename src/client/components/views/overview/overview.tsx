@@ -31,8 +31,8 @@ const OverviewView = ({
 
     <div className={STYLES.summaryContainer}>
       <SummaryBox title='Total summary' />
-      <SummaryBox title='Main selected summary' selectionFilter={selection => selection.overviewSelection === 'first'} />
-      {showBackupSummary && <SummaryBox title='Backup selected summary' selectionFilter={selection => selection.overviewSelection === 'second'} />}
+      <SummaryBox title='Main selected summary' selectionFilter={selection => selection.overviewSelection === 'main'} />
+      {showBackupSummary && <SummaryBox title='Backup selected summary' selectionFilter={selection => selection.overviewSelection === 'alt'} />}
     </div>
 
     <div className={STYLES.options}>

@@ -10,15 +10,19 @@ import * as STYLES from './player-display.scss'
 interface PlayerDisplayProps {
   battletag: string
   showLockIn: boolean
-  lockedIn: boolean
+  locked: boolean
   toggleLock: () => any
+  confirmed: boolean
 }
 
-const PlayerDisplay = ({ battletag, showLockIn, lockedIn, toggleLock }: PlayerDisplayProps) => {
+const PlayerDisplay = ({ battletag, showLockIn, locked, toggleLock, confirmed }: PlayerDisplayProps) => {
 
   let lockInDisplay: JSX.Element | null = null
   if (showLockIn) {
-    lockInDisplay = <SelectionLock locked={lockedIn} onClick={toggleLock} />
+    lockInDisplay = <SelectionLock
+    locked={locked}
+    toggleLock={toggleLock}
+    confirmed={confirmed} />
   }
 
   return (
@@ -30,7 +34,9 @@ const PlayerDisplay = ({ battletag, showLockIn, lockedIn, toggleLock }: PlayerDi
       <div className={STYLES.selections}>
         <PlayerSelections battletag={battletag} />
       </div>
-      {lockInDisplay}
+      <div className={STYLES.lock}>
+        {lockInDisplay}
+      </div>
     </div>
   )
 }

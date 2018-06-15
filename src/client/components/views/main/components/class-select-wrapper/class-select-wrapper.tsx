@@ -4,16 +4,19 @@ import ClassSelect from '../class-select'
 import CommentsBox from '../comments-box'
 
 import * as STYLES from './class-select-wrapper.scss'
+import { LockSelectionChoice } from '../../../../../../types/api'
+
+export type NoneableLockSelectionChoice = LockSelectionChoice | 'none'
 
 interface ClassSelectWrapperProps {
-  description: string
+  description?: string
   selectedClass?: string
   selectedSpec?: string
   comments?: string
   showSelectedClassWarning: boolean
   onChange: (prop: string, value: any) => any
   isLocked?: boolean
-  lockedChoice?: string
+  lockedChoice?: NoneableLockSelectionChoice
 }
 
 const ClassSelectWrapper = ({
@@ -41,8 +44,9 @@ const ClassSelectWrapper = ({
 
   const wrapperClasses = [STYLES.classSelectWrapper]
   if (isLocked) {
-    wrapperClasses.push(STYLES.locked)
-    wrapperClasses.push(STYLES[`locked__${lockedChoice}`])
+    console.log(lockedChoice)
+    wrapperClasses.push(STYLES.classSelectWrapper__locked)
+    wrapperClasses.push(STYLES[`classSelectWrapper__locked__${lockedChoice}`])
   }
 
   let lockDisplay: JSX.Element | null = null

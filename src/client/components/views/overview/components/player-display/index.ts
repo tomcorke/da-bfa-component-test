@@ -9,10 +9,14 @@ interface OwnProps {
 }
 
 const ConnectedPlayerDisplay = connect(
-  (state: ApplicationState) => ({
-    showLockIn: state.overviewSettings.showSelectionLockIn,
-    lockedIn: false
-  }),
+  (state: ApplicationState, props: OwnProps) => {
+    const playerData = state.overview.find(o => o.battletag === props.battletag)
+    return {
+      showLockIn: state.overviewSettings.showSelectionLockIn,
+      locked: playerData && playerData.locked || false,
+      confirmed: playerData && playerData.confirmed || false
+    }
+  },
   (dispatch: Dispatch, ownProps: OwnProps) => ({
     toggleLock: () => dispatch(overviewSelectionsActions.toggleLockSelectedChoices(ownProps.battletag))
   })

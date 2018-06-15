@@ -1,11 +1,17 @@
 import { action } from 'typesafe-actions'
 
 import { OverviewPlayerSelection } from '../reducers/overview'
-import { OVERVIEW_SELECTION_CHOICES, SelectedChoice, OverviewSelectionChoice } from '../reducers/overview-selections'
+import { SelectedChoice } from '../reducers/overview-selections'
 import { ApplicationState } from '../reducers'
 import * as feedbackActions from '../actions/feedback'
 import * as overviewActions from '../actions/overview'
-import { APIPlayerOverviewSelections, APILockSelectionsPayload } from '../../../types/api'
+import {
+  APIPlayerOverviewSelections,
+  APILockSelectionsPayload,
+  LockSelectionChoice,
+  LOCK_SELECTION_CHOICES,
+  APIUnlockSelectionsPayload
+} from '../../../types/api'
 
 export const SELECT_OVERVIEW_CHOICE = 'SELECT_OVERVIEW_CHOICE'
 export const DESELECT_OVERVIEW_CHOICE = 'DESELECT_OVERVIEW_CHOICE'
@@ -25,7 +31,7 @@ const _selectOverviewChoice = (selectedChoice: SelectedChoice) => action(
   selectedChoice
 )
 
-const _deselectOverviewChoice = (battletag: string, selectionChoice: OverviewSelectionChoice) => action(
+const _deselectOverviewChoice = (battletag: string, selectionChoice: LockSelectionChoice) => action(
   DESELECT_OVERVIEW_CHOICE,
   {
     battletag,
@@ -42,8 +48,8 @@ export const selectChoice = (battletag, choice) => {
     if (!playerChoice) return
 
     const playerOverviewSelections = overviewSelections[battletag] || {}
-    const availableSelectionChoice = OVERVIEW_SELECTION_CHOICES.find(c => !playerOverviewSelections[c])
-    const alreadySelectedChoice = OVERVIEW_SELECTION_CHOICES.find(c => playerOverviewSelections[c] === choice)
+    const availableSelectionChoice = LOCK_SELECTION_CHOICES.find(c => !playerOverviewSelections[c])
+    const alreadySelectedChoice = LOCK_SELECTION_CHOICES.find(c => playerOverviewSelections[c] === choice)
 
     if (availableSelectionChoice && !alreadySelectedChoice) {
       dispatch(_selectOverviewChoice({
@@ -73,7 +79,14 @@ const _lockSelectedChoicesFail = (battletag: string, error: Error) => action(
 const lockSelectedChoices = (battletag: string) => {
   return async (dispatch, getState: () => ApplicationState) => {
     const { overviewSelections, config } = getState()
-    const playerOverviewSelections: APIPlayerOverviewSelections = overviewSelections[battletag]
+    const playerOverviewSelections: APIPlayerOverviewSelections = overviewSelections[battletag] || {}
+
+    if (!LOCK_SELECTION_CHOICES.every(c => !!playerOverviewSelections[c])) {
+      // Reject - require both to be selected!
+      dispatch(_lockSelectedChoicesFail(battletag, Error(`Required selections not made for player "${battletag}"`)))
+      dispatch(feedbackActions.show(`Main and alt selections required to lock player "${battletag}"`, 'warning'))
+      return
+    }
 
     const { adminLockSelectionsEndpoint } = config
     dispatch(_lockSelectedChoicesStart(battletag))
@@ -121,14 +134,60 @@ const _unlockSelectedChoicesFail = (battletag: string) => action(
 )
 
 const unlockSelectedChoices = (battletag: string) => {
-  return (dispatch, getState: () => ApplicationState) => {
+  return async (dispatch, getState: () => ApplicationState) => {
+    const { overview, config } = getState()
+
+    const playerData = overview.find(o => o.battletag === battletag)
+    if (!playerData || !playerData.locked) return
+
+    if (playerData.confirmed) {
+      return dispatch(feedbackActions.show(`Cannot unlock selections for player "${battletag}" - already confirmed.`, 'warning'))
+    }
+
+    const { adminUnlockSelectionsEndpoint } = config
     dispatch(_unlockSelectedChoicesStart(battletag))
+
+    const payload: APIUnlockSelectionsPayload = { battletag }
+
+    try {
+      const response = await window.fetch(
+        adminUnlockSelectionsEndpoint,
+        {
+          body: JSON.stringify(payload),
+          method: 'POST',
+          credentials: 'same-origin',
+          headers: {
+            'content-type': 'application/json'
+          }
+        }
+      )
+
+      if (response.status !== 200) {
+        throw Error('Could not unlock player selection data')
+      }
+
+      dispatch(_lockSelectedChoicesSuccess(battletag))
+      dispatch(feedbackActions.show(`Selections for player "${battletag}" unlocked!`, 'success'))
+      dispatch(overviewActions.getOverviewData({ noFeedback: true }))
+    } catch (err) {
+      dispatch(_lockSelectedChoicesFail(battletag, err))
+      dispatch(feedbackActions.show(`Could not unlock selections for player "${battletag}"!`, 'warning'))
+    }
   }
 }
 
 export const toggleLockSelectedChoices = (battletag: string) => {
   return (dispatch, getState: () => ApplicationState) => {
-    dispatch(lockSelectedChoices(battletag))
+    const playerData = getState().overview.find(o => o.battletag === battletag)
+    if (!playerData) return
+
+    const isLocked = playerData.locked
+
+    if (isLocked) {
+      dispatch(unlockSelectedChoices(battletag))
+    } else {
+      dispatch(lockSelectedChoices(battletag))
+    }
   }
 }
 

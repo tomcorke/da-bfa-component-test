@@ -1,6 +1,6 @@
 import { Reducer } from 'redux'
 
-import { APIPlayerData, APIPlayerSelectionsWithLock, APIPlayerProfile, APIPlayer, APIPlayerSelectionWithLock, LockSelectionChoice } from '../../../types/api'
+import { APIPlayerData, APIPlayerSelectionsWithLock, APIPlayerProfile, APIPlayer, APIPlayerSelectionWithLock, LockSelectionChoice, APIPlayerOverviewSelectionsMetaData } from '../../../types/api'
 import config from '../../config'
 import actions from '../actions/index'
 import { UserDataActions } from '../actions/user-data'
@@ -21,6 +21,7 @@ export interface UserDataState {
   isGettingUserData?: boolean
   user?: APIPlayer
   selections: UserSelections
+  lockData: APIPlayerOverviewSelectionsMetaData,
   profile?: APIPlayerProfile
   isAdmin: boolean
   isSuperAdmin: boolean
@@ -42,32 +43,14 @@ const setGettingData = (state: UserDataState, isGettingData: boolean): UserDataS
   }
 }
 
-const flattenPlayerSelection = (apiPlayerSelection: APIPlayerSelectionWithLock): UserSelection => ({
-  class: apiPlayerSelection.class || (apiPlayerSelection.selected && apiPlayerSelection.selected.class) || undefined,
-  spec: apiPlayerSelection.spec || (apiPlayerSelection.selected && apiPlayerSelection.selected.spec) || undefined,
-  comments: apiPlayerSelection.comments,
-  locked: apiPlayerSelection.locked,
-  lockedChoice: apiPlayerSelection.lockedChoice
-})
-
-export function flattenUserSelections (apiPlayerSelections?: APIPlayerSelectionsWithLock): UserSelections {
-  const flattendedSelections = {} as UserSelections
-  if (apiPlayerSelections) {
-    Object.keys(apiPlayerSelections).forEach(key => {
-      flattendedSelections[key] = flattenPlayerSelection(apiPlayerSelections[key])
-    })
-  }
-  return flattendedSelections
-}
-
 const handleUserData = (state: UserDataState, userData: APIPlayerData): UserDataState => {
   const {
     user,
     isAdmin,
-    isSuperAdmin
+    isSuperAdmin,
+    selections = {} as APIPlayerSelectionsWithLock,
+    lockData
   } = userData
-
-  const selections = flattenUserSelections(userData.selections)
 
   let { profile } = userData
   profile = profile || {}
@@ -84,6 +67,7 @@ const handleUserData = (state: UserDataState, userData: APIPlayerData): UserData
     ...setGettingData(state, false),
     user,
     selections,
+    lockData,
     profile,
     isAdmin,
     isSuperAdmin,
@@ -112,6 +96,7 @@ function handleChangeSelection (
 
 const initialState = {
   selections: {},
+  lockData: { locked: false, confirmed: false },
   isAdmin: false,
   isSuperAdmin: false,
   hasChanges: false,

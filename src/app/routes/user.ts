@@ -1,11 +1,11 @@
 import * as express from 'express'
 
-import { requireAuthentication } from '../middleware/auth'
+import { requireAuthentication, requireSuperAdmin } from '../middleware/auth'
 import { BNetUser } from '../types'
 import { userSelectionsDb, getUserData } from '../services/user-data'
-import { isSuperAdmin } from '../services/permissions'
 import { bnetApi } from '../services/bnet-api'
-import { APIPlayerSelections, APIPlayerSelection, APIFlatPlayerSelection } from '../../types/api'
+import { APIPlayerSelections, APIPlayerSelection } from '../../types/api'
+import { selectionLockDb } from '../services/selections'
 
 const userRouter = express.Router()
 
@@ -21,7 +21,7 @@ const formatPlayerSelections = (body: any): APIPlayerSelections => {
     return {}
   }
   try {
-    return Object.entries(body).reduce((mapped: APIPlayerSelections, [key, entry]: [string, APIFlatPlayerSelection]) => {
+    return Object.entries(body).reduce((mapped: APIPlayerSelections, [key, entry]: [string, APIPlayerSelection]) => {
       return {
         ...mapped,
         [key]: {
@@ -41,13 +41,19 @@ userRouter.post('/save', requireAuthentication, (req, res) => {
   if (!req.user) { return }
 
   const battletag = req.user.battletag
+
+  const lockData = selectionLockDb.get(battletag)
+  if (lockData && lockData.locked) {
+    return res.status(500).json({ ok: false })
+  }
+
   console.log(`Saving data for user "${battletag}"`, req.body)
   const formattedBody = formatPlayerSelections(req.body)
   userSelectionsDb.set(battletag, formattedBody)
   res.json({ ok: true })
 })
 
-userRouter.delete('/delete', requireAuthentication, (req, res) => {
+userRouter.delete('/delete', requireSuperAdmin, (req, res) => {
   if (!req.user) return
 
   const body = req.body || {}
@@ -55,12 +61,11 @@ userRouter.delete('/delete', requireAuthentication, (req, res) => {
   if (!battletag) {
     return res.status(400).send()
   }
-  if (!isSuperAdmin(req.user as BNetUser)) {
-    console.warn(`Unauthorised user ${req.user.battletag} attempted to delete player data for ${battletag}`)
-    return res.status(403).send()
-  }
+
   userSelectionsDb.delete(battletag)
+  selectionLockDb.delete(battletag)
   bnetApi.delete(battletag)
+
   res.status(200).send()
 })
 

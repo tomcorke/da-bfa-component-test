@@ -1,15 +1,12 @@
 import { Reducer } from 'redux'
-import { PlayerSelectionChoice } from '../../../types/api'
+import { PlayerSelectionChoice, LockSelectionChoice } from '../../../types/api'
 
 import * as overviewSelectionsActions from '../actions/overview-selections'
 
-export const OVERVIEW_SELECTION_CHOICES: OverviewSelectionChoice[] = ['first', 'second']
-export type OverviewSelectionChoice = 'first' | 'second'
-
 export interface OverviewSelections {
   [key: string]: PlayerSelectionChoice | undefined
-  first?: PlayerSelectionChoice
-  second?: PlayerSelectionChoice
+  main?: PlayerSelectionChoice
+  alt?: PlayerSelectionChoice
 }
 
 export interface OverviewSelectionsState {
@@ -19,7 +16,7 @@ export interface OverviewSelectionsState {
 export interface SelectedChoice {
   battletag: string
   playerChoice: PlayerSelectionChoice
-  selectionChoice: OverviewSelectionChoice
+  selectionChoice: LockSelectionChoice
 }
 
 const initialState = {}
@@ -43,7 +40,7 @@ const deselectChoice = (
     selectionChoice
   }: {
     battletag: string
-    selectionChoice: OverviewSelectionChoice
+    selectionChoice: LockSelectionChoice
   }): OverviewSelectionsState => {
 
   const clonedState = clone(state)

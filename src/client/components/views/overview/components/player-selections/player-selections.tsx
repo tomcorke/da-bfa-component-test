@@ -1,14 +1,9 @@
 import * as React from 'react'
 
+import { PLAYER_SELECTION_CHOICES } from '../../../../../../types/api'
 import PlayerSelection from '../player-selection'
 
 import * as STYLES from './player-selections.scss'
-
-const CHOICES = [
-  'first',
-  'second',
-  'third'
-]
 
 interface PlayerSelectionsProps {
   battletag: string
@@ -17,7 +12,7 @@ interface PlayerSelectionsProps {
 const PlayerSelections = ({ battletag }: PlayerSelectionsProps) => {
   return (
     <div className={STYLES.playerSelections}>
-      {CHOICES.map(choice =>
+      {PLAYER_SELECTION_CHOICES.map(choice =>
         <PlayerSelection
           key={choice}
           battletag={battletag}

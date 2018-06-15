@@ -34,8 +34,12 @@
   }
 
   .selections {
-    flex: 0 1 240px;
+    flex: 0 1 280px;
     display: flex;
     flex-flow: column nowrap;
+  }
+
+  .lock {
+    flex: 0 1 200px;
   }
 }
