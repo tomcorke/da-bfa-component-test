@@ -10,7 +10,7 @@ export interface OverviewSelections {
 }
 
 export interface OverviewSelectionsState {
-  [battletag: string]: OverviewSelections
+  [battletag: string]: OverviewSelections | undefined
 }
 
 export interface SelectedChoice {
@@ -44,9 +44,19 @@ const deselectChoice = (
   }): OverviewSelectionsState => {
 
   const clonedState = clone(state)
-  if (clonedState[battletag]) {
-    clonedState[battletag][selectionChoice] = undefined
+  const playerState = clonedState[battletag]
+  if (playerState) {
+    playerState[selectionChoice] = undefined
   }
+  return clonedState
+}
+
+const deselectAllPlayerChoices = (
+  state: OverviewSelectionsState,
+  battletag: string
+) => {
+  const clonedState = clone(state)
+  clonedState[battletag] = undefined
   return clonedState
 }
 
@@ -56,6 +66,8 @@ const OverviewSelectionsReducer: Reducer<OverviewSelectionsState, overviewSelect
       return selectChoice(state, action.payload)
     case overviewSelectionsActions.DESELECT_OVERVIEW_CHOICE:
       return deselectChoice(state, action.payload)
+    case overviewSelectionsActions.DESELECT_ALL_PLAYER_OVERVIEW_CHOICES:
+      return deselectAllPlayerChoices(state, action.payload)
     default:
       return state
   }

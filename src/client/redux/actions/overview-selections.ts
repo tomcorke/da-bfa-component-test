@@ -10,11 +10,13 @@ import {
   APILockSelectionsPayload,
   LockSelectionChoice,
   LOCK_SELECTION_CHOICES,
-  APIUnlockSelectionsPayload
+  APIUnlockSelectionsPayload,
+  PlayerSelectionChoice
 } from '../../../types/api'
 
 export const SELECT_OVERVIEW_CHOICE = 'SELECT_OVERVIEW_CHOICE'
 export const DESELECT_OVERVIEW_CHOICE = 'DESELECT_OVERVIEW_CHOICE'
+export const DESELECT_ALL_PLAYER_OVERVIEW_CHOICES = 'DESELECT_ALL_PLAYER_OVERVIEW_CHOICES'
 export const LOCK_SELECTED_CHOICES_START = 'LOCK_SELECTED_CHOICES_START'
 export const LOCK_SELECTED_CHOICES_SUCCESS = 'LOCK_SELECTED_CHOICES_SUCCESS'
 export const LOCK_SELECTED_CHOICES_FAIL = 'LOCK_SELECTED_CHOICES_FAIL'
@@ -39,7 +41,7 @@ const _deselectOverviewChoice = (battletag: string, selectionChoice: LockSelecti
   }
 )
 
-export const selectChoice = (battletag, choice) => {
+export const selectChoice = (battletag: string, choice: PlayerSelectionChoice) => {
   return (dispatch, getState: () => ApplicationState) => {
     const { overview, overviewSelections } = getState()
     const { selections: playerSelections = [] } = (overview.find(o => o.battletag === battletag) || ({} as UndefinedPlayerSelections))
@@ -61,6 +63,15 @@ export const selectChoice = (battletag, choice) => {
       dispatch(_deselectOverviewChoice(battletag, alreadySelectedChoice))
     }
   }
+}
+
+const _deselectChoicesForPlayer = (battletag: string) => action(
+  DESELECT_ALL_PLAYER_OVERVIEW_CHOICES,
+  battletag
+)
+
+export const deselectChoicesForPlayer = (battletag: string) => {
+  return _deselectChoicesForPlayer(battletag)
 }
 
 const _lockSelectedChoicesStart = (battletag: string) => action(
@@ -188,12 +199,14 @@ export const toggleLockSelectedChoices = (battletag: string) => {
     } else {
       dispatch(lockSelectedChoices(battletag))
     }
+    dispatch(deselectChoicesForPlayer(battletag))
   }
 }
 
 export type OverviewSelectionsActions = ReturnType<
   | typeof _selectOverviewChoice
   | typeof _deselectOverviewChoice
+  | typeof _deselectChoicesForPlayer
   | typeof _lockSelectedChoicesStart
   | typeof _lockSelectedChoicesSuccess
   | typeof _lockSelectedChoicesFail
