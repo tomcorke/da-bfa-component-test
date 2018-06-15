@@ -16,10 +16,23 @@ export interface APIFlatPlayerSelection {
   comments?: string
 }
 
+export type LockSelectionChoice = 'first' | 'second'
+
+export interface APILockedSelectionData {
+  locked: boolean
+  lockedChoice?: LockSelectionChoice
+}
+
 export type APIPlayerSelection = APINestedPlayerSelection & APIFlatPlayerSelection
+
+export type APIPlayerSelectionWithLock = APIPlayerSelection & APILockedSelectionData
 
 export interface APIPlayerSelections {
   [choice: string]: APIPlayerSelection
+}
+
+export interface APIPlayerSelectionsWithLock {
+  [choice: string]: APIPlayerSelectionWithLock
 }
 
 export interface APIPlayerCharacter {
@@ -36,7 +49,7 @@ export interface APIPlayerProfile {
 
 export interface APIPlayerData {
   user: APIPlayer
-  selections?: APIPlayerSelections
+  selections?: APIPlayerSelectionsWithLock
   isAdmin: boolean
   isSuperAdmin: boolean
   profile?: APIPlayerProfile
@@ -44,7 +57,7 @@ export interface APIPlayerData {
 
 export interface APIOverviewData {
   userSelectionData: {
-    [battletag: string]: APIPlayerSelections
+    [battletag: string]: APIPlayerSelectionsWithLock
   },
   userProfileData: {
     [battletag: string]: APIPlayerProfile
@@ -54,6 +67,7 @@ export interface APIOverviewData {
 export type PlayerSelectionChoice = 'first' | 'second' | 'third'
 
 export interface APIPlayerOverviewSelections {
+  [key: string]: PlayerSelectionChoice | undefined
   first?: PlayerSelectionChoice
   second?: PlayerSelectionChoice
 }
@@ -63,7 +77,7 @@ export interface APIPlayerOverviewSelectionsMetaData {
   confirmed: boolean
 }
 
-export type APIPlayerOverviewSelectionsData = APIPlayerOverviewSelections & APIPlayerOverviewSelectionsMetaData
+export type APIPlayerOverviewSelectionsData = { selections: APIPlayerOverviewSelections } & APIPlayerOverviewSelectionsMetaData
 
 export interface APIOverviewSelections {
   [battletag: string]: APIPlayerOverviewSelectionsData

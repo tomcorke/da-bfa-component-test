@@ -85,7 +85,7 @@ const _saveSelectionsSuccess = createAction(SAVE_SELECTIONS_SUCCESS)
 const _saveSelectionsFail = (error: Error) => action(SAVE_SELECTIONS_FAIL, error.stack)
 
 export const saveSelections = () => {
-  return async (dispatch, getState) => {
+  return async (dispatch, getState: () => ApplicationState) => {
     dispatch(_saveSelectionsStart())
 
     const { saveDataEndpoint } = getState().config

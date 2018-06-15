@@ -42,8 +42,8 @@ userRouter.post('/save', requireAuthentication, (req, res) => {
 
   const battletag = req.user.battletag
   console.log(`Saving data for user "${battletag}"`, req.body)
-  const filteredBody = formatPlayerSelections(req.body)
-  userSelectionsDb.set(battletag, filteredBody)
+  const formattedBody = formatPlayerSelections(req.body)
+  userSelectionsDb.set(battletag, formattedBody)
   res.json({ ok: true })
 })
 

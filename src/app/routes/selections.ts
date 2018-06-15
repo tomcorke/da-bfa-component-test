@@ -1,7 +1,7 @@
 import * as express from 'express'
 
 import { requireAuthentication } from '../middleware/auth'
-import { APIPlayerOverviewSelections, PlayerSelectionChoice, APILockSelectionsPayload } from '../../types/api'
+import { PlayerSelectionChoice, APILockSelectionsPayload } from '../../types/api'
 import { lockOverviewSelections } from '../services/selections'
 
 const selectionsRouter = express.Router()
@@ -11,6 +11,9 @@ const isPlayerChoice = (value: any): value is PlayerSelectionChoice => {
 }
 
 const formatLockSelectionsPayload = (body: any): APILockSelectionsPayload | undefined => {
+
+  console.log(body)
+
   if (!body || typeof body !== 'object') {
     return
   }

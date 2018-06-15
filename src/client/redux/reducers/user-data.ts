@@ -1,6 +1,6 @@
 import { Reducer } from 'redux'
 
-import { APIPlayerData, APIPlayerSelections, APIPlayerProfile, APIPlayer, APIPlayerSelection, APIFlatPlayerSelection } from '../../../types/api'
+import { APIPlayerData, APIPlayerSelectionsWithLock, APIPlayerProfile, APIPlayer, APIPlayerSelectionWithLock, LockSelectionChoice } from '../../../types/api'
 import config from '../../config'
 import actions from '../actions/index'
 import { UserDataActions } from '../actions/user-data'
@@ -9,6 +9,8 @@ export interface UserSelection {
   class?: string
   spec?: string
   comments?: string
+  locked?: boolean
+  lockedChoice?: LockSelectionChoice
 }
 
 export interface UserSelections {
@@ -40,13 +42,15 @@ const setGettingData = (state: UserDataState, isGettingData: boolean): UserDataS
   }
 }
 
-const flattenPlayerSelection = (apiPlayerSelection: APIPlayerSelection): UserSelection => ({
+const flattenPlayerSelection = (apiPlayerSelection: APIPlayerSelectionWithLock): UserSelection => ({
   class: apiPlayerSelection.class || (apiPlayerSelection.selected && apiPlayerSelection.selected.class) || undefined,
   spec: apiPlayerSelection.spec || (apiPlayerSelection.selected && apiPlayerSelection.selected.spec) || undefined,
-  comments: apiPlayerSelection.comments
+  comments: apiPlayerSelection.comments,
+  locked: apiPlayerSelection.locked,
+  lockedChoice: apiPlayerSelection.lockedChoice
 })
 
-export function flattenUserSelections (apiPlayerSelections?: APIPlayerSelections): UserSelections {
+export function flattenUserSelections (apiPlayerSelections?: APIPlayerSelectionsWithLock): UserSelections {
   const flattendedSelections = {} as UserSelections
   if (apiPlayerSelections) {
     Object.keys(apiPlayerSelections).forEach(key => {

@@ -5,15 +5,21 @@ import * as STYLES from './comments-box.scss'
 interface CommentsBoxProps {
   onChange: (newValue: string) => any
   value?: string
+  isLocked?: boolean
 }
 
-const CommentsBox = ({ onChange, value }: CommentsBoxProps) => {
+const CommentsBox = ({ onChange, value, isLocked }: CommentsBoxProps) => {
+
+  const rootClasses = [STYLES.commentsBox]
+  if (isLocked) rootClasses.push(STYLES.commentsBox__locked)
+
   return (
-    <div className={STYLES.commentsBox}>
+    <div className={rootClasses.join(' ')}>
       <textarea
         onChange={e => onChange(e.target.value)}
         placeholder={'Comments'}
-        value={value} />
+        value={value}
+        readOnly={isLocked} />
     </div>
   )
 }

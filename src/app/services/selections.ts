@@ -2,13 +2,15 @@ import { DB } from './db'
 import { APIPlayerOverviewSelectionsData, APIPlayerOverviewSelections } from '../../types/api'
 import { BattleTag } from '../types'
 
-const selectionsDb = new DB<APIPlayerOverviewSelectionsData>('selections')
+export const selectionsDb = new DB<APIPlayerOverviewSelectionsData>('selections')
 
 function clone<T> (data: T): T { return JSON.parse(JSON.stringify(data)) as T }
 
 export const lockOverviewSelections = (battletag: BattleTag, selections: APIPlayerOverviewSelections) => {
   const data: APIPlayerOverviewSelectionsData = {
-    ...selections,
+    selections: {
+      ...selections
+    },
     locked: true,
     confirmed: false
   }

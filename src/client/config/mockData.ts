@@ -34,7 +34,11 @@ const getUserData = () => ({
   user: {
     battletag: 'Shot#2975'
   },
-  selections: {},
+  selections: {
+    first: {
+      class: 'deathknight'
+    }
+  },
   profile: {
     characters: [
       {
@@ -65,7 +69,7 @@ const getUserData = () => ({
 })
 
 const mockData = {
-  initialView: 'overview',
+  initialView: 'main',
   mockOverviewData: {
     userSelectionData: getSelections(),
     userProfileData: getProfiles()

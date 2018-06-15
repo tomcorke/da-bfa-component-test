@@ -12,6 +12,8 @@ interface ClassSelectWrapperProps {
   comments?: string
   showSelectedClassWarning: boolean
   onChange: (prop: string, value: any) => any
+  isLocked?: boolean
+  lockedChoice?: string
 }
 
 const ClassSelectWrapper = ({
@@ -20,7 +22,9 @@ const ClassSelectWrapper = ({
   selectedSpec,
   comments,
   showSelectedClassWarning,
-  onChange
+  onChange,
+  isLocked,
+  lockedChoice
 }: ClassSelectWrapperProps) => {
   const onClassChange = (value: { class?: string, spec?: string }) => {
     onChange('spec', value.spec)
@@ -35,14 +39,30 @@ const ClassSelectWrapper = ({
     </p>
   }
 
+  const wrapperClasses = [STYLES.classSelectWrapper]
+  if (isLocked) {
+    wrapperClasses.push(STYLES.locked)
+    wrapperClasses.push(STYLES[`locked__${lockedChoice}`])
+  }
+
+  let lockDisplay: JSX.Element | null = null
+  if (isLocked) {
+    lockDisplay = (
+      <div className={`${STYLES.lockDisplay} ${STYLES[`lockDisplay__${lockedChoice}`]}`}>
+        <div className={STYLES.lockDisplay__inner} />
+      </div>
+    )
+  }
+
   return (
-    <div className={STYLES.classSelectWrapper}>
+    <div className={wrapperClasses.join(' ')}>
+      {lockDisplay}
       <div className={STYLES.description}>
         {description}
       </div>
       <div className={STYLES.elements}>
-        <ClassSelect onChange={onClassChange} selectedClass={selectedClass} selectedSpec={selectedSpec} />
-        <CommentsBox onChange={onCommentsChange} value={comments} />
+        <ClassSelect onChange={onClassChange} selectedClass={selectedClass} selectedSpec={selectedSpec} isLocked={isLocked} />
+        <CommentsBox onChange={onCommentsChange} value={comments} isLocked={isLocked} />
       </div>
       {selectionWarning}
     </div>

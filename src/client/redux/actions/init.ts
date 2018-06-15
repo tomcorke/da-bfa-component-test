@@ -27,9 +27,10 @@ export const init = () => {
     } else {
       const hashView = window.location.hash && window.location.hash.substr(1)
       const useHashView = isView(hashView) && !isMain(hashView)
-      dispatch(actions.userData.getUserData(() => {
-        useHashView && dispatch(actions.views.changeView(hashView as View))
-      }, {
+      dispatch(actions.userData.getUserData({
+        onSuccess: () => {
+          useHashView && dispatch(actions.views.changeView(hashView as View))
+        },
         noSetViewMain: useHashView
       }))
     }

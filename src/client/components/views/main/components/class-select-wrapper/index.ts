@@ -5,6 +5,7 @@ import { ApplicationState } from '../../../../../redux/reducers'
 import ClassSelectWrapper from './class-select-wrapper'
 
 interface OwnProps {
+  description: string
   name: string
 }
 
@@ -21,18 +22,22 @@ const ConnectedClassSelectWrapper = connect(
 
     let showSelectedClassWarning = false
     const profileCharacters = (state.userData.profile && state.userData.profile.characters) || []
+
     if (selectedClass) {
       const selectedClassMaxLevelCharacters = profileCharacters
         .filter(c => c.class === selected.class)
-        .filter(c => c.level === 110)
+        .filter(c => c.level >= 110)
       showSelectedClassWarning = selectedClassMaxLevelCharacters.length === 0
     }
 
     return {
+      ...props,
       selectedClass: selectedClass,
       selectedSpec: selectedSpec,
       comments: selection && selection.comments,
-      showSelectedClassWarning
+      showSelectedClassWarning,
+      isLocked: selection && selection.locked,
+      lockedChoice: selection && selection.lockedChoice || 'none'
     }
   },
   (dispatch, props) => ({
