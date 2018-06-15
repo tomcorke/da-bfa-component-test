@@ -1,28 +1,28 @@
 import * as overviewActions from '../actions/overview'
 
 export interface OverviewSettingsState {
-  showBackupSummary: boolean
-  showSelectionLockIn: boolean
+  showAltSummary: boolean
+  showLockedInSummary: boolean
 }
 
 const initialState: OverviewSettingsState = {
-  showBackupSummary: true,
-  showSelectionLockIn: true
+  showAltSummary: false,
+  showLockedInSummary: false
 }
 
 const OverviewSettingsReducer = (
   state: OverviewSettingsState = initialState,
   action: overviewActions.OverviewAction): OverviewSettingsState => {
   switch (action.type) {
-    case overviewActions.SHOW_BACKUP_SUMMARY:
+    case overviewActions.SHOW_ALT_SUMMARY:
       return {
         ...state,
-        showBackupSummary: action.payload
+        showAltSummary: action.payload
       }
-    case overviewActions.SHOW_SELECTION_LOCK_IN:
+    case overviewActions.SHOW_LOCKED_IN_SUMMARY:
       return {
         ...state,
-        showSelectionLockIn: action.payload
+        showLockedInSummary: action.payload
       }
     default:
       return state

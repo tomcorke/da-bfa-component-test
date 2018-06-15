@@ -74,19 +74,6 @@ export const deselectChoicesForPlayer = (battletag: string) => {
   return _deselectChoicesForPlayer(battletag)
 }
 
-const _lockSelectedChoicesStart = (battletag: string) => action(
-  LOCK_SELECTED_CHOICES_START,
-  battletag
-)
-const _lockSelectedChoicesSuccess = (battletag: string) => action(
-  LOCK_SELECTED_CHOICES_SUCCESS,
-  battletag
-)
-const _lockSelectedChoicesFail = (battletag: string, error: Error) => action(
-  LOCK_SELECTED_CHOICES_FAIL,
-  { battletag, error }
-)
-
 const lockSelectedChoices = (battletag: string) => {
   return async (dispatch, getState: () => ApplicationState) => {
     const { overviewSelections, config } = getState()
@@ -94,13 +81,11 @@ const lockSelectedChoices = (battletag: string) => {
 
     if (!LOCK_SELECTION_CHOICES.every(c => !!playerOverviewSelections[c])) {
       // Reject - require both to be selected!
-      dispatch(_lockSelectedChoicesFail(battletag, Error(`Required selections not made for player "${battletag}"`)))
       dispatch(feedbackActions.show(`Main and alt selections required to lock player "${battletag}"`, 'warning'))
       return
     }
 
     const { adminLockSelectionsEndpoint } = config
-    dispatch(_lockSelectedChoicesStart(battletag))
 
     const payload: APILockSelectionsPayload = { battletag, playerOverviewSelections }
 
@@ -121,28 +106,14 @@ const lockSelectedChoices = (battletag: string) => {
         throw Error('Could not lock player selection data')
       }
 
-      dispatch(_lockSelectedChoicesSuccess(battletag))
       dispatch(feedbackActions.show(`Selections for player "${battletag}" locked!`, 'success'))
       dispatch(overviewActions.getOverviewData({ noFeedback: true }))
+      dispatch(deselectChoicesForPlayer(battletag))
     } catch (err) {
-      dispatch(_lockSelectedChoicesFail(battletag, err))
       dispatch(feedbackActions.show(`Could not lock selections for player "${battletag}"!`, 'warning'))
     }
   }
 }
-
-const _unlockSelectedChoicesStart = (battletag: string) => action(
-  UNLOCK_SELECTED_CHOICES_START,
-  battletag
-)
-const _unlockSelectedChoicesSuccess = (battletag: string) => action(
-  UNLOCK_SELECTED_CHOICES_SUCCESS,
-  battletag
-)
-const _unlockSelectedChoicesFail = (battletag: string) => action(
-  UNLOCK_SELECTED_CHOICES_FAIL,
-  battletag
-)
 
 const unlockSelectedChoices = (battletag: string) => {
   return async (dispatch, getState: () => ApplicationState) => {
@@ -156,7 +127,6 @@ const unlockSelectedChoices = (battletag: string) => {
     }
 
     const { adminUnlockSelectionsEndpoint } = config
-    dispatch(_unlockSelectedChoicesStart(battletag))
 
     const payload: APIUnlockSelectionsPayload = { battletag }
 
@@ -177,11 +147,10 @@ const unlockSelectedChoices = (battletag: string) => {
         throw Error('Could not unlock player selection data')
       }
 
-      dispatch(_lockSelectedChoicesSuccess(battletag))
       dispatch(feedbackActions.show(`Selections for player "${battletag}" unlocked!`, 'success'))
       dispatch(overviewActions.getOverviewData({ noFeedback: true }))
+      dispatch(deselectChoicesForPlayer(battletag))
     } catch (err) {
-      dispatch(_lockSelectedChoicesFail(battletag, err))
       dispatch(feedbackActions.show(`Could not unlock selections for player "${battletag}"!`, 'warning'))
     }
   }
@@ -199,7 +168,6 @@ export const toggleLockSelectedChoices = (battletag: string) => {
     } else {
       dispatch(lockSelectedChoices(battletag))
     }
-    dispatch(deselectChoicesForPlayer(battletag))
   }
 }
 
@@ -207,10 +175,4 @@ export type OverviewSelectionsActions = ReturnType<
   | typeof _selectOverviewChoice
   | typeof _deselectOverviewChoice
   | typeof _deselectChoicesForPlayer
-  | typeof _lockSelectedChoicesStart
-  | typeof _lockSelectedChoicesSuccess
-  | typeof _lockSelectedChoicesFail
-  | typeof _unlockSelectedChoicesStart
-  | typeof _unlockSelectedChoicesSuccess
-  | typeof _unlockSelectedChoicesFail
 >

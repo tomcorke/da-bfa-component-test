@@ -7,18 +7,18 @@ import * as STYLES from './overview.scss'
 
 interface OverviewViewProps {
   battletags: string[]
-  showBackupSummary: boolean
-  toggleShowBackupSummary: () => any
-  showSelectionLockIn: boolean
-  toggleShowSelectionLockIn: () => any
+  showAltSummary: boolean
+  toggleShowAltSummary: () => any
+  showLockedInSummary: boolean
+  toggleShowLockedInSummary: () => any
 }
 
 const OverviewView = ({
   battletags,
-  showBackupSummary,
-  toggleShowBackupSummary,
-  showSelectionLockIn,
-  toggleShowSelectionLockIn
+  showAltSummary,
+  toggleShowAltSummary,
+  showLockedInSummary,
+  toggleShowLockedInSummary
 }: OverviewViewProps) => {
   const selectionsDisplay = battletags.map(battletag => {
     return <PlayerDisplay
@@ -31,18 +31,26 @@ const OverviewView = ({
 
     <div className={STYLES.summaryContainer}>
       <SummaryBox title='Total summary' />
-      <SummaryBox title='Main selected summary' selectionFilter={selection => selection.overviewSelection === 'main'} />
-      {showBackupSummary && <SummaryBox title='Backup selected summary' selectionFilter={selection => selection.overviewSelection === 'alt'} />}
+      { showLockedInSummary
+        ? [
+          <SummaryBox title='Locked-in mains' selectionFilter={selection => selection.locked && selection.lockedChoice === 'main'} />,
+          (showAltSummary && <SummaryBox title='Locked-in alts' selectionFilter={selection => selection.locked && selection.lockedChoice === 'alt'} />)
+        ]
+        : [
+          <SummaryBox title='Selected mains' selectionFilter={selection => selection.overviewSelection === 'main'} />,
+          (showAltSummary && <SummaryBox title='Selected alts' selectionFilter={selection => selection.overviewSelection === 'alt'} />)
+        ]
+      }
     </div>
 
     <div className={STYLES.options}>
       <label>
-        <input type='checkbox' checked={showBackupSummary} onChange={toggleShowBackupSummary} />
-        Show backup selection summary
+        <input type='checkbox' checked={showAltSummary} onChange={toggleShowAltSummary} />
+        Show alt summary
       </label>
       <label>
-        <input type='checkbox' checked={showSelectionLockIn} onChange={toggleShowSelectionLockIn} />
-        Show selection lock-in
+        <input type='checkbox' checked={showLockedInSummary} onChange={toggleShowLockedInSummary} />
+        Show locked-in summary instead of selected
       </label>
     </div>
 

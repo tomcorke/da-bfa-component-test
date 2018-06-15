@@ -12,7 +12,6 @@ const ConnectedPlayerDisplay = connect(
   (state: ApplicationState, props: OwnProps) => {
     const playerData = state.overview.find(o => o.battletag === props.battletag)
     return {
-      showLockIn: state.overviewSettings.showSelectionLockIn,
       locked: playerData && playerData.locked || false,
       confirmed: playerData && playerData.confirmed || false
     }

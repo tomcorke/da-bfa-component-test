@@ -1,13 +1,16 @@
 import { createAction, action } from 'typesafe-actions'
 import { APIOverviewData } from '../../../types/api'
 import * as feedbackActions from '../actions/feedback'
+import { ApplicationState } from '../reducers'
 
 export const GET_OVERVIEW_DATA_START = 'GET_OVERVIEW_DATA_START'
 export const GET_OVERVIEW_DATA_SUCCESS = 'GET_OVERVIEW_DATA_SUCCESS'
 export const GET_OVERVIEW_DATA_FAIL = 'GET_OVERVIEW_DATA_FAIL'
 export const HANDLE_OVERVIEW_DATA = 'HANDLE_OVERVIEW_DATA'
-export const SHOW_BACKUP_SUMMARY = 'SHOW_BACKUP_SUMMARY'
-export const SHOW_SELECTION_LOCK_IN = 'SHOW_SELECTION_LOCK_IN'
+
+export const SHOW_ALT_SUMMARY = 'SHOW_BACKUP_SUMMARY'
+export const SHOW_LOCKED_IN_SUMMARY = 'SHOW_LOCKED_IN_SUMMARY'
+
 export const LOAD_OVERVIEW_SETTINGS = 'LOAD_OVERVIEW_SETTINGS'
 export const SAVE_OVERVIEW_SETTINGS = 'SAVE_OVERVIEW_SETTINGS'
 
@@ -29,7 +32,7 @@ interface GetOverviewDataOptions {
 }
 
 export const getOverviewData = (opts: GetOverviewDataOptions = {}) => {
-  return async (dispatch, getState) => {
+  return async (dispatch, getState: () => ApplicationState) => {
     const { getOverviewViewDataEndpoint } = getState().config
 
     dispatch(_getOverviewDataStart())
@@ -60,7 +63,7 @@ const _loadOverviewSettings = (settings: object) => action(
 )
 
 export const loadOverviewSettings = () => {
-  return async (dispatch, getState) => {
+  return async (dispatch, getState: () => ApplicationState) => {
     const settings = await getState().overviewSettings
     dispatch(_loadOverviewSettings(settings))
   }
@@ -72,35 +75,35 @@ const _saveOverviewSettings = (settings: object) => action(
 )
 
 export const saveOverviewSettings = () => {
-  return async (dispatch, getState) => {
+  return async (dispatch, getState: () => ApplicationState) => {
     const settings = await getState().overviewSettings
     dispatch(_saveOverviewSettings(settings))
   }
 }
 
-const _toggleShowBackupSummary = (value: boolean) => action(
-  SHOW_BACKUP_SUMMARY,
+const _toggleShowAltSummary = (value: boolean) => action(
+  SHOW_ALT_SUMMARY,
   value
 )
 
-export const toggleShowBackupSummary =
-  (dispatch, getState) => {
-    const currentValue = getState().overviewSettings.showBackupSummary
+export const toggleShowAltSummary =
+  (dispatch, getState: () => ApplicationState) => {
+    const currentValue = getState().overviewSettings.showAltSummary
     const newValue = !currentValue
-    dispatch(_toggleShowBackupSummary(newValue))
+    dispatch(_toggleShowAltSummary(newValue))
     dispatch(saveOverviewSettings())
   }
 
-const _toggleShowSelectionLockIn = (value: boolean) => action(
-  SHOW_SELECTION_LOCK_IN,
+const _toggleShowLockedInSummary = (value: boolean) => action(
+  SHOW_LOCKED_IN_SUMMARY,
   value
 )
 
-export const toggleShowSelectionLockIn =
-  (dispatch, getState) => {
-    const currentValue = getState().overviewSettings.showSelectionLockIn
+export const toggleShowLockedInSummary =
+  (dispatch, getState: () => ApplicationState) => {
+    const currentValue = getState().overviewSettings.showLockedInSummary
     const newValue = !currentValue
-    dispatch(_toggleShowSelectionLockIn(newValue))
+    dispatch(_toggleShowLockedInSummary(newValue))
     dispatch(saveOverviewSettings())
   }
 
@@ -111,5 +114,6 @@ export type OverviewAction = ReturnType<
   | typeof _getOverviewDataFail
   | typeof _loadOverviewSettings
   | typeof _saveOverviewSettings
-  | typeof _toggleShowBackupSummary
-  | typeof _toggleShowSelectionLockIn>
+  | typeof _toggleShowAltSummary
+  | typeof _toggleShowLockedInSummary
+>

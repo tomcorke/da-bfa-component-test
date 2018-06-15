@@ -8,12 +8,12 @@ import OverviewView from './overview'
 const ConnectedOverviewView = connect(
   (state: ApplicationState) => ({
     battletags: state.overview.map(i => i.battletag),
-    showBackupSummary: state.overviewSettings.showBackupSummary,
-    showSelectionLockIn: state.overviewSettings.showSelectionLockIn
+    showAltSummary: state.overviewSettings.showAltSummary,
+    showLockedInSummary: state.overviewSettings.showLockedInSummary
   }),
   (dispatch: Dispatch) => ({
-    toggleShowBackupSummary: () => dispatch(overviewActions.toggleShowBackupSummary),
-    toggleShowSelectionLockIn: () => dispatch(overviewActions.toggleShowSelectionLockIn)
+    toggleShowAltSummary: () => dispatch(overviewActions.toggleShowAltSummary),
+    toggleShowLockedInSummary: () => dispatch(overviewActions.toggleShowLockedInSummary)
   })
 )(OverviewView)
 
