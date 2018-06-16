@@ -1,21 +1,28 @@
 import * as express from 'express'
 
 import {
-  APIOverviewData,
-  APIPlayerOverviewSelectionsMetaData,
-  APIPlayerOverviewSelectionsData
+  AppDataLoader,
+  APIOverviewPlayerSelections
 } from '../../types/api'
 
-import { userSelectionsDb, mergeSelectionsWithLocks } from '../services/user-data'
+import { playerSelectionsDb } from '../services/user-data'
 import { bnetApi } from '../services/bnet-api'
 import { selectionLockDb } from '../services/selections'
 import { requireAdmin } from '../middleware/auth'
 
 const overviewRouter = express.Router()
 
-overviewRouter.get('/get', requireAdmin, (req, res) => {
+const getOverviewData: AppDataLoader<APIOverviewPlayerSelections> = () => {
+  return {} as APIOverviewPlayerSelections
+}
 
-  const userSelectionData = userSelectionsDb.getAll() || {}
+overviewRouter.get('/get', requireAdmin, (req, res) => {
+  const data = getOverviewData()
+  res.json(data)
+
+  /*
+
+  const userSelectionData = playerSelectionsDb.getAll() || {}
 
   const onlyLockedMetaData: (data: APIPlayerOverviewSelectionsData) => APIPlayerOverviewSelectionsMetaData =
     (fullSelectionData) => {
@@ -44,6 +51,7 @@ overviewRouter.get('/get', requireAdmin, (req, res) => {
   const userProfileData = bnetApi.getAll() || {}
   const data: APIOverviewData = { userSelectionData: userSelectionDataWithLock, lockedSelectionData, userProfileData }
   res.json(data)
+  */
 })
 
 export default overviewRouter

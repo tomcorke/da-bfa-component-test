@@ -1,12 +1,6 @@
 import {
-  APIPlayerData,
-  APIPlayerSelections,
-  APIPlayerSelectionsWithLock,
-  LOCK_SELECTION_CHOICES,
-  APIPlayerOverviewSelectionsData,
-  APIPlayerSelectionWithLock,
-  APIPlayerOverviewSelectionsMetaData
 } from '../../types/api'
+
 import { BNetUser } from '../types'
 
 import { DB } from './db'
@@ -14,7 +8,7 @@ import { bnetApi } from './bnet-api'
 import { isAdmin, isSuperAdmin } from './permissions'
 import { selectionLockDb } from './selections'
 
-export const userSelectionsDb = new DB<APIPlayerSelections>('data')
+export const playerSelectionsDb = new DB<APIPlayerSelections>('data')
 
 export const mergeSelectionsWithLocks
   : (selections?: APIPlayerSelections, locks?: APIPlayerOverviewSelectionsData) => APIPlayerSelectionsWithLock
@@ -51,7 +45,7 @@ const onlyLockMetaData = (lockData?: APIPlayerOverviewSelectionsData): APIPlayer
 export const getUserData = async (user: BNetUser, immediate = false): Promise<APIPlayerData> => {
   const { battletag } = user
 
-  const selections = userSelectionsDb.get(battletag) || {}
+  const selections = playerSelectionsDb.get(battletag) || {}
   const lockData = selectionLockDb.get(battletag)
 
   const selectionsWithLockData = mergeSelectionsWithLocks(selections, lockData)

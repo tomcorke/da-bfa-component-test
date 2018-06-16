@@ -1,96 +1,76 @@
 import { WowClassSafeName, WowSpecSafeName, WowTag } from './classes'
 
-export interface APIPlayer {
+export type PlayerSelectionChoice = 'first' | 'second' | 'third'
+export const PLAYER_SELECTION_CHOICES: PlayerSelectionChoice[] = ['first', 'second', 'third']
+
+export type LockSelectionChoice = 'main' | 'alt'
+export const LOCK_SELECTION_CHOICES: LockSelectionChoice[] = ['main', 'alt']
+
+// User data
+
+export interface APIUser {
   battletag: string
+  isAdmin: boolean
+  isSuperAdmin: boolean
 }
-export interface APIPlayerSelection {
+
+// Database data
+
+// Player selections
+
+interface DBPlayerSelection {
   class?: WowClassSafeName
   spec?: WowSpecSafeName
   comments?: string
 }
 
-export type LockSelectionChoice = 'main' | 'alt'
-export const LOCK_SELECTION_CHOICES: LockSelectionChoice[] = ['main', 'alt']
-
-export interface APILockedSelectionData {
-  locked: boolean
-  lockedChoice?: LockSelectionChoice
+export interface DBPlayerSelections {
+  first?: DBPlayerSelection
+  second?: DBPlayerSelection
+  third?: DBPlayerSelection
 }
 
-export type APIPlayerSelectionWithLock = APIPlayerSelection & APILockedSelectionData
+// Lock selections
 
-export interface APIPlayerSelections {
-  [choice: string]: APIPlayerSelection
+interface DBLockPlayerSelection {
+  choice: PlayerSelectionChoice
 }
 
-export interface APIPlayerSelectionsWithLock {
-  [choice: string]: APIPlayerSelectionWithLock
+interface DBLockPlayerSelectionsData {
+  main: DBLockPlayerSelection
+  alt: DBLockPlayerSelection
 }
 
-export interface APIPlayerCharacter {
-  name: string
-  class: WowClassSafeName
-  realm: string
-  guild: string
-  level: number
-}
-
-export interface APIPlayerProfile {
-  characters?: APIPlayerCharacter[]
-}
-
-export interface APIPlayerData {
-  user: APIPlayer
-  selections?: APIPlayerSelectionsWithLock
-  lockData: APIPlayerOverviewSelectionsMetaData
-  isAdmin: boolean
-  isSuperAdmin: boolean
-  profile?: APIPlayerProfile
-}
-
-export interface APIOverviewData {
-  userSelectionData: {
-    [battletag: string]: APIPlayerSelectionsWithLock
-  }
-  lockedSelectionData: {
-    [battletag: string]: APIPlayerOverviewSelectionsMetaData
-  }
-  userProfileData: {
-    [battletag: string]: APIPlayerProfile | undefined
-  }
-}
-
-export type PlayerSelectionChoice = 'first' | 'second' | 'third'
-export const PLAYER_SELECTION_CHOICES: PlayerSelectionChoice[] = ['first', 'second', 'third']
-
-export interface APIPlayerOverviewSelections {
-  [key: string]: PlayerSelectionChoice | undefined
-  main?: PlayerSelectionChoice
-  alt?: PlayerSelectionChoice
-}
-
-export interface APIPlayerOverviewSelectionsMetaData {
+interface DBLockPlayerSelectionsMeta {
   locked: boolean
   confirmed: boolean
 }
 
-export type APIPlayerOverviewSelectionsData = { selections: APIPlayerOverviewSelections } & APIPlayerOverviewSelectionsMetaData
-
-export interface APIOverviewSelections {
-  [battletag: string]: APIPlayerOverviewSelectionsData
-}
-
-// User data
+export type DBLockPlayerSelections = DBLockPlayerSelectionsData & DBLockPlayerSelectionsMeta
 
 // Data sent from app to client for main view
 
+type APIPlayerSelection = DBPlayerSelection
+
+export type APIPlayerSelections = {
+  first?: APIPlayerSelection
+  second?: APIPlayerSelection
+  third?: APIPlayerSelection
+} & DBLockPlayerSelections
+
 // Data sent from app to client for overview
+
+export interface APIOverviewPlayerSelections {
+  [battletag: string]: APIPlayerSelections
+}
 
 // Payloads to send to app to lock and unlock selections for a player
 
+type APILockSelections = DBLockPlayerSelectionsData
+
 export interface APILockSelectionsPayload {
   battletag: string
-  playerOverviewSelections: APIPlayerOverviewSelections
+  playerOverviewSelections: APILockSelections
 }
 
 export interface APIUnlockSelectionsPayload {
@@ -112,3 +92,15 @@ export interface APISummarySelection {
 export interface APISummarySelections {
   selections: APISummarySelection[]
 }
+
+// Defined valid types for transmission
+
+export type AppPayload = APIPlayerSelections | APIOverviewPlayerSelections | APISummarySelection
+
+export type ClientPayload = APILockSelectionsPayload | APIUnlockSelectionsPayload
+
+// Method type signatures for app and client data loader/fetch
+
+export type AppDataLoader<T extends AppPayload, O = {}> = (options?: O) => T
+
+export type ClientDataFetcher<T extends AppPayload, D = T> = () => Promise<D>
