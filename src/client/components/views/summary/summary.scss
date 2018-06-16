@@ -1,0 +1,26 @@
+.summaryView {
+  width: 100%;
+  max-width: 1000px;
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.summaryColumn {
+  flex: 1 0 200px;
+  margin-bottom: 2em;
+
+  .summaryColumnTitle {
+    margin-bottom: 1em;
+  }
+
+  .player {
+    margin-left: 0.5em;
+  }
+}
+
+.summaryItem {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+}

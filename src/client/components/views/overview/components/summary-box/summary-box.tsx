@@ -54,22 +54,20 @@ const SummaryBox = ({ title, allSelections }: SummaryBoxProps) => {
   const classes = sumSelectionClasses(allSelections)
 
   return (
-    <div>
-      <div className={STYLES.summaryBox}>
-        <div className={STYLES.summaryTitle}>{title}</div>
-        {Object.entries(SUMMARY_TAG_GROUPS).map(([title, groupTags]) => {
-          return <SummaryRow
-            key={title}
-            title={title}
-            values={groupTags.map(t => ({ name: t, count: tags[t] || 0 }))} />
-        })}
-        <SummaryRow
-          key='classes'
-          title='Classes'
-          values={mapToArray(classes)
-            .map(i => ({ name: i.key, count: i.value }))
-            .sort((a, b) => a.name < b.name ? -1 : 1)} />
-      </div>
+    <div className={STYLES.summaryBox}>
+      <div className={STYLES.summaryTitle}>{title}</div>
+      {Object.entries(SUMMARY_TAG_GROUPS).map(([title, groupTags]) => {
+        return <SummaryRow
+          key={title}
+          title={title}
+          values={groupTags.map(t => ({ name: t, count: tags[t] || 0 }))} />
+      })}
+      <SummaryRow
+        key='classes'
+        title='Classes'
+        values={mapToArray(classes)
+          .map(i => ({ name: i.key, count: i.value }))
+          .sort((a, b) => a.name < b.name ? -1 : 1)} />
     </div>
   )
 }

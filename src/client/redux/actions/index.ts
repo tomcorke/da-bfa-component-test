@@ -3,6 +3,7 @@ import * as feedbackActions from './feedback'
 import * as loginActions from './login'
 import * as overviewSelectionActions from './overview-selections'
 import * as overviewActions from './overview'
+import * as summaryActions from './summary'
 import * as userDataActions from './user-data'
 import * as viewActions from './views'
 
@@ -12,6 +13,7 @@ const actions = {
   login: loginActions,
   overviewSelections: overviewSelectionActions,
   overview: overviewActions,
+  summary: summaryActions,
   userData: userDataActions,
   views: viewActions
 }
@@ -22,6 +24,7 @@ export type ApplicationAction =
   | loginActions.LoginActions
   | overviewSelectionActions.OverviewSelectionsActions
   | overviewActions.OverviewAction
+  | summaryActions.SummaryAction
   | userDataActions.UserDataActions
   | viewActions.ViewActions
 

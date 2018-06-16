@@ -9,6 +9,7 @@ import LoginReducer, { LoginState } from './login'
 import OverviewReducer, { OverviewState } from './overview'
 import OverviewSelectionsReducer, { OverviewSelectionsState } from './overview-selections'
 import OverviewSettingsReducer, { OverviewSettingsState } from './overview-settings'
+import SummaryReducer, { SummaryState } from './summary'
 import UserDataReducer, { UserDataState } from './user-data'
 import ViewReducer, { ViewState } from './views'
 
@@ -19,6 +20,7 @@ export interface ApplicationState {
   overview: OverviewState
   overviewSelections: OverviewSelectionsState
   overviewSettings: OverviewSettingsState
+  summary: SummaryState
   userData: UserDataState
   view: ViewState
 }
@@ -30,6 +32,7 @@ const rootReducer: Reducer<ApplicationState> = combineReducers<ApplicationState>
   overview: OverviewReducer,
   overviewSelections: OverviewSelectionsReducer,
   overviewSettings: OverviewSettingsReducer,
+  summary: SummaryReducer,
   userData: UserDataReducer,
   view: ViewReducer
 })

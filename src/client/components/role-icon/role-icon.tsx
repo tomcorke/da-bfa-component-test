@@ -1,9 +1,11 @@
 import * as React from 'react'
 
+import { WowRoleTag } from '../../../types/classes'
+
 import * as STYLES from './role-icon.scss'
 
 interface RoleIconProps {
-  role: string
+  role?: WowRoleTag
 }
 
 const RoleIcon = ({ role }: RoleIconProps) => {

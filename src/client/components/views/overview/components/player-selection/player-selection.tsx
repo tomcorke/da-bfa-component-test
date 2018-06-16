@@ -2,15 +2,17 @@ import * as React from 'react'
 
 import config from '../../../../../config'
 import ClassIcon from '../../../../class-icon'
-import RoleIcon from '../role-icon'
+import RoleIcon from '../../../../role-icon'
 import WarningIndicator from '../warning-indicator'
 import { APIPlayerCharacter, LockSelectionChoice, PlayerSelectionChoice } from '../../../../../../types/api'
+import { WowRoleTag, WowTag } from '../../../../../../types/classes'
 import { OverviewPlayerSelection } from '../../../../../redux/reducers/overview'
 
 import * as STYLES from './player-selection.scss'
 
-const getRoleTag = (tags) => {
-  return ['tank', 'healer', 'dps'].find(tag => tags && tags.includes(tag)) || ''
+const ROLES: WowRoleTag[] = ['tank', 'healer', 'dps']
+const getRoleTag: (tags: WowTag[]) => WowRoleTag | undefined = (tags) => {
+  return ROLES.find(tag => tags && tags.includes(tag)) || undefined
 }
 
 const choiceNumbers = {

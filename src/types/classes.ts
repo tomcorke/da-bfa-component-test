@@ -1,16 +1,28 @@
+export type WowRoleTag =
+  | 'tank'
+  | 'healer'
+  | 'dps'
+
+export type WowPositionTag =
+  | 'melee'
+  | 'ranged'
+
+export type WowArmorTag =
+  | 'cloth'
+  | 'leather'
+  | 'mail'
+  | 'plate'
+
+export type WowStatTag =
+  | 'int'
+  | 'agi'
+  | 'str'
+
 export type WowTag =
-| 'tank'
-| 'healer'
-| 'dps'
-| 'melee'
-| 'ranged'
-| 'cloth'
-| 'leather'
-| 'mail'
-| 'plate'
-| 'int'
-| 'agi'
-| 'str'
+  | WowRoleTag
+  | WowPositionTag
+  | WowArmorTag
+  | WowStatTag
 
 export interface WowSpecialisation {
   safeName: WowSpecSafeName
