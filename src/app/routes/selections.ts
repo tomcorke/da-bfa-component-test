@@ -1,7 +1,13 @@
 import * as express from 'express'
 
 import { requireAdmin } from '../middleware/auth'
-import { PlayerSelectionChoice, APILockSelectionsPayload, PLAYER_SELECTION_CHOICES, LOCK_SELECTION_CHOICES, APIUnlockSelectionsPayload } from '../../types/api'
+import {
+  PlayerSelectionChoice,
+  APILockSelectionsPayload,
+  PLAYER_SELECTION_CHOICES,
+  LOCK_SELECTION_CHOICES,
+  APIUnlockSelectionsPayload
+} from '../../types/api'
 import { lockOverviewSelections, unlockOverviewSelections } from '../services/selections'
 
 const selectionsRouter = express.Router()

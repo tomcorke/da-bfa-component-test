@@ -1,12 +1,13 @@
 import { connect } from 'react-redux'
 import actions from '../../../../../redux/actions'
 import { ApplicationState } from '../../../../../redux/reducers'
+import { WowClassSafeName, WowSpecSafeName } from '../../../../../../types/classes'
 
 import ClassSelectWrapper, { NoneableLockSelectionChoice } from './class-select-wrapper'
 
 interface StateProps {
-  selectedClass?: string
-  selectedSpec?: string
+  selectedClass?: WowClassSafeName
+  selectedSpec?: WowSpecSafeName
   comments?: string
   showSelectedClassWarning: boolean
   isLocked: boolean

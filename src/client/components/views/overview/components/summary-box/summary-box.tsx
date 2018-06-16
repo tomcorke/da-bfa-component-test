@@ -1,12 +1,16 @@
 import * as React from 'react'
 
+import { WowTag, WowClass } from '../../../../../../types/classes'
+
 import SummaryRow from '../summary-row'
 
 import * as STYLES from './summary-box.scss'
 
 function mapToArray<T> (map: { [key: string]: T }) { return Object.entries(map).map(([key, value]) => ({ key, value })) }
 
-const SUMMARY_TAG_GROUPS = {
+interface TagGroups { [name: string]: WowTag[] }
+
+const SUMMARY_TAG_GROUPS: TagGroups = {
   'Roles': ['tank', 'healer', 'dps'],
   'DPS': ['ranged', 'melee'],
   'Armour type': ['cloth', 'leather', 'mail', 'plate']
@@ -24,20 +28,20 @@ function sumBySelector<T> (items: T[], selector: (item: T) => any): { [key: stri
     }), {})
 }
 
-const sumTags = (tags: string[]) => sumBySelector(tags, tag => tag)
+const sumTags = (tags: WowTag[]) => sumBySelector(tags, tag => tag)
 
 const sumSelectionTags = (selections: SummarySelection[]) => sumTags(flatten(getTags(selections)))
 
 const getClasses = (selections: SummarySelection[]) => selections
   .map(selection => selection.class)
 
-const sumClasses = (classes: string[]) => sumBySelector(classes, c => c)
+const sumClasses = (classes: WowClass[]) => sumBySelector(classes, c => c.safeName)
 
 const sumSelectionClasses = (selections: SummarySelection[]) => sumClasses(getClasses(selections))
 
 export interface SummarySelection {
-  tags: string[]
-  class: string
+  tags: WowTag[]
+  class: WowClass
 }
 
 interface SummaryBoxProps {
@@ -50,20 +54,22 @@ const SummaryBox = ({ title, allSelections }: SummaryBoxProps) => {
   const classes = sumSelectionClasses(allSelections)
 
   return (
-    <div className={STYLES.summaryBox}>
-      <div className={STYLES.summaryTitle}>{title}</div>
-      {Object.entries(SUMMARY_TAG_GROUPS).map(([title, groupTags]) => {
-        return <SummaryRow
-          key={title}
-          title={title}
-          values={groupTags.map(t => ({ name: t, count: tags[t] || 0 }))} />
-      })}
-      <SummaryRow
-        key='classes'
-        title='Classes'
-        values={mapToArray(classes)
-          .map(i => ({ name: i.key, count: i.value }))
-          .sort((a, b) => a.name < b.name ? -1 : 1)} />
+    <div>
+      <div className={STYLES.summaryBox}>
+        <div className={STYLES.summaryTitle}>{title}</div>
+        {Object.entries(SUMMARY_TAG_GROUPS).map(([title, groupTags]) => {
+          return <SummaryRow
+            key={title}
+            title={title}
+            values={groupTags.map(t => ({ name: t, count: tags[t] || 0 }))} />
+        })}
+        <SummaryRow
+          key='classes'
+          title='Classes'
+          values={mapToArray(classes)
+            .map(i => ({ name: i.key, count: i.value }))
+            .sort((a, b) => a.name < b.name ? -1 : 1)} />
+      </div>
     </div>
   )
 }

@@ -1,11 +1,11 @@
 import { connect } from 'react-redux'
-import { UserSelection } from '../../../../../redux/reducers/user-data'
 import { OverviewSelections } from '../../../../../redux/reducers/overview-selections'
 import { OverviewPlayerSelection } from '../../../../../redux/reducers/overview'
 import { ApplicationState } from '../../../../../redux/reducers'
 
 import SummaryBox from './summary-box'
 import { LockSelectionChoice, LOCK_SELECTION_CHOICES } from '../../../../../../types/api'
+import { WowTag, WowClass } from '../../../../../../types/classes'
 
 interface OverviewSelectionData {
   overviewSelection?: LockSelectionChoice
@@ -35,8 +35,8 @@ const joinWithOverviewSelections =
   }
 
 interface SelectionsSummaryData {
-  tags: string[],
-  class?: string
+  tags: WowTag[],
+  class?: WowClass
 }
 
 type SelectionFilter = (selection: OverviewPlayerSelectionWithOverviewSelection) => boolean

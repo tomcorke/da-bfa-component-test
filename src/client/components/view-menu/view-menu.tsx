@@ -8,13 +8,13 @@ import { View } from '../../redux/reducers/views'
 interface MenuItemProps {
   name: View
   text: string
-  admin?: boolean
+  requireAdmin?: boolean
 }
 
 const menuItems: MenuItemProps[] = [
   { name: 'main', text: 'Main' },
-  { name: 'overview', text: 'Overview', admin: true },
-  { name: 'export', text: 'Export', admin: true }
+  { name: 'overview', text: 'Overview', requireAdmin: true },
+  { name: 'summary', text: 'Summary', requireAdmin: true }
 ]
 
 interface ViewMenuProps {
@@ -25,7 +25,7 @@ interface ViewMenuProps {
 
 const ViewMenu = ({ view, isAdmin = false, changeView }: ViewMenuProps) => {
   const menuItemsToDisplay = menuItems
-    .filter(item => !item.admin || isAdmin)
+    .filter(item => !item.requireAdmin || isAdmin)
     .map(item => (
       <div key={item.name} className={STYLES.item}>
         <SmallButton onClick={() => changeView(item.name)} active={item.name === view}>{item.text}</SmallButton>

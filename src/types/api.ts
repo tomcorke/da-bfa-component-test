@@ -1,9 +1,11 @@
+import { WowClassSafeName, WowSpecSafeName, WowTag } from './classes'
+
 export interface APIPlayer {
   battletag: string
 }
 export interface APIPlayerSelection {
-  class?: string
-  spec?: string
+  class?: WowClassSafeName
+  spec?: WowSpecSafeName
   comments?: string
 }
 
@@ -27,7 +29,7 @@ export interface APIPlayerSelectionsWithLock {
 
 export interface APIPlayerCharacter {
   name: string
-  class: string
+  class: WowClassSafeName
   realm: string
   guild: string
   level: number
@@ -63,8 +65,8 @@ export const PLAYER_SELECTION_CHOICES: PlayerSelectionChoice[] = ['first', 'seco
 
 export interface APIPlayerOverviewSelections {
   [key: string]: PlayerSelectionChoice | undefined
-  first?: PlayerSelectionChoice
-  second?: PlayerSelectionChoice
+  main?: PlayerSelectionChoice
+  alt?: PlayerSelectionChoice
 }
 
 export interface APIPlayerOverviewSelectionsMetaData {
@@ -78,6 +80,14 @@ export interface APIOverviewSelections {
   [battletag: string]: APIPlayerOverviewSelectionsData
 }
 
+// User data
+
+// Data sent from app to client for main view
+
+// Data sent from app to client for overview
+
+// Payloads to send to app to lock and unlock selections for a player
+
 export interface APILockSelectionsPayload {
   battletag: string
   playerOverviewSelections: APIPlayerOverviewSelections
@@ -85,4 +95,20 @@ export interface APILockSelectionsPayload {
 
 export interface APIUnlockSelectionsPayload {
   battletag: string
+}
+
+// Data sent from app to client for summary view
+
+export interface APISummarySelection {
+  playerName: string
+  class: WowClassSafeName
+  spec: WowSpecSafeName
+  choice: LockSelectionChoice
+  locked: boolean
+  confirmed: boolean
+  tags: WowTag[]
+}
+
+export interface APISummarySelections {
+  selections: APISummarySelection[]
 }

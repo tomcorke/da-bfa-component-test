@@ -7,10 +7,11 @@ import ViewMenu from '../view-menu'
 import IntroView from '../views/intro'
 import MainView from '../views/main'
 import OverviewView from '../views/overview'
-import ExportView from '../views/export'
+import SummaryView from '../views/summary'
+import { View } from '../../redux/reducers/views'
 
 interface MainSectionProps {
-  view: string
+  view: View
 }
 
 const MainSection = ({ view }: MainSectionProps) => {
@@ -18,7 +19,7 @@ const MainSection = ({ view }: MainSectionProps) => {
     intro: IntroView,
     main: MainView,
     overview: OverviewView,
-    export: ExportView
+    summary: SummaryView
   }[view]
 
   return (

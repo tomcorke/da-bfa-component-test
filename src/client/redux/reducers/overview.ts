@@ -1,17 +1,16 @@
 import { Reducer } from 'redux'
 
 import * as overviewActions from '../actions/overview'
-import classes, { SafeWowClass, SafeWowSpecialisation } from '../../data/classes'
-import { APIOverviewData, APIPlayerCharacter, APIPlayerSelections, LockSelectionChoice, PlayerSelectionChoice, PLAYER_SELECTION_CHOICES } from '../../../types/api'
+import { getClass, getSpec } from '../../../data/classes'
+import { APIOverviewData, APIPlayerCharacter, LockSelectionChoice, PlayerSelectionChoice, PLAYER_SELECTION_CHOICES } from '../../../types/api'
 import { UserSelection } from './user-data'
+import { WowClass, WowSpecialisation, WowTag } from '../../../types/classes'
 
 export interface OverviewPlayerSelection {
   choice: PlayerSelectionChoice
-  class?: string
-  classSafeName?: string
-  spec?: string
-  specSafeName?: string
-  tags: string[]
+  class?: WowClass
+  spec?: WowSpecialisation
+  tags: WowTag[]
   comments?: string
   locked: boolean
   lockedChoice?: LockSelectionChoice
@@ -28,25 +27,6 @@ export interface OverviewPlayerData {
 export type OverviewState = OverviewPlayerData[]
 
 const initialState: OverviewState = []
-
-function getClass (name): SafeWowClass | undefined {
-  return classes.find(c => c.safeName === name)
-}
-function getSpec (wowClass, name): SafeWowSpecialisation | undefined {
-  return wowClass && wowClass.specialisations && wowClass.specialisations.find(s => s.safeName === name)
-}
-
-interface UndefinedWowClass {
-  name: undefined
-  safeName: undefined
-  tags: undefined
-}
-
-interface UndefinedWowSpec {
-  name: undefined
-  safeName: undefined
-  tags: undefined
-}
 
 function joinOverviewData (data: APIOverviewData): OverviewState {
   const { userSelectionData, lockedSelectionData, userProfileData } = data
@@ -66,20 +46,18 @@ function joinOverviewData (data: APIOverviewData): OverviewState {
           let selection = selections[choice]
           selection = selection || ({} as UserSelection)
 
-          const selectedClass = getClass(selection.class) || ({} as UndefinedWowClass)
-          const selectedSpec = getSpec(selectedClass, selection.spec) || ({} as UndefinedWowSpec)
+          const selectedClass = selection.class && getClass(selection.class)
+          const selectedSpec = selection.class && selection.spec && getSpec(selection.class, selection.spec)
 
           const classAndSpecTags = Array.from(new Set(
-            (selectedClass.tags || [])
-              .concat(selectedSpec.tags || [])
+            (selectedClass && selectedClass.tags || [])
+              .concat(selectedSpec && selectedSpec.tags || [])
           ))
 
           return {
             choice,
-            class: selectedClass.name,
-            classSafeName: selectedClass.safeName,
-            spec: selectedSpec.name,
-            specSafeName: selectedSpec.safeName,
+            class: selectedClass,
+            spec: selectedSpec,
             tags: classAndSpecTags,
             comments: selection.comments,
             locked: selection.locked,

@@ -14,5 +14,7 @@ export const getEndpoints = (baseUrl) => ({
   adminDeletePlayerDataEndpoint: `${baseUrl}user/delete`,
 
   adminLockSelectionsEndpoint: `${baseUrl}selections/lock`,
-  adminUnlockSelectionsEndpoint: `${baseUrl}selections/unlock`
+  adminUnlockSelectionsEndpoint: `${baseUrl}selections/unlock`,
+
+  getSummaryDataEndpoint: `${baseUrl}summary/get`
 })

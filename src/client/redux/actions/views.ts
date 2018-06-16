@@ -4,6 +4,7 @@ import { View } from '../reducers/views'
 
 import * as userDataActions from './user-data'
 import * as overviewActions from './overview'
+import * as summaryActions from './summary'
 
 export const SET_VIEW = 'SET_VIEW'
 
@@ -16,6 +17,8 @@ export const changeView = (view: View) => {
       dispatch(userDataActions.getUserData({ onSuccess: setViewAction }))
     } else if (view === 'overview') {
       dispatch(overviewActions.getOverviewData({ onSuccess: setViewAction }))
+    } else if (view === 'summary') {
+      dispatch(summaryActions.getSummaryData({ onSuccess: setViewAction }))
     } else {
       setViewAction()
     }

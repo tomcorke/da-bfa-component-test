@@ -13,6 +13,7 @@ export interface ConfigState {
   adminDeletePlayerDataEndpoint: string
   adminLockSelectionsEndpoint: string
   adminUnlockSelectionsEndpoint: string
+  getSummaryDataEndpoint: string
 }
 
 const initialState: ConfigState = config

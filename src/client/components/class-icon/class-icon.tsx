@@ -1,9 +1,10 @@
 import * as React from 'react'
 
 import * as STYLES from './class-icon.scss'
+import { WowClassSafeName } from '../../../types/classes'
 
 interface ClassIconProps {
-  wowClass: string
+  wowClass: WowClassSafeName
 }
 
 const ClassIcon = ({ wowClass }: ClassIconProps) => {

@@ -3,6 +3,7 @@ import { DB } from './db'
 
 import { APIPlayerProfile, APIPlayerCharacter } from '../../types/api'
 import { BNetUser, BNetCharacter, BattleTag } from '../types'
+import { WowClassSafeName } from '../../types/classes'
 
 const createUrl = (endpoint: string, token: string) => {
   const BASE_URL = `https://eu.api.battle.net`
@@ -12,7 +13,7 @@ const createUrl = (endpoint: string, token: string) => {
 const profileDb = new DB<APIPlayerProfile>('profiles')
 const tokenDb = new DB<string>('tokens')
 
-const CLASS_NAMES: { [key: number]: string } = {
+const CLASS_NAMES: { [key: number]: WowClassSafeName } = {
   1: 'warrior',
   2: 'paladin',
   3: 'hunter',

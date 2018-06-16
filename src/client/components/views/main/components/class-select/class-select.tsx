@@ -1,49 +1,49 @@
 import * as React from 'react'
-import classes, { classNames, specNames } from '../../../../../data/classes'
+import classData, { getClass, getSpec } from '../../../../../../data/classes'
 
 import * as STYLES from './class-select.scss'
+import { WowClassSafeName, WowSpecSafeName } from '../../../../../../types/classes'
 
 interface ClassSelectProps {
-  selectedClass?: string
-  selectedSpec?: string
-  onChange: (newValue: { class?: string, spec?: string | null }) => any
+  selectedClass?: WowClassSafeName
+  selectedSpec?: WowSpecSafeName
+  onChange: (newValue: { class?: WowClassSafeName, spec?: WowSpecSafeName }) => any
   isLocked?: boolean
 }
 
 const ClassSelect = ({ selectedClass, selectedSpec, onChange, isLocked }: ClassSelectProps) => {
-  const classOptions = classes
+  const classOptions = classData
     .map(c =>
       <option
         key={c.safeName}
         value={c.safeName}>
-        {c.name}
+        {c.displayName}
       </option>
     )
 
   let specOptions: JSX.Element[] = []
-  const selectedClassData = classes.find(c => c.safeName === selectedClass)
+  const selectedClassData = getClass(selectedClass)
   if (selectedClassData) {
     specOptions = selectedClassData.specialisations
       .map(s =>
         <option
           key={s.safeName}
           value={s.safeName}>
-          {s.name}
+          {s.displayName}
         </option>
       )
   }
 
-  const selectedSpecData = selectedClassData &&
-    selectedClassData.specialisations.find(s => s.safeName === selectedSpec)
+  const selectedSpecData = getSpec(selectedClass, selectedSpec)
 
-  const onClassChange = (newClass) => {
+  const onClassChange = (newClass: WowClassSafeName) => {
     onChange({
       class: newClass,
-      spec: null
+      spec: undefined
     })
   }
 
-  const onSpecChange = (newSpec) => {
+  const onSpecChange = (newSpec: WowSpecSafeName) => {
     onChange({
       class: selectedClass,
       spec: newSpec
@@ -61,12 +61,12 @@ const ClassSelect = ({ selectedClass, selectedSpec, onChange, isLocked }: ClassS
       {isLocked
         ? <input
             className={STYLES.classSelectReadOnly}
-            value={classNames[selectedClass || '']}
+            value={selectedClassData && selectedClassData.displayName}
             readOnly={true} />
         : <select
             {...{ 'data-required': !selectedClassData }}
             className={STYLES.classSelect}
-            onChange={(e) => onClassChange(e.target.value)}
+            onChange={(e) => onClassChange(e.target.value as WowClassSafeName)}
             value={selectedClass || ''}>
             <option value=''>Select a class</option>
             {classOptions}
@@ -76,13 +76,13 @@ const ClassSelect = ({ selectedClass, selectedSpec, onChange, isLocked }: ClassS
       {isLocked
         ? <input
             className={STYLES.specSelectReadOnly}
-            value={specNames[selectedSpec || '']}
+            value={selectedSpecData && selectedSpecData.displayName}
             readOnly={true} />
         : <select
           {...{ 'data-required': !selectedSpecData }}
           disabled={!selectedClassData}
           className={STYLES.specSelect}
-          onChange={(e) => onSpecChange(e.target.value)}
+          onChange={(e) => onSpecChange(e.target.value as WowSpecSafeName)}
           value={selectedSpec || ''}>
           <option value=''>Select a spec</option>
           {specOptions}

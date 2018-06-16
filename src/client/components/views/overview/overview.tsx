@@ -27,40 +27,42 @@ const OverviewView = ({
     />
   })
 
-  return <div className={STYLES.overview}>
+  return (
+    <div className={STYLES.overview}>
 
-    <div className={STYLES.summaryContainer}>
-      <SummaryBox title='Total summary' />
-      { showLockedInSummary
-        ? [
-          <SummaryBox title='Locked-in mains' selectionFilter={selection => selection.locked && selection.lockedChoice === 'main'} />,
-          (showAltSummary && <SummaryBox title='Locked-in alts' selectionFilter={selection => selection.locked && selection.lockedChoice === 'alt'} />)
-        ]
-        : [
-          <SummaryBox title='Selected mains' selectionFilter={selection => selection.overviewSelection === 'main'} />,
-          (showAltSummary && <SummaryBox title='Selected alts' selectionFilter={selection => selection.overviewSelection === 'alt'} />)
-        ]
-      }
+      <div className={STYLES.summaryContainer}>
+        <SummaryBox title='Total summary' />
+        { showLockedInSummary
+          ? [
+            <SummaryBox key='locked mains' title='Locked-in mains' selectionFilter={selection => selection.locked && selection.lockedChoice === 'main'} />,
+            (showAltSummary && <SummaryBox key='locked alts' title='Locked-in alts' selectionFilter={selection => selection.locked && selection.lockedChoice === 'alt'} />)
+          ]
+          : [
+            <SummaryBox key='selected-mains' title='Selected mains' selectionFilter={selection => selection.overviewSelection === 'main'} />,
+            (showAltSummary && <SummaryBox key='selected-alts' title='Selected alts' selectionFilter={selection => selection.overviewSelection === 'alt'} />)
+          ]
+        }
+      </div>
+
+      <div className={STYLES.options}>
+        <label>
+          <input type='checkbox' checked={showAltSummary} onChange={toggleShowAltSummary} />
+          Show alt summary
+        </label>
+        <label>
+          <input type='checkbox' checked={showLockedInSummary} onChange={toggleShowLockedInSummary} />
+          Show locked-in summary instead of selected
+        </label>
+      </div>
+
+      <div className={STYLES.selectionsContainer}>
+        <div className={STYLES.selectionsHeader}>Player Selections ({battletags.length})</div>
+        <div className={STYLES.selectionsBlurb}>Click on a player's chosen class to select it and update the summary above</div>
+        {selectionsDisplay}
+      </div>
+
     </div>
-
-    <div className={STYLES.options}>
-      <label>
-        <input type='checkbox' checked={showAltSummary} onChange={toggleShowAltSummary} />
-        Show alt summary
-      </label>
-      <label>
-        <input type='checkbox' checked={showLockedInSummary} onChange={toggleShowLockedInSummary} />
-        Show locked-in summary instead of selected
-      </label>
-    </div>
-
-    <div className={STYLES.selectionsContainer}>
-      <div className={STYLES.selectionsHeader}>Player Selections ({battletags.length})</div>
-      <div className={STYLES.selectionsBlurb}>Click on a player's chosen class to select it and update the summary above</div>
-      {selectionsDisplay}
-    </div>
-
-  </div>
+  )
 }
 
 export default OverviewView

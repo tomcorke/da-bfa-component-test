@@ -12,6 +12,7 @@ import { passportInit } from './services/passport'
 import userRouter from './routes/user'
 import overviewRouter from './routes/overview'
 import selectionsRouter from './routes/selections'
+import summaryRouter from './routes/summary'
 
 require('dotenv-safe').config()
 
@@ -52,6 +53,7 @@ app.use(async (req, res, next) => {
 app.use('/user', userRouter)
 app.use('/overview', overviewRouter)
 app.use('/selections', selectionsRouter)
+app.use('/summary', summaryRouter)
 
 app.get('/*', express.static(path.join(__dirname, '../client')))
 

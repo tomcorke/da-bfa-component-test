@@ -4,13 +4,13 @@ import * as STYLES from './selection-lock.scss'
 
 interface LockedStatusProps {
   locked: boolean
-  onClick: () => any
+  onChange: () => any
 }
 
-const LockedStatus = ({ locked, onClick }: LockedStatusProps) => {
+const LockedStatus = ({ locked, onChange }: LockedStatusProps) => {
   return (
     <label className={STYLES.lockedStatus}>
-      <input type='checkbox' checked={locked} onClick={onClick} />
+      <input type='checkbox' checked={locked} onChange={onChange} />
       <div className={STYLES.lockedStatusIcon} />
       {locked ? 'Locked' : 'Not locked'}
     </label>
@@ -41,7 +41,7 @@ interface SelectionLockProps {
 const SelectionLock = ({ locked, toggleLock, confirmed }: SelectionLockProps) => {
   return (
     <div className={STYLES.selectionLock}>
-      <LockedStatus locked={locked} onClick={toggleLock} />
+      <LockedStatus locked={locked} onChange={toggleLock} />
       {locked ? <ConfirmedStatus confirmed={confirmed} /> : null }
     </div>
   )

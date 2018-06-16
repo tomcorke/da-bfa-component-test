@@ -34,8 +34,7 @@ export class DB<T> {
     }
   }
 
-  set (key: string, data: T) {
-    this.data[key] = clone(data)
+  saveData () {
     try {
       if (this.filePath) {
         fs.writeFileSync(this.filePath, JSON.stringify(this.data, null, 2), 'utf8')
@@ -43,6 +42,11 @@ export class DB<T> {
     } catch (e) {
       console.error(`Error writing data to "${this.filePath}": ${e.message}`)
     }
+  }
+
+  set (key: string, data: T) {
+    this.data[key] = clone(data)
+    this.saveData()
   }
 
   get (key: string) {
@@ -55,5 +59,6 @@ export class DB<T> {
 
   delete (key: string) {
     this.data[key] = undefined
+    this.saveData()
   }
 }

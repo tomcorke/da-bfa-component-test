@@ -1,24 +1,20 @@
 import * as express from 'express'
 
-import { BNetUser } from '../types'
-import { APIOverviewData, APILockedSelectionData, APIPlayerOverviewSelectionsMetaData, APIPlayerOverviewSelectionsData, APIPlayerSelectionsWithLock, APIPlayerSelections } from '../../types/api'
+import {
+  APIOverviewData,
+  APIPlayerOverviewSelectionsMetaData,
+  APIPlayerOverviewSelectionsData
+} from '../../types/api'
 
-import { isAdmin } from '../services/permissions'
 import { userSelectionsDb, mergeSelectionsWithLocks } from '../services/user-data'
 import { bnetApi } from '../services/bnet-api'
 import { selectionLockDb } from '../services/selections'
+import { requireAdmin } from '../middleware/auth'
 
 const overviewRouter = express.Router()
 
-overviewRouter.get('/get', (req, res) => {
-  if (!req.isAuthenticated() || !req.user) {
-    console.warn('Unauthenticated user attempted to get overview data')
-    return res.status(401).send()
-  }
-  if (!isAdmin(req.user as BNetUser)) {
-    console.warn(`Unauthorised user ${req.user.battletag} attempted to get overview data`)
-    return res.status(403).send()
-  }
+overviewRouter.get('/get', requireAdmin, (req, res) => {
+
   const userSelectionData = userSelectionsDb.getAll() || {}
 
   const onlyLockedMetaData: (data: APIPlayerOverviewSelectionsData) => APIPlayerOverviewSelectionsMetaData =

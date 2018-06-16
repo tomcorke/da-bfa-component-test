@@ -1,13 +1,21 @@
 import { Reducer } from 'redux'
 
-import { APIPlayerData, APIPlayerSelectionsWithLock, APIPlayerProfile, APIPlayer, APIPlayerSelectionWithLock, LockSelectionChoice, APIPlayerOverviewSelectionsMetaData } from '../../../types/api'
+import {
+  APIPlayerData,
+  APIPlayerSelectionsWithLock,
+  APIPlayerProfile,
+  APIPlayer,
+  LockSelectionChoice,
+  APIPlayerOverviewSelectionsMetaData
+} from '../../../types/api'
 import config from '../../config'
 import actions from '../actions/index'
 import { UserDataActions } from '../actions/user-data'
+import { WowClassSafeName, WowSpecSafeName } from '../../../types/classes'
 
 export interface UserSelection {
-  class?: string
-  spec?: string
+  class?: WowClassSafeName
+  spec?: WowSpecSafeName
   comments?: string
   locked?: boolean
   lockedChoice?: LockSelectionChoice

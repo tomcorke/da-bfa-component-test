@@ -5,13 +5,14 @@ import CommentsBox from '../comments-box'
 
 import * as STYLES from './class-select-wrapper.scss'
 import { LockSelectionChoice } from '../../../../../../types/api'
+import { WowClassSafeName, WowSpecSafeName } from '../../../../../../types/classes'
 
 export type NoneableLockSelectionChoice = LockSelectionChoice | 'none'
 
 interface ClassSelectWrapperProps {
   description?: string
-  selectedClass?: string
-  selectedSpec?: string
+  selectedClass?: WowClassSafeName
+  selectedSpec?: WowSpecSafeName
   comments?: string
   showSelectedClassWarning: boolean
   onChange: (prop: string, value: any) => any
@@ -29,7 +30,7 @@ const ClassSelectWrapper = ({
   isLocked,
   lockedChoice
 }: ClassSelectWrapperProps) => {
-  const onClassChange = (value: { class?: string, spec?: string }) => {
+  const onClassChange = (value: { class?: WowClassSafeName, spec?: WowSpecSafeName }) => {
     onChange('spec', value.spec)
     onChange('class', value.class)
   }
@@ -44,7 +45,6 @@ const ClassSelectWrapper = ({
 
   const wrapperClasses = [STYLES.classSelectWrapper]
   if (isLocked) {
-    console.log(lockedChoice)
     wrapperClasses.push(STYLES.classSelectWrapper__locked)
     wrapperClasses.push(STYLES[`classSelectWrapper__locked__${lockedChoice}`])
   }

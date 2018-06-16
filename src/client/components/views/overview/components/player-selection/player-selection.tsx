@@ -35,7 +35,7 @@ const PlayerSelection = (
     onSelect,
     overviewSelection
   }: PlayerSelectionProps) => {
-  const { classSafeName, spec, comments, tags } = selection
+  const { class: wowClass, spec: wowSpec, comments, tags } = selection
 
   const choiceNumber = choiceNumbers[choice]
 
@@ -44,14 +44,14 @@ const PlayerSelection = (
 
   const realCharacters = characters.filter(char => char.realm)
     .sort((a, b) => (a.level > b.level || (a.level === b.level && a.name < b.name)) ? -1 : 1)
-  const classCharacters = realCharacters.filter(char => char.class === classSafeName)
+  const classCharacters = realCharacters.filter(char => wowClass && char.class === wowClass.safeName)
   const maxLevelCharacters = classCharacters.filter(char => char.level === 110)
   const realmCharacters = maxLevelCharacters.filter(char => char.realm === config.realm)
   const guildCharacters = realmCharacters.filter(char => char.guild === config.guild)
 
   let warningMessage: string | undefined
   let warningSeverity = 0
-  if (!classSafeName) {
+  if (!wowClass) {
     warningMessage = 'Player has not selected a class'
     warningSeverity = 4
   } else if (classCharacters.length === 0) {
@@ -77,7 +77,7 @@ ${classCharacters.map(char => `  ${char.level} - ${char.name} (${char.realm})`).
     warningSeverity = 1
   }
 
-  const specText = (classSafeName && spec) || '-'
+  const specText = (wowSpec && wowSpec.displayName) || '-'
 
   const selectionClasses = [STYLES.playerSelection]
   let lockIndicator: JSX.Element | null = null
@@ -103,7 +103,7 @@ ${classCharacters.map(char => `  ${char.level} - ${char.name} (${char.realm})`).
         {choiceNumber}
       </div>
       <div className={STYLES.class}>
-        {classSafeName && <ClassIcon wowClass={classSafeName} />}
+        {wowClass && <ClassIcon wowClass={wowClass.safeName} />}
       </div>
       <div className={STYLES.role}>
         <RoleIcon role={getRoleTag(tags)} />
