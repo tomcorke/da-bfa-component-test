@@ -15,7 +15,7 @@ const authRouter = express.Router()
 authRouter.get(
   '/bnet',
   passport.authenticate('bnet'),
-  (req, res) => res.send('<html><title>Redirecting for auth...</title></html>'))
+  (req, res) => res.render('login-redirect'))
 
 authRouter.get(
   '/bnet/callback',
