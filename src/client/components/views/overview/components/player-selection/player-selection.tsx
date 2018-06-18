@@ -51,6 +51,8 @@ const PlayerSelection = (
   const realmCharacters = maxLevelCharacters.filter(char => char.realm === config.realm)
   const guildCharacters = realmCharacters.filter(char => char.guild === config.guild)
 
+  const wowClassName = wowClass && wowClass.displayName
+
   let warningMessage: string | undefined
   let warningSeverity = 0
   if (!wowClass) {
@@ -62,19 +64,19 @@ const PlayerSelection = (
   } else if (maxLevelCharacters.length === 0) {
     warningMessage = `Player has no characters of this class at max level
 
-Other ${selection.class} characters:
+Other ${wowClassName} characters:
 ${classCharacters.map(char => `  ${char.level} - ${char.name} (${char.realm})`).join('\n')}`
     warningSeverity = 3
   } else if (realmCharacters.length === 0) {
     warningMessage = `Player has no max level characters of this class on ${config.realm}
 
-Other ${selection.class} characters:
+Other ${wowClassName} characters:
 ${classCharacters.map(char => `  ${char.level} - ${char.name} (${char.realm})`).join('\n')}`
     warningSeverity = 2
   } else if (guildCharacters.length === 0) {
     warningMessage = `Player has no max level characters of this class in the guild
 
-Other ${selection.class} characters:
+Other ${wowClassName} characters:
 ${classCharacters.map(char => `  ${char.level} - ${char.name} (${char.realm})`).join('\n')}`
     warningSeverity = 1
   }
