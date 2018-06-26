@@ -60,6 +60,8 @@ interface GetWowProfileOptions {
 
 const NO_OP = () => { /* Do nothing */ }
 
+const DEFAULT_USER_REFRESH = 30 * 60 * 1000 // 30 mins
+
 class API {
   private userRefreshers: { [key: string]: UserRefresher } = {}
   private requestCache: { [key: string]: Promise<any> | undefined } = {}
@@ -138,7 +140,7 @@ class API {
     }
   }
 
-  private scheduleUserRefresh (user: BNetUser, time: number = 30 * 60 * 1000) {
+  private scheduleUserRefresh (user: BNetUser, time: number = DEFAULT_USER_REFRESH) {
     const existingRefresh = this.userRefreshers[user.battletag]
     if (existingRefresh) {
       existingRefresh.flags.cancel = true

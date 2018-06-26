@@ -1,10 +1,28 @@
-export const commonConfig = {
+export interface CommonConfig {
+  guild: string
+  realm: string
+  region: string
+}
+
+export const commonConfig: CommonConfig = {
   guild: 'Distinctly Average',
   realm: 'Silvermoon',
   region: 'EU'
 }
 
-export const getEndpoints = (baseUrl) => ({
+export interface Endpoints {
+  userDataEndpoint: string
+  bnetAuthEndpoint: string
+  saveDataEndpoint: string
+  getOverviewViewDataEndpoint: string
+  adminDeletePlayerDataEndpoint: string
+  adminLockSelectionsEndpoint: string
+  adminUnlockSelectionsEndpoint: string
+  getSummaryDataEndpoint: string
+  setDisplayNameEndpoint: string
+}
+
+export const getEndpoints = (baseUrl: string): Endpoints => ({
   userDataEndpoint: `${baseUrl}user/get`,
   bnetAuthEndpoint: `${baseUrl}auth/bnet`,
   saveDataEndpoint: `${baseUrl}user/save`,
@@ -16,5 +34,7 @@ export const getEndpoints = (baseUrl) => ({
   adminLockSelectionsEndpoint: `${baseUrl}selections/lock`,
   adminUnlockSelectionsEndpoint: `${baseUrl}selections/unlock`,
 
-  getSummaryDataEndpoint: `${baseUrl}summary/get`
+  getSummaryDataEndpoint: `${baseUrl}summary/get`,
+
+  setDisplayNameEndpoint: `${baseUrl}overview/setDisplayName`
 })

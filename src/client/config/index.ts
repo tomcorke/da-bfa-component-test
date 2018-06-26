@@ -1,22 +1,13 @@
-export interface ConfigState {
-  guild: string
-  realm: string
-  region: string
-  userDataEndpoint: string
-  bnetAuthEndpoint: string
-  saveDataEndpoint: string
-  getOverviewViewDataEndpoint: string
-  adminDeletePlayerDataEndpoint: string
-  adminLockSelectionsEndpoint: string
-  adminUnlockSelectionsEndpoint: string
-  getSummaryDataEndpoint: string
+import { CommonConfig, Endpoints } from './common'
 
-  mockData: any
-  mockOverviewData: any
-  mockUserData: any
+interface MockData {
+  mockUserData?: any
+  mockOverviewData?: any
   initialView?: string
 }
 
-const config = require(`./${process.env.NODE_ENV}`).default as ConfigState
+type Config = CommonConfig & Endpoints & MockData
+
+const config = require(`./${process.env.NODE_ENV}`).default as Config
 
 export default config

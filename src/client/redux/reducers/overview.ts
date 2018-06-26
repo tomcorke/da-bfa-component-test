@@ -2,7 +2,7 @@ import { Reducer } from 'redux'
 
 import * as overviewActions from '../actions/overview'
 import { getClass, getSpec } from '../../../data/classes'
-import { APIOverviewData, APIPlayerCharacter, LockSelectionChoice, PlayerSelectionChoice, PLAYER_SELECTION_CHOICES } from '../../../types/api'
+import { APIOverviewData, APIPlayerCharacter, LockSelectionChoice, PlayerSelectionChoice, PLAYER_SELECTION_CHOICES, APISetDisplayNameResponse } from '../../../types/api'
 import { UserSelection } from './user-data'
 import { WowClass, WowSpecialisation, WowTag } from '../../../types/classes'
 
@@ -22,21 +22,26 @@ export interface OverviewPlayerData {
   selections: OverviewPlayerSelection[]
   locked: boolean
   confirmed: boolean
+  displayName?: string
 }
 
 export type OverviewState = OverviewPlayerData[]
 
 const initialState: OverviewState = []
 
-function joinOverviewData (data: APIOverviewData): OverviewState {
-  const { userSelectionData, lockedSelectionData, userProfileData } = data
+function clone<T> (data: T): T { return JSON.parse(JSON.stringify(data)) as T }
 
-  return Object.entries(userSelectionData).map(([battletag, selections]) => {
+const joinOverviewData = (state: OverviewState, data: APIOverviewData): OverviewState => {
+  const { playerSelectionData, lockedSelectionData, playerProfileData, playerDisplayNames } = data
 
-    const characters = (userProfileData[battletag] || {}).characters || []
+  const newState = Object.entries(playerSelectionData).map(([battletag, selections]) => {
+
+    const characters = (playerProfileData[battletag] || {}).characters || []
     const lockData = lockedSelectionData[battletag] || {}
 
+    const existingPlayerData = state.find(s => s.battletag === battletag)
     return {
+      ...existingPlayerData,
       battletag,
       characters,
       selections: PLAYER_SELECTION_CHOICES
@@ -64,15 +69,31 @@ function joinOverviewData (data: APIOverviewData): OverviewState {
             lockedChoice: selection.lockedChoice
           }
         }),
+      displayName: playerDisplayNames[battletag],
       ...lockData
     }
   })
+
+  return newState
+}
+
+const handleDisplayNames = (state: OverviewState, displayNames: APISetDisplayNameResponse) => {
+  const newState = clone(state)
+  Object.entries(displayNames).forEach(([battletag, displayName]) => {
+    const playerOverview = newState.find(o => o.battletag === battletag)
+    if (playerOverview) {
+      playerOverview.displayName = displayName
+    }
+  })
+  return newState
 }
 
 const OverviewReducer: Reducer<OverviewState, overviewActions.OverviewAction> = (state = initialState, action) => {
   switch (action.type) {
     case overviewActions.HANDLE_OVERVIEW_DATA:
-      return joinOverviewData(action.payload)
+      return joinOverviewData(state, action.payload)
+    case overviewActions.HANDLE_OVERVIEW_DISPLAY_NAMES:
+      return handleDisplayNames(state, action.payload)
     default:
       return state
   }
