@@ -2,7 +2,7 @@ import * as express from 'express'
 
 import { requireAuthentication, requireSuperAdmin } from '../middleware/auth'
 import { BNetUser } from '../types'
-import { userSelectionsDb, getUserData } from '../services/user-data'
+import { playerSelectionsDb, getUserData } from '../services/user-data'
 import { bnetApi } from '../services/bnet-api'
 import { APIPlayerSelections, APIPlayerSelection } from '../../types/api'
 import { selectionLockDb } from '../services/selections'
@@ -49,7 +49,7 @@ userRouter.post('/save', requireAuthentication, (req, res) => {
 
   console.log(`Saving data for user "${battletag}"`, req.body)
   const formattedBody = formatPlayerSelections(req.body)
-  userSelectionsDb.set(battletag, formattedBody)
+  playerSelectionsDb.set(battletag, formattedBody)
   res.json({ ok: true })
 })
 
@@ -62,7 +62,7 @@ userRouter.delete('/delete', requireSuperAdmin, (req, res) => {
     return res.status(400).send()
   }
 
-  userSelectionsDb.delete(battletag)
+  playerSelectionsDb.delete(battletag)
   selectionLockDb.delete(battletag)
   bnetApi.delete(battletag)
 

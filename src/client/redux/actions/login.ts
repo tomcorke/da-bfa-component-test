@@ -1,5 +1,8 @@
 import { action, createAction } from 'typesafe-actions'
 
+import config from '../../config'
+import { ApplicationState } from '../reducers'
+
 export const LOGIN_START = 'LOGIN_START'
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
 export const LOGIN_FAIL = 'LOGIN_FAIL'
@@ -19,8 +22,8 @@ const _loginStart = (authWindow: Window) => action(
 )
 
 export const login = (window) => {
-  return (dispatch, getState) => {
-    const { bnetAuthEndpoint } = getState().config
+  return (dispatch) => {
+    const { bnetAuthEndpoint } = config
     const authWindow = popupWindow(bnetAuthEndpoint, window, 450, 600)
 
     dispatch(_loginStart(authWindow))
@@ -30,7 +33,7 @@ export const login = (window) => {
 const _closeAuthWindow = createAction(CLOSE_AUTH_WINDOW)
 
 export const closeAuthWindow = () => {
-  return (dispatch, getState) => {
+  return (dispatch, getState: () => ApplicationState) => {
     const { authWindow } = getState().login
     if (authWindow) {
       authWindow.close()

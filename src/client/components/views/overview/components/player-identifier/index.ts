@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import PlayerIdentifier from './player-identifier'
 import { ApplicationState } from '../../../../../redux/reducers'
 import { APIPlayerCharacter } from '../../../../../../types/api'
+import config from '../../../../../config'
 
 interface OwnProps {
   battletag: string
@@ -15,12 +16,13 @@ const sortByLevelAndName = (a, b) =>
 
 const ConnectedPlayerIdentifier = connect(
   (state: ApplicationState, props: OwnProps) => {
-    const playerData = state.overview.find(i => i.battletag === props.battletag) ||
-      ({ characters: [] } as { characters: APIPlayerCharacter[] })
+    const playerOverview = state.overview.find(i => i.battletag === props.battletag)
+    const playerCharacters = playerOverview && playerOverview.characters || []
     return {
-      guildCharacters: playerData.characters
-      .filter(filterByGuild(state.config.guild, state.config.realm))
-      .sort(sortByLevelAndName)
+      guildCharacters: playerCharacters
+        .filter(filterByGuild(config.guild, config.realm))
+        .sort(sortByLevelAndName),
+      displayName: playerOverview && playerOverview.displayName || props.battletag
     }
   }
 )(PlayerIdentifier)

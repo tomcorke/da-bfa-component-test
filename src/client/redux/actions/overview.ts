@@ -1,7 +1,8 @@
 import { createAction, action } from 'typesafe-actions'
-import { APIOverviewData } from '../../../types/api'
+import { APIOverviewData, APISetDisplayNamePayload, APISetDisplayNameResponse } from '../../../types/api'
 import * as feedbackActions from '../actions/feedback'
 import { ApplicationState } from '../reducers'
+import config from '../../config'
 
 export const GET_OVERVIEW_DATA_START = 'GET_OVERVIEW_DATA_START'
 export const GET_OVERVIEW_DATA_SUCCESS = 'GET_OVERVIEW_DATA_SUCCESS'
@@ -13,6 +14,8 @@ export const SHOW_LOCKED_IN_SUMMARY = 'SHOW_LOCKED_IN_SUMMARY'
 
 export const LOAD_OVERVIEW_SETTINGS = 'LOAD_OVERVIEW_SETTINGS'
 export const SAVE_OVERVIEW_SETTINGS = 'SAVE_OVERVIEW_SETTINGS'
+
+export const HANDLE_OVERVIEW_DISPLAY_NAMES = 'SET_OVERVIEW_DISPLAYED_NAME'
 
 export const handleOverviewData = (data: APIOverviewData) => action(
   HANDLE_OVERVIEW_DATA,
@@ -32,8 +35,8 @@ interface GetOverviewDataOptions {
 }
 
 export const getOverviewData = (opts: GetOverviewDataOptions = {}) => {
-  return async (dispatch, getState: () => ApplicationState) => {
-    const { getOverviewViewDataEndpoint } = getState().config
+  return async (dispatch) => {
+    const { getOverviewViewDataEndpoint } = config
 
     dispatch(_getOverviewDataStart())
     !opts.noFeedback && dispatch(feedbackActions.show('Getting overview data...'))
@@ -107,6 +110,37 @@ export const toggleShowLockedInSummary =
     dispatch(saveOverviewSettings())
   }
 
+const _handleOverviewDisplayNames = (displayNames: APISetDisplayNameResponse) => action(
+  HANDLE_OVERVIEW_DISPLAY_NAMES,
+  displayNames
+)
+
+export const setOverviewDisplayedName = (battletag: string, name: string) => {
+  return async (dispatch) => {
+    const { setDisplayNameEndpoint } = config
+    try {
+      const payload: APISetDisplayNamePayload = { battletag, name }
+      const response = await window.fetch(
+        setDisplayNameEndpoint,
+        {
+          method: 'POST',
+          body: JSON.stringify(payload),
+          headers: {
+            'content-type': 'application/json'
+          },
+          credentials: 'same-origin'
+        }
+      )
+      if (response.status === 200) {
+        const responseData = await response.json() as APISetDisplayNameResponse
+        dispatch(_handleOverviewDisplayNames(responseData))
+      }
+    } catch (e) {
+      /* This is fine */
+    }
+  }
+}
+
 export type OverviewAction = ReturnType<
   | typeof handleOverviewData
   | typeof _getOverviewDataStart
@@ -116,4 +150,5 @@ export type OverviewAction = ReturnType<
   | typeof _saveOverviewSettings
   | typeof _toggleShowAltSummary
   | typeof _toggleShowLockedInSummary
+  | typeof _handleOverviewDisplayNames
 >

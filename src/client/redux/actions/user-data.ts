@@ -2,6 +2,8 @@ import { action, createAction } from 'typesafe-actions'
 import { APIPlayerData } from '../../../types/api'
 import { ApplicationState } from '../reducers'
 
+import config from '../../config'
+
 import * as feedbackActions from './feedback'
 import * as viewActions from './views'
 
@@ -48,10 +50,10 @@ const _getUserDataSuccess = createAction(GET_USER_DATA_SUCCESS)
 const _getUserDataFail = (error: Error) => action(GET_USER_DATA_FAIL, error.stack)
 
 export const getUserData = (opts: HandleUserDataOptions = {}) => {
-  return async (dispatch, getState) => {
+  return async (dispatch) => {
     dispatch(_getUserDataStart())
 
-    const { userDataEndpoint } = getState().config
+    const { userDataEndpoint } = config
 
     try {
       const response = await window.fetch(userDataEndpoint, { credentials: 'same-origin' })
@@ -88,7 +90,7 @@ export const saveSelections = () => {
   return async (dispatch, getState: () => ApplicationState) => {
     dispatch(_saveSelectionsStart())
 
-    const { saveDataEndpoint } = getState().config
+    const { saveDataEndpoint } = config
     const { selections } = getState().userData
 
     try {

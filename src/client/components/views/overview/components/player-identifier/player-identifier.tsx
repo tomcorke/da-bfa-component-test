@@ -6,11 +6,11 @@ import { APIPlayerCharacter } from '../../../../../../types/api'
 import * as STYLES from './player-identifier.scss'
 
 interface PlayerIdentifierProps {
-  battletag: string,
+  displayName: string
   guildCharacters: APIPlayerCharacter[]
 }
 
-const PlayerIdentifier = ({ battletag, guildCharacters }: PlayerIdentifierProps) => {
+const PlayerIdentifier = ({ displayName, guildCharacters }: PlayerIdentifierProps) => {
 
   const characterList = guildCharacters.length > 0
     ? `Guild characters:
@@ -18,7 +18,7 @@ ${guildCharacters.map(c => `  ${c.level} - ${c.name} - ${getClassName(c.class)}`
     : 'No characters in guild'
 
   return (
-    <div className={STYLES.playerIdentifier} title={characterList}>{battletag}</div>
+    <div className={STYLES.playerIdentifier} title={characterList}>{displayName}</div>
   )
 }
 

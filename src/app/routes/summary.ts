@@ -7,7 +7,7 @@ import {
   PlayerSelectionChoice
 } from '../../types/api'
 
-import { userSelectionsDb } from '../services/user-data'
+import { playerSelectionsDb } from '../services/user-data'
 import { selectionLockDb } from '../services/selections'
 import { requireAdmin } from '../middleware/auth'
 import { WowClassSafeName, WowSpecSafeName } from '../../types/classes'
@@ -17,7 +17,7 @@ const summaryRouter = express.Router()
 
 summaryRouter.get('/get', requireAdmin, (req, res) => {
 
-  const selectionData = userSelectionsDb.getAll()
+  const selectionData = playerSelectionsDb.getAll()
   const lockData = selectionLockDb.getAll()
 
   if (!selectionData || !lockData) return res.status(500).send('no data')

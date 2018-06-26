@@ -1,7 +1,7 @@
 import * as path from 'path'
 import * as fs from 'fs-extra'
 
-function clone<T> (obj: T) {
+function clone<T> (obj: T): T | undefined {
   try {
     return JSON.parse(JSON.stringify(obj)) as T
   } catch (e) {

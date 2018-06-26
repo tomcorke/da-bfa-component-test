@@ -49,14 +49,17 @@ export interface APIPlayerData {
 }
 
 export interface APIOverviewData {
-  userSelectionData: {
+  playerSelectionData: {
     [battletag: string]: APIPlayerSelectionsWithLock
   }
   lockedSelectionData: {
     [battletag: string]: APIPlayerOverviewSelectionsMetaData
   }
-  userProfileData: {
+  playerProfileData: {
     [battletag: string]: APIPlayerProfile | undefined
+  },
+  playerDisplayNames: {
+    [battletag: string]: string | undefined
   }
 }
 
@@ -111,4 +114,15 @@ export interface APISummarySelection {
 
 export interface APISummarySelections {
   selections: APISummarySelection[]
+}
+
+// Payload sent from client to app to set player display name
+
+export interface APISetDisplayNamePayload {
+  battletag: string
+  name: string
+}
+
+export interface APISetDisplayNameResponse {
+  [key: string]: string | undefined
 }

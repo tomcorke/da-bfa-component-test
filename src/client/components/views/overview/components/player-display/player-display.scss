@@ -4,8 +4,8 @@
   margin: 0.5em auto;
   display: flex;
   flex-flow: row wrap;
-  width: 800px;
-  max-width: 100%;
+  width: 100%;
+  max-width: 800px;
   position: relative;
   justify-content: center;
   align-items: stretch;
@@ -34,12 +34,12 @@
   }
 
   .selections {
-    flex: 0 1 280px;
+    flex: 0 0 280px;
     display: flex;
     flex-flow: column nowrap;
   }
 
   .lock {
-    flex: 0 1 200px;
+    flex: 0 0 200px;
   }
 }

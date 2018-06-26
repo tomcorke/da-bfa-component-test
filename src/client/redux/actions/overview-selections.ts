@@ -13,6 +13,7 @@ import {
   APIUnlockSelectionsPayload,
   PlayerSelectionChoice
 } from '../../../types/api'
+import config from '../../config'
 
 export const SELECT_OVERVIEW_CHOICE = 'SELECT_OVERVIEW_CHOICE'
 export const DESELECT_OVERVIEW_CHOICE = 'DESELECT_OVERVIEW_CHOICE'
@@ -76,7 +77,7 @@ export const deselectChoicesForPlayer = (battletag: string) => {
 
 const lockSelectedChoices = (battletag: string) => {
   return async (dispatch, getState: () => ApplicationState) => {
-    const { overviewSelections, config } = getState()
+    const { overviewSelections } = getState()
     const playerOverviewSelections: APIPlayerOverviewSelections = overviewSelections[battletag] || {}
 
     if (!LOCK_SELECTION_CHOICES.every(c => !!playerOverviewSelections[c])) {
@@ -117,7 +118,7 @@ const lockSelectedChoices = (battletag: string) => {
 
 const unlockSelectedChoices = (battletag: string) => {
   return async (dispatch, getState: () => ApplicationState) => {
-    const { overview, config } = getState()
+    const { overview } = getState()
 
     const playerData = overview.find(o => o.battletag === battletag)
     if (!playerData || !playerData.locked) return
