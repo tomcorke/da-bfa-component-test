@@ -7,7 +7,7 @@ import {
   PlayerSelectionChoice
 } from '../../types/api'
 
-import { playerSelectionsDb } from '../services/user-data'
+import { playerSelectionsDb, playerDisplayNamesDb } from '../services/user-data'
 import { selectionLockDb } from '../services/selections'
 import { requireAdmin } from '../middleware/auth'
 import { WowClassSafeName, WowSpecSafeName } from '../../types/classes'
@@ -19,6 +19,7 @@ summaryRouter.get('/get', requireAdmin, (req, res) => {
 
   const selectionData = playerSelectionsDb.getAll()
   const lockData = selectionLockDb.getAll()
+  const displayNames = playerDisplayNamesDb.getAll() || {}
 
   if (!selectionData || !lockData) return res.status(500).send('no data')
 
@@ -38,7 +39,7 @@ summaryRouter.get('/get', requireAdmin, (req, res) => {
               const playerChoiceData = userSelections[lockedPlayerChoice]
 
               return {
-                playerName: battletag,
+                playerName: displayNames[battletag] || battletag,
                 class: playerChoiceData.class as WowClassSafeName,
                 spec: playerChoiceData.spec as WowSpecSafeName,
                 choice,
