@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import actions from '../../../../../redux/actions'
 
-import PlayerAdminLinks, { PlayerAdminLinksProps } from './player-admin-links'
+import PlayerAdminLinks from './player-admin-links'
 import { ApplicationState, Dispatch } from '../../../../../redux/reducers'
 
 interface OwnProps {
@@ -9,11 +9,17 @@ interface OwnProps {
 }
 
 const ConnectedPlayerAdminLinks = connect(
-  (state: ApplicationState) => ({
-    isAdmin: state.userData.isAdmin,
-    isSuperAdmin: state.userData.isSuperAdmin
-  }),
+  (state: ApplicationState, props: OwnProps) => {
+    const playerOverview = state.overview.find(o => o.battletag === props.battletag)
+    const playerCharacters = playerOverview && playerOverview.characters || []
+    return {
+      isAdmin: state.userData.isAdmin,
+      isSuperAdmin: state.userData.isSuperAdmin,
+      playerCharacters
+    }
+  },
   (dispatch: Dispatch, props: OwnProps) => ({
+    onChangeDisplayedCharacter: (name: string) => dispatch(actions.overview.setOverviewDisplayedName(props.battletag, name)),
     onDeleteClick: () => dispatch(actions.admin.deletePlayerData(props.battletag))
   })
 )(PlayerAdminLinks)

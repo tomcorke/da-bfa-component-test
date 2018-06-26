@@ -2,6 +2,7 @@ import { createAction, action } from 'typesafe-actions'
 import { APIOverviewData } from '../../../types/api'
 import * as feedbackActions from '../actions/feedback'
 import { ApplicationState } from '../reducers'
+import config from '../../config'
 
 export const GET_OVERVIEW_DATA_START = 'GET_OVERVIEW_DATA_START'
 export const GET_OVERVIEW_DATA_SUCCESS = 'GET_OVERVIEW_DATA_SUCCESS'
@@ -13,6 +14,8 @@ export const SHOW_LOCKED_IN_SUMMARY = 'SHOW_LOCKED_IN_SUMMARY'
 
 export const LOAD_OVERVIEW_SETTINGS = 'LOAD_OVERVIEW_SETTINGS'
 export const SAVE_OVERVIEW_SETTINGS = 'SAVE_OVERVIEW_SETTINGS'
+
+export const SET_OVERVIEW_DISPLAYED_NAME = 'SET_OVERVIEW_DISPLAYED_NAME'
 
 export const handleOverviewData = (data: APIOverviewData) => action(
   HANDLE_OVERVIEW_DATA,
@@ -32,8 +35,8 @@ interface GetOverviewDataOptions {
 }
 
 export const getOverviewData = (opts: GetOverviewDataOptions = {}) => {
-  return async (dispatch, getState: () => ApplicationState) => {
-    const { getOverviewViewDataEndpoint } = getState().config
+  return async (dispatch) => {
+    const { getOverviewViewDataEndpoint } = config
 
     dispatch(_getOverviewDataStart())
     !opts.noFeedback && dispatch(feedbackActions.show('Getting overview data...'))
@@ -107,6 +110,14 @@ export const toggleShowLockedInSummary =
     dispatch(saveOverviewSettings())
   }
 
+export const setOverviewDisplayedName = (battletag: string, name: string) => action(
+  SET_OVERVIEW_DISPLAYED_NAME,
+  {
+    battletag,
+    name
+  }
+)
+
 export type OverviewAction = ReturnType<
   | typeof handleOverviewData
   | typeof _getOverviewDataStart
@@ -116,4 +127,5 @@ export type OverviewAction = ReturnType<
   | typeof _saveOverviewSettings
   | typeof _toggleShowAltSummary
   | typeof _toggleShowLockedInSummary
+  | typeof setOverviewDisplayedName
 >

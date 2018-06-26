@@ -2,6 +2,8 @@ import { action } from 'typesafe-actions'
 
 import * as feedbackActions from './feedback'
 import * as overviewActions from './overview'
+import { ApplicationState } from '../reducers'
+import config from '../../config'
 
 export const ADMIN_DELETE_PLAYER_DATA_START = 'ADMIN_DELETE_PLAYER_DATA_START'
 export const ADMIN_DELETE_PLAYER_DATA_SUCCESS = 'ADMIN_DELETE_PLAYER_DATA_SUCCESS'
@@ -12,10 +14,10 @@ const _deleteSuccess = (battletag: string) => action(ADMIN_DELETE_PLAYER_DATA_SU
 const _deleteFail = (battletag: string, error: Error) => action(ADMIN_DELETE_PLAYER_DATA_FAIL, { battletag, error: error.stack })
 
 export const deletePlayerData = (battletag) => {
-  return async (dispatch, getState) => {
+  return async (dispatch) => {
     if (!window.confirm(`Are you sure you wish to delete data for ${battletag}? This action cannot be undone!`)) return
 
-    const { adminDeletePlayerDataEndpoint } = getState().config
+    const { adminDeletePlayerDataEndpoint } = config
     dispatch(_deleteStart(battletag))
 
     try {

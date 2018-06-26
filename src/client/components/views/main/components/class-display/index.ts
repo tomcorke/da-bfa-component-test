@@ -1,6 +1,7 @@
 import { connect } from 'react-redux'
 
 import { ApplicationState } from '../../../../../redux/reducers'
+import config from '../../../../../config'
 
 import ClassDisplay from './class-display'
 
@@ -26,7 +27,7 @@ const ConnectedClassDisplay = connect(
 
     return {
       guildCharacters: characters
-        .filter(guildFilter(state.config.guild, state.config.realm))
+        .filter(guildFilter(config.guild, config.realm))
         .sort(byLevelAndName)
     }
   }

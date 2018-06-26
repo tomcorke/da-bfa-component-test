@@ -2,6 +2,7 @@ import { createAction } from 'typesafe-actions'
 
 import actions from '.'
 import { VIEWS, View } from '../reducers/views'
+import config from '../../config'
 
 export const INIT_START = 'INIT_START'
 
@@ -15,12 +16,12 @@ const isMain = (view: View) => {
 }
 
 export const init = () => {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     dispatch(_initStart())
 
     // Load mock data and/or trigger getUserData
 
-    const { mockUserData, mockOverviewData, initialView } = getState().config
+    const { mockUserData, mockOverviewData, initialView } = config
 
     if (mockUserData) {
       dispatch(actions.userData.handleUserData(mockUserData))

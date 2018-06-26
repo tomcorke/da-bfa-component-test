@@ -2,6 +2,7 @@ import { createAction, action } from 'typesafe-actions'
 import * as feedbackActions from '../actions/feedback'
 import { ApplicationState } from '../reducers'
 import { APISummarySelections } from '../../../types/api'
+import config from '../../config'
 
 export const HANDLE_SUMMARY_DATA = 'HANDLE_SUMMARY_DATA'
 export const GET_SUMMARY_DATA_START = 'GET_SUMMARY_DATA_START'
@@ -26,8 +27,8 @@ interface GetSummaryDataOptions {
 }
 
 export const getSummaryData = (opts: GetSummaryDataOptions = {}) => {
-  return async (dispatch, getState: () => ApplicationState) => {
-    const { getSummaryDataEndpoint } = getState().config
+  return async (dispatch) => {
+    const { getSummaryDataEndpoint } = config
 
     dispatch(_getSummaryDataStart())
     !opts.noFeedback && dispatch(feedbackActions.show('Getting summary data...'))
