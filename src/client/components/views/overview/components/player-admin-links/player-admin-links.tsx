@@ -31,7 +31,7 @@ const sortCharacters = (a, b) => {
 const PlayerCharacterSelect = ({ characters, onChange }: PlayerCharacterSelectProps) => {
   const guildCharacterNames = characters
     .filter(c => c.realm === config.realm && c.guild === config.guild)
-    .sort((a, b) => a.level !== b.level ? b.level - a.level : (a.name < b.name ? -1 : 1))
+    .sort((a, b) => a.name < b.name ? -1 : 1)
     .map(c => c.name)
   const options = guildCharacterNames
     .map(c => <option key={c} value={c}>{c}</option>)
