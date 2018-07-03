@@ -38,7 +38,6 @@ const ConnectedSummaryView = connect(
       return selections.concat(newData)
     }, [] as APISummarySelection[])
 
-
     return {
       selections: state.summary.summaryData.selections
     }
