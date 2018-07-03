@@ -1,6 +1,23 @@
 .summaryView {
-  width: 100%;
+  width: 1000%;
   max-width: 1000px;
+}
+
+.summaryDisplay {
+  margin-bottom: 2em;
+  width: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+}
+
+.summaryTitle {
+  font-size: 150%;
+  margin-bottom: 1em;
+}
+
+.summaryColumns {
+  width: 100%;
   display: flex;
   flex-flow: row wrap;
 }

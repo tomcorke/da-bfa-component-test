@@ -3,7 +3,7 @@ import * as React from 'react'
 import * as STYLES from './small-button.scss'
 
 interface SmallButtonProps {
-  active: boolean
+  active?: boolean
   children?: any
   onClick: () => any
 }

@@ -2,6 +2,7 @@ import * as React from 'react'
 
 import SummaryBox from './components/summary-box'
 import PlayerDisplay from './components/player-display'
+import HandyLinks from './components/handy-links'
 
 import * as STYLES from './overview.scss'
 
@@ -53,6 +54,10 @@ const OverviewView = ({
           <input type='checkbox' checked={showLockedInSummary} onChange={toggleShowLockedInSummary} />
           Show locked-in summary instead of selected
         </label>
+      </div>
+
+      <div className={STYLES.handyLinks}>
+        <HandyLinks />
       </div>
 
       <div className={STYLES.selectionsContainer}>

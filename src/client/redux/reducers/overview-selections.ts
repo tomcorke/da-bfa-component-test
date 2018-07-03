@@ -60,6 +60,36 @@ const deselectAllPlayerChoices = (
   return clonedState
 }
 
+const autoSelectAll = (state: OverviewSelectionsState, battletags: string[]): OverviewSelectionsState => {
+  const newState: OverviewSelectionsState = {}
+  battletags.forEach(battletag => {
+    newState[battletag] = {
+      main: 'first',
+      alt: 'second'
+    }
+  })
+  return newState
+}
+
+const autoSelectLocked = (state: OverviewSelectionsState, lockedChoices: {
+  battletag: string
+  main: PlayerSelectionChoice
+  alt: PlayerSelectionChoice
+}[]): OverviewSelectionsState => {
+  const newState = clone(state)
+  lockedChoices.forEach(c => {
+    newState[c.battletag] = {
+      main: c.main,
+      alt: c.alt
+    }
+  })
+  return newState
+}
+
+const autoDeselectAll = (state: OverviewSelectionsState): OverviewSelectionsState => {
+  return clone(initialState)
+}
+
 const OverviewSelectionsReducer: Reducer<OverviewSelectionsState, overviewSelectionsActions.OverviewSelectionsActions> = (state = initialState, action) => {
   switch (action.type) {
     case overviewSelectionsActions.SELECT_OVERVIEW_CHOICE:
@@ -68,6 +98,12 @@ const OverviewSelectionsReducer: Reducer<OverviewSelectionsState, overviewSelect
       return deselectChoice(state, action.payload)
     case overviewSelectionsActions.DESELECT_ALL_PLAYER_OVERVIEW_CHOICES:
       return deselectAllPlayerChoices(state, action.payload)
+    case overviewSelectionsActions.AUTO_SELECT_OVERVIEW_CHOICE_ALL:
+      return autoSelectAll(state, action.payload)
+    case overviewSelectionsActions.AUTO_SELECT_OVERVIEW_CHOICE_LOCKED:
+      return autoSelectLocked(state, action.payload)
+    case overviewSelectionsActions.AUTO_DESELECT_OVERVIEW_CHOICE_ALL:
+      return autoDeselectAll(state)
     default:
       return state
   }

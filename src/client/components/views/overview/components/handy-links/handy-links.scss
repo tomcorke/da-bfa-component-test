@@ -1,0 +1,10 @@
+.handyLinks {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: center;
+
+  .link {
+    margin: 0 0.5em;
+  }
+}

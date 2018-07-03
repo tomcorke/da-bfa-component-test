@@ -14,7 +14,7 @@ interface MenuItemProps {
 const menuItems: MenuItemProps[] = [
   { name: 'main', text: 'Main' },
   { name: 'overview', text: 'Overview', requireAdmin: true },
-  { name: 'summary', text: 'Summary', requireAdmin: true }
+  { name: 'summary', text: 'Raid View', requireAdmin: true }
 ]
 
 interface ViewMenuProps {

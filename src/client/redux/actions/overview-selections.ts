@@ -24,6 +24,9 @@ export const LOCK_SELECTED_CHOICES_FAIL = 'LOCK_SELECTED_CHOICES_FAIL'
 export const UNLOCK_SELECTED_CHOICES_START = 'UNLOCK_SELECTED_CHOICES_START'
 export const UNLOCK_SELECTED_CHOICES_SUCCESS = 'UNLOCK_SELECTED_CHOICES_SUCCESS'
 export const UNLOCK_SELECTED_CHOICES_FAIL = 'UNLOCK_SELECTED_CHOICES_FAIL'
+export const AUTO_SELECT_OVERVIEW_CHOICE_ALL = 'AUTO_SELECT_OVERVIEW_CHOICE_ALL'
+export const AUTO_SELECT_OVERVIEW_CHOICE_LOCKED = 'AUTO_SELECT_OVERVIEW_CHOICE_LOCKED'
+export const AUTO_DESELECT_OVERVIEW_CHOICE_ALL = 'AUTO_DESELECT_OVERVIEW_CHOICE_ALL'
 
 interface UndefinedPlayerSelections {
   selections?: OverviewPlayerSelection[]
@@ -172,8 +175,43 @@ export const toggleLockSelectedChoices = (battletag: string) => {
   }
 }
 
+const _autoSelectAllOverviewChoices = (battletags: string[]) => action(AUTO_SELECT_OVERVIEW_CHOICE_ALL, battletags)
+const _autoSelectLockedOverviewChoices = (lockedSelections: {
+  battletag: string
+  main: PlayerSelectionChoice
+  alt: PlayerSelectionChoice
+}[]) => action(AUTO_SELECT_OVERVIEW_CHOICE_LOCKED, lockedSelections)
+export const autoDeselectAllOverviewChoices = () => action(AUTO_DESELECT_OVERVIEW_CHOICE_ALL)
+
+export const autoSelectAllOverviewChoices = () => {
+  return (dispatch, getState: () => ApplicationState) => {
+    const battletags = getState().overview.map(o => o.battletag)
+    dispatch(_autoSelectAllOverviewChoices(battletags))
+  }
+}
+
+export const autoSelectLockedOverviewChoices = () => {
+  return (dispatch, getState: () => ApplicationState) => {
+    const lockedSelections = getState().overview
+      .filter(o => o.locked)
+      .map(o => {
+        const main = (o.selections.find(s => s.lockedChoice === 'main') || {} as OverviewPlayerSelection).choice
+        const alt = (o.selections.find(s => s.lockedChoice === 'alt') || {} as OverviewPlayerSelection).choice
+        return {
+          battletag: o.battletag,
+          main,
+          alt
+        }
+      })
+    dispatch(_autoSelectLockedOverviewChoices(lockedSelections))
+  }
+}
+
 export type OverviewSelectionsActions = ReturnType<
   | typeof _selectOverviewChoice
   | typeof _deselectOverviewChoice
   | typeof _deselectChoicesForPlayer
+  | typeof _autoSelectAllOverviewChoices
+  | typeof _autoSelectLockedOverviewChoices
+  | typeof autoDeselectAllOverviewChoices
 >

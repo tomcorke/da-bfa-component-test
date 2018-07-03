@@ -41,20 +41,38 @@ const SummaryColumn = ({ title, selections }: SummaryColumnProps) => {
   )
 }
 
+interface SummaryDisplayProps {
+  title: string
+  selections: APISummarySelection[]
+}
+
+const SummaryDisplay = ({ title, selections }: SummaryDisplayProps) => {
+  return (
+    <div className={STYLES.summaryDisplay}>
+      <div className={STYLES.summaryTitle}>{title}</div>
+      <div className={STYLES.summaryColumns}>
+        <SummaryColumn title='Tanks' selections={selections.filter(s => s.tags.includes('tank'))} />
+        <SummaryColumn title='Healers' selections={selections.filter(s => s.tags.includes('healer'))} />
+        <SummaryColumn title='Melee' selections={selections.filter(s => s.tags.includes('dps') && s.tags.includes('melee'))} />
+        <SummaryColumn title='Ranged' selections={selections.filter(s => s.tags.includes('dps') && s.tags.includes('ranged'))} />
+      </div>
+    </div>
+  )
+}
+
 interface SummaryViewProps {
   selections: APISummarySelection[]
 }
 
 const SummaryView = ({ selections }: SummaryViewProps) => {
 
-  const filteredSelections = selections.filter(s => s.choice === 'main')
+  const mainSelections = selections.filter(s => s.choice === 'main')
+  const altSelections = selections.filter(s => s.choice === 'alt')
 
   return (
     <div className={STYLES.summaryView}>
-      <SummaryColumn title='Tanks' selections={filteredSelections.filter(s => s.tags.includes('tank'))} />
-      <SummaryColumn title='Healers' selections={filteredSelections.filter(s => s.tags.includes('healer'))} />
-      <SummaryColumn title='Melee' selections={filteredSelections.filter(s => s.tags.includes('dps') && s.tags.includes('melee'))} />
-      <SummaryColumn title='Ranged' selections={filteredSelections.filter(s => s.tags.includes('dps') && s.tags.includes('ranged'))} />
+      <SummaryDisplay title='Mains' selections={mainSelections} />
+      <SummaryDisplay title='Alts' selections={altSelections} />
     </div>
   )
 }
