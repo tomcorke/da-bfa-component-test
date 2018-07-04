@@ -105,7 +105,7 @@ export interface APIUnlockSelectionsPayload {
 export interface APISummarySelection {
   playerName: string
   class: WowClassSafeName
-  spec: WowSpecSafeName
+  spec?: WowSpecSafeName
   choice: LockSelectionChoice
   locked: boolean
   confirmed: boolean

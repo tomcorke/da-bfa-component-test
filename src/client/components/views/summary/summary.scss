@@ -1,43 +1,61 @@
 .summaryView {
   width: 1000%;
   max-width: 1000px;
-}
 
-.summaryDisplay {
-  margin-bottom: 2em;
-  width: 100%;
-  display: flex;
-  flex-flow: column nowrap;
-  align-items: center;
-}
+  .options {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
 
-.summaryTitle {
-  font-size: 150%;
-  margin-bottom: 1em;
-}
+    label {
+      display: flex;
+      flex-flow: row wrap;
+      align-items: center;
 
-.summaryColumns {
-  width: 100%;
-  display: flex;
-  flex-flow: row wrap;
-}
-
-.summaryColumn {
-  flex: 1 0 200px;
-  margin-bottom: 2em;
-
-  .summaryColumnTitle {
-    margin-bottom: 1em;
+      input[type=checkbox] {
+        margin-right: 1em;
+        width: 1.5em;
+        height: 1.5em;
+      }
+    }
   }
 
-  .player {
-    margin-left: 0.5em;
-  }
-}
+  .summaryDisplay {
+    margin-top: 2em;
+    width: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
 
-.summaryItem {
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: flex-start;
-  align-items: center;
+    .summaryTitle {
+      font-size: 150%;
+      margin-bottom: 1em;
+    }
+
+    .summaryColumns {
+      width: 100%;
+      display: flex;
+      flex-flow: row wrap;
+
+      .summaryColumn {
+        flex: 1 0 200px;
+        margin-bottom: 2em;
+
+        .summaryColumnTitle {
+          margin-bottom: 1em;
+        }
+
+        .player {
+          margin-left: 0.5em;
+        }
+
+        .summaryItem {
+          display: flex;
+          flex-flow: row nowrap;
+          justify-content: flex-start;
+          align-items: center;
+        }
+      }
+    }
+  }
 }

@@ -62,17 +62,39 @@ const SummaryDisplay = ({ title, selections }: SummaryDisplayProps) => {
 
 interface SummaryViewProps {
   selections: APISummarySelection[]
+  showAltSummary: boolean
+  showLockedInSummary: boolean
+  toggleShowAltSummary: () => any
+  toggleShowLockedInSummary: () => any
 }
 
-const SummaryView = ({ selections }: SummaryViewProps) => {
+const SummaryView = ({
+  selections,
+  showAltSummary,
+  showLockedInSummary,
+  toggleShowAltSummary,
+  toggleShowLockedInSummary
+}: SummaryViewProps) => {
 
   const mainSelections = selections.filter(s => s.choice === 'main')
   const altSelections = selections.filter(s => s.choice === 'alt')
 
   return (
     <div className={STYLES.summaryView}>
+
+      <div className={STYLES.options}>
+        <label>
+          <input type='checkbox' checked={showAltSummary} onChange={toggleShowAltSummary} />
+          Show alt summary
+        </label>
+        <label>
+          <input type='checkbox' checked={showLockedInSummary} onChange={toggleShowLockedInSummary} />
+          Show locked-in summary instead of selected
+        </label>
+      </div>
+
       <SummaryDisplay title='Mains' selections={mainSelections} />
-      <SummaryDisplay title='Alts' selections={altSelections} />
+      {showAltSummary ? <SummaryDisplay title='Alts' selections={altSelections} /> : null }
     </div>
   )
 }
