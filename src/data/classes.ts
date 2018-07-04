@@ -189,8 +189,8 @@ classData.push({
       displayName: 'Assassination'
     },
     {
-      safeName: 'combat',
-      displayName: 'Combat'
+      safeName: 'outlaw',
+      displayName: 'Outlaw'
     }
   ]
 })

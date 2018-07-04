@@ -76,7 +76,7 @@ export type WowSpecSafeName =
   | 'discipline'
   | 'subtelty'
   | 'assassination'
-  | 'combat'
+  | 'outlaw'
   | 'enhancement'
   | 'elemental'
   | 'demonology'
