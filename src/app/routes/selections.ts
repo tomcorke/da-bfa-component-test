@@ -9,6 +9,8 @@ import {
   APIUnlockSelectionsPayload
 } from '../../types/api'
 import { lockOverviewSelections, unlockOverviewSelections } from '../services/selections'
+import { auditLog } from '../services/logging'
+import { BNetUser } from '../types'
 
 const selectionsRouter = express.Router()
 
@@ -39,6 +41,7 @@ const formatLockSelectionsPayload = (body: any): APILockSelectionsPayload | unde
 selectionsRouter.post('/lock', requireAdmin, (req, res) => {
   const body = formatLockSelectionsPayload(req.body)
   if (body && lockOverviewSelections(body.battletag, body.playerOverviewSelections)) {
+    auditLog(`Locked selections for ${body.battletag}`, { id: (req.user as BNetUser).battletag }, { selections: body.playerOverviewSelections })
     return res.send('ok')
   }
   res.status(500).send('not ok')
@@ -61,6 +64,7 @@ const formatUnlockSelectionsPayload = (body: any): APIUnlockSelectionsPayload | 
 selectionsRouter.post('/unlock', requireAdmin, (req, res) => {
   const body = formatUnlockSelectionsPayload(req.body)
   if (body && unlockOverviewSelections(body.battletag)) {
+    auditLog(`Unlocked selections for ${body.battletag}`, { id: (req.user as BNetUser).battletag })
     return res.send('ok')
   }
   res.status(500).send('not ok')

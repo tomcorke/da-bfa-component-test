@@ -4,6 +4,7 @@ import { DB } from './db'
 import { APIPlayerProfile, APIPlayerCharacter } from '../../types/api'
 import { BNetUser, BNetCharacter, BattleTag } from '../types'
 import { WowClassSafeName } from '../../types/classes'
+import { errorLog, log } from './logging'
 
 const createUrl = (endpoint: string, token: string) => {
   const BASE_URL = `https://eu.api.battle.net`
@@ -82,7 +83,7 @@ class API {
           }
         })
         .catch(err => {
-          console.error(`Error getting wow profile data for "${user.battletag}": ${err.message}`)
+          errorLog(`Error getting wow profile data for "${user.battletag}": ${err.message}`)
           if (!err.message.startsWith('504 - ') && opts.throwOnFail) {
             throw err
           }
@@ -104,7 +105,7 @@ class API {
 
     const cachedProfile = profileDb.get(user.battletag)
     if (cachedProfile && !opts.noCache) {
-      console.log(`Returning cached wow profile data for "${user.battletag}"`)
+      log(`Returning cached wow profile data for "${user.battletag}"`)
       return cachedProfile
     }
 
@@ -124,7 +125,7 @@ class API {
   }
 
   registerUserForProfileRefresh (user: BNetUser) {
-    console.log(`Starting scheduled refresh of profile for "${user.battletag}"`)
+    log(`Starting scheduled refresh of profile for "${user.battletag}"`)
     tokenDb.set(user.battletag, user.token)
     this.scheduleUserRefresh(user)
   }
@@ -154,16 +155,16 @@ class API {
     })
     .then(() => {
       if (!flags.cancel) {
-        console.log(`calling scheduled user refresh for "${user.battletag}"`)
+        log(`calling scheduled user refresh for "${user.battletag}"`)
         return this.getWoWProfile(user, {
           noCache: true,
           throwOnFail: true
         })
-          .then(() => console.log(`Successful scheduled refresh for "${user.battletag}"`))
+          .then(() => log(`Successful scheduled refresh for "${user.battletag}"`))
           .then(() => this.scheduleUserRefresh(user))
           .catch((err) => {
             tokenDb.delete(user.battletag)
-            console.log(`Error on scheduled user refresh for "${user.battletag}": ${err.message}`)
+            log(`Error on scheduled user refresh for "${user.battletag}": ${err.message}`)
           })
       } else {
         tokenDb.delete(user.battletag)
@@ -171,7 +172,7 @@ class API {
     })
     .catch((err) => {
       tokenDb.delete(user.battletag)
-      console.error(err)
+      errorLog(err)
     })
 
     this.userRefreshers[user.battletag] = {
