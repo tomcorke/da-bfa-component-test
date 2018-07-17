@@ -2,6 +2,7 @@ import * as express from 'express'
 import * as passport from 'passport'
 import { Strategy as BnetStrategy } from 'passport-bnet'
 import { auditLog } from './logging'
+import { AUDIT_LOG_EVENT_LOGIN } from '../types'
 
 import authRouter from '../routes/auth'
 
@@ -22,7 +23,7 @@ passport.use(
       callbackURL: BNET_CALLBACK_URL
     },
     (accessToken: string, refreshToken: string, profile: any, done: (a: any, b: any) => void) => {
-      auditLog('Logged in with Battle.net', { id: profile.battletag })
+      auditLog(AUDIT_LOG_EVENT_LOGIN, 'Logged in with Battle.net', { id: profile.battletag })
       setImmediate(() => done(null, profile))
     }
   )

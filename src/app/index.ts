@@ -9,6 +9,7 @@ import * as git from 'git-rev'
 
 import { passportInit } from './services/passport'
 import { log, auditLog, errorLog } from './services/logging'
+import { AUDIT_LOG_EVENT_SERVER } from './types'
 
 import userRouter from './routes/user'
 import overviewRouter from './routes/overview'
@@ -39,7 +40,7 @@ app.set('view engine', '.hbs')
 
 const getGitRev = new Promise<string>((resolve) => {
   git.short(short => {
-    auditLog(`Server running git revision: ${short}`)
+    auditLog(AUDIT_LOG_EVENT_SERVER, `Server running git revision: ${short}`)
     resolve(short)
   })
 })
@@ -68,5 +69,5 @@ app.use((err: Error, req: express.Request, res: express.Response, next: express.
 
 const PORT = 3000
 app.listen(PORT, () => {
-  log(`Server started successfully. Listening on :${PORT}`)
+  auditLog(AUDIT_LOG_EVENT_SERVER, `Server started successfully. Listening on :${PORT}`)
 })

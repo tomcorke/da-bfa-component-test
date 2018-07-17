@@ -1,7 +1,7 @@
 import * as express from 'express'
 
 import { requireAuthentication, requireSuperAdmin } from '../middleware/auth'
-import { BNetUser } from '../types'
+import { BNetUser, AUDIT_LOG_EVENT_UPDATE_DATA, AUDIT_LOG_EVENT_SAVE_DATA } from '../types'
 import { playerSelectionsDb, getUserData } from '../services/user-data'
 import { bnetApi } from '../services/bnet-api'
 import { APIPlayerSelections, APIPlayerSelection } from '../../types/api'
@@ -55,9 +55,9 @@ userRouter.post('/save', requireAuthentication, (req, res) => {
   const existingData = playerSelectionsDb.get(battletag)
   if (existingData) {
     const dataDiff = detailedDiff(existingData, formattedBody)
-    auditLog('Updated user data', { id: battletag }, dataDiff)
+    auditLog(AUDIT_LOG_EVENT_UPDATE_DATA, 'Updated user data', { id: battletag }, dataDiff)
   } else {
-    auditLog('Saved new data', { id: battletag }, formattedBody)
+    auditLog(AUDIT_LOG_EVENT_SAVE_DATA, 'Saved new data', { id: battletag }, formattedBody)
   }
 
   playerSelectionsDb.set(battletag, formattedBody)

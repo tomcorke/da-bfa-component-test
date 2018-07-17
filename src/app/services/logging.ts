@@ -1,5 +1,6 @@
 import * as winston from 'winston'
 import * as rotateFileTransport from 'winston-daily-rotate-file'
+import { AuditLogEvent } from '../types'
 
 interface AuditUserFlags {
   admin?: boolean
@@ -66,8 +67,8 @@ const consoleLogger = winston.createLogger({
   ]
 })
 
-export const auditLog = (message: string, user?: AuditUser, data?: object) => {
-  auditFileLogger.log('info', message, { user, data })
+export const auditLog = (event: AuditLogEvent, message: string, user?: AuditUser, data?: object) => {
+  auditFileLogger.log('info', message, { event, user, data })
   consoleLogger.log('info', message, { user, data })
 }
 
