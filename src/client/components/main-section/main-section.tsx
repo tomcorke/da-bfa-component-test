@@ -8,6 +8,7 @@ import IntroView from '../views/intro'
 import MainView from '../views/main'
 import OverviewView from '../views/overview'
 import SummaryView from '../views/summary'
+import AuditView from '../views/audit'
 import { View } from '../../redux/reducers/views'
 
 interface MainSectionProps {
@@ -19,7 +20,8 @@ const MainSection = ({ view }: MainSectionProps) => {
     intro: IntroView,
     main: MainView,
     overview: OverviewView,
-    summary: SummaryView
+    summary: SummaryView,
+    audit: AuditView
   }[view]
 
   return (

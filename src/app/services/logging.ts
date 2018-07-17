@@ -1,24 +1,6 @@
 import * as winston from 'winston'
 import * as rotateFileTransport from 'winston-daily-rotate-file'
-import { AuditLogEvent } from '../types'
-
-interface AuditUserFlags {
-  admin?: boolean
-  superAdmin?: boolean
-}
-
-interface AuditUser {
-  id: string
-  name?: string
-  flags?: AuditUserFlags
-}
-
-interface AuditLogEntry {
-  timestamp: number
-  user?: AuditUser
-  message: string
-  data?: object
-}
+import { AuditLogEvent, AuditUser } from '../../types/audit'
 
 const AUDIT_LOG_FILE = 'audit.log'
 const ERROR_LOG_FILE = 'error.log'

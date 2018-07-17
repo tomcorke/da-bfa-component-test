@@ -1,7 +1,8 @@
 import * as express from 'express'
 
 import { requireAuthentication, requireSuperAdmin } from '../middleware/auth'
-import { BNetUser, AUDIT_LOG_EVENT_UPDATE_DATA, AUDIT_LOG_EVENT_SAVE_DATA } from '../types'
+import { BNetUser } from '../types'
+import { AUDIT_LOG_EVENT_UPDATE_DATA, AUDIT_LOG_EVENT_SAVE_DATA } from '../../types/audit'
 import { playerSelectionsDb, getUserData } from '../services/user-data'
 import { bnetApi } from '../services/bnet-api'
 import { APIPlayerSelections, APIPlayerSelection } from '../../types/api'

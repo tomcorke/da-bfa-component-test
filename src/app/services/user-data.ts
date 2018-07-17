@@ -58,8 +58,8 @@ export const getUserData = async (user: BNetUser, immediate = false): Promise<AP
   const selectionsWithLockData = mergeSelectionsWithLocks(selections, lockData)
 
   const profile = await bnetApi.getWoWProfile(user, { immediate })
-  const isUserAdmin = isAdmin(user)
-  const isUserSuperAdmin = isSuperAdmin(user)
+  const isUserAdmin = isAdmin(user.battletag)
+  const isUserSuperAdmin = isSuperAdmin(user.battletag)
   return {
     user: { battletag: user.battletag },
     selections: selectionsWithLockData,

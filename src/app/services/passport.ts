@@ -2,7 +2,7 @@ import * as express from 'express'
 import * as passport from 'passport'
 import { Strategy as BnetStrategy } from 'passport-bnet'
 import { auditLog } from './logging'
-import { AUDIT_LOG_EVENT_LOGIN } from '../types'
+import { AUDIT_LOG_EVENT_LOGIN } from '../../types/audit'
 
 import authRouter from '../routes/auth'
 

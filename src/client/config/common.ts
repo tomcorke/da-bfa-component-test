@@ -20,6 +20,7 @@ export interface Endpoints {
   adminUnlockSelectionsEndpoint: string
   getSummaryDataEndpoint: string
   setDisplayNameEndpoint: string
+  getAuditDataEndpoint: string
 }
 
 export const getEndpoints = (baseUrl: string): Endpoints => ({
@@ -36,5 +37,7 @@ export const getEndpoints = (baseUrl: string): Endpoints => ({
 
   getSummaryDataEndpoint: `${baseUrl}summary/get`,
 
-  setDisplayNameEndpoint: `${baseUrl}overview/setDisplayName`
+  setDisplayNameEndpoint: `${baseUrl}overview/setDisplayName`,
+
+  getAuditDataEndpoint: `${baseUrl}audit/get`
 })

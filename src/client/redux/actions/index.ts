@@ -1,4 +1,5 @@
 import * as adminActions from './admin'
+import * as auditActions from './audit'
 import * as feedbackActions from './feedback'
 import * as loginActions from './login'
 import * as overviewSelectionActions from './overview-selections'
@@ -9,6 +10,7 @@ import * as viewActions from './views'
 
 const actions = {
   admin: adminActions,
+  audit: auditActions,
   feedback: feedbackActions,
   login: loginActions,
   overviewSelections: overviewSelectionActions,
@@ -20,6 +22,7 @@ const actions = {
 
 export type ApplicationAction =
   | adminActions.AdminAction
+  | auditActions.AuditAction
   | feedbackActions.FeedbackAction
   | loginActions.LoginActions
   | overviewSelectionActions.OverviewSelectionsActions

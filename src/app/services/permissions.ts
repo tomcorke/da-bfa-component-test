@@ -5,13 +5,13 @@ require('dotenv-safe').config()
 const superadmin = process.env.SUPERADMIN
 const admins = (process.env.ADMINS && process.env.ADMINS.split(',')) || []
 
-const isAdmin = (user: BNetUser) => {
-  return superadmin === user.battletag ||
-    admins.includes(user.battletag)
+const isAdmin = (battletag: string) => {
+  return superadmin === battletag ||
+    admins.includes(battletag)
 }
 
-const isSuperAdmin = (user: BNetUser) => {
-  return superadmin === user.battletag
+const isSuperAdmin = (battletag: string) => {
+  return superadmin === battletag
 }
 
 export { isAdmin, isSuperAdmin }

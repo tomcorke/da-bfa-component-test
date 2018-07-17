@@ -1,4 +1,5 @@
 import { WowClassSafeName, WowSpecSafeName, WowTag } from './classes'
+import { AuditLogEntry } from './audit'
 
 export interface APIPlayer {
   battletag: string
@@ -125,4 +126,8 @@ export interface APISetDisplayNamePayload {
 
 export interface APISetDisplayNameResponse {
   [key: string]: string | undefined
+}
+
+export interface APIAuditData {
+  entries: AuditLogEntry[]
 }

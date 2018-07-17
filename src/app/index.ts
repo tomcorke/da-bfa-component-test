@@ -9,12 +9,13 @@ import * as git from 'git-rev'
 
 import { passportInit } from './services/passport'
 import { log, auditLog, errorLog } from './services/logging'
-import { AUDIT_LOG_EVENT_SERVER } from './types'
+import { AUDIT_LOG_EVENT_SERVER } from '../types/audit'
 
 import userRouter from './routes/user'
 import overviewRouter from './routes/overview'
 import selectionsRouter from './routes/selections'
 import summaryRouter from './routes/summary'
+import auditRouter from './routes/audit'
 
 require('dotenv-safe').config()
 
@@ -56,6 +57,7 @@ app.use('/user', userRouter)
 app.use('/overview', overviewRouter)
 app.use('/selections', selectionsRouter)
 app.use('/summary', summaryRouter)
+app.use('/audit', auditRouter)
 
 app.get('/*', express.static(path.join(__dirname, '../client')))
 

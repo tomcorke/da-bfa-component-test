@@ -5,8 +5,8 @@ import { ViewActions } from '../actions/views'
 
 const config = require('../../config').default
 
-export type View = 'intro' | 'main' | 'overview' | 'summary'
-export const VIEWS = ['intro', 'main', 'overview', 'summary']
+export type View = 'intro' | 'main' | 'overview' | 'summary' | 'audit'
+export const VIEWS = ['intro', 'main', 'overview', 'summary', 'audit']
 export type ViewState = View
 
 const initialState: ViewState = config.initialView || 'intro'

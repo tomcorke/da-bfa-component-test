@@ -10,7 +10,8 @@ import {
 } from '../../types/api'
 import { lockOverviewSelections, unlockOverviewSelections } from '../services/selections'
 import { auditLog } from '../services/logging'
-import { BNetUser, AUDIT_LOG_EVENT_LOCK, AUDIT_LOG_EVENT_UNLOCK } from '../types'
+import { BNetUser } from '../types'
+import { AUDIT_LOG_EVENT_LOCK, AUDIT_LOG_EVENT_UNLOCK } from '../../types/audit'
 
 const selectionsRouter = express.Router()
 

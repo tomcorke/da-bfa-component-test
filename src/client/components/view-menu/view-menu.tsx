@@ -8,24 +8,36 @@ import { View } from '../../redux/reducers/views'
 interface MenuItemProps {
   name: View
   text: string
+  requireLoggedIn?: boolean
   requireAdmin?: boolean
+  requireSuperAdmin?: boolean
 }
 
 const menuItems: MenuItemProps[] = [
-  { name: 'main', text: 'Main' },
+  { name: 'main', text: 'Main', requireLoggedIn: true },
   { name: 'overview', text: 'Overview', requireAdmin: true },
-  { name: 'summary', text: 'Raid View', requireAdmin: true }
+  { name: 'summary', text: 'Raid View', requireAdmin: true },
+  { name: 'audit', text: 'Audit Log', requireSuperAdmin: true }
 ]
 
 interface ViewMenuProps {
   view: View
+  isLoggedIn: boolean
   isAdmin: boolean
+  isSuperAdmin: boolean
   changeView: (view: View) => any
 }
 
-const ViewMenu = ({ view, isAdmin = false, changeView }: ViewMenuProps) => {
+const ViewMenu = ({ view, isLoggedIn = false, isAdmin = false, isSuperAdmin = false, changeView }: ViewMenuProps) => {
   const menuItemsToDisplay = menuItems
-    .filter(item => !item.requireAdmin || isAdmin)
+    .filter(item => {
+      const requireAdmin = item.requireSuperAdmin || item.requireAdmin
+      const requireLoggedIn = requireAdmin || item.requireLoggedIn
+      return isSuperAdmin
+        || (!item.requireSuperAdmin && isAdmin)
+        || (!requireAdmin && isLoggedIn)
+        || !requireLoggedIn
+    })
     .map(item => (
       <div key={item.name} className={STYLES.item}>
         <SmallButton onClick={() => changeView(item.name)} active={item.name === view}>{item.text}</SmallButton>
@@ -34,7 +46,7 @@ const ViewMenu = ({ view, isAdmin = false, changeView }: ViewMenuProps) => {
 
   return (
     <div className={STYLES.viewMenu}>
-      {menuItemsToDisplay.length > 1 && menuItemsToDisplay}
+      {menuItemsToDisplay}
     </div>
   )
 }

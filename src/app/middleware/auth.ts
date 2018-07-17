@@ -20,7 +20,7 @@ export const requireAdmin = (req: express.Request, res: express.Response, next: 
     return res.status(401).send()
   }
 
-  if (!isAdmin(req.user as BNetUser)) {
+  if (!isAdmin((req.user as BNetUser).battletag)) {
     return res.status(401).send()
   }
 
@@ -32,7 +32,7 @@ export const requireSuperAdmin = (req: express.Request, res: express.Response, n
     return res.status(401).send()
   }
 
-  if (!isSuperAdmin(req.user as BNetUser)) {
+  if (!isSuperAdmin((req.user as BNetUser).battletag)) {
     return res.status(401).send()
   }
 

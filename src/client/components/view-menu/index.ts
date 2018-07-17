@@ -9,7 +9,8 @@ import ViewMenu from './view-menu'
 const ConnectedViewMenu = connect(
   (state: ApplicationState) => ({
     view: state.view,
-    isAdmin: state.userData.isAdmin
+    isAdmin: state.userData.isAdmin,
+    isSuperAdmin: state.userData.isSuperAdmin
   }),
   (dispatch: Dispatch) => ({
     changeView: (newView: View) => dispatch(actions.views.changeView(newView))

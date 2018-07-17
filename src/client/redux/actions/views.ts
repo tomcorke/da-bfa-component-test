@@ -2,6 +2,7 @@ import { action } from 'typesafe-actions'
 
 import { View } from '../reducers/views'
 
+import * as auditActions from './audit'
 import * as userDataActions from './user-data'
 import * as overviewActions from './overview'
 import * as summaryActions from './summary'
@@ -19,6 +20,8 @@ export const changeView = (view: View) => {
       dispatch(overviewActions.getOverviewData({ onSuccess: setViewAction }))
     } else if (view === 'summary') {
       dispatch(summaryActions.getSummaryData({ onSuccess: setViewAction }))
+    } else if (view === 'audit') {
+      dispatch(auditActions.getAuditLog({ onSuccess: setViewAction }))
     } else {
       setViewAction()
     }
