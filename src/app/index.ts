@@ -8,6 +8,8 @@ import * as helmet from 'helmet'
 import * as git from 'git-rev'
 
 import { passportInit } from './services/passport'
+import { log, auditLog, errorLog } from './services/logging'
+import { AUDIT_LOG_EVENT_SERVER } from './types'
 
 import userRouter from './routes/user'
 import overviewRouter from './routes/overview'
@@ -38,13 +40,13 @@ app.set('view engine', '.hbs')
 
 const getGitRev = new Promise<string>((resolve) => {
   git.short(short => {
-    console.log(`Revision: ${short}`)
+    auditLog(AUDIT_LOG_EVENT_SERVER, `Server running git revision: ${short}`)
     resolve(short)
   })
 })
 
 app.use(async (req, res, next) => {
-  console.log(`${req.method} ${req.path}`)
+  log(`${req.method} ${req.path}`)
   const gitRev = await getGitRev
   res.header('x-rev', gitRev)
   next()
@@ -58,8 +60,7 @@ app.use('/summary', summaryRouter)
 app.get('/*', express.static(path.join(__dirname, '../client')))
 
 app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
-  console.error(`ERROR: ${req.url}`)
-  console.error(err.stack)
+  errorLog(`ERROR: ${req.url}`, undefined, err.stack)
   if (res.headersSent) {
     return next(err)
   }
@@ -68,5 +69,5 @@ app.use((err: Error, req: express.Request, res: express.Response, next: express.
 
 const PORT = 3000
 app.listen(PORT, () => {
-  console.log(`Server listening on :${PORT}`)
+  auditLog(AUDIT_LOG_EVENT_SERVER, `Server started successfully. Listening on :${PORT}`)
 })

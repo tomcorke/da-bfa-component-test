@@ -1,11 +1,13 @@
 import * as express from 'express'
 
 import { requireAuthentication, requireSuperAdmin } from '../middleware/auth'
-import { BNetUser } from '../types'
+import { BNetUser, AUDIT_LOG_EVENT_UPDATE_DATA, AUDIT_LOG_EVENT_SAVE_DATA } from '../types'
 import { playerSelectionsDb, getUserData } from '../services/user-data'
 import { bnetApi } from '../services/bnet-api'
 import { APIPlayerSelections, APIPlayerSelection } from '../../types/api'
 import { selectionLockDb } from '../services/selections'
+import { errorLog, log, auditLog } from '../services/logging'
+import { detailedDiff } from 'deep-object-diff'
 
 const userRouter = express.Router()
 
@@ -32,7 +34,7 @@ const formatPlayerSelections = (body: any): APIPlayerSelections => {
       }
     }, {})
   } catch (e) {
-    console.error(`Error when attempting to parse user data body into APIPlayerSelections: ${e.message}`)
+    errorLog(`Error when attempting to parse user data body into APIPlayerSelections: ${e.message}`)
     return {}
   }
 }
@@ -47,8 +49,17 @@ userRouter.post('/save', requireAuthentication, (req, res) => {
     return res.status(500).json({ ok: false })
   }
 
-  console.log(`Saving data for user "${battletag}"`, req.body)
+  log(`Saving data for user "${battletag}"`, req.body)
   const formattedBody = formatPlayerSelections(req.body)
+
+  const existingData = playerSelectionsDb.get(battletag)
+  if (existingData) {
+    const dataDiff = detailedDiff(existingData, formattedBody)
+    auditLog(AUDIT_LOG_EVENT_UPDATE_DATA, 'Updated user data', { id: battletag }, dataDiff)
+  } else {
+    auditLog(AUDIT_LOG_EVENT_SAVE_DATA, 'Saved new data', { id: battletag }, formattedBody)
+  }
+
   playerSelectionsDb.set(battletag, formattedBody)
   res.json({ ok: true })
 })

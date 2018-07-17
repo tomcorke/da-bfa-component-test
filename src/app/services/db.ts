@@ -1,6 +1,8 @@
 import * as path from 'path'
 import * as fs from 'fs-extra'
 
+import { log, errorLog } from './logging'
+
 function clone<T> (obj: T): T | undefined {
   try {
     return JSON.parse(JSON.stringify(obj)) as T
@@ -27,10 +29,10 @@ export class DB<T> {
         fs.ensureFileSync(this.filePath)
         const rawData = fs.readFileSync(this.filePath, 'utf8')
         this.data = JSON.parse(rawData)
-        console.log(`Loaded data from "${this.filePath}"`)
+        log(`Loaded data from "${this.filePath}"`)
       }
     } catch (e) {
-      console.error(`Error loading data from "${this.filePath}": ${e.message}`)
+      errorLog(`Error loading data from "${this.filePath}": ${e.message}`)
     }
   }
 
@@ -40,7 +42,7 @@ export class DB<T> {
         fs.writeFileSync(this.filePath, JSON.stringify(this.data, null, 2), 'utf8')
       }
     } catch (e) {
-      console.error(`Error writing data to "${this.filePath}": ${e.message}`)
+      errorLog(`Error writing data to "${this.filePath}": ${e.message}`)
     }
   }
 
