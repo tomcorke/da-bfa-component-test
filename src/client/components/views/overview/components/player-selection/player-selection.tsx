@@ -25,6 +25,7 @@ export interface PlayerSelectionProps {
   selection?: OverviewPlayerSelection
   choice: PlayerSelectionChoice
   characters: APIPlayerCharacter[]
+  profileTimestamp?: number
   onSelect: () => any
   overviewSelection?: LockSelectionChoice
 }
@@ -34,6 +35,7 @@ const PlayerSelection = (
     selection = {} as OverviewPlayerSelection,
     choice,
     characters,
+    profileTimestamp,
     onSelect,
     overviewSelection
   }: PlayerSelectionProps) => {
@@ -55,29 +57,44 @@ const PlayerSelection = (
 
   let warningMessage: string | undefined
   let warningSeverity = 0
+
+  const profileTimestampString = `last updated ${
+    profileTimestamp
+      ? new Date(profileTimestamp).toLocaleString()
+      : '(unknown)'
+  }`
+
   if (!wowClass) {
     warningMessage = 'Player has not selected a class'
     warningSeverity = 4
   } else if (classCharacters.length === 0) {
-    warningMessage = 'Player has no characters of this class'
+    warningMessage = `Player has no characters of this class
+
+${profileTimestampString}`
     warningSeverity = 3
   } else if (maxLevelCharacters.length === 0) {
     warningMessage = `Player has no characters of this class at max level
 
 Other ${wowClassName} characters:
-${classCharacters.map(char => `  ${char.level} - ${char.name} (${char.realm})`).join('\n')}`
+${classCharacters.map(char => `  ${char.level} - ${char.name} (${char.realm})`).join('\n')}
+
+${profileTimestampString}`
     warningSeverity = 3
   } else if (realmCharacters.length === 0) {
     warningMessage = `Player has no max level characters of this class on ${config.realm}
 
 Other ${wowClassName} characters:
-${classCharacters.map(char => `  ${char.level} - ${char.name} (${char.realm})`).join('\n')}`
+${classCharacters.map(char => `  ${char.level} - ${char.name} (${char.realm})`).join('\n')}
+
+${profileTimestampString}`
     warningSeverity = 2
   } else if (guildCharacters.length === 0) {
     warningMessage = `Player has no max level characters of this class in the guild
 
 Other ${wowClassName} characters:
-${classCharacters.map(char => `  ${char.level} - ${char.name} (${char.realm})`).join('\n')}`
+${classCharacters.map(char => `  ${char.level} - ${char.name} (${char.realm})`).join('\n')}
+
+${profileTimestampString}`
     warningSeverity = 1
   }
 

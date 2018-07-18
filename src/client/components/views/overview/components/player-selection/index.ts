@@ -30,12 +30,11 @@ const ConnectedPlayerSelection = connect(
         ) || false
       })
 
-    const characters = playerData.characters
-
     return {
       selection,
       overviewSelection,
-      characters
+      characters: playerData.characters,
+      profileTimestamp: playerData.profileTimestamp
     }
   },
   (dispatch: Dispatch, props) => ({

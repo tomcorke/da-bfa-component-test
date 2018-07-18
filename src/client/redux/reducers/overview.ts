@@ -19,6 +19,7 @@ export interface OverviewPlayerSelection {
 export interface OverviewPlayerData {
   battletag: string
   characters: APIPlayerCharacter[]
+  profileTimestamp?: number
   selections: OverviewPlayerSelection[]
   locked: boolean
   confirmed: boolean
@@ -36,7 +37,9 @@ const joinOverviewData = (state: OverviewState, data: APIOverviewData): Overview
 
   const newState = Object.entries(playerSelectionData).map(([battletag, selections]) => {
 
-    const characters = (playerProfileData[battletag] || {}).characters || []
+    const profile = playerProfileData[battletag] || {}
+    const characters = profile.characters || []
+    const profileTimestamp = profile.timestamp
     const lockData = lockedSelectionData[battletag] || {}
 
     const existingPlayerData = state.find(s => s.battletag === battletag)
@@ -44,6 +47,7 @@ const joinOverviewData = (state: OverviewState, data: APIOverviewData): Overview
       ...existingPlayerData,
       battletag,
       characters,
+      profileTimestamp,
       selections: PLAYER_SELECTION_CHOICES
         .filter((choice) => selections[choice] && selections[choice].class)
         .map((choice) => {

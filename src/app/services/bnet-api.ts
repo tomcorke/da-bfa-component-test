@@ -91,7 +91,10 @@ class API {
 
       getProfile
         .then(data => {
-          if (data) profileDb.set(user.battletag, data)
+          if (data) {
+            data.timestamp = (new Date()).getTime()
+            profileDb.set(user.battletag, data)
+          }
         })
         .catch(NO_OP)
 

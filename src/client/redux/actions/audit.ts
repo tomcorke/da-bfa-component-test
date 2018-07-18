@@ -33,7 +33,11 @@ export const getAuditLog = (opts: GetOverviewDataOptions = {}) => {
         throw Error('Could not get overview view data')
       }
 
-      const data = await response.json() as APIAuditData
+      const dataString = await response.text()
+      const data = JSON.parse(dataString, (key: any, value: any) => {
+        if (key === 'timestamp') return new Date(value)
+        return value
+      }) as APIAuditData
 
       if (!opts.noFeedback) dispatch(feedbackActions.hide())
       dispatch(_getAuditLogSuccess(data))

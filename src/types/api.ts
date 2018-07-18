@@ -38,6 +38,7 @@ export interface APIPlayerCharacter {
 
 export interface APIPlayerProfile {
   characters?: APIPlayerCharacter[]
+  timestamp?: number
 }
 
 export interface APIPlayerData {

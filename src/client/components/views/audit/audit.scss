@@ -1,0 +1,49 @@
+@import '../../../mixins/classes.scss';
+
+.auditView {
+  width: 100%;
+}
+
+.entry {
+  width: 100%;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+
+  &.event__server {
+    color: rgba(white, 0.6);
+  }
+
+  &.event__serverStart {
+    color: rgba(white, 0.6);
+    border-bottom: 1px solid rgba(white, 0.4);
+    margin-bottom: 1em;
+  }
+
+  .timestamp {
+    opacity: 0.8;
+    flex: 0 0 200px;
+    margin-right: 1em;
+  }
+
+  .user {
+    flex: 0 0 100px;
+    color: classColour(rogue);
+
+    &.admin {
+      color: classColour(monk);
+    }
+
+    &.superAdmin {
+      color: classColour(mage);
+    }
+  }
+
+  .message {
+    flex: 1 0 300px;
+  }
+
+  .data {
+  }
+
+}
