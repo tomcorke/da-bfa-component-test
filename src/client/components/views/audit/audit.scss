@@ -41,6 +41,14 @@
 
   .message {
     flex: 1 0 300px;
+
+    &[title] {
+      cursor: pointer;
+
+      &::after {
+        content: '*';
+      }
+    }
   }
 
   .data {

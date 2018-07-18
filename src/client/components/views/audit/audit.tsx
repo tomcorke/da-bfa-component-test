@@ -41,7 +41,7 @@ const AuditView = ({
             <div className={userClasses.join(' ')}>
               {entry.user ? (entry.user.name || entry.user.id) : null}
             </div>
-            <div className={STYLES.message}>
+            <div className={STYLES.message} title={entry.data ? JSON.stringify(entry.data, null, 2) : undefined}>
               {entry.message}
             </div>
           </div>
