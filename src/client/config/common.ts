@@ -14,6 +14,7 @@ export interface Endpoints {
   userDataEndpoint: string
   bnetAuthEndpoint: string
   saveDataEndpoint: string
+  confirmSelectionsEndpoint: string
   getOverviewViewDataEndpoint: string
   adminDeletePlayerDataEndpoint: string
   adminLockSelectionsEndpoint: string
@@ -27,6 +28,7 @@ export const getEndpoints = (baseUrl: string): Endpoints => ({
   userDataEndpoint: `${baseUrl}user/get`,
   bnetAuthEndpoint: `${baseUrl}auth/bnet`,
   saveDataEndpoint: `${baseUrl}user/save`,
+  confirmSelectionsEndpoint: `${baseUrl}user/confirm`,
 
   getOverviewViewDataEndpoint: `${baseUrl}overview/get`,
 

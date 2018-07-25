@@ -23,7 +23,7 @@ interface ButtonProps {
   onClick: () => any
   href?: string
   type: string
-  highlight: boolean
+  highlight?: boolean
 }
 
 const Button = ({ text, onClick, href, type, highlight }: ButtonProps) => {

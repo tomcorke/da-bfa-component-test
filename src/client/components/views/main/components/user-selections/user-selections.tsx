@@ -2,6 +2,8 @@ import * as React from 'react'
 
 import ClassSelectWrapper from '../class-select-wrapper'
 import SaveButton from '../save-button'
+import ConfirmPromptButton from '../confirm-prompt-button'
+import ConfirmedThanks from '../confirmed-thanks'
 
 import * as STYLES from './user-selections.scss'
 import { PLAYER_SELECTION_CHOICES } from '../../../../../../types/api'
@@ -31,7 +33,9 @@ interface UserSelectionsProps {
 const UserSelections = ({ locked, confirmed }: UserSelectionsProps) => {
   return <div className={STYLES.userSelections}>
     {PLAYER_SELECTION_CHOICES.map(createClassSelectWrapper)}
-    {locked ? null : <SaveButton key='save-button' />}
+    {locked
+      ? (confirmed ? <ConfirmedThanks /> : <ConfirmPromptButton key='confirm-button' />)
+      : <SaveButton key='save-button' />}
   </div>
 }
 

@@ -33,7 +33,12 @@ summaryRouter.get('/get', requireAdmin, (req, res) => {
 
         return allSelections.concat(
           LOCK_SELECTION_CHOICES
-            .filter(choice => playerLockData.selections[choice])
+            .filter(choice => {
+              const lockData = playerLockData.selections[choice]
+              if (!lockData) return false
+              const userSelectionData = userSelections[lockData]
+              return !!userSelectionData
+            })
             .map(choice => {
               const lockedPlayerChoice = playerLockData.selections[choice] as PlayerSelectionChoice
               const playerChoiceData = userSelections[lockedPlayerChoice]
