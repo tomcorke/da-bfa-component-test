@@ -2,11 +2,11 @@ import * as express from 'express'
 
 import { requireAuthentication, requireSuperAdmin } from '../middleware/auth'
 import { BNetUser } from '../types'
-import { AUDIT_LOG_EVENT_UPDATE_DATA, AUDIT_LOG_EVENT_SAVE_DATA } from '../../types/audit'
+import { AUDIT_LOG_EVENT_UPDATE_DATA, AUDIT_LOG_EVENT_SAVE_DATA, AUDIT_LOG_EVENT_CONFIRM } from '../../types/audit'
 import { playerSelectionsDb, getUserData } from '../services/user-data'
 import { bnetApi } from '../services/bnet-api'
 import { APIPlayerSelections, APIPlayerSelection } from '../../types/api'
-import { selectionLockDb } from '../services/selections'
+import { selectionLockDb, confirmOverviewSelections } from '../services/selections'
 import { errorLog, log, auditLog } from '../services/logging'
 import { detailedDiff } from 'deep-object-diff'
 
@@ -79,6 +79,18 @@ userRouter.delete('/delete', requireSuperAdmin, (req, res) => {
   bnetApi.delete(battletag)
 
   res.status(200).send()
+})
+
+userRouter.post('/confirm', requireAuthentication, (req, res) => {
+  if (!req.user) return
+
+  const battletag: string = req.user.battletag
+
+  if (confirmOverviewSelections(battletag)) {
+    auditLog(AUDIT_LOG_EVENT_CONFIRM, `Locked selections for ${battletag}`, { id: battletag })
+    return res.send('ok')
+  }
+  res.status(500).send('not ok')
 })
 
 export default userRouter

@@ -38,6 +38,7 @@ export interface UserDataState {
   hasProfile: boolean
   hasCharacters: boolean
   hasCharactersInGuild: boolean
+  showConfirmSelectionsPrompt: boolean
 }
 
 const filterByGuild = (guild, realm) => char =>
@@ -87,9 +88,9 @@ const handleUserData = (state: UserDataState, userData: APIPlayerData): UserData
   }
 }
 
-function handleChangeSelection (
+const handleChangeSelection = (
   state: UserDataState,
-  { name, property, value }: { name: string, property: string, value: string }): UserDataState {
+  { name, property, value }: { name: string, property: string, value: string }): UserDataState => {
   return {
     ...state,
     selections: {
@@ -102,7 +103,17 @@ function handleChangeSelection (
   }
 }
 
-const initialState = {
+const showConfirmSelectionsPrompt = (state: UserDataState): UserDataState => ({
+  ...state,
+  showConfirmSelectionsPrompt: true
+})
+
+const hideConfirmSelectionsPrompt = (state: UserDataState): UserDataState => ({
+  ...state,
+  showConfirmSelectionsPrompt: false
+})
+
+const initialState: UserDataState = {
   selections: {},
   lockData: { locked: false, confirmed: false },
   isAdmin: false,
@@ -111,7 +122,8 @@ const initialState = {
   isLoggedIn: false,
   hasProfile: false,
   hasCharacters: false,
-  hasCharactersInGuild: false
+  hasCharactersInGuild: false,
+  showConfirmSelectionsPrompt: false
 }
 
 const UserDataReducer: Reducer<UserDataState, UserDataActions> = (state = initialState, action) => {
@@ -126,6 +138,10 @@ const UserDataReducer: Reducer<UserDataState, UserDataActions> = (state = initia
       return handleUserData(state, action.payload)
     case actions.userData.CHANGE_SELECTION:
       return handleChangeSelection(state, action.payload)
+    case actions.userData.CONFIRM_SELECTIONS_PROMPT_SHOW:
+      return showConfirmSelectionsPrompt(state)
+    case actions.userData.CONFIRM_SELECTIONS_PROMPT_HIDE:
+      return hideConfirmSelectionsPrompt(state)
     default:
       return state
   }

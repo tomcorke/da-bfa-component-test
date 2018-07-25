@@ -26,7 +26,7 @@ const formatLockSelectionsPayload = (body: any): APILockSelectionsPayload | unde
 
   if (!body.battletag
     || !body.playerOverviewSelections
-    || !LOCK_SELECTION_CHOICES.every(c => !!body.playerOverviewSelections[c])) {
+    || !LOCK_SELECTION_CHOICES.some(c => !!body.playerOverviewSelections[c])) {
     return
   }
 
@@ -64,7 +64,7 @@ const formatUnlockSelectionsPayload = (body: any): APIUnlockSelectionsPayload | 
 
 selectionsRouter.post('/unlock', requireAdmin, (req, res) => {
   const body = formatUnlockSelectionsPayload(req.body)
-  if (body && unlockOverviewSelections(body.battletag)) {
+  if (body && unlockOverviewSelections(req, body.battletag)) {
     auditLog(AUDIT_LOG_EVENT_UNLOCK, `Unlocked selections for ${body.battletag}`, { id: (req.user as BNetUser).battletag })
     return res.send('ok')
   }

@@ -1,6 +1,8 @@
+import * as express from 'express'
 import { DB } from './db'
 import { APIPlayerOverviewSelectionsData, APIPlayerOverviewSelections } from '../../types/api'
-import { BattleTag } from '../types'
+import { BattleTag, BNetUser } from '../types'
+import { isSuperAdmin } from './permissions'
 
 export const selectionLockDb = new DB<APIPlayerOverviewSelectionsData>('selection-lock')
 
@@ -29,11 +31,12 @@ export const confirmOverviewSelections = (battletag: BattleTag) => {
   return false
 }
 
-export const unlockOverviewSelections = (battletag: BattleTag) => {
+export const unlockOverviewSelections = (req: express.Request, battletag: BattleTag) => {
   const data = selectionLockDb.get(battletag)
   if (data) {
 
-    if (data.confirmed) return false
+    const userBattletag = (req.user as BNetUser).battletag
+    if (data.confirmed && !isSuperAdmin(userBattletag)) return false
 
     const cloned = clone(data)
     cloned.locked = false

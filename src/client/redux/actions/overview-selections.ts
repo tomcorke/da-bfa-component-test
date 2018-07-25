@@ -83,11 +83,13 @@ const lockSelectedChoices = (battletag: string) => {
     const { overviewSelections } = getState()
     const playerOverviewSelections: APIPlayerOverviewSelections = overviewSelections[battletag] || {}
 
+    /* Allow not both selections
     if (!LOCK_SELECTION_CHOICES.every(c => !!playerOverviewSelections[c])) {
       // Reject - require both to be selected!
       dispatch(feedbackActions.show(`Main and alt selections required to lock player "${battletag}"`, 'warning'))
       return
     }
+    */
 
     const { adminLockSelectionsEndpoint } = config
 
@@ -121,12 +123,12 @@ const lockSelectedChoices = (battletag: string) => {
 
 const unlockSelectedChoices = (battletag: string) => {
   return async (dispatch, getState: () => ApplicationState) => {
-    const { overview } = getState()
+    const { overview, userData } = getState()
 
     const playerData = overview.find(o => o.battletag === battletag)
     if (!playerData || !playerData.locked) return
 
-    if (playerData.confirmed) {
+    if (playerData.confirmed && !userData.isSuperAdmin) {
       return dispatch(feedbackActions.show(`Cannot unlock selections for player "${battletag}" - already confirmed.`, 'warning'))
     }
 

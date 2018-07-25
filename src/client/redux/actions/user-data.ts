@@ -19,6 +19,13 @@ export const SAVE_SELECTIONS_START = 'SAVE_START'
 export const SAVE_SELECTIONS_SUCCESS = 'SAVE_SUCCESS'
 export const SAVE_SELECTIONS_FAIL = 'SAVE_FAIL'
 
+export const CONFIRM_SELECTIONS_PROMPT_SHOW = 'CONFIRM_SELECTIONS_PROMPT_SHOW'
+export const CONFIRM_SELECTIONS_PROMPT_HIDE = 'CONFIRM_SELECTIONS_PROMPT_HIDE'
+
+export const CONFIRM_SELECTIONS_START = 'CONFIRM_SELECTIONS_START'
+export const CONFIRM_SELECTIONS_SUCCESS = 'CONFIRM_SELECTIONS_SUCCESS'
+export const CONFIRM_SELECTIONS_FAIL = 'CONFIRM_SELECTIONS_FAIL'
+
 interface HandleUserDataOptions {
   onSuccess?: () => any
   noRetry?: boolean
@@ -119,6 +126,52 @@ export const saveSelections = () => {
   }
 }
 
+const _confirmSelectionsPromptShow = createAction(CONFIRM_SELECTIONS_PROMPT_SHOW)
+const _confirmSelectionsPromptHide = createAction(CONFIRM_SELECTIONS_PROMPT_HIDE)
+const _confirmSelectionsStart = createAction(CONFIRM_SELECTIONS_START)
+const _confirmSelectionsSuccess = createAction(CONFIRM_SELECTIONS_SUCCESS)
+const _confirmSelectionsFail = (error: Error) => action(CONFIRM_SELECTIONS_FAIL, error.stack)
+
+export const promptConfirmSelections = () => {
+  return _confirmSelectionsPromptShow()
+}
+
+export const hidePromptConfirmSelections = () => {
+  return _confirmSelectionsPromptHide()
+}
+
+export const confirmSelections = () => {
+  return async (dispatch, getState: () => ApplicationState) => {
+    dispatch(_confirmSelectionsStart())
+
+    const { confirmSelectionsEndpoint } = config
+
+    try {
+      const response = await window.fetch(
+        confirmSelectionsEndpoint,
+        {
+          method: 'POST',
+          credentials: 'same-origin',
+          headers: {
+            'content-type': 'application/json'
+          }
+        }
+      )
+
+      if (response.status !== 200) {
+        throw Error('Could not confirm selections')
+      }
+
+      dispatch(_confirmSelectionsSuccess())
+      dispatch(feedbackActions.show('Confirmed!', 'success'))
+      dispatch(getUserData())
+    } catch (err) {
+      dispatch(_confirmSelectionsFail(err))
+      dispatch(feedbackActions.show('Confirm failed!', 'warning'))
+    }
+  }
+}
+
 export type UserDataActions = ReturnType<
   | typeof _handleUserData
   | typeof _getUserDataStart
@@ -128,4 +181,9 @@ export type UserDataActions = ReturnType<
   | typeof _saveSelectionsStart
   | typeof _saveSelectionsSuccess
   | typeof _saveSelectionsFail
+  | typeof _confirmSelectionsPromptShow
+  | typeof _confirmSelectionsPromptHide
+  | typeof _confirmSelectionsStart
+  | typeof _confirmSelectionsSuccess
+  | typeof _confirmSelectionsFail
 >
