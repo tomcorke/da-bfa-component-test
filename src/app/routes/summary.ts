@@ -15,7 +15,7 @@ import { getTags } from '../../data/classes'
 
 const summaryRouter = express.Router()
 
-summaryRouter.get('/get', requireAdmin, (req, res) => {
+summaryRouter.get('/get', (req, res) => {
 
   const selectionData = playerSelectionsDb.getAll()
   const lockData = selectionLockDb.getAll()

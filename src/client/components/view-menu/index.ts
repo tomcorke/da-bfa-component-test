@@ -9,6 +9,7 @@ import ViewMenu from './view-menu'
 const ConnectedViewMenu = connect(
   (state: ApplicationState) => ({
     view: state.view,
+    isLoggedIn: state.userData.isLoggedIn,
     isAdmin: state.userData.isAdmin,
     isSuperAdmin: state.userData.isSuperAdmin
   }),

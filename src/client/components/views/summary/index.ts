@@ -55,17 +55,9 @@ const ConnectedSummaryView = connect(
     }, [] as APISummarySelection[])
 
     return {
-      selections: state.overviewSettings.showLockedInSummary
-        ? state.summary.summaryData.selections
-        : overviewSelectionsAsSummaryData,
-      showAltSummary: state.overviewSettings.showAltSummary,
-      showLockedInSummary: state.overviewSettings.showLockedInSummary
+      selections: state.summary.summaryData.selections
     }
-  },
-  (dispatch: Dispatch) => ({
-    toggleShowAltSummary: () => dispatch(overviewActions.toggleShowAltSummary),
-    toggleShowLockedInSummary: () => dispatch(overviewActions.toggleShowLockedInSummary)
-  })
+  }
 )(SummaryView)
 
 export default ConnectedSummaryView

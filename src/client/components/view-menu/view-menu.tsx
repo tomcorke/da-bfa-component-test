@@ -14,9 +14,9 @@ interface MenuItemProps {
 }
 
 const menuItems: MenuItemProps[] = [
-  { name: 'main', text: 'Main', requireLoggedIn: true },
+  { name: 'main', text: 'Your Selections', requireLoggedIn: true },
   { name: 'overview', text: 'Overview', requireAdmin: true },
-  { name: 'summary', text: 'Raid View', requireAdmin: true },
+  { name: 'summary', text: 'Raid View', requireLoggedIn: true },
   { name: 'audit', text: 'Audit Log', requireSuperAdmin: true }
 ]
 
