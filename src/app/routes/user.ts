@@ -87,7 +87,7 @@ userRouter.post('/confirm', requireAuthentication, (req, res) => {
   const battletag: string = req.user.battletag
 
   if (confirmOverviewSelections(battletag)) {
-    auditLog(AUDIT_LOG_EVENT_CONFIRM, `Locked selections for ${battletag}`, { id: battletag })
+    auditLog(AUDIT_LOG_EVENT_CONFIRM, `Confirmed selections`, { id: battletag })
     return res.send('ok')
   }
   res.status(500).send('not ok')

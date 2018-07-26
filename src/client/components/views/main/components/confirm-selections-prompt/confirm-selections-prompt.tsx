@@ -22,13 +22,13 @@ const ConfirmSelectionsPrompt = ({ hide }: ConfirmSelectionsPromptProps) => {
 
           <ol>
             <li>
-              All raiders must be committed to attending 95% of  progress raids - We are a smaller team than the average, meaning that we don’t bench commonly. This means attendance is almost always mandatory. This does not apply to the alt run - See rule 5
+              All raiders must be committed to attending 95% of progress raids - We are a smaller team than the average, meaning that we don’t bench commonly. This means attendance is almost always mandatory. This does not apply to the alt run - See rule 5
             </li>
             <li>
               All raiders must understand that raid time is precious, and therefore time wasting will not be accepted. Occassionally things will happen, but constant wastes of time i.e. AFK between pulls, not eating immediately etc will not be tolerated. We aim for 40 seconds between pulls.
             </li>
             <li>
-              All raiders must understand that loot is simply a means to an end and that if it’s possible to upgrade someone else by a larger margin than yourself, then you should be trying to help the team. This applies only to raiding, although try to have the mindset everywhere, for better and easier progression. Example - Player 1 5% upgrade, but Player two 15% - Player one should trade to player two if possible. This results in larger net gain.
+              All raiders must understand that loot is simply a means to an end and that if it's possible to upgrade someone else by a larger margin than yourself, then you should be trying to help the team. This applies only to raiding, although try to have the mindset everywhere, for better and easier progression. Example - Player 1 5% upgrade, but Player two 15% - Player one should trade to player two if possible. This results in larger net gain.
             </li>
             <li>
               All raiders must understand that having a positive attitude towards raiding is needed. There will be bosses on which we wipe hundreds of times, mistakes will happen and people will learn at  different paces. Remain patient, and do everything you possibly can to be the best you can.
