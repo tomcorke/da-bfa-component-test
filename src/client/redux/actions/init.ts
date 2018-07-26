@@ -3,6 +3,7 @@ import { createAction } from 'typesafe-actions'
 import actions from '.'
 import { VIEWS, View } from '../reducers/views'
 import config from '../../config'
+import { ApplicationState } from '../reducers'
 
 export const INIT_START = 'INIT_START'
 
@@ -16,7 +17,7 @@ const isMain = (view: View) => {
 }
 
 export const init = () => {
-  return (dispatch) => {
+  return (dispatch, getState: () => ApplicationState) => {
     dispatch(_initStart())
 
     // Load mock data and/or trigger getUserData
@@ -30,6 +31,9 @@ export const init = () => {
       const useHashView = isView(hashView) && !isMain(hashView)
       dispatch(actions.userData.getUserData({
         onSuccess: () => {
+          if (getState().userData.isSuperAdmin) {
+            dispatch(actions.overview.getOverviewData())
+          }
           useHashView && dispatch(actions.views.changeView(hashView as View))
         },
         noSetViewMain: useHashView

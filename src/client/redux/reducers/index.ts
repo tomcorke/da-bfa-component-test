@@ -3,6 +3,7 @@ import { combineReducers, Reducer } from 'redux'
 import { ThunkDispatch } from 'redux-thunk'
 import { ApplicationAction } from '../actions'
 
+import AdminReducer, { AdminState } from './admin'
 import AuditReducer, { AuditState } from './audit'
 import FeedbackReducer, { FeedbackState } from './feedback'
 import LoginReducer, { LoginState } from './login'
@@ -14,6 +15,7 @@ import UserDataReducer, { UserDataState } from './user-data'
 import ViewReducer, { ViewState } from './views'
 
 export interface ApplicationState {
+  admin: AdminState
   audit: AuditState
   feedback: FeedbackState
   login: LoginState
@@ -26,6 +28,7 @@ export interface ApplicationState {
 }
 
 const rootReducer: Reducer<ApplicationState> = combineReducers<ApplicationState>({
+  admin: AdminReducer,
   audit: AuditReducer,
   feedback: FeedbackReducer,
   login: LoginReducer,

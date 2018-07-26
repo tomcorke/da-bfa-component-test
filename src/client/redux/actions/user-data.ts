@@ -57,13 +57,18 @@ const _getUserDataSuccess = createAction(GET_USER_DATA_SUCCESS)
 const _getUserDataFail = (error: Error) => action(GET_USER_DATA_FAIL, error.stack)
 
 export const getUserData = (opts: HandleUserDataOptions = {}) => {
-  return async (dispatch) => {
+  return async (dispatch, getState: () => ApplicationState) => {
     dispatch(_getUserDataStart())
 
     const { userDataEndpoint } = config
+    const assumedIdentity = getState().admin.assumedIdentity
+    const url = assumedIdentity ? `${userDataEndpoint}?battletag=${encodeURIComponent(assumedIdentity)}` : userDataEndpoint
 
     try {
-      const response = await window.fetch(userDataEndpoint, { credentials: 'same-origin' })
+      const response = await window.fetch(
+        url,
+        { credentials: 'same-origin' }
+      )
 
       if (response.status !== 200) {
         throw Error('Could not get user data')
@@ -99,10 +104,12 @@ export const saveSelections = () => {
 
     const { saveDataEndpoint } = config
     const { selections } = getState().userData
+    const assumedIdentity = getState().admin.assumedIdentity
+    const url = assumedIdentity ? `${saveDataEndpoint}?battletag=${encodeURIComponent(assumedIdentity)}` : saveDataEndpoint
 
     try {
       const response = await window.fetch(
-        saveDataEndpoint,
+        url,
         {
           method: 'POST',
           body: JSON.stringify(selections),
@@ -145,10 +152,12 @@ export const confirmSelections = () => {
     dispatch(_confirmSelectionsStart())
 
     const { confirmSelectionsEndpoint } = config
+    const assumedIdentity = getState().admin.assumedIdentity
+    const url = assumedIdentity ? `${confirmSelectionsEndpoint}?battletag=${encodeURIComponent(assumedIdentity)}` : confirmSelectionsEndpoint
 
     try {
       const response = await window.fetch(
-        confirmSelectionsEndpoint,
+        url,
         {
           method: 'POST',
           credentials: 'same-origin',

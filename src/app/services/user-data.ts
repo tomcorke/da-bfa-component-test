@@ -49,15 +49,16 @@ const onlyLockMetaData = (lockData?: APIPlayerOverviewSelectionsData): APIPlayer
   }
 }
 
-export const getUserData = async (user: BNetUser, immediate = false): Promise<APIPlayerData> => {
-  const { battletag } = user
+export const getUserData = async (user: BNetUser, immediate = false, assumedUser?: BNetUser): Promise<APIPlayerData> => {
 
-  const selections = playerSelectionsDb.get(battletag) || {}
-  const lockData = selectionLockDb.get(battletag)
+  const getUser = assumedUser || user
+
+  const selections = playerSelectionsDb.get(getUser.battletag) || {}
+  const lockData = selectionLockDb.get(getUser.battletag)
 
   const selectionsWithLockData = mergeSelectionsWithLocks(selections, lockData)
 
-  const profile = await bnetApi.getWoWProfile(user, { immediate })
+  const profile = await bnetApi.getWoWProfile(getUser, { immediate })
   const isUserAdmin = isAdmin(user.battletag)
   const isUserSuperAdmin = isSuperAdmin(user.battletag)
   return {

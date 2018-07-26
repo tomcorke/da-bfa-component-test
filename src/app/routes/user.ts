@@ -4,19 +4,42 @@ import { requireAuthentication, requireSuperAdmin } from '../middleware/auth'
 import { BNetUser } from '../types'
 import { AUDIT_LOG_EVENT_UPDATE_DATA, AUDIT_LOG_EVENT_SAVE_DATA, AUDIT_LOG_EVENT_CONFIRM } from '../../types/audit'
 import { playerSelectionsDb, getUserData } from '../services/user-data'
-import { bnetApi } from '../services/bnet-api'
+import { bnetApi, tokenDb } from '../services/bnet-api'
 import { APIPlayerSelections, APIPlayerSelection } from '../../types/api'
 import { selectionLockDb, confirmOverviewSelections } from '../services/selections'
 import { errorLog, log, auditLog } from '../services/logging'
 import { detailedDiff } from 'deep-object-diff'
+import { isSuperAdmin } from '../services/permissions'
 
 const userRouter = express.Router()
+
+const getAssumedUser = (req: express.Request): BNetUser => {
+  if (!req.isAuthenticated()) throw Error('Requires authenticated user')
+
+  let bnetUser = req.user as BNetUser
+  if (isSuperAdmin(bnetUser.battletag)) {
+    if (req.query.battletag) {
+      const userToken = tokenDb.get(req.query.battletag) || ''
+      bnetUser = {
+        battletag: req.query.battletag,
+        provider: 'bnet',
+        token: userToken
+      }
+    }
+  }
+
+  return bnetUser
+}
 
 userRouter.get('/get', async (req, res) => {
   if (!req.isAuthenticated()) {
     return res.status(401).send()
   }
-  res.json(await getUserData(req.user as BNetUser))
+
+  const bnetUser = req.user as BNetUser
+  const assumedUser = getAssumedUser(req)
+
+  res.json(await getUserData(bnetUser, false, assumedUser))
 })
 
 const formatPlayerSelections = (body: any): APIPlayerSelections => {
@@ -43,7 +66,9 @@ const formatPlayerSelections = (body: any): APIPlayerSelections => {
 userRouter.post('/save', requireAuthentication, (req, res) => {
   if (!req.user) { return }
 
-  const battletag = req.user.battletag
+  const bnetUser = getAssumedUser(req)
+
+  const battletag = bnetUser.battletag
 
   const lockData = selectionLockDb.get(battletag)
   if (lockData && lockData.locked) {
@@ -84,7 +109,9 @@ userRouter.delete('/delete', requireSuperAdmin, (req, res) => {
 userRouter.post('/confirm', requireAuthentication, (req, res) => {
   if (!req.user) return
 
-  const battletag: string = req.user.battletag
+  const bnetUser = getAssumedUser(req)
+
+  const battletag = bnetUser.battletag
 
   if (confirmOverviewSelections(battletag)) {
     auditLog(AUDIT_LOG_EVENT_CONFIRM, `Confirmed selections`, { id: battletag })

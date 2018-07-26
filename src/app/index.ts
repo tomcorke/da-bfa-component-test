@@ -6,6 +6,7 @@ import * as session from 'express-session'
 import * as handlebars from 'express-handlebars'
 import * as helmet from 'helmet'
 import * as git from 'git-rev'
+import * as url from 'url'
 
 import { passportInit } from './services/passport'
 import { log, auditLog, errorLog } from './services/logging'
@@ -47,7 +48,8 @@ const getGitRev = new Promise<string>((resolve) => {
 })
 
 app.use(async (req, res, next) => {
-  log(`${req.method} ${req.path}`)
+  const queryString = url.parse(req.url).query
+  log(`${req.method} ${req.path}${queryString ? ` ${queryString}` : ''}`)
   const gitRev = await getGitRev
   res.header('x-rev', gitRev)
   next()

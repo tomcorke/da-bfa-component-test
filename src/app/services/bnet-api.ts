@@ -12,7 +12,7 @@ const createUrl = (endpoint: string, token: string) => {
 }
 
 const profileDb = new DB<APIPlayerProfile>('profiles')
-const tokenDb = new DB<string>('tokens')
+export const tokenDb = new DB<string>('tokens')
 
 const CLASS_NAMES: { [key: number]: WowClassSafeName } = {
   1: 'warrior',
@@ -72,7 +72,7 @@ class API {
 
     let getProfile = this.requestCache[user.battletag]
 
-    if (!getProfile) {
+    if (!getProfile && user.token !== '') {
       getProfile = request(url, { json: true })
         .then(data => {
           if (data) {
