@@ -1,4 +1,5 @@
-import { CommonConfig, Endpoints } from './common'
+import { guildConfig, GuildConfig } from '../../guild-config'
+import { Endpoints } from './common'
 
 interface MockData {
   mockUserData?: any
@@ -6,8 +7,11 @@ interface MockData {
   initialView?: string
 }
 
-type Config = CommonConfig & Endpoints & MockData
+type Config = GuildConfig & Endpoints & MockData
 
-const config = require(`./${process.env.NODE_ENV}`).default as Config
+const config: Config = {
+  ...guildConfig,
+  ...require(`./${process.env.NODE_ENV}`).default as Endpoints
+}
 
 export default config

@@ -1,6 +1,6 @@
 import * as express from 'express'
 
-import { requireAuthentication, requireSuperAdmin } from '../middleware/auth'
+import { requireSuperAdmin, requireGuild } from '../middleware/auth'
 import { BNetUser } from '../types'
 import { AUDIT_LOG_EVENT_UPDATE_DATA, AUDIT_LOG_EVENT_SAVE_DATA, AUDIT_LOG_EVENT_CONFIRM } from '../../types/audit'
 import { playerSelectionsDb, getUserData } from '../services/user-data'
@@ -63,7 +63,7 @@ const formatPlayerSelections = (body: any): APIPlayerSelections => {
   }
 }
 
-userRouter.post('/save', requireAuthentication, (req, res) => {
+userRouter.post('/save', requireGuild, (req, res) => {
   if (!req.user) { return }
 
   const bnetUser = getAssumedUser(req)
@@ -106,7 +106,7 @@ userRouter.delete('/delete', requireSuperAdmin, (req, res) => {
   res.status(200).send()
 })
 
-userRouter.post('/confirm', requireAuthentication, (req, res) => {
+userRouter.post('/confirm', requireGuild, (req, res) => {
   if (!req.user) return
 
   const bnetUser = getAssumedUser(req)

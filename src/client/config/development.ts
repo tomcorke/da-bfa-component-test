@@ -1,10 +1,7 @@
-import { commonConfig, getEndpoints } from './common'
+import { getEndpoints, Endpoints } from './common'
 
-const config = {
-  ...commonConfig,
-
+const config: Endpoints = {
   // ...require('./mockData').default,
-
   ...getEndpoints('https://localhost:3443/')
 }
 

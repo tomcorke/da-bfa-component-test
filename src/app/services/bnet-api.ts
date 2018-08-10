@@ -11,7 +11,7 @@ const createUrl = (endpoint: string, token: string) => {
   return `${BASE_URL}${endpoint}?access_token=${encodeURIComponent(token)}`
 }
 
-const profileDb = new DB<APIPlayerProfile>('profiles')
+export const profileDb = new DB<APIPlayerProfile>('profiles')
 export const tokenDb = new DB<string>('tokens')
 
 const CLASS_NAMES: { [key: number]: WowClassSafeName } = {

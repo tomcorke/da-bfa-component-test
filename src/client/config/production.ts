@@ -1,7 +1,6 @@
-import { commonConfig, getEndpoints } from './common'
+import { getEndpoints, Endpoints } from './common'
 
-const config = {
-  ...commonConfig,
+const config: Endpoints = {
   ...getEndpoints('')
 }
 

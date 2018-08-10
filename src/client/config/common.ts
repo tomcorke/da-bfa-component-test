@@ -1,15 +1,3 @@
-export interface CommonConfig {
-  guild: string
-  realm: string
-  region: string
-}
-
-export const commonConfig: CommonConfig = {
-  guild: 'Distinctly Average',
-  realm: 'Silvermoon',
-  region: 'EU'
-}
-
 export interface Endpoints {
   userDataEndpoint: string
   bnetAuthEndpoint: string

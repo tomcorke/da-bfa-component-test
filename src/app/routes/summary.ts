@@ -9,13 +9,13 @@ import {
 
 import { playerSelectionsDb, playerDisplayNamesDb } from '../services/user-data'
 import { selectionLockDb } from '../services/selections'
-import { requireAdmin } from '../middleware/auth'
+import { requireGuild } from '../middleware/auth'
 import { WowClassSafeName, WowSpecSafeName } from '../../types/classes'
 import { getTags } from '../../data/classes'
 
 const summaryRouter = express.Router()
 
-summaryRouter.get('/get', (req, res) => {
+summaryRouter.get('/get', requireGuild, (req, res) => {
 
   const selectionData = playerSelectionsDb.getAll()
   const lockData = selectionLockDb.getAll()

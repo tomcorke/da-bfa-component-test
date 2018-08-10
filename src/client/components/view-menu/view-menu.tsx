@@ -9,14 +9,15 @@ interface MenuItemProps {
   name: View
   text: string
   requireLoggedIn?: boolean
+  requireGuild?: boolean
   requireAdmin?: boolean
   requireSuperAdmin?: boolean
 }
 
 const menuItems: MenuItemProps[] = [
-  { name: 'main', text: 'Your Selections', requireLoggedIn: true },
+  { name: 'main', text: 'Your Selections', requireGuild: true },
   { name: 'overview', text: 'Overview', requireAdmin: true },
-  { name: 'summary', text: 'Raid View', requireLoggedIn: true },
+  { name: 'summary', text: 'Raid View', requireGuild: true },
   { name: 'audit', text: 'Audit Log', requireSuperAdmin: true }
 ]
 
@@ -25,17 +26,27 @@ interface ViewMenuProps {
   isLoggedIn: boolean
   isAdmin: boolean
   isSuperAdmin: boolean
+  hasCharactersInGuild: boolean
   changeView: (view: View) => any
 }
 
-const ViewMenu = ({ view, isLoggedIn = false, isAdmin = false, isSuperAdmin = false, changeView }: ViewMenuProps) => {
+const ViewMenu = ({
+  view,
+  isLoggedIn = false,
+  isAdmin = false,
+  isSuperAdmin = false,
+  hasCharactersInGuild = false,
+  changeView
+}: ViewMenuProps) => {
   const menuItemsToDisplay = menuItems
     .filter(item => {
       const requireAdmin = item.requireSuperAdmin || item.requireAdmin
-      const requireLoggedIn = requireAdmin || item.requireLoggedIn
+      const requireGuild = requireAdmin || item.requireGuild
+      const requireLoggedIn = requireGuild || item.requireLoggedIn
       return isSuperAdmin
         || (!item.requireSuperAdmin && isAdmin)
-        || (!requireAdmin && isLoggedIn)
+        || (!requireAdmin && hasCharactersInGuild)
+        || (!requireGuild && isLoggedIn)
         || !requireLoggedIn
     })
     .map(item => (

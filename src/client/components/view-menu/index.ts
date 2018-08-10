@@ -11,7 +11,8 @@ const ConnectedViewMenu = connect(
     view: state.view,
     isLoggedIn: state.userData.isLoggedIn,
     isAdmin: state.userData.isAdmin,
-    isSuperAdmin: state.userData.isSuperAdmin
+    isSuperAdmin: state.userData.isSuperAdmin,
+    hasCharactersInGuild: state.userData.hasCharactersInGuild
   }),
   (dispatch: Dispatch) => ({
     changeView: (newView: View) => dispatch(actions.views.changeView(newView))
