@@ -5,7 +5,7 @@ services:
     build:
       context: .
     ports:
-      - 3100:3100
+      - 3200:3000
     env_file: .env
     volumes:
       - ./db:/opt/app/db
