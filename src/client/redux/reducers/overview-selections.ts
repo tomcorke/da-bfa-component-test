@@ -6,7 +6,6 @@ import * as overviewSelectionsActions from '../actions/overview-selections'
 export interface OverviewSelections {
   [key: string]: PlayerSelectionChoice | undefined
   main?: PlayerSelectionChoice
-  alt?: PlayerSelectionChoice
 }
 
 export interface OverviewSelectionsState {
@@ -64,8 +63,7 @@ const autoSelectAll = (state: OverviewSelectionsState, battletags: string[]): Ov
   const newState: OverviewSelectionsState = {}
   battletags.forEach(battletag => {
     newState[battletag] = {
-      main: 'first',
-      alt: 'second'
+      main: 'first'
     }
   })
   return newState
@@ -74,13 +72,11 @@ const autoSelectAll = (state: OverviewSelectionsState, battletags: string[]): Ov
 const autoSelectLocked = (state: OverviewSelectionsState, lockedChoices: {
   battletag: string
   main: PlayerSelectionChoice
-  alt: PlayerSelectionChoice
 }[]): OverviewSelectionsState => {
   const newState = clone(state)
   lockedChoices.forEach(c => {
     newState[c.battletag] = {
-      main: c.main,
-      alt: c.alt
+      main: c.main
     }
   })
   return newState

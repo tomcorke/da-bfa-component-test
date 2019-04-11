@@ -7,7 +7,7 @@ import { WowClassSafeName } from '../../types/classes'
 import { errorLog, log } from './logging'
 
 const createUrl = (endpoint: string, token: string) => {
-  const BASE_URL = `https://eu.api.battle.net`
+  const BASE_URL = `https://eu.api.blizzard.com`
   return `${BASE_URL}${endpoint}?access_token=${encodeURIComponent(token)}`
 }
 

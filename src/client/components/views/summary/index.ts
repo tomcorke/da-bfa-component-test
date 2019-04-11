@@ -23,37 +23,6 @@ const summarySelectionFromPlayerSelection = (
 
 const ConnectedSummaryView = connect(
   (state: ApplicationState) => {
-
-    const overviewSelectionsAsSummaryData: APISummarySelection[] = state.overview.reduce((selections, player) => {
-      const newData: APISummarySelection[] = []
-      const playerOverviewSelections = state.overviewSelections[player.battletag]
-      if (playerOverviewSelections) {
-        const main = playerOverviewSelections.main
-        if (main) {
-          const playerSelection = player.selections.find(s => s.choice === main)
-          if (playerSelection && playerSelection.class) {
-            newData.push(summarySelectionFromPlayerSelection(
-              player,
-              playerSelection,
-              'main'
-            ))
-          }
-        }
-        const alt = playerOverviewSelections.alt
-        if (alt) {
-          const playerSelection = player.selections.find(s => s.choice === alt)
-          if (playerSelection && playerSelection.class) {
-            newData.push(summarySelectionFromPlayerSelection(
-              player,
-              playerSelection,
-              'alt'
-            ))
-          }
-        }
-      }
-      return selections.concat(newData)
-    }, [] as APISummarySelection[])
-
     return {
       selections: state.summary.summaryData.selections
     }
