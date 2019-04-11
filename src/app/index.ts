@@ -64,7 +64,9 @@ app.use('/selections', selectionsRouter)
 app.use('/summary', summaryRouter)
 app.use('/audit', auditRouter)
 
-app.get('/*', express.static(path.join(__dirname, '../client')))
+app.use(express.static(path.join(__dirname, '../client')))
+app.get('/favicon.png', (req, res) => res.sendFile(path.join(__dirname, '../../favicon.png')))
+app.get('*', (req, res) => res.sendFile(path.join(__dirname, '../client/index.html')))
 
 app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
   errorLog(`ERROR: ${req.url}`, undefined, err.stack)

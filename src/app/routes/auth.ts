@@ -1,4 +1,5 @@
 import * as express from 'express'
+import * as helmet from 'helmet'
 import * as passport from 'passport'
 
 import { requireAuthentication } from '../middleware/auth'
@@ -11,6 +12,8 @@ require('dotenv-safe').config()
 const APP_BASE_URL = process.env.APP_BASE_URL || ''
 
 const authRouter = express.Router()
+
+authRouter.use(helmet.noCache())
 
 authRouter.get(
   '/bnet',
