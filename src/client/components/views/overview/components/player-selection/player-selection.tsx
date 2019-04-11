@@ -49,7 +49,7 @@ const PlayerSelection = (
   const realCharacters = characters.filter(char => char.realm)
     .sort((a, b) => (a.level > b.level || (a.level === b.level && a.name < b.name)) ? -1 : 1)
   const classCharacters = realCharacters.filter(char => wowClass && char.class === wowClass.safeName)
-  const maxLevelCharacters = classCharacters.filter(char => char.level === 110)
+  const maxLevelCharacters = classCharacters.filter(char => char.level >= 120)
   const realmCharacters = maxLevelCharacters.filter(char => char.realm === config.realm)
   const guildCharacters = realmCharacters.filter(char => char.guild === config.guild)
 
