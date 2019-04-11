@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  app:
+    build:
+      context: .
+    ports:
+      - 3100:3100
+    env_file: .env
+    volumes:
+      - ./db:/opt/app/db
+      - ./logs:/opt/app/logs
