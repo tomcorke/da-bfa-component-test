@@ -31,10 +31,7 @@ app.use(session({
   store: new MemoryStore({ checkPeriod: 86400000 }),
   secret: 'blizzard-distinctly-average',
   saveUninitialized: true,
-  resave: true,
-  cookie: {
-    path: process.env.COOKIE_PATH || '/'
-  }
+  resave: true
 }))
 app.use(compression())
 
