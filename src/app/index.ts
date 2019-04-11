@@ -71,7 +71,7 @@ app.use((err: Error, req: express.Request, res: express.Response, next: express.
   res.status(500).send()
 })
 
-const PORT = 3000
+const PORT = process.env.PORT || 3000
 app.listen(PORT, () => {
   auditLog(AUDIT_LOG_EVENT_SERVER, `Server started successfully. Listening on :${PORT}`)
 })
