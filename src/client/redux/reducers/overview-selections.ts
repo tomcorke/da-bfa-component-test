@@ -6,7 +6,6 @@ import * as overviewSelectionsActions from '../actions/overview-selections'
 export interface OverviewSelections {
   [key: string]: PlayerSelectionChoice | undefined
   main?: PlayerSelectionChoice
-  alt?: PlayerSelectionChoice
 }
 
 export interface OverviewSelectionsState {
