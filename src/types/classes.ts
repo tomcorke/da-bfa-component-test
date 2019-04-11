@@ -1,3 +1,5 @@
+export const MAX_CHARACTER_LEVEL = 120
+
 export type WowRoleTag =
   | 'tank'
   | 'healer'

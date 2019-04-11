@@ -5,7 +5,7 @@ import ClassIcon from '../../../../class-icon'
 import RoleIcon from '../../../../role-icon'
 import WarningIndicator from '../warning-indicator'
 import { APIPlayerCharacter, LockSelectionChoice, PlayerSelectionChoice } from '../../../../../../types/api'
-import { WowRoleTag, WowTag } from '../../../../../../types/classes'
+import { WowRoleTag, WowTag, MAX_CHARACTER_LEVEL } from '../../../../../../types/classes'
 import { OverviewPlayerSelection } from '../../../../../redux/reducers/overview'
 
 import * as STYLES from './player-selection.scss'
@@ -49,7 +49,7 @@ const PlayerSelection = (
   const realCharacters = characters.filter(char => char.realm)
     .sort((a, b) => (a.level > b.level || (a.level === b.level && a.name < b.name)) ? -1 : 1)
   const classCharacters = realCharacters.filter(char => wowClass && char.class === wowClass.safeName)
-  const maxLevelCharacters = classCharacters.filter(char => char.level >= 120)
+  const maxLevelCharacters = classCharacters.filter(char => char.level >= MAX_CHARACTER_LEVEL)
   const realmCharacters = maxLevelCharacters.filter(char => char.realm === config.realm)
   const guildCharacters = realmCharacters.filter(char => char.guild === config.guild)
 

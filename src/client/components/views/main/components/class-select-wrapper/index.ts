@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import actions from '../../../../../redux/actions'
 import { ApplicationState } from '../../../../../redux/reducers'
-import { WowClassSafeName, WowSpecSafeName } from '../../../../../../types/classes'
+import { WowClassSafeName, WowSpecSafeName, MAX_CHARACTER_LEVEL } from '../../../../../../types/classes'
 
 import ClassSelectWrapper, { NoneableLockSelectionChoice } from './class-select-wrapper'
 
@@ -40,7 +40,7 @@ const ConnectedClassSelectWrapper = connect<StateProps, DispatchProps, OwnProps,
     if (selectedClass) {
       const selectedClassMaxLevelCharacters = profileCharacters
         .filter(c => c.class === selected.class)
-        .filter(c => c.level >= 110)
+        .filter(c => c.level >= MAX_CHARACTER_LEVEL)
       showSelectedClassWarning = selectedClassMaxLevelCharacters.length === 0
     }
 
