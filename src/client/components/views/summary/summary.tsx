@@ -69,13 +69,11 @@ const SummaryView = ({
 }: SummaryViewProps) => {
 
   const mainSelections = selections.filter(s => s.choice === 'main')
-  const altSelections = selections.filter(s => s.choice === 'alt')
 
   return (
     <div className={STYLES.summaryView}>
 
       <SummaryDisplay title='Mains' selections={mainSelections} />
-      <SummaryDisplay title='Alts' selections={altSelections} />
     </div>
   )
 }

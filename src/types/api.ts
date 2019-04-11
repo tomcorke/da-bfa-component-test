@@ -10,8 +10,8 @@ export interface APIPlayerSelection {
   comments?: string
 }
 
-export type LockSelectionChoice = 'main' | 'alt'
-export const LOCK_SELECTION_CHOICES: LockSelectionChoice[] = ['main', 'alt']
+export type LockSelectionChoice = 'main'
+export const LOCK_SELECTION_CHOICES: LockSelectionChoice[] = ['main']
 
 export interface APILockedSelectionData {
   locked: boolean
@@ -65,13 +65,12 @@ export interface APIOverviewData {
   }
 }
 
-export type PlayerSelectionChoice = 'first' | 'second' | 'third'
-export const PLAYER_SELECTION_CHOICES: PlayerSelectionChoice[] = ['first', 'second', 'third']
+export type PlayerSelectionChoice = 'first'
+export const PLAYER_SELECTION_CHOICES: PlayerSelectionChoice[] = ['first']
 
 export interface APIPlayerOverviewSelections {
   [key: string]: PlayerSelectionChoice | undefined
   main?: PlayerSelectionChoice
-  alt?: PlayerSelectionChoice
 }
 
 export interface APIPlayerOverviewSelectionsMetaData {

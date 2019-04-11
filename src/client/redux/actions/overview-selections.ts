@@ -181,7 +181,6 @@ const _autoSelectAllOverviewChoices = (battletags: string[]) => action(AUTO_SELE
 const _autoSelectLockedOverviewChoices = (lockedSelections: {
   battletag: string
   main: PlayerSelectionChoice
-  alt: PlayerSelectionChoice
 }[]) => action(AUTO_SELECT_OVERVIEW_CHOICE_LOCKED, lockedSelections)
 export const autoDeselectAllOverviewChoices = () => action(AUTO_DESELECT_OVERVIEW_CHOICE_ALL)
 
@@ -198,11 +197,9 @@ export const autoSelectLockedOverviewChoices = () => {
       .filter(o => o.locked)
       .map(o => {
         const main = (o.selections.find(s => s.lockedChoice === 'main') || {} as OverviewPlayerSelection).choice
-        const alt = (o.selections.find(s => s.lockedChoice === 'alt') || {} as OverviewPlayerSelection).choice
         return {
           battletag: o.battletag,
-          main,
-          alt
+          main
         }
       })
     dispatch(_autoSelectLockedOverviewChoices(lockedSelections))

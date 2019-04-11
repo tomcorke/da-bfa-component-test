@@ -35,21 +35,15 @@ const OverviewView = ({
         <SummaryBox title='Total summary' />
         { showLockedInSummary
           ? [
-            <SummaryBox key='locked mains' title='Locked-in mains' selectionFilter={selection => selection.locked && selection.lockedChoice === 'main'} />,
-            (showAltSummary && <SummaryBox key='locked alts' title='Locked-in alts' selectionFilter={selection => selection.locked && selection.lockedChoice === 'alt'} />)
+            <SummaryBox key='locked mains' title='Locked-in mains' selectionFilter={selection => selection.locked && selection.lockedChoice === 'main'} />
           ]
           : [
-            <SummaryBox key='selected-mains' title='Selected mains' selectionFilter={selection => selection.overviewSelection === 'main'} />,
-            (showAltSummary && <SummaryBox key='selected-alts' title='Selected alts' selectionFilter={selection => selection.overviewSelection === 'alt'} />)
+            <SummaryBox key='selected-mains' title='Selected mains' selectionFilter={selection => selection.overviewSelection === 'main'} />
           ]
         }
       </div>
 
       <div className={STYLES.options}>
-        <label>
-          <input type='checkbox' checked={showAltSummary} onChange={toggleShowAltSummary} />
-          Show alt summary
-        </label>
         <label>
           <input type='checkbox' checked={showLockedInSummary} onChange={toggleShowLockedInSummary} />
           Show locked-in summary instead of selected
