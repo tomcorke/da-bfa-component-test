@@ -8,6 +8,8 @@ import * as helmet from 'helmet'
 import * as git from 'git-rev'
 import * as url from 'url'
 
+const MemoryStore = require('memorystore')(session)
+
 import { passportInit } from './services/passport'
 import { log, auditLog, errorLog } from './services/logging'
 import { AUDIT_LOG_EVENT_SERVER } from '../types/audit'
@@ -26,6 +28,7 @@ app.use(helmet())
 app.use(express.json())
 app.use(cookieParser())
 app.use(session({
+  store: new MemoryStore({ checkPeriod: 86400000 }),
   secret: 'blizzard-distinctly-average',
   saveUninitialized: true,
   resave: true
