@@ -37,7 +37,7 @@ passportInit(app)
 app.engine('.hbs', handlebars({
   extname: '.hbs'
 }))
-app.set('views', path.join(__dirname, '../../src/app/views'))
+app.set('views', path.join(__dirname, '../../public/views'))
 app.set('view engine', '.hbs')
 
 const getGitRev = new Promise<string>((resolve) => {
