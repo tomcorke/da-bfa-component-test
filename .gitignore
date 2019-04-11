@@ -64,3 +64,5 @@ typings/
 /data.json
 /db/
 /src/client/config/profiles.json
+localhost-key.pem
+localhost.pem
