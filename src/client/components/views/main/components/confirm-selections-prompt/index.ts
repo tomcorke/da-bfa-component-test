@@ -5,11 +5,8 @@ import { ApplicationState, Dispatch } from "../../../../../redux/reducers";
 
 import ConfirmSelectionsPrompt from "./confirm-selections-prompt";
 
-const ConnectedConfirmSelectionsPrompt = connect(
-  null,
-  dispatch => ({
-    hide: () => dispatch(actions.userData.hidePromptConfirmSelections())
-  })
-)(ConfirmSelectionsPrompt);
+const ConnectedConfirmSelectionsPrompt = connect(null, dispatch => ({
+  hide: () => dispatch(actions.userData.hidePromptConfirmSelections())
+}))(ConfirmSelectionsPrompt);
 
 export default ConnectedConfirmSelectionsPrompt;

@@ -76,10 +76,10 @@ const autoSelectAll = (
 
 const autoSelectLocked = (
   state: OverviewSelectionsState,
-  lockedChoices: Array<{
+  lockedChoices: {
     battletag: string;
     main: PlayerSelectionChoice;
-  }>
+  }[]
 ): OverviewSelectionsState => {
   const newState = clone(state);
   lockedChoices.forEach(c => {

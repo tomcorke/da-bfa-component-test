@@ -85,9 +85,7 @@ class API {
         })
         .catch(err => {
           errorLog(
-            `Error getting wow profile data for "${user.battletag}": ${
-              err.message
-            }`
+            `Error getting wow profile data for "${user.battletag}": ${err.message}`
           );
           if (!err.message.startsWith("504 - ") && opts.throwOnFail) {
             throw err;
@@ -183,9 +181,7 @@ class API {
             .catch(err => {
               tokenDb.delete(user.battletag);
               log(
-                `Error on scheduled user refresh for "${user.battletag}": ${
-                  err.message
-                }`
+                `Error on scheduled user refresh for "${user.battletag}": ${err.message}`
               );
             });
         } else {

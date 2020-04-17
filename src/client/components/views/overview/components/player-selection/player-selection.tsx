@@ -55,9 +55,8 @@ const PlayerSelection = ({
 
   const realCharacters = characters
     .filter(char => char.realm)
-    .sort(
-      (a, b) =>
-        a.level > b.level || (a.level === b.level && a.name < b.name) ? -1 : 1
+    .sort((a, b) =>
+      a.level > b.level || (a.level === b.level && a.name < b.name) ? -1 : 1
     );
   const classCharacters = realCharacters.filter(
     char => wowClass && char.class === wowClass.safeName
@@ -94,8 +93,8 @@ ${profileTimestampString}`;
 
 Other ${wowClassName} characters:
 ${classCharacters
-      .map(char => `  ${char.level} - ${char.name} (${char.realm})`)
-      .join("\n")}
+  .map(char => `  ${char.level} - ${char.name} (${char.realm})`)
+  .join("\n")}
 
 ${profileTimestampString}`;
     warningSeverity = 3;
@@ -106,8 +105,8 @@ ${profileTimestampString}`;
 
 Other ${wowClassName} characters:
 ${classCharacters
-      .map(char => `  ${char.level} - ${char.name} (${char.realm})`)
-      .join("\n")}
+  .map(char => `  ${char.level} - ${char.name} (${char.realm})`)
+  .join("\n")}
 
 ${profileTimestampString}`;
     warningSeverity = 2;
@@ -116,8 +115,8 @@ ${profileTimestampString}`;
 
 Other ${wowClassName} characters:
 ${classCharacters
-      .map(char => `  ${char.level} - ${char.name} (${char.realm})`)
-      .join("\n")}
+  .map(char => `  ${char.level} - ${char.name} (${char.realm})`)
+  .join("\n")}
 
 ${profileTimestampString}`;
     warningSeverity = 1;

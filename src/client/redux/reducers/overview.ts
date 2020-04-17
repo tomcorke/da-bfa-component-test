@@ -6,8 +6,8 @@ import {
   APIPlayerCharacter,
   APISetDisplayNameResponse,
   LockSelectionChoice,
-  PLAYER_SELECTION_CHOICES,
-  PlayerSelectionChoice
+  PlayerSelectionChoice,
+  PLAYER_SELECTION_CHOICES
 } from "../../../types/api";
 import { WowClass, WowSpecialisation, WowTag } from "../../../types/classes";
 import * as overviewActions from "../actions/overview";

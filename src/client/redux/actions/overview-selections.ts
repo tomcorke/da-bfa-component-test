@@ -4,8 +4,8 @@ import {
   APILockSelectionsPayload,
   APIPlayerOverviewSelections,
   APIUnlockSelectionsPayload,
-  LOCK_SELECTION_CHOICES,
   LockSelectionChoice,
+  LOCK_SELECTION_CHOICES,
   PlayerSelectionChoice
 } from "../../../types/api";
 import config from "../../config";
@@ -222,10 +222,10 @@ export const toggleLockSelectedChoices = (battletag: string) => {
 const _autoSelectAllOverviewChoices = (battletags: string[]) =>
   action(AUTO_SELECT_OVERVIEW_CHOICE_ALL, battletags);
 const _autoSelectLockedOverviewChoices = (
-  lockedSelections: Array<{
+  lockedSelections: {
     battletag: string;
     main: PlayerSelectionChoice;
-  }>
+  }[]
 ) => action(AUTO_SELECT_OVERVIEW_CHOICE_LOCKED, lockedSelections);
 export const autoDeselectAllOverviewChoices = () =>
   action(AUTO_DESELECT_OVERVIEW_CHOICE_ALL);

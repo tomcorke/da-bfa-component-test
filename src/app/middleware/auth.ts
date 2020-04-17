@@ -1,7 +1,7 @@
 import * as express from "express";
 
 import { guildConfig } from "../../guild-config";
-import { profileDb } from "../services/bnet-api";
+import { pendingProfileDb } from "../services/bnet-api";
 import { isAdmin, isSuperAdmin } from "../services/permissions";
 import { BNetUser } from "../types";
 
@@ -21,7 +21,7 @@ export const requireAuthentication = (
   return next();
 };
 
-export const requireGuild = (
+export const requireGuild = async (
   req: express.Request,
   res: express.Response,
   next: express.NextFunction
@@ -29,6 +29,8 @@ export const requireGuild = (
   if (!isAuthenticated(req)) {
     return res.status(401).send();
   }
+
+  const profileDb = await pendingProfileDb;
 
   const bnetUser = req.user as BNetUser;
   const profile = profileDb.get(bnetUser.battletag);

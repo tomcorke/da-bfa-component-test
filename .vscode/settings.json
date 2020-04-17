@@ -1,3 +1,6 @@
 {
-  "tslint.ignoreDefinitionFiles": false
+  "tslint.ignoreDefinitionFiles": false,
+  "eslint.enable": false,
+  "editor.formatOnSave": true,
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

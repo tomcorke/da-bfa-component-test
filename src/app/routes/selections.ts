@@ -4,8 +4,8 @@ import {
   APILockSelectionsPayload,
   APIUnlockSelectionsPayload,
   LOCK_SELECTION_CHOICES,
-  PLAYER_SELECTION_CHOICES,
-  PlayerSelectionChoice
+  PlayerSelectionChoice,
+  PLAYER_SELECTION_CHOICES
 } from "../../types/api";
 import {
   AUDIT_LOG_EVENT_LOCK,

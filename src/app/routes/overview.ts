@@ -7,19 +7,19 @@ import {
   APISetDisplayNamePayload,
   APISetDisplayNameResponse
 } from "../../types/api";
-
 import { requireAdmin } from "../middleware/auth";
 import { bnetApi } from "../services/bnet-api";
-import { selectionLockDb } from "../services/selections";
+import { pendingSelectionLockDb } from "../services/selections";
 import {
   mergeSelectionsWithLocks,
-  playerDisplayNamesDb,
-  playerSelectionsDb
+  pendingPlayerDisplayNamesDb,
+  pendingPlayerSelectionsDb
 } from "../services/user-data";
 
 const overviewRouter = express.Router();
 
-overviewRouter.get("/get", requireAdmin, (req, res) => {
+overviewRouter.get("/get", requireAdmin, async (req, res) => {
+  const playerSelectionsDb = await pendingPlayerSelectionsDb;
   const playerSelectionData = playerSelectionsDb.getAll() || {};
 
   const onlyLockedMetaData: (
@@ -31,6 +31,7 @@ overviewRouter.get("/get", requireAdmin, (req, res) => {
     };
   };
 
+  const selectionLockDb = await pendingSelectionLockDb;
   const locksData = selectionLockDb.getAll() || {};
 
   const lockedSelectionData: {
@@ -53,7 +54,8 @@ overviewRouter.get("/get", requireAdmin, (req, res) => {
     {}
   );
 
-  const playerProfileData = bnetApi.getAll() || {};
+  const playerProfileData = (await bnetApi.getAll()) || {};
+  const playerDisplayNamesDb = await pendingPlayerDisplayNamesDb;
   const playerDisplayNames = playerDisplayNamesDb.getAll() || {};
 
   const data: APIOverviewData = {
@@ -80,14 +82,16 @@ const validateSetDisplayNamePayload = (
   return true;
 };
 
-overviewRouter.post("/setDisplayName", requireAdmin, (req, res) => {
+overviewRouter.post("/setDisplayName", requireAdmin, async (req, res) => {
   const payload = req.body as APISetDisplayNamePayload;
   if (!validateSetDisplayNamePayload(payload)) {
     res.status(400).send();
   }
 
+  const playerDisplayNamesDb = await pendingPlayerDisplayNamesDb;
+
   if (payload.name) {
-    playerDisplayNamesDb.set(payload.battletag, payload.name);
+    await playerDisplayNamesDb.set(payload.battletag, payload.name);
   } else {
     playerDisplayNamesDb.delete(payload.battletag);
   }

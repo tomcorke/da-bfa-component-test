@@ -10,9 +10,10 @@ import {
 interface ClassSelectProps {
   selectedClass?: WowClassSafeName;
   selectedSpec?: WowSpecSafeName;
-  onChange: (
-    newValue: { class?: WowClassSafeName; spec?: WowSpecSafeName }
-  ) => any;
+  onChange: (newValue: {
+    class?: WowClassSafeName;
+    spec?: WowSpecSafeName;
+  }) => any;
   isLocked?: boolean;
 }
 

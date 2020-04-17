@@ -1,104 +1,97 @@
-const webpack = require('webpack')
-const path = require('path')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const GitRevisionPlugin = require('git-revision-webpack-plugin')
+const webpack = require("webpack");
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const GitRevisionPlugin = require("git-revision-webpack-plugin");
 
-var gitRevisionPlugin = new GitRevisionPlugin()
+var gitRevisionPlugin = new GitRevisionPlugin();
 
 module.exports = {
   resolve: {
-    extensions: ['*', '.ts', '.tsx', '.js', '.jsx']
+    extensions: ["*", ".ts", ".tsx", ".js", ".jsx"],
   },
-  entry: [
-    'babel-polyfill',
-    './src/client/index.tsx'
-  ],
+  entry: ["@babel/polyfill", "./src/client/index.tsx"],
   module: {
     rules: [
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
-        loader: 'babel-loader',
+        loader: "babel-loader",
         options: {
           cacheDirectory: true,
-          plugins: ['react-hot-loader/babel']
-        }
+          plugins: ["react-hot-loader/babel"],
+        },
       },
       {
         test: /\.tsx?$/,
         exclude: /node_modules/,
         use: [
           {
-            loader: 'babel-loader',
+            loader: "babel-loader",
             options: {
               cacheDirectory: true,
-              plugins: ['react-hot-loader/babel']
-            }
+              plugins: ["react-hot-loader/babel"],
+            },
           },
           {
-            loader: 'awesome-typescript-loader',
+            loader: "awesome-typescript-loader",
             options: {
-              reportFiles: [
-                'src/client/**/*'
-              ],
-              configFileName: './src/client/tsconfig.json'
-            }
-          }
-        ]
+              reportFiles: ["src/client/**/*"],
+              configFileName: "./src/client/tsconfig.json",
+            },
+          },
+        ],
       },
       {
         test: /\.scss$/,
         use: [
-          'style-loader',
+          "style-loader",
           {
-            loader: 'css-loader',
+            loader: "css-loader",
             options: {
               modules: true,
               importLoaders: 2,
-              localIdentName: '[name]__[local])))[hash:base64:5]'
-            }
+              localIdentName: "[name]__[local])))[hash:base64:5]",
+            },
           },
           {
-            loader: 'sass-loader',
+            loader: "sass-loader",
             options: {
-              outputStyle: 'expanded',
-              sourceMap: true
-            }
-          }
-        ]
+              sassOptions: {
+                outputStyle: "expanded",
+              },
+              sourceMap: true,
+            },
+          },
+        ],
       },
       {
         test: /\.svg(\?.*)?$/i,
-        use: [
-          'svg-url-loader',
-          'svg-transform-loader'
-        ]
+        use: ["svg-url-loader", "svg-transform-loader"],
       },
       {
         test: /\.(jpe?g|png|gif)$/i,
-        loader: 'file-loader?name=images/[name].[ext]'
-      }
-    ]
+        loader: "file-loader?name=images/[name].[ext]",
+      },
+    ],
   },
   output: {
-    path: path.join(__dirname, 'dist/client'),
-    filename: 'bundle_[hash].js'
+    path: path.join(__dirname, "dist/client"),
+    filename: "bundle_[hash].js",
   },
   plugins: [
     new HtmlWebpackPlugin({
-      filename: 'index.html',
-      template: path.join(__dirname, 'public/index.html')
+      filename: "index.html",
+      template: path.join(__dirname, "public/index.html"),
     }),
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
-      'process.env.GIT_VERSION': JSON.stringify(gitRevisionPlugin.version()),
-      'process.env.GIT_COMMITHASH': JSON.stringify(gitRevisionPlugin.commithash()),
-      'PROCESS.env.GIT_BRANCH': JSON.stringify(gitRevisionPlugin.branch())
-    })
+      "process.env.NODE_ENV": JSON.stringify(
+        process.env.NODE_ENV || "development"
+      ),
+    }),
   ],
   devServer: {
-    contentBase: '/dist/client',
-    hot: true
+    contentBase: "/dist/client",
+    hot: true,
   },
-  devtool: 'eval'
-}
+  devtool: "eval",
+};

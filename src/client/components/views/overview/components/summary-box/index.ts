@@ -1,8 +1,8 @@
 import { connect } from "react-redux";
 
 import {
-  LOCK_SELECTION_CHOICES,
-  LockSelectionChoice
+  LockSelectionChoice,
+  LOCK_SELECTION_CHOICES
 } from "../../../../../../types/api";
 import { WowClass, WowTag } from "../../../../../../types/classes";
 import { ApplicationState } from "../../../../../redux/reducers";

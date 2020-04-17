@@ -18,6 +18,8 @@ import userRouter from "./routes/user";
 import { auditLog, errorLog, log } from "./services/logging";
 import { passportInit } from "./services/passport";
 
+const MemoryStore = require("memorystore")(session);
+
 require("dotenv-safe").config();
 
 const app = express();

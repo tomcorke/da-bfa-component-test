@@ -6,7 +6,7 @@ import { APIAuditData } from "../../types/api";
 import { AuditLogEntry, AuditUserFlags } from "../../types/audit";
 import { requireSuperAdmin } from "../middleware/auth";
 import { isAdmin, isSuperAdmin } from "../services/permissions";
-import { playerDisplayNamesDb } from "../services/user-data";
+import { pendingPlayerDisplayNamesDb } from "../services/user-data";
 
 const auditRouter = express.Router();
 
@@ -44,8 +44,8 @@ auditRouter.get("/get", requireSuperAdmin, async (req, res) => {
   const auditLines: string[] = ([] as string[]).concat(...auditFileLines);
   const auditEntries: AuditLogEntry[] = (auditLines
     .map(parseAuditLine)
-    .filter(entry => entry !== undefined) as AuditLogEntry[]).sort(
-    (a, b) => (a.timestamp < b.timestamp ? -1 : 1)
+    .filter(entry => entry !== undefined) as AuditLogEntry[]).sort((a, b) =>
+    a.timestamp < b.timestamp ? -1 : 1
   );
 
   const userCache: {
@@ -54,6 +54,8 @@ auditRouter.get("/get", requireSuperAdmin, async (req, res) => {
       flags: AuditUserFlags;
     };
   } = {};
+
+  const playerDisplayNamesDb = await pendingPlayerDisplayNamesDb;
 
   auditEntries.forEach(entry => {
     if (entry.user) {

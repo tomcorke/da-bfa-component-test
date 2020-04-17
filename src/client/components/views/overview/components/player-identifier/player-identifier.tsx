@@ -18,8 +18,8 @@ const PlayerIdentifier = ({
     guildCharacters.length > 0
       ? `Guild characters:
 ${guildCharacters
-          .map(c => `  ${c.level} - ${c.name} - ${getClassName(c.class)}`)
-          .join("\n")}`
+  .map(c => `  ${c.level} - ${c.name} - ${getClassName(c.class)}`)
+  .join("\n")}`
       : "No characters in guild";
 
   return (

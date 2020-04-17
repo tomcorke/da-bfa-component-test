@@ -5,15 +5,12 @@ import { ApplicationState, Dispatch } from "../../../../../redux/reducers";
 
 import ConfirmButton from "./confirm-button";
 
-const ConnectedConfirmButton = connect(
-  null,
-  (dispatch: Dispatch) => ({
-    onClick: () => {
-      dispatch(actions.feedback.show("Confirming selections..."));
-      dispatch(actions.userData.hidePromptConfirmSelections());
-      dispatch(actions.userData.confirmSelections());
-    }
-  })
-)(ConfirmButton);
+const ConnectedConfirmButton = connect(null, (dispatch: Dispatch) => ({
+  onClick: () => {
+    dispatch(actions.feedback.show("Confirming selections..."));
+    dispatch(actions.userData.hidePromptConfirmSelections());
+    dispatch(actions.userData.confirmSelections());
+  }
+}))(ConfirmButton);
 
 export default ConnectedConfirmButton;

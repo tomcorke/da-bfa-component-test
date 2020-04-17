@@ -5,8 +5,8 @@ import { ApplicationState } from "../../../redux/reducers";
 import AuditView from "./audit";
 
 const ConnectedAuditView = connect((state: ApplicationState) => ({
-  auditLogEntries: state.audit.entries.sort(
-    (a, b) => (a.timestamp < b.timestamp ? 1 : -1)
+  auditLogEntries: state.audit.entries.sort((a, b) =>
+    a.timestamp < b.timestamp ? 1 : -1
   )
 }))(AuditView);
 

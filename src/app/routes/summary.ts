@@ -1,13 +1,12 @@
 import * as express from "express";
 
+import { getTags } from "../../data/classes";
 import {
   APISummarySelection,
   APISummarySelections,
   LOCK_SELECTION_CHOICES,
   PlayerSelectionChoice
 } from "../../types/api";
-
-import { getTags } from "../../data/classes";
 import { WowClassSafeName, WowSpecSafeName } from "../../types/classes";
 import { requireGuild } from "../middleware/auth";
 import { pendingSelectionLockDb } from "../services/selections";
