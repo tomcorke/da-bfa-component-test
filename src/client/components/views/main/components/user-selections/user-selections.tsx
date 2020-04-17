@@ -1,12 +1,12 @@
 import * as React from "react";
 
+import { PLAYER_SELECTION_CHOICES } from "../../../../../../types/api";
 import ClassSelectWrapper from "../class-select-wrapper";
-import SaveButton from "../save-button";
 import ConfirmPromptButton from "../confirm-prompt-button";
 import ConfirmedThanks from "../confirmed-thanks";
+import SaveButton from "../save-button";
 
 import * as STYLES from "./user-selections.scss";
-import { PLAYER_SELECTION_CHOICES } from "../../../../../../types/api";
 
 const getBlurb = (name: string) => {
   return {

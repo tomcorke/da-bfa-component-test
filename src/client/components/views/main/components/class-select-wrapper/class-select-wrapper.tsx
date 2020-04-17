@@ -1,14 +1,14 @@
 import * as React from "react";
 
-import ClassSelect from "../class-select";
-import CommentsBox from "../comments-box";
-
-import * as STYLES from "./class-select-wrapper.scss";
 import { LockSelectionChoice } from "../../../../../../types/api";
 import {
   WowClassSafeName,
   WowSpecSafeName
 } from "../../../../../../types/classes";
+import ClassSelect from "../class-select";
+import CommentsBox from "../comments-box";
+
+import * as STYLES from "./class-select-wrapper.scss";
 
 export type NoneableLockSelectionChoice = LockSelectionChoice | "none";
 

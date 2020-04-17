@@ -1,8 +1,8 @@
 import * as React from "react";
 
-import * as STYLES from "./footer.scss";
-
 import daLogo from "../../../../images/da.png";
+
+import * as STYLES from "./footer.scss";
 
 const Footer = () => {
   return (

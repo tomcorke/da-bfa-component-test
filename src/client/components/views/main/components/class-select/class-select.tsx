@@ -1,11 +1,12 @@
 import * as React from "react";
-import classData, { getClass, getSpec } from "../../../../../../data/classes";
 
-import * as STYLES from "./class-select.scss";
+import classData, { getClass, getSpec } from "../../../../../../data/classes";
 import {
   WowClassSafeName,
   WowSpecSafeName
 } from "../../../../../../types/classes";
+
+import * as STYLES from "./class-select.scss";
 
 interface ClassSelectProps {
   selectedClass?: WowClassSafeName;

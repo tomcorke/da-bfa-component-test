@@ -4,10 +4,9 @@ import Button from "../../../../button";
 
 interface ConfirmButtonProps {
   onClick: () => any;
-  highlight: boolean;
 }
 
-const ConfirmButton = ({ onClick, highlight }: ConfirmButtonProps) => {
+const ConfirmButton = ({ onClick }: ConfirmButtonProps) => {
   return (
     <Button type="save" text="Agree & confirm selections" onClick={onClick} />
   );

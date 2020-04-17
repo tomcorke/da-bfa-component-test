@@ -1,9 +1,9 @@
 import * as React from "react";
 
-import * as STYLES from "./confirm-selections-prompt.scss";
-
 import Panel from "../../../../panel";
 import ConfirmButton from "../confirm-button";
+
+import * as STYLES from "./confirm-selections-prompt.scss";
 
 interface ConfirmSelectionsPromptProps {
   hide: () => any;

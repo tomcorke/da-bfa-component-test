@@ -1,9 +1,8 @@
 import * as React from "react";
 
-import SummaryBox from "./components/summary-box";
-import PlayerDisplay from "./components/player-display";
 import HandyLinks from "./components/handy-links";
-
+import PlayerDisplay from "./components/player-display";
+import SummaryBox from "./components/summary-box";
 import * as STYLES from "./overview.scss";
 
 interface OverviewViewProps {

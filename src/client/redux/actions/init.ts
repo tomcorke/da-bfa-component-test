@@ -1,4 +1,4 @@
-import { createAction } from "typesafe-actions";
+import { action } from "typesafe-actions";
 
 import config from "../../config";
 import { ApplicationState } from "../reducers";
@@ -8,7 +8,7 @@ import actions from ".";
 
 export const INIT_START = "INIT_START";
 
-const _initStart = createAction(INIT_START);
+const _initStart = () => action(INIT_START);
 
 const isView = (view: string): view is View => {
   return Object.values(VIEWS).includes(view);
@@ -40,7 +40,7 @@ export const init = () => {
               dispatch(actions.views.changeView(hashView as View));
             }
           },
-          noSetViewMain: useHashView
+          noSetViewMain: useHashView,
         })
       );
     }

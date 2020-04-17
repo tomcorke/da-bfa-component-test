@@ -1,4 +1,5 @@
 import * as React from "react";
+
 import { APIPlayerCharacter } from "../../../../../../types/api";
 import ClassIcon from "../../../../class-icon";
 

@@ -1,6 +1,7 @@
 import * as React from "react";
-import Panel from "../../../../panel";
+
 import LoginButton from "../../../../login-button";
+import Panel from "../../../../panel";
 
 import * as STYLES from "./login-prompt.scss";
 

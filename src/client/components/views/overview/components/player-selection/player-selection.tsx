@@ -1,20 +1,20 @@
 import * as React from "react";
 
-import config from "../../../../../config";
-import ClassIcon from "../../../../class-icon";
-import RoleIcon from "../../../../role-icon";
-import WarningIndicator from "../warning-indicator";
 import {
   APIPlayerCharacter,
   LockSelectionChoice,
   PlayerSelectionChoice
 } from "../../../../../../types/api";
 import {
+  MAX_CHARACTER_LEVEL,
   WowRoleTag,
-  WowTag,
-  MAX_CHARACTER_LEVEL
+  WowTag
 } from "../../../../../../types/classes";
+import config from "../../../../../config";
 import { OverviewPlayerSelection } from "../../../../../redux/reducers/overview";
+import ClassIcon from "../../../../class-icon";
+import RoleIcon from "../../../../role-icon";
+import WarningIndicator from "../warning-indicator";
 
 import * as STYLES from "./player-selection.scss";
 

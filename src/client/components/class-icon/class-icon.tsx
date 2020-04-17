@@ -1,7 +1,8 @@
 import * as React from "react";
 
-import * as STYLES from "./class-icon.scss";
 import { WowClassSafeName } from "../../../types/classes";
+
+import * as STYLES from "./class-icon.scss";
 
 interface ClassIconProps {
   wowClass: WowClassSafeName;

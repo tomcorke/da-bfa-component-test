@@ -1,8 +1,8 @@
 import * as React from "react";
 
-import * as STYLES from "./super-admin-menu.scss";
-
 import SmallButton from "../small-button";
+
+import * as STYLES from "./super-admin-menu.scss";
 
 interface BattletagAndName {
   battletag: string;

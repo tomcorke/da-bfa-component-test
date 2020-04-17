@@ -1,14 +1,13 @@
 import * as React from "react";
 import { hot } from "react-hot-loader";
 
-import Section from "../section";
 import Divider from "../divider";
-import Header from "../header";
-import SubHeader from "../subheader";
-import Footer from "../footer";
-import MainSection from "../main-section";
 import FeedbackMessage from "../feedback-message";
-
+import Footer from "../footer";
+import Header from "../header";
+import MainSection from "../main-section";
+import Section from "../section";
+import SubHeader from "../subheader";
 import WindowMessageReceiver from "../window-message-receiver";
 
 import * as STYLES from "./bfa-planner.scss";

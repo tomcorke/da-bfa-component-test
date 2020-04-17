@@ -1,9 +1,9 @@
 import * as React from "react";
 
 import MainPretext from "../../main-pretext";
-import NonGuild from "./components/non-guild";
-import LoginPrompt from "./components/login-prompt";
 
+import LoginPrompt from "./components/login-prompt";
+import NonGuild from "./components/non-guild";
 import * as STYLES from "./intro.scss";
 
 type IntroViewProps = {

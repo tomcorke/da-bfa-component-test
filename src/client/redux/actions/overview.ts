@@ -1,9 +1,9 @@
-import { action, createAction } from "typesafe-actions";
+import { action } from "typesafe-actions";
 
 import {
   APIOverviewData,
   APISetDisplayNamePayload,
-  APISetDisplayNameResponse
+  APISetDisplayNameResponse,
 } from "../../../types/api";
 import config from "../../config";
 import * as feedbackActions from "../actions/feedback";
@@ -25,8 +25,8 @@ export const HANDLE_OVERVIEW_DISPLAY_NAMES = "SET_OVERVIEW_DISPLAYED_NAME";
 export const handleOverviewData = (data: APIOverviewData) =>
   action(HANDLE_OVERVIEW_DATA, data);
 
-const _getOverviewDataStart = createAction(GET_OVERVIEW_DATA_START);
-const _getOverviewDataSuccess = createAction(GET_OVERVIEW_DATA_SUCCESS);
+const _getOverviewDataStart = () => action(GET_OVERVIEW_DATA_START);
+const _getOverviewDataSuccess = () => action(GET_OVERVIEW_DATA_SUCCESS);
 const _getOverviewDataFail = (error: Error) =>
   action(GET_OVERVIEW_DATA_FAIL, error.stack);
 
@@ -36,7 +36,7 @@ interface GetOverviewDataOptions {
 }
 
 export const getOverviewData = (opts: GetOverviewDataOptions = {}) => {
-  return async dispatch => {
+  return async (dispatch) => {
     const { getOverviewViewDataEndpoint } = config;
 
     dispatch(_getOverviewDataStart());
@@ -45,7 +45,7 @@ export const getOverviewData = (opts: GetOverviewDataOptions = {}) => {
     }
     try {
       const response = await window.fetch(getOverviewViewDataEndpoint, {
-        credentials: "same-origin"
+        credentials: "same-origin",
       });
 
       if (response.status !== 200) {
@@ -123,7 +123,7 @@ const _handleOverviewDisplayNames = (displayNames: APISetDisplayNameResponse) =>
   action(HANDLE_OVERVIEW_DISPLAY_NAMES, displayNames);
 
 export const setOverviewDisplayedName = (battletag: string, name: string) => {
-  return async dispatch => {
+  return async (dispatch) => {
     const { setDisplayNameEndpoint } = config;
     try {
       const payload: APISetDisplayNamePayload = { battletag, name };
@@ -131,9 +131,9 @@ export const setOverviewDisplayedName = (battletag: string, name: string) => {
         method: "POST",
         body: JSON.stringify(payload),
         headers: {
-          "content-type": "application/json"
+          "content-type": "application/json",
         },
-        credentials: "same-origin"
+        credentials: "same-origin",
       });
       if (response.status === 200) {
         const responseData = (await response.json()) as APISetDisplayNameResponse;

@@ -1,7 +1,6 @@
 import * as React from "react";
 
-import { WowTag, WowClass } from "../../../../../../types/classes";
-
+import { WowClass, WowTag } from "../../../../../../types/classes";
 import SummaryRow from "../summary-row";
 
 import * as STYLES from "./summary-box.scss";
@@ -71,11 +70,11 @@ const SummaryBox = ({ title, allSelections }: SummaryBoxProps) => {
   return (
     <div className={STYLES.summaryBox}>
       <div className={STYLES.summaryTitle}>{title}</div>
-      {Object.entries(SUMMARY_TAG_GROUPS).map(([title, groupTags]) => {
+      {Object.entries(SUMMARY_TAG_GROUPS).map(([groupTitle, groupTags]) => {
         return (
           <SummaryRow
-            key={title}
-            title={title}
+            key={groupTitle}
+            title={groupTitle}
             values={groupTags.map(t => ({ name: t, count: tags[t] || 0 }))}
           />
         );

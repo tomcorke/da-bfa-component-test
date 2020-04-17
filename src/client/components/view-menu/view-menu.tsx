@@ -1,9 +1,9 @@
 import * as React from "react";
 
+import { View } from "../../redux/reducers/views";
 import SmallButton from "../small-button";
 
 import * as STYLES from "./view-menu.scss";
-import { View } from "../../redux/reducers/views";
 
 interface MenuItemProps {
   name: View;

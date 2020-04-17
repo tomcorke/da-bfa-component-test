@@ -1,10 +1,10 @@
 import * as React from "react";
 
 import MainPretext from "../../main-pretext";
-import ClassDisplay from "./components/class-display";
-import UserSelections from "./components/user-selections";
-import ConfirmSelectionsPrompt from "./components/confirm-selections-prompt";
 
+import ClassDisplay from "./components/class-display";
+import ConfirmSelectionsPrompt from "./components/confirm-selections-prompt";
+import UserSelections from "./components/user-selections";
 import * as STYLES from "./main.scss";
 
 interface MainViewProps {

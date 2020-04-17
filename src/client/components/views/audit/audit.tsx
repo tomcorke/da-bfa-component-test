@@ -1,8 +1,8 @@
 import * as React from "react";
 
-import * as STYLES from "./audit.scss";
-
 import { AuditLogEntry } from "../../../../types/audit";
+
+import * as STYLES from "./audit.scss";
 
 const getEventName = (entry: AuditLogEntry): string => {
   if (entry.event === "server") {

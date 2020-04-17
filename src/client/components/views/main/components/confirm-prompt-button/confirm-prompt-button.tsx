@@ -4,13 +4,9 @@ import Button from "../../../../button";
 
 interface ConfirmPromptButtonProps {
   onClick: () => any;
-  highlight: boolean;
 }
 
-const ConfirmPromptButton = ({
-  onClick,
-  highlight
-}: ConfirmPromptButtonProps) => {
+const ConfirmPromptButton = ({ onClick }: ConfirmPromptButtonProps) => {
   return (
     <Button type="save" text="Confirm locked selections" onClick={onClick} />
   );

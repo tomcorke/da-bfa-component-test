@@ -1,7 +1,7 @@
 import * as React from "react";
 
-import PlayerIdentifier from "../player-identifier";
 import PlayerAdminLinks from "../player-admin-links";
+import PlayerIdentifier from "../player-identifier";
 import PlayerSelections from "../player-selections";
 import SelectionLock from "../selection-lock";
 

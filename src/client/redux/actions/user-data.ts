@@ -1,4 +1,4 @@
-import { action, createAction } from "typesafe-actions";
+import { action } from "typesafe-actions";
 
 import { APIPlayerData } from "../../../types/api";
 import config from "../../config";
@@ -55,8 +55,8 @@ export const handleUserData = (
   };
 };
 
-const _getUserDataStart = createAction(GET_USER_DATA_START);
-const _getUserDataSuccess = createAction(GET_USER_DATA_SUCCESS);
+const _getUserDataStart = () => action(GET_USER_DATA_START);
+const _getUserDataSuccess = () => action(GET_USER_DATA_SUCCESS);
 const _getUserDataFail = (error: Error) =>
   action(GET_USER_DATA_FAIL, error.stack);
 
@@ -98,11 +98,11 @@ export const changeSelection = (
   action(CHANGE_SELECTION, {
     name,
     property,
-    value
+    value,
   });
 
-const _saveSelectionsStart = createAction(SAVE_SELECTIONS_START);
-const _saveSelectionsSuccess = createAction(SAVE_SELECTIONS_SUCCESS);
+const _saveSelectionsStart = () => action(SAVE_SELECTIONS_START);
+const _saveSelectionsSuccess = () => action(SAVE_SELECTIONS_SUCCESS);
 const _saveSelectionsFail = (error: Error) =>
   action(SAVE_SELECTIONS_FAIL, error.stack);
 
@@ -123,8 +123,8 @@ export const saveSelections = () => {
         body: JSON.stringify(selections),
         credentials: "same-origin",
         headers: {
-          "content-type": "application/json"
-        }
+          "content-type": "application/json",
+        },
       });
 
       if (response.status !== 200) {
@@ -140,14 +140,12 @@ export const saveSelections = () => {
   };
 };
 
-const _confirmSelectionsPromptShow = createAction(
-  CONFIRM_SELECTIONS_PROMPT_SHOW
-);
-const _confirmSelectionsPromptHide = createAction(
-  CONFIRM_SELECTIONS_PROMPT_HIDE
-);
-const _confirmSelectionsStart = createAction(CONFIRM_SELECTIONS_START);
-const _confirmSelectionsSuccess = createAction(CONFIRM_SELECTIONS_SUCCESS);
+const _confirmSelectionsPromptShow = () =>
+  action(CONFIRM_SELECTIONS_PROMPT_SHOW);
+const _confirmSelectionsPromptHide = () =>
+  action(CONFIRM_SELECTIONS_PROMPT_HIDE);
+const _confirmSelectionsStart = () => action(CONFIRM_SELECTIONS_START);
+const _confirmSelectionsSuccess = () => action(CONFIRM_SELECTIONS_SUCCESS);
 const _confirmSelectionsFail = (error: Error) =>
   action(CONFIRM_SELECTIONS_FAIL, error.stack);
 
@@ -176,8 +174,8 @@ export const confirmSelections = () => {
         method: "POST",
         credentials: "same-origin",
         headers: {
-          "content-type": "application/json"
-        }
+          "content-type": "application/json",
+        },
       });
 
       if (response.status !== 200) {

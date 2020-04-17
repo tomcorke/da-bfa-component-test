@@ -1,4 +1,4 @@
-import { action, createAction } from "typesafe-actions";
+import { action } from "typesafe-actions";
 
 import { APISummarySelections } from "../../../types/api";
 import config from "../../config";
@@ -13,8 +13,8 @@ export const GET_SUMMARY_DATA_FAIL = "GET_SUMMARY_DATA_FAIL";
 export const handleSummaryData = (data: APISummarySelections) =>
   action(HANDLE_SUMMARY_DATA, data);
 
-const _getSummaryDataStart = createAction(GET_SUMMARY_DATA_START);
-const _getSummaryDataSuccess = createAction(GET_SUMMARY_DATA_SUCCESS);
+const _getSummaryDataStart = () => action(GET_SUMMARY_DATA_START);
+const _getSummaryDataSuccess = () => action(GET_SUMMARY_DATA_SUCCESS);
 const _getSummaryDataFail = (error: Error) =>
   action(GET_SUMMARY_DATA_FAIL, error.stack);
 
@@ -24,7 +24,7 @@ interface GetSummaryDataOptions {
 }
 
 export const getSummaryData = (opts: GetSummaryDataOptions = {}) => {
-  return async dispatch => {
+  return async (dispatch) => {
     const { getSummaryDataEndpoint } = config;
 
     dispatch(_getSummaryDataStart());
@@ -33,7 +33,7 @@ export const getSummaryData = (opts: GetSummaryDataOptions = {}) => {
     }
     try {
       const response = await window.fetch(getSummaryDataEndpoint, {
-        credentials: "same-origin"
+        credentials: "same-origin",
       });
 
       if (response.status !== 200) {
