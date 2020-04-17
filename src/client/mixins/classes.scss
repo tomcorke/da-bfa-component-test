@@ -18,5 +18,5 @@ $classColours: (
 }
 
 @function escapeClassColour($class) {
-  @return '%23' + str-slice(inspect(classColour($class)), 2)
+  @return "%23" + str-slice(inspect(classColour($class)), 2);
 }

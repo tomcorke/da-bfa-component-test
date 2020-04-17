@@ -1,4 +1,4 @@
-@import '../../../../../mixins/classes';
+@import "../../../../../mixins/classes";
 
 .playerSelection {
   display: flex;
@@ -30,12 +30,18 @@
   }
 
   &:hover {
-    background: linear-gradient(to right, transparent 0%, rgba(255,255,255,0.1) 20%, rgba(255,255,255,0.1) 80%, transparent 100%);
+    background: linear-gradient(
+      to right,
+      transparent 0%,
+      rgba(255, 255, 255, 0.1) 20%,
+      rgba(255, 255, 255, 0.1) 80%,
+      transparent 100%
+    );
   }
 
   &__selected {
     &::before {
-      content: '';
+      content: "";
       position: absolute;
       left: 0;
       top: 0;
@@ -50,7 +56,10 @@
         background-color: rgba(classColour(monk), 0.3);
       }
       &::after {
-        background: url('../../../../../../../images/icons/check-circle.svg?fill=' + escapeClassColour(monk)) center center no-repeat;
+        background: url("../../../../../../../images/icons/check-circle.svg?fill="+escapeClassColour(
+              monk
+            ))
+          center center no-repeat;
       }
     }
 
@@ -60,7 +69,10 @@
         background-color: rgba(classColour(rogue), 0.3);
       }
       &::after {
-        background: url('../../../../../../../images/icons/check-circle.svg?fill=' + escapeClassColour(rogue)) center center no-repeat;
+        background: url("../../../../../../../images/icons/check-circle.svg?fill="+escapeClassColour(
+              rogue
+            ))
+          center center no-repeat;
       }
     }
   }
@@ -96,23 +108,27 @@
       margin-left: 0.5em;
       width: 12px;
       height: 12px;
-      background: url('../../../../../../../images/icons/comment.svg?fill=%23fff') center center no-repeat;
+      background: url("../../../../../../../images/icons/comment.svg?fill=%23fff")
+        center center no-repeat;
     }
 
     .lockIndicator {
       margin-left: 0.5em;
       width: 12px;
       height: 12px;
-      background: url('../../../../../../../images/icons/lock.svg?fill=%23fff') center center no-repeat;
+      background: url("../../../../../../../images/icons/lock.svg?fill=%23fff")
+        center center no-repeat;
     }
-
   }
 
   &__locked {
     &__main {
       .indicators {
         .lockIndicator {
-          background: url('../../../../../../../images/icons/lock.svg?fill=' + escapeClassColour(monk)) center center no-repeat;
+          background: url("../../../../../../../images/icons/lock.svg?fill="+escapeClassColour(
+                monk
+              ))
+            center center no-repeat;
         }
       }
     }
@@ -120,7 +136,10 @@
     &__alt {
       .indicators {
         .lockIndicator {
-          background: url('../../../../../../../images/icons/lock.svg?fill=' + escapeClassColour(rogue)) center center no-repeat;
+          background: url("../../../../../../../images/icons/lock.svg?fill="+escapeClassColour(
+                rogue
+              ))
+            center center no-repeat;
         }
       }
     }
@@ -128,7 +147,8 @@
     &__none {
       .indicators {
         .lockIndicator {
-          background: url('../../../../../../../images/icons/lock.svg?fill=grey') center center no-repeat;
+          background: url("../../../../../../../images/icons/lock.svg?fill=grey")
+            center center no-repeat;
         }
       }
     }

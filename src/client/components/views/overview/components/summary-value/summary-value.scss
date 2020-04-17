@@ -1,4 +1,4 @@
-@import '../../../../../mixins/classes';
+@import "../../../../../mixins/classes";
 
 .summaryValue {
   display: flex;
@@ -7,7 +7,7 @@
   align-items: center;
   color: classColour(deathknight);
 
-  &[data-has-value=true] {
+  &[data-has-value="true"] {
     color: classColour(monk);
   }
 
@@ -16,7 +16,7 @@
     margin-right: 0.5em;
 
     &:after {
-      content: ':';
+      content: ":";
     }
   }
 

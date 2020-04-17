@@ -1,3 +1,3 @@
-import SmallButton from './small-button'
+import SmallButton from "./small-button";
 
-export default SmallButton
+export default SmallButton;

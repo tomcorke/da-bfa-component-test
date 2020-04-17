@@ -1,10 +1,10 @@
-import { connect } from 'react-redux'
-import actions from '../../redux/actions'
+import { connect } from "react-redux";
 
-import { ApplicationState, Dispatch } from '../../redux/reducers'
-import { View } from '../../redux/reducers/views'
+import actions from "../../redux/actions";
+import { ApplicationState, Dispatch } from "../../redux/reducers";
+import { View } from "../../redux/reducers/views";
 
-import ViewMenu from './view-menu'
+import ViewMenu from "./view-menu";
 
 const ConnectedViewMenu = connect(
   (state: ApplicationState) => ({
@@ -17,6 +17,6 @@ const ConnectedViewMenu = connect(
   (dispatch: Dispatch) => ({
     changeView: (newView: View) => dispatch(actions.views.changeView(newView))
   })
-)(ViewMenu)
+)(ViewMenu);
 
-export default ConnectedViewMenu
+export default ConnectedViewMenu;

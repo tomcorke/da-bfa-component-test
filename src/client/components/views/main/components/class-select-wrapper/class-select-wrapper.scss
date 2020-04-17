@@ -1,4 +1,4 @@
-@import '../../../../../mixins/classes.scss';
+@import "../../../../../mixins/classes.scss";
 
 .classSelectWrapper {
   margin-bottom: 2em;
@@ -19,27 +19,29 @@
       justify-content: center;
 
       .lockDisplay__inner {
-
         padding: 0 1em;
         text-align: center;
-        background: #1C1815;
+        background: #1c1815;
         border: 2px solid grey;
         border-radius: 5px;
         display: flex;
         align-items: center;
 
         &:before {
-          content: '';
+          content: "";
           display: inline-block;
-          background: url('../../../../../../../images/icons/lock.svg?fill=' + escapeClassColour(monk)) center center no-repeat;
-          width: .8em;
-          height: .8em;
+          background: url("../../../../../../../images/icons/lock.svg?fill="+escapeClassColour(
+                monk
+              ))
+            center center no-repeat;
+          width: 0.8em;
+          height: 0.8em;
           margin-right: 0.5em;
           margin-top: -0.15em;
         }
 
         &:after {
-          content: 'Locked: Not selected';
+          content: "Locked: Not selected";
           color: grey;
         }
       }
@@ -51,10 +53,13 @@
         .lockDisplay__inner {
           border-color: classColour(monk);
           &:before {
-            background: url('../../../../../../../images/icons/lock.svg?fill=' + escapeClassColour(monk)) center center no-repeat;
+            background: url("../../../../../../../images/icons/lock.svg?fill="+escapeClassColour(
+                  monk
+                ))
+              center center no-repeat;
           }
           &:after {
-            content: 'Locked: Selected main';
+            content: "Locked: Selected main";
             color: classColour(monk);
           }
         }
@@ -67,10 +72,13 @@
         .lockDisplay__inner {
           border-color: classColour(rogue);
           &:before {
-            background: url('../../../../../../../images/icons/lock.svg?fill=' + escapeClassColour(rogue)) center center no-repeat;
+            background: url("../../../../../../../images/icons/lock.svg?fill="+escapeClassColour(
+                  rogue
+                ))
+              center center no-repeat;
           }
           &:after {
-            content: 'Locked: Selected alt';
+            content: "Locked: Selected alt";
             color: classColour(rogue);
           }
         }
@@ -83,10 +91,11 @@
         .lockDisplay__inner {
           border-color: grey;
           &:before {
-            background: url('../../../../../../../images/icons/lock.svg?fill=' + grey) center center no-repeat;
+            background: url("../../../../../../../images/icons/lock.svg?fill="+grey)
+              center center no-repeat;
           }
           &:after {
-            content: 'Locked: Not selected';
+            content: "Locked: Not selected";
             color: grey;
           }
         }

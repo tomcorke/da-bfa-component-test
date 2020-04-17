@@ -1,4 +1,4 @@
-@import '../../mixins/classes.scss';
+@import "../../mixins/classes.scss";
 
 .loginButton {
   display: inline-block;
@@ -33,7 +33,7 @@
     content: "";
     width: 16px;
     height: 16px;
-    background: url('../../../../images/battle.net.png') no-repeat;
+    background: url("../../../../images/battle.net.png") no-repeat;
   }
 
   &.disabled {

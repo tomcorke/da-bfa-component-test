@@ -1,3 +1,3 @@
-import SummaryValue from './summary-value'
+import SummaryValue from "./summary-value";
 
-export default SummaryValue
+export default SummaryValue;

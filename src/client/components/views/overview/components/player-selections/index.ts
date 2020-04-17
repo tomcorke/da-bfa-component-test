@@ -1,3 +1,3 @@
-import PlayerSelections from './player-selections'
+import PlayerSelections from "./player-selections";
 
-export default PlayerSelections
+export default PlayerSelections;

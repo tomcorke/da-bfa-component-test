@@ -1,8 +1,9 @@
-import { connect } from 'react-redux'
-import actions from '../../../../../redux/actions'
-import { ApplicationState, Dispatch } from '../../../../../redux/reducers'
+import { connect } from "react-redux";
 
-import SaveButton from './save-button'
+import actions from "../../../../../redux/actions";
+import { ApplicationState, Dispatch } from "../../../../../redux/reducers";
+
+import SaveButton from "./save-button";
 
 const ConnectedSaveButton = connect(
   (state: ApplicationState) => ({
@@ -10,10 +11,10 @@ const ConnectedSaveButton = connect(
   }),
   (dispatch: Dispatch) => ({
     onClick: () => {
-      dispatch(actions.feedback.show('Saving...'))
-      dispatch(actions.userData.saveSelections())
+      dispatch(actions.feedback.show("Saving..."));
+      dispatch(actions.userData.saveSelections());
     }
   })
-)(SaveButton)
+)(SaveButton);
 
-export default ConnectedSaveButton
+export default ConnectedSaveButton;

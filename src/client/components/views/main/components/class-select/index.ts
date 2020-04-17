@@ -1,3 +1,3 @@
-import ClassSelect from './class-select'
+import ClassSelect from "./class-select";
 
-export default ClassSelect
+export default ClassSelect;

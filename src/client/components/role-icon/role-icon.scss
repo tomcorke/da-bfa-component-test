@@ -1,6 +1,6 @@
-@import '../../mixins/classes.scss';
+@import "../../mixins/classes.scss";
 
-$roles: 'tank', 'healer', 'dps';
+$roles: "tank", "healer", "dps";
 
 .roleIcon {
   display: inline-block;
@@ -10,8 +10,11 @@ $roles: 'tank', 'healer', 'dps';
   opacity: 0.8;
 
   @each $role in $roles {
-    &[data-role=#{$role}] {
-      background: url('../../../../images/icons/#{$role}.svg?fill=%23fff') center center no-repeat;
+    &[data-role="#{$role}"] {
+      background: url("../../../../images/icons/#{$role}.svg?fill=%23fff")
+        center
+        center
+        no-repeat;
     }
   }
 }

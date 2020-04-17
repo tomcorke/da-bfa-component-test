@@ -1,12 +1,12 @@
-declare module 'passport-bnet' {
-  import { Strategy as PassportStrategy } from 'passport'
+declare module "passport-bnet" {
+  import { Strategy as PassportStrategy } from "passport";
   export class Strategy extends PassportStrategy {
-    constructor (
+    constructor(
       strategyOptions: {
-        clientID: string
-        clientSecret: string
-        scope: 'wow.profile'
-        callbackURL: string
+        clientID: string;
+        clientSecret: string;
+        scope: "wow.profile";
+        callbackURL: string;
       },
       handler: (
         accessToken: string,
@@ -14,7 +14,6 @@ declare module 'passport-bnet' {
         profile: object,
         done: (a: any, b: any) => void
       ) => void
-    )
-
+    );
   }
 }

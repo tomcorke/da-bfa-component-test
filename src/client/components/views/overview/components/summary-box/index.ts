@@ -1,68 +1,77 @@
-import { connect } from 'react-redux'
-import { OverviewSelections } from '../../../../../redux/reducers/overview-selections'
-import { OverviewPlayerSelection } from '../../../../../redux/reducers/overview'
-import { ApplicationState } from '../../../../../redux/reducers'
+import { connect } from "react-redux";
 
-import SummaryBox from './summary-box'
-import { LockSelectionChoice, LOCK_SELECTION_CHOICES } from '../../../../../../types/api'
-import { WowTag, WowClass } from '../../../../../../types/classes'
+import {
+  LOCK_SELECTION_CHOICES,
+  LockSelectionChoice
+} from "../../../../../../types/api";
+import { WowClass, WowTag } from "../../../../../../types/classes";
+import { ApplicationState } from "../../../../../redux/reducers";
+import { OverviewPlayerSelection } from "../../../../../redux/reducers/overview";
+import { OverviewSelections } from "../../../../../redux/reducers/overview-selections";
+
+import SummaryBox from "./summary-box";
 
 interface OverviewSelectionData {
-  overviewSelection?: LockSelectionChoice
+  overviewSelection?: LockSelectionChoice;
 }
 
-type OverviewPlayerSelectionWithOverviewSelection = OverviewPlayerSelection & OverviewSelectionData
+type OverviewPlayerSelectionWithOverviewSelection = OverviewPlayerSelection &
+  OverviewSelectionData;
 
-const joinWithOverviewSelections =
-  (playerOverviewSelections: OverviewSelections = ({} as OverviewSelections)) =>
-  (selection: OverviewPlayerSelection): OverviewPlayerSelectionWithOverviewSelection => {
+const joinWithOverviewSelections = (
+  playerOverviewSelections: OverviewSelections = {} as OverviewSelections
+) => (
+  selection: OverviewPlayerSelection
+): OverviewPlayerSelectionWithOverviewSelection => {
+  const overviewSelection = LOCK_SELECTION_CHOICES.find((key: string) => {
+    const os = playerOverviewSelections[key];
+    return (os && selection && selection.choice === os) || false;
+  });
 
-    const overviewSelection = LOCK_SELECTION_CHOICES
-      .find((key: string) => {
-        const os = playerOverviewSelections[key]
-        return (
-          os &&
-          selection &&
-          selection.choice === os
-        ) ||
-          false
-      })
-
-    return {
-      ...selection,
-      overviewSelection
-    }
-  }
+  return {
+    ...selection,
+    overviewSelection
+  };
+};
 
 interface SelectionsSummaryData {
-  tags: WowTag[],
-  class?: WowClass
+  tags: WowTag[];
+  class?: WowClass;
 }
 
-type SelectionFilter = (selection: OverviewPlayerSelectionWithOverviewSelection) => boolean
+type SelectionFilter = (
+  selection: OverviewPlayerSelectionWithOverviewSelection
+) => boolean;
 interface OwnProps {
-  selectionFilter?: SelectionFilter
+  selectionFilter?: SelectionFilter;
 }
 
 const ConnectedSummaryBox = connect(
   (state: ApplicationState, props: OwnProps) => {
-    const noUndefinedFilter: SelectionFilter = (selection) => !!selection.class
-    const selectionFilter: SelectionFilter = props.selectionFilter || (() => true)
+    const noUndefinedFilter: SelectionFilter = selection => !!selection.class;
+    const selectionFilter: SelectionFilter =
+      props.selectionFilter || (() => true);
     return {
-      allSelections: state.overview
-        .reduce((allSelections: SelectionsSummaryData[], player) =>
-          allSelections.concat(player.selections
-            .map(joinWithOverviewSelections(state.overviewSelections[player.battletag]))
-            .filter(noUndefinedFilter)
-            .filter(selectionFilter)
-            .map(selection => ({
-              tags: selection.tags,
-              class: selection.class
-            }))
+      allSelections: state.overview.reduce(
+        (allSelections: SelectionsSummaryData[], player) =>
+          allSelections.concat(
+            player.selections
+              .map(
+                joinWithOverviewSelections(
+                  state.overviewSelections[player.battletag]
+                )
+              )
+              .filter(noUndefinedFilter)
+              .filter(selectionFilter)
+              .map(selection => ({
+                tags: selection.tags,
+                class: selection.class
+              }))
           ),
-        [])
-    }
+        []
+      )
+    };
   }
-)(SummaryBox)
+)(SummaryBox);
 
-export default ConnectedSummaryBox
+export default ConnectedSummaryBox;

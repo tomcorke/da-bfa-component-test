@@ -1,15 +1,13 @@
-import { connect } from 'react-redux'
+import { connect } from "react-redux";
 
-import config from '../../../../../config'
+import config from "../../../../../config";
 
-import NonGuild from './non-guild'
+import NonGuild from "./non-guild";
 
-const ConnectedNonGuild = connect(
-  () => ({
-    guild: config.guild,
-    realm: config.realm,
-    region: config.region
-  })
-)(NonGuild)
+const ConnectedNonGuild = connect(() => ({
+  guild: config.guild,
+  realm: config.realm,
+  region: config.region
+}))(NonGuild);
 
-export default ConnectedNonGuild
+export default ConnectedNonGuild;

@@ -5,7 +5,7 @@
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
-  background-image: url('../../../../images/Box-leather-blue.jpg');
+  background-image: url("../../../../images/Box-leather-blue.jpg");
   position: relative;
 
   &__fill {
@@ -13,12 +13,12 @@
   }
 
   &__header {
-    background-image: url('../../../../images/YFRNQJ0XGPK51509567050492.jpg');
+    background-image: url("../../../../images/YFRNQJ0XGPK51509567050492.jpg");
   }
 
   &__main {
     padding: 2em 0;
-    background-image: url('../../../../images/BJINAP4MVAFS1509568693842.jpg');
+    background-image: url("../../../../images/BJINAP4MVAFS1509568693842.jpg");
     .container {
       max-width: 100% !important;
     }
@@ -34,7 +34,10 @@
     flex-flow: column nowrap;
     align-items: center;
 
-    h1, h2, h3, h4 {
+    h1,
+    h2,
+    h3,
+    h4 {
       margin: 0 auto;
       text-align: center;
       font-weight: normal;

@@ -1,3 +1,3 @@
-import RoleIcon from './role-icon'
+import RoleIcon from "./role-icon";
 
-export default RoleIcon
+export default RoleIcon;

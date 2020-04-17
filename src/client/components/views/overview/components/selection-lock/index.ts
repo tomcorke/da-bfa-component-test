@@ -1,3 +1,3 @@
-import SelectionLock from './selection-lock'
+import SelectionLock from "./selection-lock";
 
-export default SelectionLock
+export default SelectionLock;

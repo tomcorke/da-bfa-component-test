@@ -1,3 +1,3 @@
-import ConfirmedThanks from './confirmed-thanks'
+import ConfirmedThanks from "./confirmed-thanks";
 
-export default ConfirmedThanks
+export default ConfirmedThanks;

@@ -1,14 +1,15 @@
-import { connect } from 'react-redux'
-import actions from '../../../../../redux/actions'
-import { ApplicationState, Dispatch } from '../../../../../redux/reducers'
+import { connect } from "react-redux";
 
-import ConfirmSelectionsPrompt from './confirm-selections-prompt'
+import actions from "../../../../../redux/actions";
+import { ApplicationState, Dispatch } from "../../../../../redux/reducers";
+
+import ConfirmSelectionsPrompt from "./confirm-selections-prompt";
 
 const ConnectedConfirmSelectionsPrompt = connect(
   null,
-  (dispatch) => ({
+  dispatch => ({
     hide: () => dispatch(actions.userData.hidePromptConfirmSelections())
   })
-)(ConfirmSelectionsPrompt)
+)(ConfirmSelectionsPrompt);
 
-export default ConnectedConfirmSelectionsPrompt
+export default ConnectedConfirmSelectionsPrompt;

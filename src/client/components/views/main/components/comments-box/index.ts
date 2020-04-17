@@ -1,3 +1,3 @@
-import CommentsBox from './comments-box'
+import CommentsBox from "./comments-box";
 
-export default CommentsBox
+export default CommentsBox;

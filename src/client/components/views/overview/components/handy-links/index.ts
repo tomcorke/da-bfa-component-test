@@ -1,17 +1,20 @@
-import { connect } from 'react-redux'
+import { connect } from "react-redux";
 
-import * as overviewSelectionActions from '../../../../../redux/actions/overview-selections'
-import { Dispatch } from '../../../../../redux/reducers'
+import * as overviewSelectionActions from "../../../../../redux/actions/overview-selections";
+import { Dispatch } from "../../../../../redux/reducers";
 
-import HandyLinks from './handy-links'
+import HandyLinks from "./handy-links";
 
 const ConnectedHandyLinks = connect(
   null,
   (dispatch: Dispatch) => ({
-    onSelectAllClick: () => dispatch(overviewSelectionActions.autoSelectAllOverviewChoices()),
-    onSelectLockedClick: () => dispatch(overviewSelectionActions.autoSelectLockedOverviewChoices()),
-    onDeselectAllClick: () => dispatch(overviewSelectionActions.autoDeselectAllOverviewChoices())
+    onSelectAllClick: () =>
+      dispatch(overviewSelectionActions.autoSelectAllOverviewChoices()),
+    onSelectLockedClick: () =>
+      dispatch(overviewSelectionActions.autoSelectLockedOverviewChoices()),
+    onDeselectAllClick: () =>
+      dispatch(overviewSelectionActions.autoDeselectAllOverviewChoices())
   })
-)(HandyLinks)
+)(HandyLinks);
 
-export default ConnectedHandyLinks
+export default ConnectedHandyLinks;

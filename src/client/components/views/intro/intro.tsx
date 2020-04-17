@@ -1,34 +1,29 @@
-import * as React from 'react'
+import * as React from "react";
 
-import MainPretext from '../../main-pretext'
-import NonGuild from './components/non-guild'
-import LoginPrompt from './components/login-prompt'
+import MainPretext from "../../main-pretext";
+import NonGuild from "./components/non-guild";
+import LoginPrompt from "./components/login-prompt";
 
-import * as STYLES from './intro.scss'
+import * as STYLES from "./intro.scss";
 
 type IntroViewProps = {
-  isLoggedIn: boolean
-  hasCharactersInGuild: boolean
-}
+  isLoggedIn: boolean;
+  hasCharactersInGuild: boolean;
+};
 
-const IntroView = ({
-  isLoggedIn,
-  hasCharactersInGuild
-}: IntroViewProps) => {
+const IntroView = ({ isLoggedIn, hasCharactersInGuild }: IntroViewProps) => {
   if (isLoggedIn && hasCharactersInGuild) {
-    return null
+    return null;
   }
 
-  const IntroBody = isLoggedIn
-    ? NonGuild
-    : LoginPrompt
+  const IntroBody = isLoggedIn ? NonGuild : LoginPrompt;
 
   return (
     <div className={STYLES.introView}>
       <MainPretext />
       <IntroBody />
     </div>
-  )
-}
+  );
+};
 
-export default IntroView
+export default IntroView;

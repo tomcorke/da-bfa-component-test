@@ -1,12 +1,12 @@
-import * as adminActions from './admin'
-import * as auditActions from './audit'
-import * as feedbackActions from './feedback'
-import * as loginActions from './login'
-import * as overviewSelectionActions from './overview-selections'
-import * as overviewActions from './overview'
-import * as summaryActions from './summary'
-import * as userDataActions from './user-data'
-import * as viewActions from './views'
+import * as adminActions from "./admin";
+import * as auditActions from "./audit";
+import * as feedbackActions from "./feedback";
+import * as loginActions from "./login";
+import * as overviewActions from "./overview";
+import * as overviewSelectionActions from "./overview-selections";
+import * as summaryActions from "./summary";
+import * as userDataActions from "./user-data";
+import * as viewActions from "./views";
 
 const actions = {
   admin: adminActions,
@@ -18,7 +18,7 @@ const actions = {
   summary: summaryActions,
   userData: userDataActions,
   views: viewActions
-}
+};
 
 export type ApplicationAction =
   | adminActions.AdminAction
@@ -29,6 +29,6 @@ export type ApplicationAction =
   | overviewActions.OverviewAction
   | summaryActions.SummaryAction
   | userDataActions.UserDataActions
-  | viewActions.ViewActions
+  | viewActions.ViewActions;
 
-export default actions
+export default actions;

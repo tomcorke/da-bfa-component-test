@@ -1,4 +1,4 @@
-@import '../../../../../mixins/classes.scss';
+@import "../../../../../mixins/classes.scss";
 
 .classSpecSelect {
   display: inline-block;
@@ -7,7 +7,7 @@
   flex-flow: row wrap;
 
   select {
-    font-family: 'Hammersmith One', sans-serif;
+    font-family: "Hammersmith One", sans-serif;
     flex: 1 0 50%;
     font-size: 16px;
     padding: 5px;
@@ -27,14 +27,14 @@
       border-bottom-left-radius: 0;
     }
 
-    &[data-required=true] {
+    &[data-required="true"] {
       border-color: red;
       box-shadow: 0 0 2px 1px red;
     }
   }
 
   input {
-    font-family: 'Hammersmith One', sans-serif;
+    font-family: "Hammersmith One", sans-serif;
     flex: 1 0 50%;
     font-size: 16px;
     padding: 5px;
@@ -57,7 +57,7 @@
   box-shadow: 0 0 5px 0 classColour(mage);
 
   @each $class, $colour in $classColours {
-    &[data-selected=#{$class}] {
+    &[data-selected="#{$class}"] {
       background-color: $colour;
       box-shadow: 0 0 0px 5px $colour;
       border-radius: 1px;

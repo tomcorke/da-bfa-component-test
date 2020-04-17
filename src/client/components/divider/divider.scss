@@ -5,7 +5,7 @@
   position: relative;
 
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     top: -50px;
     left: 0;
@@ -24,18 +24,18 @@
 
 .large {
   &::before {
-    background-image: url('../../../../images/Divider-ocho-thickUp.png');
+    background-image: url("../../../../images/Divider-ocho-thickUp.png");
   }
 }
 
 .small {
   &::before {
-    background-image: url('../../../../images/Divider-ocho-thin.png');
+    background-image: url("../../../../images/Divider-ocho-thin.png");
   }
 }
 
 .bottom {
   &::before {
-    background-image: url('../../../../images/Divider-ocho-thickDown.png');
+    background-image: url("../../../../images/Divider-ocho-thickDown.png");
   }
 }

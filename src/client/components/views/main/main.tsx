@@ -1,14 +1,14 @@
-import * as React from 'react'
+import * as React from "react";
 
-import MainPretext from '../../main-pretext'
-import ClassDisplay from './components/class-display'
-import UserSelections from './components/user-selections'
-import ConfirmSelectionsPrompt from './components/confirm-selections-prompt'
+import MainPretext from "../../main-pretext";
+import ClassDisplay from "./components/class-display";
+import UserSelections from "./components/user-selections";
+import ConfirmSelectionsPrompt from "./components/confirm-selections-prompt";
 
-import * as STYLES from './main.scss'
+import * as STYLES from "./main.scss";
 
 interface MainViewProps {
-  showConfirmSelectionsPrompt: boolean
+  showConfirmSelectionsPrompt: boolean;
 }
 
 const MainView = ({ showConfirmSelectionsPrompt }: MainViewProps) => (
@@ -16,8 +16,8 @@ const MainView = ({ showConfirmSelectionsPrompt }: MainViewProps) => (
     <MainPretext />
     <ClassDisplay />
     <UserSelections />
-    { showConfirmSelectionsPrompt ? <ConfirmSelectionsPrompt /> : null }
+    {showConfirmSelectionsPrompt ? <ConfirmSelectionsPrompt /> : null}
   </div>
-)
+);
 
-export default MainView
+export default MainView;

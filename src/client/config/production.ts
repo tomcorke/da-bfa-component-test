@@ -1,7 +1,7 @@
-import { getEndpoints, Endpoints } from './common'
+import { Endpoints, getEndpoints } from "./common";
 
 const config: Endpoints = {
-  ...getEndpoints('https://www.da-guild.co.uk/class-selection/')
-}
+  ...getEndpoints("https://www.da-guild.co.uk/class-selection/")
+};
 
-export default config
+export default config;

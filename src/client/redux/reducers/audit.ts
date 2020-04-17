@@ -1,56 +1,63 @@
-import { Reducer } from 'redux'
+import { Reducer } from "redux";
+
+import { APIAuditData } from "../../../types/api";
+import { AuditLogEntry } from "../../../types/audit";
 import {
-  GET_AUDIT_LOG_START,
-  GET_AUDIT_LOG_SUCCESS,
+  AuditAction,
   GET_AUDIT_LOG_FAIL,
-  AuditAction
-} from '../actions/audit'
-import { AuditLogEntry } from '../../../types/audit'
-import { APIAuditData } from '../../../types/api'
+  GET_AUDIT_LOG_START,
+  GET_AUDIT_LOG_SUCCESS
+} from "../actions/audit";
 
 export interface AuditState {
-  entries: AuditLogEntry[]
-  gettingAuditLog: boolean
+  entries: AuditLogEntry[];
+  gettingAuditLog: boolean;
 }
 
 const initialState: AuditState = {
   entries: [],
   gettingAuditLog: false
-}
+};
 
 const handleGetAuditLogStart = (state: AuditState): AuditState => {
   return {
     ...state,
     gettingAuditLog: true
-  }
-}
+  };
+};
 
-const handleGetAuditLogSuccess = (state: AuditState, data: APIAuditData): AuditState => {
+const handleGetAuditLogSuccess = (
+  state: AuditState,
+  data: APIAuditData
+): AuditState => {
   return {
     ...state,
     gettingAuditLog: false,
     entries: data.entries
-  }
-}
+  };
+};
 
 const handleGetAuditLogFail = (state: AuditState): AuditState => {
   return {
     ...state,
     gettingAuditLog: false
-  }
-}
+  };
+};
 
-const AuditReducer: Reducer<AuditState, AuditAction> = (state: AuditState = initialState, action: AuditAction) => {
+const AuditReducer: Reducer<AuditState, AuditAction> = (
+  state: AuditState = initialState,
+  action: AuditAction
+) => {
   switch (action.type) {
     case GET_AUDIT_LOG_START:
-      return handleGetAuditLogStart(state)
+      return handleGetAuditLogStart(state);
     case GET_AUDIT_LOG_SUCCESS:
-      return handleGetAuditLogSuccess(state, action.payload)
+      return handleGetAuditLogSuccess(state, action.payload);
     case GET_AUDIT_LOG_FAIL:
-      return handleGetAuditLogFail(state)
+      return handleGetAuditLogFail(state);
     default:
-      return state
+      return state;
   }
-}
+};
 
-export default AuditReducer
+export default AuditReducer;

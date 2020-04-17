@@ -1,9 +1,9 @@
-import * as overviewActions from '../../../redux/actions/overview'
+import { connect } from "react-redux";
 
-import { connect } from 'react-redux'
-import { ApplicationState, Dispatch } from '../../../redux/reducers'
+import * as overviewActions from "../../../redux/actions/overview";
+import { ApplicationState, Dispatch } from "../../../redux/reducers";
 
-import OverviewView from './overview'
+import OverviewView from "./overview";
 
 const ConnectedOverviewView = connect(
   (state: ApplicationState) => ({
@@ -13,8 +13,9 @@ const ConnectedOverviewView = connect(
   }),
   (dispatch: Dispatch) => ({
     toggleShowAltSummary: () => dispatch(overviewActions.toggleShowAltSummary),
-    toggleShowLockedInSummary: () => dispatch(overviewActions.toggleShowLockedInSummary)
+    toggleShowLockedInSummary: () =>
+      dispatch(overviewActions.toggleShowLockedInSummary)
   })
-)(OverviewView)
+)(OverviewView);
 
-export default ConnectedOverviewView
+export default ConnectedOverviewView;

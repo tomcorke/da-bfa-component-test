@@ -1,45 +1,53 @@
-import { connect } from 'react-redux'
+import { connect } from "react-redux";
 
-import actions from '../../../../../redux/actions'
+import {
+  LOCK_SELECTION_CHOICES,
+  PlayerSelectionChoice
+} from "../../../../../../types/api";
+import actions from "../../../../../redux/actions";
+import { ApplicationState, Dispatch } from "../../../../../redux/reducers";
+import { OverviewPlayerData } from "../../../../../redux/reducers/overview";
 
-import PlayerSelection from './player-selection'
-import { ApplicationState, Dispatch } from '../../../../../redux/reducers'
-import { OverviewPlayerData } from '../../../../../redux/reducers/overview'
-import { LOCK_SELECTION_CHOICES, PlayerSelectionChoice } from '../../../../../../types/api'
+import PlayerSelection from "./player-selection";
 
 interface OwnProps {
-  battletag: string
-  choice: PlayerSelectionChoice
+  battletag: string;
+  choice: PlayerSelectionChoice;
 }
 
 const ConnectedPlayerSelection = connect(
   (state: ApplicationState, props: OwnProps) => {
-    const playerData = state.overview
-      .find(i => i.battletag === props.battletag) || ({} as OverviewPlayerData)
-    const selection = playerData.selections
-      .find(s => s.choice === props.choice)
+    const playerData =
+      state.overview.find(i => i.battletag === props.battletag) ||
+      ({} as OverviewPlayerData);
+    const selection = playerData.selections.find(
+      s => s.choice === props.choice
+    );
 
-    const overviewSelections = state.overviewSelections[props.battletag] || {}
-    const overviewSelection = LOCK_SELECTION_CHOICES
-      .find(s => {
-        const overviewSelection = overviewSelections[s]
-        return (
-          overviewSelection &&
+    const overviewSelections = state.overviewSelections[props.battletag] || {};
+    const overviewSelection = LOCK_SELECTION_CHOICES.find(s => {
+      const thisOverviewSelection = overviewSelections[s];
+      return (
+        (thisOverviewSelection &&
           selection &&
-          overviewSelection === selection.choice
-        ) || false
-      })
+          thisOverviewSelection === selection.choice) ||
+        false
+      );
+    });
 
     return {
       selection,
       overviewSelection,
       characters: playerData.characters,
       profileTimestamp: playerData.profileTimestamp
-    }
+    };
   },
   (dispatch: Dispatch, props) => ({
-    onSelect: () => dispatch(actions.overviewSelections.selectChoice(props.battletag, props.choice))
+    onSelect: () =>
+      dispatch(
+        actions.overviewSelections.selectChoice(props.battletag, props.choice)
+      )
   })
-)(PlayerSelection)
+)(PlayerSelection);
 
-export default ConnectedPlayerSelection
+export default ConnectedPlayerSelection;

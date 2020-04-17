@@ -1,3 +1,3 @@
-import MainPretext from './main-pretext'
+import MainPretext from "./main-pretext";
 
-export default MainPretext
+export default MainPretext;

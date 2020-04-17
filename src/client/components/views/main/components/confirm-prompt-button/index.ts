@@ -1,16 +1,17 @@
-import { connect } from 'react-redux'
-import actions from '../../../../../redux/actions'
-import { ApplicationState, Dispatch } from '../../../../../redux/reducers'
+import { connect } from "react-redux";
 
-import ConfirmPromptButton from './confirm-prompt-button'
+import actions from "../../../../../redux/actions";
+import { ApplicationState, Dispatch } from "../../../../../redux/reducers";
+
+import ConfirmPromptButton from "./confirm-prompt-button";
 
 const ConnectedConfirmPromptButton = connect(
   null,
   (dispatch: Dispatch) => ({
     onClick: () => {
-      dispatch(actions.userData.promptConfirmSelections())
+      dispatch(actions.userData.promptConfirmSelections());
     }
   })
-)(ConfirmPromptButton)
+)(ConfirmPromptButton);
 
-export default ConnectedConfirmPromptButton
+export default ConnectedConfirmPromptButton;

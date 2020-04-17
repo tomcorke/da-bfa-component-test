@@ -1,3 +1,3 @@
-import ClassIcon from './class-icon'
+import ClassIcon from "./class-icon";
 
-export default ClassIcon
+export default ClassIcon;

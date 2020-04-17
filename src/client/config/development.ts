@@ -1,8 +1,8 @@
-import { getEndpoints, Endpoints } from './common'
+import { Endpoints, getEndpoints } from "./common";
 
 const config: Endpoints = {
   // ...require('./mockData').default,
-  ...getEndpoints('https://localhost:3443/')
-}
+  ...getEndpoints("https://localhost:3443/")
+};
 
-export default config
+export default config;

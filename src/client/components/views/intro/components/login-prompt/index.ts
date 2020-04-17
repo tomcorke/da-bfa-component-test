@@ -1,8 +1,9 @@
-import { connect } from 'react-redux'
-import actions from '../../../../../redux/actions'
-import { ApplicationState, Dispatch } from '../../../../../redux/reducers'
+import { connect } from "react-redux";
 
-import LoginPrompt from './login-prompt'
+import actions from "../../../../../redux/actions";
+import { ApplicationState, Dispatch } from "../../../../../redux/reducers";
+
+import LoginPrompt from "./login-prompt";
 
 const ConnectedLoginPrompt = connect(
   (state: ApplicationState) => ({
@@ -10,10 +11,10 @@ const ConnectedLoginPrompt = connect(
   }),
   (dispatch: Dispatch) => ({
     onLoginClick: () => {
-      dispatch(actions.login.login(window))
-      dispatch(actions.feedback.show('Logging in...'))
+      dispatch(actions.login.login(window));
+      dispatch(actions.feedback.show("Logging in..."));
     }
   })
-)(LoginPrompt)
+)(LoginPrompt);
 
-export default ConnectedLoginPrompt
+export default ConnectedLoginPrompt;

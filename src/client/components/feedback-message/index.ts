@@ -1,9 +1,9 @@
-import { connect } from 'react-redux'
+import { connect } from "react-redux";
 
-import actions from '../../redux/actions'
-import { ApplicationState } from '../../redux/reducers'
+import actions from "../../redux/actions";
+import { ApplicationState } from "../../redux/reducers";
 
-import FeedbackMessage from './feedback-message'
+import FeedbackMessage from "./feedback-message";
 
 const ConnectedFeedbackMessage = connect(
   (state: ApplicationState) => ({
@@ -12,6 +12,6 @@ const ConnectedFeedbackMessage = connect(
   dispatch => ({
     onClick: () => dispatch(actions.feedback.hide())
   })
-)(FeedbackMessage)
+)(FeedbackMessage);
 
-export default ConnectedFeedbackMessage
+export default ConnectedFeedbackMessage;

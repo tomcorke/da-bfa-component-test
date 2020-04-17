@@ -1,83 +1,102 @@
-import * as express from 'express'
+import * as express from "express";
 
 import {
   APIOverviewData,
-  APIPlayerOverviewSelectionsMetaData,
   APIPlayerOverviewSelectionsData,
+  APIPlayerOverviewSelectionsMetaData,
   APISetDisplayNamePayload,
   APISetDisplayNameResponse
-} from '../../types/api'
+} from "../../types/api";
 
-import { playerSelectionsDb, mergeSelectionsWithLocks, playerDisplayNamesDb } from '../services/user-data'
-import { bnetApi } from '../services/bnet-api'
-import { selectionLockDb } from '../services/selections'
-import { requireAdmin } from '../middleware/auth'
+import { requireAdmin } from "../middleware/auth";
+import { bnetApi } from "../services/bnet-api";
+import { selectionLockDb } from "../services/selections";
+import {
+  mergeSelectionsWithLocks,
+  playerDisplayNamesDb,
+  playerSelectionsDb
+} from "../services/user-data";
 
-const overviewRouter = express.Router()
+const overviewRouter = express.Router();
 
-overviewRouter.get('/get', requireAdmin, (req, res) => {
+overviewRouter.get("/get", requireAdmin, (req, res) => {
+  const playerSelectionData = playerSelectionsDb.getAll() || {};
 
-  const playerSelectionData = playerSelectionsDb.getAll() || {}
+  const onlyLockedMetaData: (
+    data: APIPlayerOverviewSelectionsData
+  ) => APIPlayerOverviewSelectionsMetaData = fullSelectionData => {
+    return {
+      locked: fullSelectionData.locked,
+      confirmed: fullSelectionData.confirmed
+    };
+  };
 
-  const onlyLockedMetaData: (data: APIPlayerOverviewSelectionsData) => APIPlayerOverviewSelectionsMetaData =
-    (fullSelectionData) => {
-      return {
-        locked: fullSelectionData.locked,
-        confirmed: fullSelectionData.confirmed
-      }
-    }
-
-  const locksData = selectionLockDb.getAll() || {}
+  const locksData = selectionLockDb.getAll() || {};
 
   const lockedSelectionData: {
-    [battletag: string]: APIPlayerOverviewSelectionsMetaData
-  } = Object.entries(locksData).reduce((all, [battletag, entry]) => ({
-    ...all,
-    [battletag]: entry && onlyLockedMetaData(entry) || undefined
-  }), {})
+    [battletag: string]: APIPlayerOverviewSelectionsMetaData;
+  } = Object.entries(locksData).reduce(
+    (all, [battletag, entry]) => ({
+      ...all,
+      [battletag]: (entry && onlyLockedMetaData(entry)) || undefined
+    }),
+    {}
+  );
 
-  const userSelectionDataWithLock = Object.entries(playerSelectionData).reduce((allUserSelections, [battletag, selections]) => {
-    return {
-      ...allUserSelections,
-      [battletag]: mergeSelectionsWithLocks(selections, locksData[battletag])
-    }
-  }, {})
+  const userSelectionDataWithLock = Object.entries(playerSelectionData).reduce(
+    (allUserSelections, [battletag, selections]) => {
+      return {
+        ...allUserSelections,
+        [battletag]: mergeSelectionsWithLocks(selections, locksData[battletag])
+      };
+    },
+    {}
+  );
 
-  const playerProfileData = bnetApi.getAll() || {}
-  const playerDisplayNames = playerDisplayNamesDb.getAll() || {}
+  const playerProfileData = bnetApi.getAll() || {};
+  const playerDisplayNames = playerDisplayNamesDb.getAll() || {};
 
   const data: APIOverviewData = {
     playerSelectionData: userSelectionDataWithLock,
     lockedSelectionData,
     playerProfileData,
     playerDisplayNames
+  };
+  res.json(data);
+});
+
+const validateSetDisplayNamePayload = (
+  payload: APISetDisplayNamePayload
+): boolean => {
+  if (!payload) {
+    return false;
   }
-  res.json(data)
-})
+  if (typeof payload.battletag !== "string") {
+    return false;
+  }
+  if (typeof payload.battletag !== "string") {
+    return false;
+  }
+  return true;
+};
 
-const validateSetDisplayNamePayload = (payload: APISetDisplayNamePayload): boolean => {
-  if (!payload) return false
-  if (typeof payload.battletag !== 'string') return false
-  if (typeof payload.battletag !== 'string') return false
-  return true
-}
-
-overviewRouter.post('/setDisplayName', requireAdmin, (req, res) => {
-
-  const payload = req.body as APISetDisplayNamePayload
-  if (!validateSetDisplayNamePayload(payload)) res.status(400).send()
+overviewRouter.post("/setDisplayName", requireAdmin, (req, res) => {
+  const payload = req.body as APISetDisplayNamePayload;
+  if (!validateSetDisplayNamePayload(payload)) {
+    res.status(400).send();
+  }
 
   if (payload.name) {
-    playerDisplayNamesDb.set(payload.battletag, payload.name)
+    playerDisplayNamesDb.set(payload.battletag, payload.name);
   } else {
-    playerDisplayNamesDb.delete(payload.battletag)
+    playerDisplayNamesDb.delete(payload.battletag);
   }
 
-  const displayNames = playerDisplayNamesDb.getAll() || {}
+  const displayNames = playerDisplayNamesDb.getAll() || {};
 
-  const responseData: APISetDisplayNameResponse = displayNames
+  const responseData: APISetDisplayNameResponse = displayNames;
 
-  res.status(200).json(responseData)
-})
+  res.status(200).json(responseData);
+});
 
-export default overviewRouter
+export default overviewRouter;

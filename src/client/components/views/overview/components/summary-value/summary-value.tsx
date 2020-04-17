@@ -1,10 +1,10 @@
-import * as React from 'react'
+import * as React from "react";
 
-import * as STYLES from './summary-value.scss'
+import * as STYLES from "./summary-value.scss";
 
 interface SummaryValueProps {
-  name: string
-  value: number
+  name: string;
+  value: number;
 }
 
 const SummaryValue = ({ name, value }: SummaryValueProps) => {
@@ -13,7 +13,7 @@ const SummaryValue = ({ name, value }: SummaryValueProps) => {
       <div className={STYLES.name}>{name}</div>
       <div className={STYLES.value}>{value}</div>
     </div>
-  )
-}
+  );
+};
 
-export default SummaryValue
+export default SummaryValue;

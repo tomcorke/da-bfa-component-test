@@ -1,4 +1,4 @@
-@import '../../../../../mixins/classes';
+@import "../../../../../mixins/classes";
 
 .playerDisplay {
   margin: 0.5em auto;
@@ -14,13 +14,18 @@
     padding-top: 1em;
 
     &::before {
-      content: '';
+      content: "";
       height: 1px;
       width: 100%;
       position: absolute;
       left: 0;
       top: 0;
-      background: linear-gradient(to right, transparent 0%, rgba(255,255,255,0.5) 50%, transparent 100%);
+      background: linear-gradient(
+        to right,
+        transparent 0%,
+        rgba(255, 255, 255, 0.5) 50%,
+        transparent 100%
+      );
     }
   }
 

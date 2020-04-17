@@ -1,3 +1,3 @@
-import LoginButton from './login-button'
+import LoginButton from "./login-button";
 
-export default LoginButton
+export default LoginButton;

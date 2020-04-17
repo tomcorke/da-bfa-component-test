@@ -1,3 +1,3 @@
-import WarningIndicator from './warning-indicator'
+import WarningIndicator from "./warning-indicator";
 
-export default WarningIndicator
+export default WarningIndicator;

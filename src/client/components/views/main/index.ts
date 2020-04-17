@@ -1,13 +1,11 @@
-import { connect } from 'react-redux'
+import { connect } from "react-redux";
 
-import { ApplicationState } from '../../../redux/reducers'
+import { ApplicationState } from "../../../redux/reducers";
 
-import MainView from './main'
+import MainView from "./main";
 
-const ConnectedMainView = connect(
-  (state: ApplicationState) => ({
-    showConfirmSelectionsPrompt: state.userData.showConfirmSelectionsPrompt
-  })
-)(MainView)
+const ConnectedMainView = connect((state: ApplicationState) => ({
+  showConfirmSelectionsPrompt: state.userData.showConfirmSelectionsPrompt
+}))(MainView);
 
-export default ConnectedMainView
+export default ConnectedMainView;

@@ -1,54 +1,58 @@
-import * as React from 'react'
+import * as React from "react";
 
-import * as STYLES from './audit.scss'
+import * as STYLES from "./audit.scss";
 
-import { AuditLogEntry } from '../../../../types/audit'
+import { AuditLogEntry } from "../../../../types/audit";
 
 const getEventName = (entry: AuditLogEntry): string => {
-  if (entry.event === 'server') {
-    if (entry.message.startsWith('Server started ')) return 'serverStart'
+  if (entry.event === "server") {
+    if (entry.message.startsWith("Server started ")) return "serverStart";
   }
-  return entry.event
-}
+  return entry.event;
+};
 
 type AuditViewProps = {
-  auditLogEntries: AuditLogEntry[]
-}
+  auditLogEntries: AuditLogEntry[];
+};
 
-const AuditView = ({
-  auditLogEntries
-}: AuditViewProps) => {
-
+const AuditView = ({ auditLogEntries }: AuditViewProps) => {
   return (
     <div className={STYLES.auditView}>
       {auditLogEntries.map(entry => {
+        const eventName = getEventName(entry);
 
-        const eventName = getEventName(entry)
-
-        const userClasses = [STYLES.user]
+        const userClasses = [STYLES.user];
         if (entry.user) {
           if (entry.user.flags) {
-            if (entry.user.flags.admin) userClasses.push(STYLES.admin)
-            if (entry.user.flags.superAdmin) userClasses.push(STYLES.superAdmin)
+            if (entry.user.flags.admin) userClasses.push(STYLES.admin);
+            if (entry.user.flags.superAdmin)
+              userClasses.push(STYLES.superAdmin);
           }
         }
 
         return (
-          <div className={[STYLES.entry, STYLES[`event__${eventName}`]].join(' ')}>
+          <div
+            className={[STYLES.entry, STYLES[`event__${eventName}`]].join(" ")}
+          >
             <div className={STYLES.timestamp}>
               {entry.timestamp.toLocaleString()}
             </div>
-            <div className={userClasses.join(' ')}>
-              {entry.user ? (entry.user.name || entry.user.id) : null}
+            <div className={userClasses.join(" ")}>
+              {entry.user ? entry.user.name || entry.user.id : null}
             </div>
-            <div className={STYLES.message} title={entry.data ? JSON.stringify(entry.data, null, 2) : undefined}>
+            <div
+              className={STYLES.message}
+              title={
+                entry.data ? JSON.stringify(entry.data, null, 2) : undefined
+              }
+            >
               {entry.message}
             </div>
           </div>
-        )
+        );
       })}
     </div>
-  )
-}
+  );
+};
 
-export default AuditView
+export default AuditView;

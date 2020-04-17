@@ -1,17 +1,13 @@
-import * as React from 'react'
+import * as React from "react";
 
-import * as STYLES from './subheader.scss'
+import * as STYLES from "./subheader.scss";
 
 interface SubHeaderProps {
-  children?: any
+  children?: any;
 }
 
 const SubHeader = ({ children }: SubHeaderProps) => {
-  return (
-    <div className={STYLES.subHeader}>
-      {children}
-    </div>
-  )
-}
+  return <div className={STYLES.subHeader}>{children}</div>;
+};
 
-export default SubHeader
+export default SubHeader;

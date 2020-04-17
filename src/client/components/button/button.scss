@@ -1,4 +1,4 @@
-@import '../../mixins/classes.scss';
+@import "../../mixins/classes.scss";
 
 .wrapper {
   &__save {
@@ -17,16 +17,17 @@
     .buttonInner {
       line-height: 20px;
       padding: 35px 0 45px;
-      background: url('../../../../images/Button-ocho.png') no-repeat;
+      background: url("../../../../images/Button-ocho.png") no-repeat;
       background-size: auto 300px;
       background-position: center 0;
       position: relative;
       max-width: 367px;
       white-space: nowrap;
 
-      &::before, &::after {
+      &::before,
+      &::after {
         content: "";
-        background: url('../../../../images/Button-ocho.png') no-repeat;
+        background: url("../../../../images/Button-ocho.png") no-repeat;
         background-size: auto 300px;
         width: 113px;
         height: 100px;
@@ -73,11 +74,8 @@
 
   &.highlight {
     .label {
-      text-shadow:
-        0 5px 40px classColour(mage),
-        0 -5px 40px classColour(mage),
-        5px 0 40px classColour(mage),
-        -5px 0 40px classColour(mage);
+      text-shadow: 0 5px 40px classColour(mage), 0 -5px 40px classColour(mage),
+        5px 0 40px classColour(mage), -5px 0 40px classColour(mage);
     }
   }
 }

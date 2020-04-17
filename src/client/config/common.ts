@@ -1,15 +1,15 @@
 export interface Endpoints {
-  userDataEndpoint: string
-  bnetAuthEndpoint: string
-  saveDataEndpoint: string
-  confirmSelectionsEndpoint: string
-  getOverviewViewDataEndpoint: string
-  adminDeletePlayerDataEndpoint: string
-  adminLockSelectionsEndpoint: string
-  adminUnlockSelectionsEndpoint: string
-  getSummaryDataEndpoint: string
-  setDisplayNameEndpoint: string
-  getAuditDataEndpoint: string
+  userDataEndpoint: string;
+  bnetAuthEndpoint: string;
+  saveDataEndpoint: string;
+  confirmSelectionsEndpoint: string;
+  getOverviewViewDataEndpoint: string;
+  adminDeletePlayerDataEndpoint: string;
+  adminLockSelectionsEndpoint: string;
+  adminUnlockSelectionsEndpoint: string;
+  getSummaryDataEndpoint: string;
+  setDisplayNameEndpoint: string;
+  getAuditDataEndpoint: string;
 }
 
 export const getEndpoints = (baseUrl: string): Endpoints => ({
@@ -30,4 +30,4 @@ export const getEndpoints = (baseUrl: string): Endpoints => ({
   setDisplayNameEndpoint: `${baseUrl}overview/setDisplayName`,
 
   getAuditDataEndpoint: `${baseUrl}audit/get`
-})
+});

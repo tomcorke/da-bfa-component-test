@@ -1,21 +1,25 @@
-import * as React from 'react'
+import * as React from "react";
 
-import PlayerIdentifier from '../player-identifier'
-import PlayerAdminLinks from '../player-admin-links'
-import PlayerSelections from '../player-selections'
-import SelectionLock from '../selection-lock'
+import PlayerIdentifier from "../player-identifier";
+import PlayerAdminLinks from "../player-admin-links";
+import PlayerSelections from "../player-selections";
+import SelectionLock from "../selection-lock";
 
-import * as STYLES from './player-display.scss'
+import * as STYLES from "./player-display.scss";
 
 interface PlayerDisplayProps {
-  battletag: string
-  locked: boolean
-  toggleLock: () => any
-  confirmed: boolean
+  battletag: string;
+  locked: boolean;
+  toggleLock: () => any;
+  confirmed: boolean;
 }
 
-const PlayerDisplay = ({ battletag, locked, toggleLock, confirmed }: PlayerDisplayProps) => {
-
+const PlayerDisplay = ({
+  battletag,
+  locked,
+  toggleLock,
+  confirmed
+}: PlayerDisplayProps) => {
   return (
     <div className={STYLES.playerDisplay}>
       <div className={STYLES.info}>
@@ -29,10 +33,11 @@ const PlayerDisplay = ({ battletag, locked, toggleLock, confirmed }: PlayerDispl
         <SelectionLock
           locked={locked}
           toggleLock={toggleLock}
-          confirmed={confirmed} />
+          confirmed={confirmed}
+        />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default PlayerDisplay
+export default PlayerDisplay;

@@ -1,4 +1,4 @@
-@import '../../../../../mixins/classes';
+@import "../../../../../mixins/classes";
 
 .selectionLock {
   padding-left: 40px;
@@ -12,7 +12,7 @@
     align-items: center;
 
     &:before {
-      content: '';
+      content: "";
       width: 1.5em;
       height: 1.5em;
       display: inline-block;
@@ -21,29 +21,40 @@
 
     &__notLocked {
       &:before {
-        background: url('../../../../../../../images/icons/lock-open.svg?fill=grey') center center no-repeat;
+        background: url("../../../../../../../images/icons/lock-open.svg?fill=grey")
+          center center no-repeat;
       }
     }
     &__lockedIn {
       &:before {
-        background: url('../../../../../../../images/icons/lock.svg?fill=' + escapeClassColour(rogue)) left center no-repeat;
+        background: url("../../../../../../../images/icons/lock.svg?fill="+escapeClassColour(
+              rogue
+            ))
+          left center no-repeat;
       }
     }
     &__notConfirmed {
       &:before {
-        background: url('../../../../../../../images/icons/check-square.svg?fill=grey') left center no-repeat;
+        background: url("../../../../../../../images/icons/check-square.svg?fill=grey")
+          left center no-repeat;
       }
     }
     &__confirmed {
       &:before {
-        background: url('../../../../../../../images/icons/check-square.svg?fill=' + escapeClassColour(monk)) left center no-repeat;
+        background: url("../../../../../../../images/icons/check-square.svg?fill="+escapeClassColour(
+              monk
+            ))
+          left center no-repeat;
       }
     }
     &__send {
       cursor: pointer;
       color: classColour(rogue);
       &:before {
-        background: url('../../../../../../../images/icons/share-square.svg?fill=' + escapeClassColour(rogue)) left center no-repeat;
+        background: url("../../../../../../../images/icons/share-square.svg?fill="+escapeClassColour(
+              rogue
+            ))
+          left center no-repeat;
       }
     }
   }
@@ -54,20 +65,26 @@
     cursor: pointer;
     user-select: none;
 
-    input[type=checkbox] {
+    input[type="checkbox"] {
       display: none;
 
       & ~ .lockedStatusIcon {
-        content: '';
+        content: "";
         width: 1.5em;
         height: 1.5em;
         display: inline-block;
         margin-right: 0.5em;
-        background: url('../../../../../../../images/icons/lock-open.svg?fill=' + escapeClassColour(deathknight)) left center no-repeat;
+        background: url("../../../../../../../images/icons/lock-open.svg?fill="+escapeClassColour(
+              deathknight
+            ))
+          left center no-repeat;
       }
 
-      &:checked ~ .lockedStatusIcon{
-        background: url('../../../../../../../images/icons/lock.svg?fill=' + escapeClassColour(monk)) left center no-repeat;
+      &:checked ~ .lockedStatusIcon {
+        background: url("../../../../../../../images/icons/lock.svg?fill="+escapeClassColour(
+              monk
+            ))
+          left center no-repeat;
       }
     }
   }
@@ -80,19 +97,24 @@
     margin-top: 0.5em;
 
     .confirmedStatusIcon {
-      content: '';
+      content: "";
       width: 1.5em;
       height: 1.5em;
       display: inline-block;
       margin-right: 0.5em;
-      background: url('../../../../../../../images/icons/user-clock.svg?fill=' + escapeClassColour(deathknight)) left center no-repeat;
+      background: url("../../../../../../../images/icons/user-clock.svg?fill="+escapeClassColour(
+            deathknight
+          ))
+        left center no-repeat;
     }
 
     &__confirmed {
       .confirmedStatusIcon {
-        background: url('../../../../../../../images/icons/user-lock.svg?fill=' + escapeClassColour(monk)) left center no-repeat;
+        background: url("../../../../../../../images/icons/user-lock.svg?fill="+escapeClassColour(
+              monk
+            ))
+          left center no-repeat;
       }
     }
   }
-
 }

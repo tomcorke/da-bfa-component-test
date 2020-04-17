@@ -1,4 +1,4 @@
-@import '../../../../../mixins/classes.scss';
+@import "../../../../../mixins/classes.scss";
 
 .wowCharacter {
   flex: 0 1 25%;
@@ -23,7 +23,7 @@
     white-space: pre;
 
     @each $class, $colour in $classColours {
-      &[data-class=#{$class}] {
+      &[data-class="#{$class}"] {
         color: $colour;
       }
     }

@@ -1,4 +1,4 @@
-@import '../../../mixins/classes.scss';
+@import "../../../mixins/classes.scss";
 
 .auditView {
   width: 100%;
@@ -46,12 +46,11 @@
       cursor: pointer;
 
       &::after {
-        content: '*';
+        content: "*";
       }
     }
   }
 
   .data {
   }
-
 }

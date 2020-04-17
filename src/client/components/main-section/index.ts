@@ -1,13 +1,11 @@
-import { connect } from 'react-redux'
+import { connect } from "react-redux";
 
-import { ApplicationState } from '../../redux/reducers'
+import { ApplicationState } from "../../redux/reducers";
 
-import MainSection from './main-section'
+import MainSection from "./main-section";
 
-const ConnectedMainSection = connect(
-  (state: ApplicationState) => ({
-    view: state.view
-  })
-)(MainSection)
+const ConnectedMainSection = connect((state: ApplicationState) => ({
+  view: state.view
+}))(MainSection);
 
-export default ConnectedMainSection
+export default ConnectedMainSection;

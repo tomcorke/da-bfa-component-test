@@ -1,27 +1,27 @@
-import * as React from 'react'
+import * as React from "react";
 
-import * as STYLES from './comments-box.scss'
+import * as STYLES from "./comments-box.scss";
 
 interface CommentsBoxProps {
-  onChange: (newValue: string) => any
-  value?: string
-  isLocked?: boolean
+  onChange: (newValue: string) => any;
+  value?: string;
+  isLocked?: boolean;
 }
 
 const CommentsBox = ({ onChange, value, isLocked }: CommentsBoxProps) => {
-
-  const rootClasses = [STYLES.commentsBox]
-  if (isLocked) rootClasses.push(STYLES.commentsBox__locked)
+  const rootClasses = [STYLES.commentsBox];
+  if (isLocked) rootClasses.push(STYLES.commentsBox__locked);
 
   return (
-    <div className={rootClasses.join(' ')}>
+    <div className={rootClasses.join(" ")}>
       <textarea
         onChange={e => onChange(e.target.value)}
-        placeholder={'Comments'}
+        placeholder={"Comments"}
         value={value}
-        readOnly={isLocked} />
+        readOnly={isLocked}
+      />
     </div>
-  )
-}
+  );
+};
 
-export default CommentsBox
+export default CommentsBox;

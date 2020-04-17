@@ -45,8 +45,9 @@
           position: absolute;
           top: 0;
           left: 0;
-          content: '.';
-          background: url('../../../../../../../images/List-bullet-sprite.png') no-repeat 0 50%;
+          content: ".";
+          background: url("../../../../../../../images/List-bullet-sprite.png")
+            no-repeat 0 50%;
           width: 20px;
           text-indent: -99999px;
         }
